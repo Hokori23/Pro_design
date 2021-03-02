@@ -1,0 +1,63 @@
+{
+  "name": "prodesign",
+  "version": "1.0.0",
+  "description": "华信专业设计",
+  "author": "Hokori",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
+    "reset": "lerna clean --yes && rm -rf node_modules",
+    "postinstall": "lerna bootstrap"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hokori23/Pro_design.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hokori23/Pro_design/issues"
+  },
+  "homepage": "https://github.com/Hokori23/Pro_design#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@types/node": "14.10.1",
+    "@typescript-eslint/eslint-plugin": "4.1.0",
+    "@typescript-eslint/parser": "4.4.1",
+    "chalk": "^4.1.0",
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-config-standard": "14.1.1",
+    "eslint-config-standard-with-typescript": "19.0.1",
+    "eslint-plugin-import": "2.22.0",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-promise": "4.2.1",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-standard": "4.0.1",
+    "husky": "^4.3.8",
+    "lerna": "^3.22.1",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1",
+    "typescript": "4.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS || (node .scripts/pre_commit.js && exit 8)",
+      "post-merge": "sh .scripts/update_dependencies.sh"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,mjsx,cjs,cjsx}": [
+      "eslint --fix --color",
+      "git add"
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}
