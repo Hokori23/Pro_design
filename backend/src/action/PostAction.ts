@@ -4,7 +4,7 @@ import { isUndef } from '@utils'
 
 /**
  * 添加帖子
- * @param { Post } Post
+ * @param { Post } post
  */
 const Create = async (post: Post) => {
   return await post.save()
@@ -82,10 +82,49 @@ const Retrieve__Page = async (
   })
 }
 
+/**
+ * 分页查询帖子（按标签）
+ * @param { number } offset
+ * @param { number } limit
+ * @param { number } tid
+ * @param { PostType } postType
+ * @param { boolean } isASC // 升序
+ */
+const Retrieve__Page__Tag = async (
+  offset: number,
+  limit: number,
+  tid: number,
+  postType?: PostType,
+  isASC: boolean = false,
+): Promise<Post[]> => {
+  return await Post.findAll({
+    include: [
+      {
+        association: 'tags',
+        where: {
+          tid: tid,
+        },
+      },
+    ],
+    where: isUndef(postType)
+      ? undefined
+      : {
+          postType,
+        },
+    offset,
+    limit,
+    order: [
+      ['isSticky', 'DESC'],
+      ['createdAt', isASC ? 'ASC' : 'DESC'],
+    ],
+  })
+}
+
 export default {
   Create,
   Delete,
   Update,
   Retrieve__ID,
   Retrieve__Page,
+  Retrieve__Page__Tag,
 }
