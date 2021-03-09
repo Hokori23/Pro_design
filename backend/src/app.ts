@@ -1,7 +1,7 @@
 import express from 'express'
 
 import { TestRouter } from '@routes'
-import { errorHandler, checkJWT, checkValidUser } from '@middleware'
+import { errorHandler, checkJWT } from '@middleware'
 
 const app = express()
 
@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: false }))
  * JWT中间件
  */
 app.use(checkJWT)
-app.use(checkValidUser)
+// app.use(checkValidUser)
 
 /**
  * 业务路由

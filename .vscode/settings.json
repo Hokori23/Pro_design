@@ -15,8 +15,7 @@
     "typescript",
     "typescriptreact"
   ],
-  "cSpell.words": [
-  ],
+  "cSpell.words": ["miment"],
   "[less]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"

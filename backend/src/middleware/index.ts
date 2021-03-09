@@ -1,5 +1,7 @@
 import errorHandler from './errorHandler'
-export { errorHandler }
+import checkJWT from './checkJWT'
+export { errorHandler, checkJWT }
 export default {
   errorHandler,
+  checkJWT,
 }
