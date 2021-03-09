@@ -4,4 +4,4 @@
 
 ## Sequelize 模型定义文档
 
-参考：<https://www.sequelize.com.cn/core-concepts/model-basic>
+参考：<https://www.sequelize.com.cn/core-concepts/model-basics>
