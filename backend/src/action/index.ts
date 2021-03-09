@@ -1,3 +1,4 @@
 import UserAction from './UserAction'
-export { UserAction }
-export default { UserAction }
+import PostAction from './PostAction'
+export { UserAction, PostAction }
+export default { UserAction, PostAction }
