@@ -3,6 +3,7 @@ import PostAction from './PostAction'
 import PostCommentAction from './PostCommentAction'
 import PostTagAction from './PostTagAction'
 import PostTagAssociationAction from './PostTagAssociationAction'
+import MailAction from './MailAction'
 
 export {
   UserAction,
@@ -10,6 +11,7 @@ export {
   PostCommentAction,
   PostTagAction,
   PostTagAssociationAction,
+  MailAction,
 }
 export default {
   UserAction,
@@ -17,4 +19,5 @@ export default {
   PostCommentAction,
   PostTagAction,
   PostTagAssociationAction,
+  MailAction,
 }
