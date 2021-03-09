@@ -1,8 +1,9 @@
 import User from './User'
 import Post from './Post'
 import PostComment from './PostComment'
-export { User, Post, PostComment }
-export default { User, Post, PostComment }
+import PostTag from './PostTag'
+export { User, Post, PostComment, PostTag }
+export default { User, Post, PostComment, PostTag }
 
 /**
  * Post : User
