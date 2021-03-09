@@ -1,6 +1,7 @@
 # 华信专业设计
 
-![contributors](https://img.shields.io/github/contributors/Hokori23/Pro_design)
+![contributors](https://img.shields.io/github/contributors/Hokori23/Pro_design?style=flat-square)![pull request](https://img.shields.io/bitbucket/pr-raw/Hokori23/Pro_design?style=flat-square)![last commit](https://img.shields.io/github/last-commit/Hokori23/Pro_design?style=flat-square)
+![repo size](https://img.shields.io/github/repo-size/Hokori23/Pro_design?style=flat-square)![code size](https://img.shields.io/github/languages/code-size/Hokori23/Pro_design?style=flat-square)![language](https://img.shields.io/github/languages/top/Hokori23/Pro_design?style=flat-square)![key words](https://img.shields.io/github/package-json/keywords/Hokori23/Pro_design?style=flat-square)
 
 ## 技术栈
 
