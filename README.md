@@ -1,9 +1,16 @@
 # 华信专业设计
 
-![contributors](https://img.shields.io/github/contributors/Hokori23/Pro_design?style=flat-square)![pull request](https://img.shields.io/bitbucket/pr-raw/Hokori23/Pro_design?style=flat-square)![last commit](https://img.shields.io/github/last-commit/Hokori23/Pro_design?style=flat-square)
-![repo size](https://img.shields.io/github/repo-size/Hokori23/Pro_design?style=flat-square)![code size](https://img.shields.io/github/languages/code-size/Hokori23/Pro_design?style=flat-square)![language](https://img.shields.io/github/languages/top/Hokori23/Pro_design?style=flat-square)![key words](https://img.shields.io/github/package-json/keywords/Hokori23/Pro_design?style=flat-square)
+![contributors](https://img.shields.io/github/contributors/Hokori23/Pro_design?style=flat-square)
+![pull request](https://img.shields.io/bitbucket/pr-raw/Hokori23/Pro_design?style=flat-square)
+![last commit](https://img.shields.io/github/last-commit/Hokori23/Pro_design?style=flat-square)
 
-## 技术栈
+![repo size](https://img.shields.io/github/repo-size/Hokori23/Pro_design?style=flat-square)
+![code size](https://img.shields.io/github/languages/code-size/Hokori23/Pro_design?style=flat-square)
+![language](https://img.shields.io/github/languages/top/Hokori23/Pro_design?style=flat-square)
+
+![key words](https://img.shields.io/github/package-json/keywords/Hokori23/Pro_design?style=flat-square)
+
+## 安装与运行
 
 前后端放在一个仓库里面，使用 [lerna](https://github.com/lerna/lerna) 统一管理。你需要全局安装 lerna：
 
@@ -35,6 +42,8 @@ npm run serve # 生产模式运行
 ```
 
 存放于文件夹 [backend](backend)。
+
+#### 主要技术栈
 
 - Express
 - Sequelize
