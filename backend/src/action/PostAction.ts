@@ -1,6 +1,7 @@
 import { Post, PostComment } from '@models'
 import { PostType } from '@models/Post'
 import { isUndef } from '@utils'
+import { Op } from 'sequelize/types'
 
 /**
  * 添加帖子
@@ -86,14 +87,14 @@ const Retrieve__Page = async (
  * 分页查询帖子（按标签）
  * @param { number } offset
  * @param { number } limit
- * @param { number } tid
+ * @param { number[] } tid
  * @param { PostType } postType
  * @param { boolean } isASC // 升序
  */
 const Retrieve__Page__Tag = async (
   offset: number,
   limit: number,
-  tid: number,
+  tid: number[],
   postType?: PostType,
   isASC: boolean = false,
 ): Promise<Post[]> => {
@@ -101,15 +102,19 @@ const Retrieve__Page__Tag = async (
     include: [
       {
         association: 'tags',
-        where: {
-          tid: tid,
-        },
       },
     ],
     where: isUndef(postType)
-      ? undefined
+      ? {
+          [Op.or]: tid.map((value) => {
+            return { tid: value }
+          }),
+        }
       : {
           postType,
+          [Op.or]: tid.map((value) => {
+            return { tid: value }
+          }),
         },
     offset,
     limit,
@@ -120,6 +125,33 @@ const Retrieve__Page__Tag = async (
   })
 }
 
+const Count__Page = async (postType?: PostType) => {
+  return await Post.count({
+    where: isUndef(postType)
+      ? undefined
+      : {
+          postType,
+        },
+  })
+}
+
+const Count__Page__Tag = async (tid: number[], postType?: PostType) => {
+  return await Post.count({
+    where: isUndef(postType)
+      ? {
+          [Op.or]: tid.map((value) => {
+            return { tid: value }
+          }),
+        }
+      : {
+          postType,
+          [Op.or]: tid.map((value) => {
+            return { tid: value }
+          }),
+        },
+  })
+}
+
 export default {
   Create,
   Delete,
@@ -127,4 +159,6 @@ export default {
   Retrieve__ID,
   Retrieve__Page,
   Retrieve__Page__Tag,
+  Count__Page,
+  Count__Page__Tag,
 }

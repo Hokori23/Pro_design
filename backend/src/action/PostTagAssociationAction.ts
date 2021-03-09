@@ -1,4 +1,5 @@
 import { PostTagAssociation } from '@models'
+import { Transaction } from 'sequelize/types'
 
 /**
  * 添加帖子和标签的关系
@@ -6,6 +7,17 @@ import { PostTagAssociation } from '@models'
  */
 const Create = async (association: PostTagAssociation) => {
   return await association.save()
+}
+
+/**
+ * 批量添加帖子和标签的关系
+ * @param { any[] } arr
+ */
+const CreateBulk = async (arr: any[], t?: Transaction) => {
+  return await PostTagAssociation.bulkCreate(arr, {
+    validate: true,
+    transaction: t,
+  })
 }
 
 /**
@@ -22,5 +34,6 @@ const Delete = async (id: number): Promise<number> => {
 
 export default {
   Create,
+  CreateBulk,
   Delete,
 }

@@ -30,6 +30,22 @@ const Update = async (oldTag: PostTag, newTag: PostTag): Promise<PostTag> => {
 }
 
 /**
+ * 通过某个字段查询标签
+ * @param { string } param
+ * @param { string } value
+ */
+const Retrieve = async (
+  key: string,
+  value: string | number,
+): Promise<PostTag | null> => {
+  return await PostTag.findOne({
+    where: {
+      [`${key}`]: value,
+    },
+  })
+}
+
+/**
  * 查询所有标签
  */
 const Retrieve__All = async (): Promise<PostTag[]> => {
@@ -54,10 +70,16 @@ const Retrieve__Page = async (
   })
 }
 
+const Count__Page = async () => {
+  return await PostTag.count()
+}
+
 export default {
   Create,
   Delete,
   Update,
+  Retrieve,
   Retrieve__All,
   Retrieve__Page,
+  Count__Page,
 }
