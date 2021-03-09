@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/promise-function-async */
 import { User } from 'models'
 
 /**
@@ -30,8 +29,8 @@ const Retrieve = async (
  * @param { string } param
  * @param { string } value
  */
-const Retrieve__Safely = (key: string, value: string | number) => {
-  return User.findOne({
+const Retrieve__Safely = async (key: string, value: string | number) => {
+  return await User.findOne({
     attributes: {
       exclude: ['password'],
     },
@@ -44,8 +43,8 @@ const Retrieve__Safely = (key: string, value: string | number) => {
 /**
  * 遍历用户（不含密码）
  */
-const Retrieve__All__Safely = () => {
-  return User.findAll({
+const Retrieve__All__Safely = async () => {
+  return await User.findAll({
     attributes: {
       exclude: ['password'],
     },
@@ -57,16 +56,16 @@ const Retrieve__All__Safely = () => {
  * @param { User } oldUser
  * @param { User } newUser
  */
-const Update = (oldUser: User, newUser: User): Promise<User> => {
-  return Object.assign(oldUser, newUser).save()
+const Update = async (oldUser: User, newUser: User): Promise<User> => {
+  return await Object.assign(oldUser, newUser).save()
 }
 
 /**
  * 删除用户账号
  * @param { number } id
  */
-const Delete = (id: number): Promise<number> => {
-  return User.destroy({
+const Delete = async (id: number): Promise<number> => {
+  return await User.destroy({
     where: {
       id,
     },
