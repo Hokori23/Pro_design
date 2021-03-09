@@ -14,7 +14,13 @@
     "type": "git",
     "url": "git+https://github.com/Hokori23/Pro_design.git"
   },
-  "keywords": [],
+  "keywords": [
+    "TypeScript",
+    "Sequelize",
+    "Express",
+    "React",
+    "Blog"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Hokori23/Pro_design/issues"
