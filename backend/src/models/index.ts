@@ -3,8 +3,10 @@ import Post from './Post'
 import PostComment from './PostComment'
 import PostTag from './PostTag'
 import PostTagAssociation from './PostTagAssociation'
-export { User, Post, PostComment, PostTag, PostTagAssociation }
-export default { User, Post, PostComment, PostTag, PostTagAssociation }
+import Mail from './Mail'
+
+export { User, Post, PostComment, PostTag, PostTagAssociation, Mail }
+export default { User, Post, PostComment, PostTag, PostTagAssociation, Mail }
 
 /**
  * Post : User
@@ -43,3 +45,10 @@ PostTag.belongsToMany(Post, {
   foreignKey: 'tid',
   otherKey: 'pid',
 })
+
+/**
+ * Mail : User
+ * 1 : 1
+ */
+Mail.belongsTo(User, { targetKey: 'id', foreignKey: 'uid' })
+User.hasOne(Mail, { sourceKey: 'id', foreignKey: 'uid' })
