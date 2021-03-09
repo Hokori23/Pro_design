@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/promise-function-async */
 import { Post, PostComment } from '@models'
 import { PostType } from '@models/Post'
 import { isUndef } from '@utils'
@@ -15,8 +14,8 @@ const Create = async (post: Post) => {
  * 删除帖子
  * @param { number } id
  */
-const Delete = (id: number): Promise<number> => {
-  return Post.destroy({
+const Delete = async (id: number): Promise<number> => {
+  return await Post.destroy({
     where: {
       id,
     },
@@ -28,8 +27,8 @@ const Delete = (id: number): Promise<number> => {
  * @param { Post } oldPost
  * @param { Post } newPost
  */
-const Update = (oldPost: Post, newPost: Post): Promise<Post> => {
-  return Object.assign(oldPost, newPost).save()
+const Update = async (oldPost: Post, newPost: Post): Promise<Post> => {
+  return await Object.assign(oldPost, newPost).save()
 }
 
 /**
@@ -57,13 +56,13 @@ const Retrieve__ID = async (id: number): Promise<Post | null> => {
  * @param { PostType } postType
  * @param { boolean } isASC // 升序
  */
-const Retrieve__Page = (
+const Retrieve__Page = async (
   offset: number,
   limit: number,
   postType?: PostType,
   isASC: boolean = false,
 ): Promise<Post[]> => {
-  return Post.findAll({
+  return await Post.findAll({
     include: [
       {
         association: 'tags',
