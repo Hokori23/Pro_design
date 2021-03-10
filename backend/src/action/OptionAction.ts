@@ -1,26 +1,26 @@
-import { Setting } from '@models'
+import { Option } from '@models'
 import { Transaction } from 'sequelize/types'
 
 /**
  * 添加设置字段
- * @param { Setting } setting
+ * @param { Option } option
  */
-const Create = async (setting: Setting) => {
-  return await setting.save()
+const Create = async (option: Option) => {
+  return await option.save()
 }
 
 /**
  * 查询全部
  */
 const Retrieve__All = async () => {
-  return await Setting.findAll()
+  return await Option.findAll()
 }
 
 /**
  * 修改
  */
-const Update = async (oldSetting: Setting, newSetting: Setting) => {
-  return await Object.assign(oldSetting, newSetting).save()
+const Update = async (oldOption: Option, newOption: Option) => {
+  return await Object.assign(oldOption, newOption).save()
 }
 
 /**
@@ -28,7 +28,7 @@ const Update = async (oldSetting: Setting, newSetting: Setting) => {
  * @param { any[] } arr
  */
 const CreateBulk = async (arr: any[], t?: Transaction) => {
-  return await Setting.bulkCreate(arr, {
+  return await Option.bulkCreate(arr, {
     validate: true,
     transaction: t,
   })
@@ -39,7 +39,7 @@ const CreateBulk = async (arr: any[], t?: Transaction) => {
  * @param { number } id
  */
 const Delete = async (id: number): Promise<number> => {
-  return await Setting.destroy({
+  return await Option.destroy({
     where: {
       id,
     },

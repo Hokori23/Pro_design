@@ -4,18 +4,9 @@ import PostComment from './PostComment'
 import PostTag from './PostTag'
 import PostTagAssociation from './PostTagAssociation'
 import Mail from './Mail'
-import Setting from './Setting'
+import Option from './Option'
 
-export { User, Post, PostComment, PostTag, PostTagAssociation, Mail, Setting }
-export default {
-  User,
-  Post,
-  PostComment,
-  PostTag,
-  PostTagAssociation,
-  Mail,
-  Setting,
-}
+export { User, Post, PostComment, PostTag, PostTagAssociation, Mail, Option }
 
 /**
  * Post : User

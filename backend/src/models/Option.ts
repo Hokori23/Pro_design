@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize'
 import sequelize from 'database'
 
-class Setting extends Model {
+class Option extends Model {
   module!: string
   key!: string
   value!: string
@@ -9,7 +9,7 @@ class Setting extends Model {
   public readonly updatedAt!: Date
 }
 
-Setting.init(
+Option.init(
   {
     module: {
       comment: '设置模块名',
@@ -31,4 +31,4 @@ Setting.init(
   },
 )
 
-export default Setting
+export default Option
