@@ -31,10 +31,10 @@ User.hasMany(Post, {
  * PostComment : Post
  * N : 1
  */
-PostComment.belongsTo(Post, { targetKey: 'id', foreignKey: 'uid' })
+PostComment.belongsTo(Post, { targetKey: 'id', foreignKey: 'pid' })
 Post.hasMany(PostComment, {
   sourceKey: 'id',
-  foreignKey: 'uid',
+  foreignKey: 'pid',
 })
 
 /**

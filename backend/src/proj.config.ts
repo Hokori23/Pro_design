@@ -48,10 +48,10 @@ const devConfig = {
   },
   dataBaseConfig: {
     // 数据库名
-    database: 'bd7',
+    database: process.env.DATABASE_NAME as string,
 
     // 数据库账号
-    user: 'bd7',
+    user: process.env.DATABASE_USER as string,
 
     // 密码
     password: process.env.DATABASE_PASSWORD as string,

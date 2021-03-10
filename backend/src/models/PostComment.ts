@@ -1,6 +1,5 @@
 import { DataTypes, Model } from 'sequelize'
 import sequelize from 'database'
-import User from './User'
 import Post from './Post'
 
 class PostComment extends Model {
@@ -48,14 +47,10 @@ PostComment.init(
     },
     uid: {
       comment: '评论用户id, -1 代表未注册用户',
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       unique: 'uid',
       allowNull: false,
       defaultValue: -1,
-      references: {
-        model: User,
-        key: 'id',
-      },
     },
     content: {
       comment: '评论内容',
