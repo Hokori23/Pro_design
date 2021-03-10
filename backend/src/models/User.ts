@@ -17,7 +17,7 @@ class User extends Model {
   public userAccount!: string
   public userName!: string
   public password?: string
-  public gender!: Gender
+  public gender?: Gender
   public email!: string
   public url?: string
   public avatarUrl?: string

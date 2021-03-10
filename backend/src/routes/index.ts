@@ -1,6 +1,5 @@
 import TestRouter from './TestRouter'
+import InitRouter from './InitRouter'
+import UserRouter from './UserRouter'
 
-export { TestRouter }
-export default {
-  TestRouter,
-}
+export { TestRouter, InitRouter, UserRouter }

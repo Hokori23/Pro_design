@@ -5,6 +5,7 @@ import PostTagAction from './PostTagAction'
 import PostTagAssociationAction from './PostTagAssociationAction'
 import MailAction from './MailAction'
 import OptionAction from './OptionAction'
+import DBAction from './DBAction'
 
 export {
   UserAction,
@@ -14,4 +15,5 @@ export {
   PostTagAssociationAction,
   MailAction,
   OptionAction,
+  DBAction,
 }

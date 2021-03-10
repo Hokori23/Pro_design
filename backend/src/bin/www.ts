@@ -3,9 +3,7 @@ import http from 'http'
 import debug from 'debug'
 
 import config from 'proj.config'
-import { init } from 'database'
 import app from 'app'
-import { isDev } from '@utils/const'
 
 const { port } = config
 const DEBUG = debug('server:server')
@@ -31,16 +29,7 @@ const serverListen = () => {
   SERVER.on('listening', onListening)
 }
 
-// TODO: 博客初始化
-if (isDev) {
-  init()
-    .then(serverListen)
-    .catch((e) => {
-      console.log(String(e))
-    })
-} else {
-  serverListen()
-}
+serverListen()
 /**
  * Normalize a port into a number, string, or false.
  */

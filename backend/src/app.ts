@@ -1,6 +1,6 @@
 import express from 'express'
 
-import { TestRouter } from '@routes'
+import { TestRouter, InitRouter, UserRouter } from '@routes'
 import { errorHandler, checkJWT, logger } from '@middleware'
 
 const app = express()
@@ -18,7 +18,9 @@ app.use(checkJWT)
  * 业务路由
  */
 app.set('trust proxy', '127.0.0.1')
+app.use('/api/init', InitRouter)
 app.use('/api/test', TestRouter)
+app.use('/api/user', UserRouter)
 
 // 包底错误处理中间件
 app.use(errorHandler)

@@ -1,0 +1,157 @@
+import { Router } from 'express'
+import jwt from 'jsonwebtoken'
+import asyncWrapper from 'async-wrapper-express-ts'
+
+import { UserService as Service } from '@service'
+import { User } from 'models'
+import { Restful, checkIntegrity, isUndef } from '@utils'
+import { CodeDictionary } from '@const'
+import config from '@config'
+const { cryptoConfig, tokenExpiredTime } = config
+
+const userRouter = Router()
+
+/**
+ * 初始化超级管理员
+ * @path /init
+ * @param { User } user
+ */
+userRouter.post(
+  '/init',
+  // https://github.com/xiondlph/async-wrapper-express-ts
+  asyncWrapper(async (req, res, next) => {
+    const user = User.build(req.body)
+    if (
+      !checkIntegrity(user, ['userAccount', 'userName', 'password', 'email'])
+    ) {
+      res.status(200).json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+      return next()
+    }
+    try {
+      res.status(200).json(await Service.Init(user))
+    } catch (e) {
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+/**
+ * 注册
+ * @path /register
+ * @param { User } user
+ */
+userRouter.post(
+  '/register',
+  // https://github.com/xiondlph/async-wrapper-express-ts
+  asyncWrapper(async (req, res, next) => {
+    const user = User.build(req.body)
+    if (
+      !checkIntegrity(user, ['userAccount', 'userName', 'password', 'email'])
+    ) {
+      res.status(200).json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+      return next()
+    }
+    try {
+      res.status(200).json(await Service.Register(user))
+    } catch (e) {
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
+ * 登录
+ * @path /login
+ * @param { string } userName
+ * @param { string } password
+ */
+userRouter.post(
+  '/login',
+  asyncWrapper(async (req, res, next) => {
+    const { userAccount, password } = req.body
+    if (isUndef(userAccount) || isUndef(password)) {
+      res.status(200).json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+      return next()
+    }
+    try {
+      const result = await Service.Login(userAccount, password)
+      if (result.code === 0) {
+        // 设置token
+        result.data.token = jwt.sign(
+          {
+            id: result.data.id,
+            userAccount,
+            group: result.data.group,
+          },
+          cryptoConfig.secret,
+          {
+            // 12个小时
+            expiresIn: tokenExpiredTime,
+          },
+        )
+      }
+      res.status(200).json(result)
+    } catch (e) {
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+/**
+ * 遍历/单个查询
+ * @path /retrieve
+ * @param { string } ?account
+ */
+userRouter.get(
+  '/retrieve',
+  asyncWrapper(async (req, res, next) => {
+    const { id } = req.query
+    try {
+      if (isUndef(id)) {
+        res.status(200).json(await Service.Retrieve__All())
+      } else {
+        res.status(200).json(await Service.Retrieve__ID(Number(id)))
+      }
+    } catch (e) {
+      // 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
+ * 修改
+ * @path /edit
+ * @param { User } user
+ */
+userRouter.post(
+  '/edit',
+  // https://github.com/xiondlph/async-wrapper-express-ts
+  asyncWrapper(async (req: any, res, next) => {
+    try {
+      const user: any = User.build(req.body).toJSON()
+      if (req.auth.userAccount !== user.userAccount) {
+        res.status(403).end()
+        return next()
+      }
+      if (!checkIntegrity(user, ['id', 'userAccount'])) {
+        res
+          .status(200)
+          .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+        return next()
+      }
+      res.status(200).json(await Service.Edit(user))
+    } catch (e) {
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+export default userRouter
