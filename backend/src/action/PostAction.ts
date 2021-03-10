@@ -1,7 +1,7 @@
 import { Post, PostComment } from '@models'
 import { PostType } from '@models/Post'
 import { isUndef } from '@utils'
-import { Op } from 'sequelize/types'
+import { Op } from 'sequelize'
 
 /**
  * 添加帖子
