@@ -1,6 +1,7 @@
 import CRYPTO from 'crypto'
 
 import config from 'proj.config'
+import { CodeDictionary } from './const'
 const { cryptoConfig } = config
 
 /**
@@ -139,20 +140,6 @@ const decipherCrypto = (v: string | null, password: string) => {
   return decipher.final('utf-8')
 }
 
-enum CodeDictionary {
-  SUCCESS = 0,
-  REGISTER_ERROR__USER_EXISTED = 1,
-  LOGIN_ERROR = 2,
-  RETRIEVE_ERROR__USER_NON_EXISTED = 3,
-  UPLOAD_TYPE_ERROR = 4,
-  CREATE_ERROR__LIVE_EXISTED = 5,
-  CREATE_ERROR__LIVE_PARAM_WRONG = 6,
-  PARAMS_ERROR = 98,
-  COMMON_ERROR = 99,
-  JWT_ERROR__REQUIRED = 100,
-  JWT_ERROR__EXPIRED = 101,
-}
-
 /**
  * Restful API类声明
  */
@@ -181,7 +168,6 @@ export {
   cipherCrypto,
   decipherCrypto,
   Restful,
-  CodeDictionary,
 }
 
 export default {
@@ -194,5 +180,4 @@ export default {
   cipherCrypto,
   decipherCrypto,
   Restful,
-  CodeDictionary,
 }
