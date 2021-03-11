@@ -35,13 +35,13 @@ Post.hasMany(PostComment, {
  */
 Post.belongsToMany(PostTag, {
   through: PostTagAssociation,
-  as: 'Tags',
+  as: 'tags',
   foreignKey: 'pid',
   otherKey: 'tid',
 })
 PostTag.belongsToMany(Post, {
   through: PostTagAssociation,
-  as: 'Posts',
+  as: 'posts',
   foreignKey: 'tid',
   otherKey: 'pid',
 })

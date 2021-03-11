@@ -1,7 +1,6 @@
 import expressJwt from 'express-jwt'
 import config from 'proj.config'
 import { ROUTER_WHITE_LIST } from '@utils/const'
-
 const {
   cryptoConfig: { secret },
 } = config
