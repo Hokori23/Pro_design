@@ -24,7 +24,8 @@
     "Hokori",
     "TINYINT",
     "USERACCOUNT",
-    "tids"
+    "tids",
+    "objs"
   ],
   "[less]": {
     "editor.formatOnSave": true,

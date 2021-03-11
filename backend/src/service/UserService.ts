@@ -45,6 +45,13 @@ const Init = async (user: User): Promise<Restful> => {
  */
 const Register = async (user: User): Promise<Restful> => {
   try {
+    const existedUsers = await Action.Retrieve__All__Safely()
+    if (existedUsers.length) {
+      return new Restful(
+        CodeDictionary.REGISTER_ERROR__NOT_INIT,
+        '数据库用户表为空，请先初始化超级管理员',
+      )
+    }
     let existedUser = await Action.Retrieve('userAccount', user.userAccount)
     if (isDef(existedUser)) {
       return new Restful(

@@ -22,7 +22,11 @@ User.hasMany(Post, {
  * PostComment : Post
  * N : 1
  */
-PostComment.belongsTo(Post, { targetKey: 'id', foreignKey: 'pid' })
+PostComment.belongsTo(Post, {
+  targetKey: 'id',
+  foreignKey: 'pid',
+  onDelete: 'CASCADE',
+})
 Post.hasMany(PostComment, {
   sourceKey: 'id',
   foreignKey: 'pid',
@@ -38,12 +42,14 @@ Post.belongsToMany(PostTag, {
   as: 'tags',
   foreignKey: 'pid',
   otherKey: 'tid',
+  onDelete: 'CASCADE',
 })
 PostTag.belongsToMany(Post, {
   through: PostTagAssociation,
   as: 'posts',
   foreignKey: 'tid',
   otherKey: 'pid',
+  onDelete: 'CASCADE',
 })
 
 /**

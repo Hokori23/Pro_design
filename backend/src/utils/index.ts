@@ -41,27 +41,26 @@ const isNaN = (v: any) => {
 }
 
 /**
- * @param { Array<Object> } objArr
+ * @param { Array<Object> } attrs
+ * @description 如果前一个对象有当前对象的属性，则采用前一个对象的
+ * @description 如果前一个对象没有当前对象的属性，则采用当前对象的
+ * @description 针对Object.assign后面对象属性覆盖前面对象属性的问题
  */
-const mixin = (attrs: Object[]): any => {
-  if (isUndef(attrs)) {
-    throw new ReferenceError('参数错误: [ attrs: Array, flag?: boolean ]')
-  }
+const mixin = <T>(...objs: T[]): T => {
+  if (!objs.length) throw new Error('参数错误: { objs: Object[] }')
+  if (objs.length === 1) return objs[0]
   // 检查传参类型
-  for (let i = attrs.length - 1; i > 0; i--) {
-    if (
-      typeof attrs[i] !== 'object' ||
-      String(attrs[i]) !== '[object Object]'
-    ) {
-      throw new TypeError('参数类型错误: [ attrs: Array<Object> ]')
+  for (let i = objs.length - 1; i > 0; i--) {
+    if (typeof objs[i] !== 'object') {
+      throw new TypeError('参数类型错误: [ objs: Object[] ]')
     }
-    Object.keys(attrs[i]).forEach((v: string) => {
-      if (isDef(attrs[i][v])) {
-        attrs[i - 1][v] = attrs[i][v]
+    Object.keys(objs[i]).forEach((key: string) => {
+      if (isUndef(objs[i - 1][key])) {
+        objs[i - 1][key] = objs[i][key]
       }
     })
   }
-  return attrs[0]
+  return objs[0]
 }
 
 /**
@@ -123,7 +122,7 @@ const md5Crypto = (v: string): string => {
     }
   }
   throw new ReferenceError(
-    'proj.config.js缺少字段cryptoConfig: [ onceCryptLength: Number > 0, cryptCount: Number > 0 ]',
+    'proj.config.js缺少字段cryptoConfig: { onceCryptLength: Number > 0, cryptCount: Number > 0 }',
   )
 }
 
