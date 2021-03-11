@@ -13,11 +13,10 @@ const ROUTER = EXPRESS.Router()
 ROUTER.post(
   '/',
   asyncWrapper(async (req, res, next) => {
-    const { force } = req.body
     try {
       await sequelize.authenticate()
       const tableRows = await DBAction.GetTableRows()
-      if (tableRows > 0 && !force) {
+      if (tableRows > 0) {
         res
           .status(200)
           .json(
@@ -31,13 +30,35 @@ ROUTER.post(
       await init()
       res.status(200).json(new Restful(0, '初始化数据库成功'))
     } catch (e) {
-      // TODO: 进行邮件提醒
       res
         .status(200)
         .json(
           new Restful(
             CodeDictionary.INIT_ERROR__DATABASE_ERROR,
             `初始化数据库失败，${String(e)}`,
+          ),
+        )
+    }
+    next()
+  }),
+)
+/**
+ * 格式化数据库
+ */
+ROUTER.post(
+  '/force',
+  asyncWrapper(async (req, res, next) => {
+    try {
+      await sequelize.authenticate()
+      await init()
+      res.status(200).json(new Restful(0, '格式化数据库成功'))
+    } catch (e) {
+      res
+        .status(200)
+        .json(
+          new Restful(
+            CodeDictionary.INIT_ERROR__DATABASE_ERROR,
+            `格式化数据库失败，${String(e)}`,
           ),
         )
     }
@@ -55,7 +76,6 @@ ROUTER.get(
           new Restful(0, '获取数据库表数量成功', await DBAction.GetTableRows()),
         )
     } catch (e) {
-      // TODO: 进行邮件提醒
       res
         .status(200)
         .json(

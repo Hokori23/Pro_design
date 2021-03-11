@@ -1,42 +1,41 @@
 import { Post, PostComment } from '@models'
 import { PostType } from '@models/Post'
 import { isUndef } from '@utils'
-import { Op } from 'sequelize'
+// Op: https://www.sequelize.com.cn/core-concepts/model-querying-basics#%E5%BA%94%E7%94%A8-where-%E5%AD%90%E5%8F%A5
+import { Op, Transaction } from 'sequelize'
 
 /**
  * 添加帖子
  * @param { Post } post
+ * @param { Transaction } t?
  */
-const Create = async (post: Post) => {
-  return await post.save()
-}
-
-/**
- * 删除帖子
- * @param { number } id
- */
-const Delete = async (id: number): Promise<number> => {
-  return await Post.destroy({
-    where: {
-      id,
-    },
-  })
+const Create = async (post: Post, t?: Transaction) => {
+  return await post.save({ transaction: t })
 }
 
 /**
  * 编辑帖子信息
  * @param { Post } oldPost
  * @param { Post } newPost
+ * @param { Transaction } t?
  */
-const Update = async (oldPost: Post, newPost: Post): Promise<Post> => {
-  return await Object.assign(oldPost, newPost).save()
+const Update = async (
+  oldPost: Post,
+  newPost: Post,
+  t?: Transaction,
+): Promise<Post> => {
+  return await Object.assign(oldPost, newPost).save({ transaction: t })
 }
 
 /**
  * 通过ID查询某个帖子
  * @param { number } id
+ * @param { boolean } showDrafts?
  */
-const Retrieve__ID = async (id: number): Promise<Post | null> => {
+const Retrieve__ID = async (
+  id: number,
+  showDrafts: boolean = false,
+): Promise<Post | null> => {
   return await Post.findOne({
     include: [
       {
@@ -46,6 +45,7 @@ const Retrieve__ID = async (id: number): Promise<Post | null> => {
     ],
     where: {
       id,
+      isDraft: showDrafts,
     },
   })
 }
@@ -91,31 +91,28 @@ const Retrieve__Page = async (
  * @param { PostType } postType
  * @param { boolean } isASC // 升序
  */
-const Retrieve__Page__Tag = async (
+const Retrieve__Page_Tag = async (
   offset: number,
   limit: number,
-  tid: number[],
   postType?: PostType,
+  tids: number[] = [],
   isASC: boolean = false,
 ): Promise<Post[]> => {
+  // 处理where对象
+  const where = {}
+  if (tids.length)
+    where[Op.or] = tids.map((value) => {
+      return { tid: value }
+    })
+  if (!isUndef(postType)) where[postType] = postType
+
   return await Post.findAll({
     include: [
       {
         association: 'tags',
       },
     ],
-    where: isUndef(postType)
-      ? {
-          [Op.or]: tid.map((value) => {
-            return { tid: value }
-          }),
-        }
-      : {
-          postType,
-          [Op.or]: tid.map((value) => {
-            return { tid: value }
-          }),
-        },
+    where: where,
     offset,
     limit,
     order: [
@@ -135,30 +132,44 @@ const Count__Page = async (postType?: PostType) => {
   })
 }
 
-const Count__Page__Tag = async (tid: number[], postType?: PostType) => {
+const Count__Page_Tag = async (postType?: PostType, tids: number[] = []) => {
   return await Post.count({
     where: isUndef(postType)
       ? {
-          [Op.or]: tid.map((value) => {
+          [Op.or]: tids.map((value) => {
             return { tid: value }
           }),
         }
       : {
           postType,
-          [Op.or]: tid.map((value) => {
+          [Op.or]: tids.map((value) => {
             return { tid: value }
           }),
         },
   })
 }
 
+/**
+ * 删除帖子
+ * @param { number } id
+ * @param { Transaction } t?
+ */
+const Delete = async (id: number, t?: Transaction): Promise<number> => {
+  return await Post.destroy({
+    where: {
+      id,
+    },
+    transaction: t,
+  })
+}
+
 export default {
   Create,
-  Delete,
   Update,
   Retrieve__ID,
   Retrieve__Page,
-  Retrieve__Page__Tag,
+  Retrieve__Page_Tag,
   Count__Page,
-  Count__Page__Tag,
+  Count__Page_Tag,
+  Delete,
 }

@@ -12,6 +12,7 @@ const Create = async (association: PostTagAssociation) => {
 /**
  * 批量添加帖子和标签的关系
  * @param { any[] } arr
+ * @param { Transaction } t?
  */
 const CreateBulk = async (arr: any[], t?: Transaction) => {
   return await PostTagAssociation.bulkCreate(arr, {
@@ -32,8 +33,23 @@ const Delete = async (id: number): Promise<number> => {
   })
 }
 
+/**
+ * 批量删除帖子和标签的关系
+ * @param { number } pid
+ * @param { Transaction } t?
+ */
+const DeleteBulk = async (pid: number, t?: Transaction) => {
+  return await PostTagAssociation.destroy({
+    where: {
+      pid,
+    },
+    transaction: t,
+  })
+}
+
 export default {
   Create,
   CreateBulk,
   Delete,
+  DeleteBulk,
 }
