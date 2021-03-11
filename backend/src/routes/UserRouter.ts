@@ -7,6 +7,7 @@ import { User } from 'models'
 import { Restful, checkIntegrity, isUndef, isNaN } from '@utils'
 import { CodeDictionary } from '@const'
 import config from '@config'
+import { Group } from '@models/User'
 const { cryptoConfig, tokenExpiredTime } = config
 
 const userRouter = Router()
@@ -137,7 +138,6 @@ userRouter.post(
   asyncWrapper(async (req: any, res, next) => {
     try {
       if (req.auth.id !== req.body.id) {
-        // DEBUG
         res.status(403).end()
         return next()
       }
@@ -157,26 +157,72 @@ userRouter.post(
 )
 
 /**
- * 注销账号
- * @path /delete
- * @param { string } id
+ * 编辑用户
+ * @path /edit-admin
+ * @param { User } user
  */
 userRouter.post(
-  '/delete',
+  '/edit-admin',
   asyncWrapper(async (req: any, res, next) => {
     try {
-      const { id } = req.body
-      if (req.auth.id !== id) {
-        res.status(403).end()
-        return next()
-      }
-      if (isNaN(id)) {
+      if (!checkIntegrity(req.body, ['id'])) {
         res
           .status(200)
           .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
         return next()
       }
-      res.status(200).json(await Service.Delete(id))
+      res.status(200).json(await Service.Edit(req.body))
+    } catch (e) {
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
+ * 注销账号
+ * @path /delete
+ */
+userRouter.post(
+  '/delete',
+  asyncWrapper(async (req: any, res, next) => {
+    try {
+      res.status(200).json(await Service.Delete(req.auth.id))
+    } catch (e) {
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
+ * 注销账号
+ * @path /delete-admin
+ * @param { string } id
+ */
+userRouter.post(
+  '/delete-admin',
+  asyncWrapper(async (req: any, res, next) => {
+    const { id } = req.body
+    try {
+      if (isNaN(id)) {
+        res
+          .status(200)
+          .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+      } else if (req.auth.id === id && req.auth.group === Group.SUPER_ADMIN) {
+        res
+          .status(200)
+          .json(
+            new Restful(
+              CodeDictionary.DELETE_ERROR__USER,
+              '不能删除超级管理员账号',
+            ),
+          )
+      } else {
+        res.status(200).json(await Service.Delete(id))
+      }
     } catch (e) {
       // TODO: 进行邮件提醒
       res.status(500).end()

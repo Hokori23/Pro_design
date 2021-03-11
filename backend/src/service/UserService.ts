@@ -184,8 +184,8 @@ const Delete = async (id: string) => {
     }
     const deleteRow = await Action.Delete(Number(id))
     return deleteRow > 0
-      ? new Restful(CodeDictionary.DELETE_ERROR__USER, `删除账号失败`)
-      : new Restful(CodeDictionary.SUCCESS, `删除账号成功`)
+      ? new Restful(CodeDictionary.SUCCESS, `删除账号成功`)
+      : new Restful(CodeDictionary.DELETE_ERROR__USER, `删除账号失败`)
   } catch (e) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,

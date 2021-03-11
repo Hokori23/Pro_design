@@ -140,7 +140,7 @@ postRouter.get(
 )
 
 /**
- * 编辑帖子
+ * 编辑自己帖子
  * @path /edit
  * @param { object } param: { Post, tids[]}
  * @param { Post } post
@@ -148,6 +148,37 @@ postRouter.get(
  */
 postRouter.post(
   '/edit',
+  asyncWrapper(async (req: any, res, next) => {
+    try {
+      const { post, tids } = req.body
+      if (!checkIntegrity(post, ['id', 'uid', 'content']) || isNaN(tids)) {
+        res
+          .status(200)
+          .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+        return next()
+      }
+      if (req.auth.id !== post.id) {
+        res.status(403).end()
+        return next()
+      }
+      res.status(200).json(await Service.Edit(post, tids))
+    } catch (e) {
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
+ * 编辑帖子
+ * @path /edit-admin
+ * @param { object } param: { Post, tids[]}
+ * @param { Post } post
+ * @param { number[] } tids
+ */
+postRouter.post(
+  '/edit-admin',
   asyncWrapper(async (req: any, res, next) => {
     try {
       const { post, tids } = req.body
@@ -183,6 +214,31 @@ postRouter.post(
         return next()
       }
       res.status(200).json(await Service.Delete(id, req.auth.id))
+    } catch (e) {
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
+ * 删除帖子
+ * @path /delete-admin
+ * @param { string } id // 帖子id
+ */
+postRouter.post(
+  '/delete-admin',
+  asyncWrapper(async (req: any, res, next) => {
+    try {
+      const { id } = req.body
+      if (isNaN(id)) {
+        res
+          .status(200)
+          .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+        return next()
+      }
+      res.status(200).json(await Service.Delete__Admin(id))
     } catch (e) {
       // TODO: 进行邮件提醒
       res.status(500).end()

@@ -210,8 +210,34 @@ const Delete = async (id: string, uid: string) => {
     }
     const deleteRow = await Action.Delete(Number(id))
     return deleteRow > 0
-      ? new Restful(CodeDictionary.DELETE_ERROR__POST, `删除帖子失败`)
-      : new Restful(CodeDictionary.SUCCESS, `删除帖子成功`)
+      ? new Restful(CodeDictionary.SUCCESS, `删除帖子成功`)
+      : new Restful(CodeDictionary.DELETE_ERROR__POST, `删除帖子失败`)
+  } catch (e) {
+    return new Restful(
+      CodeDictionary.COMMON_ERROR,
+      `删除帖子失败, ${String(e.message)}`,
+    )
+  }
+}
+
+/**
+ * 删除帖子（管理员接口）
+ * @param { string } id
+ * @param { string } uid
+ */
+const Delete__Admin = async (id: string) => {
+  try {
+    const existedPost = await Action.Retrieve__ID(Number(id))
+    if (isUndef(existedPost)) {
+      return new Restful(
+        CodeDictionary.RETRIEVE_ERROR__POST_NON_EXISTED,
+        '帖子不存在',
+      )
+    }
+    const deleteRow = await Action.Delete(Number(id))
+    return deleteRow > 0
+      ? new Restful(CodeDictionary.SUCCESS, `删除帖子成功`)
+      : new Restful(CodeDictionary.DELETE_ERROR__POST, `删除帖子失败`)
   } catch (e) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
@@ -227,4 +253,5 @@ export default {
   Retrieve__Page_Tag,
   Edit,
   Delete,
+  Delete__Admin,
 }
