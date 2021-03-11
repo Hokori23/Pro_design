@@ -46,7 +46,7 @@ ROUTER.post(
  * 格式化数据库
  */
 ROUTER.post(
-  '/force',
+  '/force-admin',
   asyncWrapper(async (req, res, next) => {
     try {
       await sequelize.authenticate()
@@ -67,7 +67,7 @@ ROUTER.post(
 )
 
 ROUTER.get(
-  '/table-rows',
+  '/table-rows-admin',
   asyncWrapper(async (req, res, next) => {
     try {
       res
