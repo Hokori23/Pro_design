@@ -4,7 +4,7 @@ import asyncWrapper from 'async-wrapper-express-ts'
 
 import { UserService as Service } from '@service'
 import { User } from 'models'
-import { Restful, checkIntegrity, isUndef } from '@utils'
+import { Restful, checkIntegrity, isUndef, isNaN } from '@utils'
 import { CodeDictionary } from '@const'
 import config from '@config'
 const { cryptoConfig, tokenExpiredTime } = config
@@ -43,7 +43,6 @@ userRouter.post(
  */
 userRouter.post(
   '/register',
-  // https://github.com/xiondlph/async-wrapper-express-ts
   asyncWrapper(async (req, res, next) => {
     const user = User.build(req.body)
     if (
@@ -104,14 +103,14 @@ userRouter.post(
 /**
  * 遍历/单个查询
  * @path /retrieve
- * @param { string } ?account
+ * @param { string } id?
  */
 userRouter.get(
   '/retrieve',
   asyncWrapper(async (req, res, next) => {
     const { id } = req.query
     try {
-      if (isUndef(id)) {
+      if (isNaN(id)) {
         res.status(200).json(await Service.Retrieve__All())
       } else {
         res.status(200).json(await Service.Retrieve__ID(Number(id)))
@@ -125,13 +124,12 @@ userRouter.get(
 )
 
 /**
- * 修改
+ * 编辑用户
  * @path /edit
  * @param { User } user
  */
 userRouter.post(
   '/edit',
-  // https://github.com/xiondlph/async-wrapper-express-ts
   asyncWrapper(async (req: any, res, next) => {
     try {
       const user: any = User.build(req.body).toJSON()
@@ -146,6 +144,35 @@ userRouter.post(
         return next()
       }
       res.status(200).json(await Service.Edit(user))
+    } catch (e) {
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
+ * 注销账号
+ * @path /delete
+ * @param { string } id
+ */
+userRouter.post(
+  '/delete',
+  asyncWrapper(async (req: any, res, next) => {
+    try {
+      const { id } = req.body
+      if (req.auth.id !== id) {
+        res.status(403).end()
+        return next()
+      }
+      if (isNaN(id)) {
+        res
+          .status(200)
+          .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+        return next()
+      }
+      res.status(200).json(await Service.Delete(id))
     } catch (e) {
       // TODO: 进行邮件提醒
       res.status(500).end()

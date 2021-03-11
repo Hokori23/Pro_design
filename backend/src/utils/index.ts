@@ -7,6 +7,7 @@ const { cryptoConfig } = config
 /**
  * 判断变量是否已定义
  * @param { object } v
+ * @returns { boolean }
  */
 const isDef = (v: any): boolean => {
   return v !== undefined && v !== null
@@ -16,9 +17,27 @@ const isDef = (v: any): boolean => {
  * 判断变量是否未定义
  * 增加了 type guards: https://www.typescriptlang.org/docs/handbook/advanced-types.html#typeof-type-guards
  * @param { object } v
+ * @returns { boolean }
  */
 const isUndef = (v: any): v is null | undefined => {
   return v === undefined || v === null
+}
+
+/**
+ * 重写isNaN方法
+ * @description 会进行类型转换再判断NaN，可以判断字符串、数字、数字数组等
+ * @example isNaN([1, 2, 3]) => false
+ * @example isNaN(null) => false
+ * @example isNaN(NaN) => true
+ * @param { any } v
+ * @returns { boolean }
+ */
+const isNaN = (v: any) => {
+  if (isUndef(v)) return false
+  if (v instanceof Array) {
+    return v.some((v) => isNaN(v))
+  }
+  return Number.isNaN(Number(v))
 }
 
 /**
@@ -161,18 +180,7 @@ class Restful {
 export {
   isDef,
   isUndef,
-  mixin,
-  toArray,
-  checkIntegrity,
-  md5Crypto,
-  cipherCrypto,
-  decipherCrypto,
-  Restful,
-}
-
-export default {
-  isDef,
-  isUndef,
+  isNaN,
   mixin,
   toArray,
   checkIntegrity,

@@ -173,6 +173,27 @@ const Edit = async (user: User): Promise<Restful> => {
   }
 }
 
+/**
+ * 删除用户
+ */
+const Delete = async (id: string) => {
+  try {
+    const existedUser = await Action.Retrieve('id', Number(id))
+    if (isUndef(existedUser)) {
+      return new Restful(1, '账号不存在')
+    }
+    const deleteRow = await Action.Delete(Number(id))
+    return deleteRow > 0
+      ? new Restful(CodeDictionary.DELETE_ERROR__USER, `删除账号失败`)
+      : new Restful(CodeDictionary.SUCCESS, `删除账号成功`)
+  } catch (e) {
+    return new Restful(
+      CodeDictionary.COMMON_ERROR,
+      `删除账号失败, ${String(e.message)}`,
+    )
+  }
+}
+
 export default {
   Init,
   Register,
@@ -180,4 +201,5 @@ export default {
   Retrieve__ID,
   Retrieve__All,
   Edit,
+  Delete,
 }

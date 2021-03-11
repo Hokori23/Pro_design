@@ -23,7 +23,8 @@
     "prodesign",
     "Hokori",
     "TINYINT",
-    "USERACCOUNT"
+    "USERACCOUNT",
+    "tids"
   ],
   "[less]": {
     "editor.formatOnSave": true,
