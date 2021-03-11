@@ -144,10 +144,10 @@ const Retrieve__Page_Tag = async (
 
 /**
  * 编辑帖子
- * @param { Post } post
+ * @param { any } post
  * @param { number[] } tids
  */
-const Edit = async (post: Post, tids: number[]): Promise<Restful> => {
+const Edit = async (post: any, tids: number[]): Promise<Restful> => {
   const t = await database.transaction()
   try {
     const existedPost = await Action.Retrieve__ID(post.id as number)

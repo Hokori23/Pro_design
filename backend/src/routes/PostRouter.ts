@@ -150,17 +150,14 @@ postRouter.post(
   '/edit',
   asyncWrapper(async (req: any, res, next) => {
     try {
-      const post: any = Post.build(req.body.post).toJSON()
-      if (
-        !checkIntegrity(post, ['id', 'uid', 'content']) ||
-        isNaN(req.body.tids)
-      ) {
+      const { post, tids } = req.body
+      if (!checkIntegrity(post, ['id', 'uid', 'content']) || isNaN(tids)) {
         res
           .status(200)
           .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
         return next()
       }
-      res.status(200).json(await Service.Edit(post, req.body.tids))
+      res.status(200).json(await Service.Edit(post, tids))
     } catch (e) {
       // TODO: 进行邮件提醒
       res.status(500).end()

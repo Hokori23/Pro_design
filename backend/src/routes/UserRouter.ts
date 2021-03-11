@@ -110,8 +110,12 @@ userRouter.get(
   asyncWrapper(async (req, res, next) => {
     const { id } = req.query
     try {
-      if (isNaN(id)) {
+      if (isUndef(id)) {
         res.status(200).json(await Service.Retrieve__All())
+      } else if (isNaN(id)) {
+        res
+          .status(200)
+          .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
       } else {
         res.status(200).json(await Service.Retrieve__ID(Number(id)))
       }
@@ -132,18 +136,18 @@ userRouter.post(
   '/edit',
   asyncWrapper(async (req: any, res, next) => {
     try {
-      const user: any = User.build(req.body).toJSON()
-      if (req.auth.userAccount !== user.userAccount) {
+      if (req.auth.id !== req.body.id) {
+        // DEBUG
         res.status(403).end()
         return next()
       }
-      if (!checkIntegrity(user, ['id', 'userAccount'])) {
+      if (!checkIntegrity(req.body, ['id'])) {
         res
           .status(200)
           .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
         return next()
       }
-      res.status(200).json(await Service.Edit(user))
+      res.status(200).json(await Service.Edit(req.body))
     } catch (e) {
       // TODO: 进行邮件提醒
       res.status(500).end()

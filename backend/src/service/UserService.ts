@@ -150,16 +150,16 @@ const Retrieve__All = async (): Promise<Restful> => {
 /**
  * 编辑用户
  */
-const Edit = async (user: User): Promise<Restful> => {
+const Edit = async (user: any): Promise<Restful> => {
   try {
-    const existedUser = await Action.Retrieve('userName', user.userName)
+    const existedUser = await Action.Retrieve('id', user.id as number)
     if (isUndef(existedUser)) {
       return new Restful(1, '账号不存在')
     }
 
+    // TODO: 暂时不给更改密码
     delete user.password
     const newUser = await Action.Update(existedUser, user)
-
     return new Restful(
       CodeDictionary.SUCCESS,
       '编辑成功',
