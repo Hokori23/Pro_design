@@ -16,7 +16,7 @@ const Create = async (post: Post, tags?: number[]): Promise<Restful> => {
     // 除了说说以外都需要title
     if (post.type !== PostType.MOMENT && !post.title) {
       return new Restful(
-        CodeDictionary.SERVICE_ERROR__NEED_TITLE,
+        CodeDictionary.SERVICE_ERROR__POST_NEED_TITLE,
         '除说说以外的文章类型，标题是必需的',
       )
     }

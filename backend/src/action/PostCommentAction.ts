@@ -9,6 +9,18 @@ const Create = async (comment: PostComment) => {
 }
 
 /**
+ * 通过ID查询评论
+ * @param id
+ */
+const Retrieve__ID = async (id: number) => {
+  return await PostComment.findOne({
+    where: {
+      id,
+    },
+  })
+}
+
+/**
  * 删除评论
  * @param { number } id
  */
@@ -22,5 +34,6 @@ const Delete = async (id: number): Promise<number> => {
 
 export default {
   Create,
+  Retrieve__ID,
   Delete,
 }

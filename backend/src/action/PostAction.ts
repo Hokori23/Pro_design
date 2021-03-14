@@ -41,7 +41,10 @@ const Retrieve__ID = async (
       {
         association: 'tags',
       },
-      PostComment,
+      {
+        model: PostComment,
+        as: 'postComments',
+      },
     ],
     where: {
       id,

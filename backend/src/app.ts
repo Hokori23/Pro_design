@@ -1,6 +1,12 @@
 import express from 'express'
 
-import { TestRouter, InitRouter, UserRouter, PostRouter } from '@routes'
+import {
+  TestRouter,
+  InitRouter,
+  UserRouter,
+  PostRouter,
+  PostCommentRouter,
+} from '@routes'
 import {
   errorHandler,
   checkJWT,
@@ -26,6 +32,7 @@ app.use('/api/init', InitRouter)
 app.use('/api/test', TestRouter)
 app.use('/api/user', UserRouter)
 app.use('/api/post', PostRouter)
+app.use('/api/post-comment', PostCommentRouter)
 
 // 包底错误处理中间件
 app.use(errorHandler)

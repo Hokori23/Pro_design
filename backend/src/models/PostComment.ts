@@ -6,7 +6,7 @@ class PostComment extends Model {
   id!: number
   parentId?: number
   pid!: number
-  uid?: number
+  uid!: number
   content!: string
   email!: string
   url?: string

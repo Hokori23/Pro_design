@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize'
 import sequelize from 'database'
 import User from './User'
+import PostComment from './PostComment'
 
 /**
  * @description 添加字段同时要更改相应字段的validate属性
@@ -32,6 +33,9 @@ class Post extends Model {
   isHidden?: Toggle
   isLocked?: Toggle
   priority?: number
+
+  postComments?: PostComment[]
+
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
