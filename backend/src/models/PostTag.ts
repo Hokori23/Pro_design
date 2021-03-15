@@ -40,7 +40,6 @@ PostTag.init(
     },
     iconColor: {
       comment: '图标颜色: { 16位进值 | rgb | rgba } 帖子类型',
-      unique: 'slug',
       type: DataTypes.STRING(50),
     },
   },

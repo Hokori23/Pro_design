@@ -1,7 +1,7 @@
 import asyncWrapper from 'async-wrapper-express-ts'
 import EXPRESS from 'express'
 import { Restful } from '@utils'
-import sequelize, { init } from '@database'
+import { init } from '@database'
 import { CodeDictionary } from '@const'
 import { DBAction } from '@action'
 
@@ -14,7 +14,6 @@ ROUTER.post(
   '/',
   asyncWrapper(async (req, res, next) => {
     try {
-      await sequelize.authenticate()
       const tableRows = await DBAction.GetTableRows()
       if (tableRows > 0) {
         res
@@ -49,7 +48,6 @@ ROUTER.post(
   '/force-admin',
   asyncWrapper(async (req, res, next) => {
     try {
-      await sequelize.authenticate()
       await init()
       res.status(200).json(new Restful(0, '格式化数据库成功'))
     } catch (e) {

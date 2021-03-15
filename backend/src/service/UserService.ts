@@ -46,33 +46,31 @@ const Init = async (user: User): Promise<Restful> => {
 const Register = async (user: User): Promise<Restful> => {
   try {
     const existedUsers = await Action.Retrieve__All__Safely()
-    if (existedUsers.length) {
+    if (!existedUsers.length) {
       return new Restful(
         CodeDictionary.REGISTER_ERROR__NOT_INIT,
         '数据库用户表为空，请先初始化超级管理员',
       )
     }
-    let existedUser = await Action.Retrieve('userAccount', user.userAccount)
-    if (isDef(existedUser)) {
+    const tasks: Array<Promise<any>> = [
+      Action.Retrieve('userAccount', user.userAccount),
+      Action.Retrieve('userName', user.userName),
+    ]
+    const values = await Promise.all(tasks)
+    if (values.filter((v) => isDef(v)).length) {
       return new Restful(
         CodeDictionary.REGISTER_ERROR__USERACCOUNT_EXISTED,
         '账号已存在',
       )
     }
-    existedUser = await Action.Retrieve('userName', user.userName)
-    if (isDef(existedUser)) {
-      return new Restful(
-        CodeDictionary.REGISTER_ERROR__USERACCOUNT_EXISTED,
-        '账号已存在',
-      )
-    }
+
     // 加密密码
     user.password = md5Crypto(user.password as string)
-
     // 去除前端可能给的多余ID（自增字段）
     user.id = null
     // 强制普通用户
     user.group = Group.SUBSCRIBER
+
     const registeredUser = await Action.Create(user)
     return new Restful(
       CodeDictionary.SUCCESS,

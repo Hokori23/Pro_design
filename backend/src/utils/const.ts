@@ -21,7 +21,10 @@ const ROUTER_ADMIN_ALLOW = [
   `user/edit-admin`,
   `user/delete-admin`,
   // post
+  `post/create`,
+  `post/edit`,
   `post/edit-admin`,
+  `post/delete`,
   `post/delete-admin`,
   // comment
   `post-comment/delete-admin`,
@@ -57,6 +60,8 @@ enum CodeDictionary {
   SERVICE_ERROR__COMMENT_PARENT_COMMENT_NON_EXISTED,
   SERVICE_ERROR__COMMENT_NON_EXISTED,
   DELETE_ERROR__COMMENT,
+  SERVICE_ERROR__COMMENT_USER_NON_EXISTED,
+  SERVICE_ERROR__COMMENT_EMAIL_NEEDED,
   // OTHER
   UPLOAD_TYPE_ERROR,
   PARAMS_ERROR = 98,

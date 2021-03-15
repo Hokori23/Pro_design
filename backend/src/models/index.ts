@@ -12,7 +12,7 @@ export { User, Post, PostComment, PostTag, PostTagAssociation, Mail, Option }
  * Post : User
  * N : 1
  */
-Post.belongsTo(User, { targetKey: 'id', foreignKey: 'uid' })
+Post.belongsTo(User, { as: 'author', targetKey: 'id', foreignKey: 'uid' })
 User.hasMany(Post, {
   sourceKey: 'id',
   foreignKey: 'uid',
@@ -23,11 +23,13 @@ User.hasMany(Post, {
  * N : 1
  */
 PostComment.belongsTo(Post, {
+  as: 'post',
   targetKey: 'id',
   foreignKey: 'pid',
   onDelete: 'CASCADE',
 })
 Post.hasMany(PostComment, {
+  as: 'postComments',
   sourceKey: 'id',
   foreignKey: 'pid',
 })

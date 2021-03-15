@@ -17,6 +17,7 @@ export default (req, res, next) => {
       miment().format('YYYY-MM-DD hh:mm:ss') as string
     }`,
   )
+  res.locals.ip = req.ip || req.ips[0]
   next()
   console.log(chalk.cyan('<=======================\n'))
 }

@@ -5,6 +5,8 @@ import debug from 'debug'
 import config from 'proj.config'
 import app from 'app'
 
+// import { authenticate } from '@database'
+
 const { port } = config
 const DEBUG = debug('server:server')
 /**
@@ -24,6 +26,12 @@ export const SERVER = http.createServer(app)
 const serverListen = () => {
   SERVER.listen(PORT, () => {
     console.log(`服务器开始监听 ${PORT} 端口！`)
+    // authenticate()
+    //   .then(() => {})
+    //   .catch((e) => {
+    //     console.log(e.toString())
+    //     process.exit(1)
+    //   })
   })
   SERVER.on('error', onError)
   SERVER.on('listening', onListening)

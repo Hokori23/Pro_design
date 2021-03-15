@@ -1,4 +1,5 @@
 import { PostComment } from '@models'
+import { Op } from 'sequelize'
 
 /**
  * 添加评论
@@ -23,11 +24,18 @@ const Retrieve__ID = async (id: number) => {
 /**
  * 删除评论
  * @param { number } id
+ * @param { number } pid?
  */
-const Delete = async (id: number): Promise<number> => {
+const Delete = async (id: number, pid?: number): Promise<number> => {
   return await PostComment.destroy({
     where: {
-      id,
+      [Op.or]: {
+        id,
+        [Op.and]: {
+          pid,
+          parentId: id,
+        },
+      },
     },
   })
 }

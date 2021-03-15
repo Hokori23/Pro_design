@@ -33,6 +33,8 @@ class Post extends Model {
   isHidden?: Toggle
   isLocked?: Toggle
   priority?: number
+  likesCount?: number
+  dislikesCount?: number
 
   postComments?: PostComment[]
 
@@ -52,7 +54,6 @@ Post.init(
       comment: '发帖用户id',
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
-      unique: 'uid',
       /**
        * < references >
        * @description Sequelize关联模型
@@ -115,6 +116,18 @@ Post.init(
     priority: {
       comment: '置顶优先级',
       type: DataTypes.TINYINT.UNSIGNED,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    likesCount: {
+      comment: '点赞数',
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    dislikesCount: {
+      comment: '踩',
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       defaultValue: 0,
     },

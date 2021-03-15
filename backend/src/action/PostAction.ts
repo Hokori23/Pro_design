@@ -1,4 +1,4 @@
-import { Post, PostComment } from '@models'
+import { Post, PostComment, User } from '@models'
 import { PostType } from '@models/Post'
 import { isUndef } from '@utils'
 // Op: https://www.sequelize.com.cn/core-concepts/model-querying-basics#%E5%BA%94%E7%94%A8-where-%E5%AD%90%E5%8F%A5
@@ -45,6 +45,13 @@ const Retrieve__ID = async (
         model: PostComment,
         as: 'postComments',
       },
+      {
+        model: User,
+        as: 'author',
+        attributes: {
+          exclude: ['password'],
+        },
+      },
     ],
     where: {
       id,
@@ -80,7 +87,7 @@ const Retrieve__Page = async (
     offset,
     limit,
     order: [
-      ['isSticky', 'DESC'],
+      ['priority', 'DESC'],
       ['createdAt', isASC ? 'ASC' : 'DESC'],
     ],
   })

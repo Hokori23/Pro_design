@@ -33,7 +33,7 @@ const isUndef = (v: any): v is null | undefined => {
  * @returns { boolean }
  */
 const isNaN = (v: any) => {
-  if (isUndef(v)) return false
+  if (isUndef(v)) return true
   if (v instanceof Array) {
     return v.some((v) => isNaN(v))
   }

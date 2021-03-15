@@ -10,7 +10,7 @@ class PostComment extends Model {
   content!: string
   email!: string
   url?: string
-  ip?: string
+  ip!: string
   userAgent?: string
   likesCount?: number
   dislikesCount?: number
@@ -34,7 +34,6 @@ PostComment.init(
       comment: '评论所处帖子id',
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
-      unique: 'pid',
       /**
        * < references >
        * @description Sequelize关联模型
@@ -48,7 +47,6 @@ PostComment.init(
     uid: {
       comment: '评论用户id, -1 代表未注册用户',
       type: DataTypes.INTEGER,
-      unique: 'uid',
       allowNull: false,
       defaultValue: -1,
     },

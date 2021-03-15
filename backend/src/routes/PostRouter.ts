@@ -3,7 +3,7 @@ import asyncWrapper from 'async-wrapper-express-ts'
 
 import { PostService as Service } from '@service'
 import { Post } from '@models'
-import { Restful, checkIntegrity, isNaN } from '@utils'
+import { Restful, checkIntegrity, isNaN, isDef, isUndef } from '@utils'
 import { CodeDictionary } from '@const'
 import { PostType } from '@models/Post'
 
@@ -70,7 +70,11 @@ postRouter.get(
   asyncWrapper(async (req, res, next) => {
     const { page, capacity, isASC, postType } = req.query
     try {
-      if (isNaN(page) || isNaN(capacity) || isNaN(postType)) {
+      if (
+        isNaN(page) ||
+        isNaN(capacity) ||
+        (isDef(postType) && isNaN(postType))
+      ) {
         res
           .status(200)
           .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
@@ -144,20 +148,24 @@ postRouter.get(
  * @path /edit
  * @param { object } param: { Post, tids[]}
  * @param { Post } post
- * @param { number[] } tids
+ * @param { number[] } tids = []
  */
 postRouter.post(
   '/edit',
   asyncWrapper(async (req: any, res, next) => {
     try {
       const { post, tids } = req.body
-      if (!checkIntegrity(post, ['id', 'uid', 'content']) || isNaN(tids)) {
+      if (
+        isUndef(post) ||
+        !checkIntegrity(post, ['id', 'uid', 'content']) ||
+        isNaN(tids)
+      ) {
         res
           .status(200)
           .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
         return next()
       }
-      if (req.auth.id !== post.id) {
+      if (req.auth.id !== post.uid) {
         res.status(403).end()
         return next()
       }
@@ -246,4 +254,49 @@ postRouter.post(
     next()
   }),
 )
+
+/**
+ * 点赞帖子
+ * @path /like
+ */
+postRouter.post(
+  '/like',
+  asyncWrapper(async (req, res, next) => {
+    const { id } = req.body
+    if (isUndef(id)) {
+      res.status(200).json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+      return next()
+    }
+    try {
+      res.status(200).json(await Service.Like(id))
+    } catch (e) {
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
+ * 踩帖子
+ * @path /dislike
+ */
+postRouter.post(
+  '/dislike',
+  asyncWrapper(async (req, res, next) => {
+    const { id } = req.body
+    if (isUndef(id)) {
+      res.status(200).json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+      return next()
+    }
+    try {
+      res.status(200).json(await Service.Dislike(id))
+    } catch (e) {
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
 export default postRouter

@@ -1,6 +1,6 @@
 import { PostAction as Action, PostTagAssociationAction } from 'action'
 import { Post } from 'models'
-import { Restful, isUndef } from 'utils'
+import { Restful, isUndef, isDef } from 'utils'
 import { CodeDictionary } from '@const'
 import { PostType } from '@models/Post'
 import database from '@database'
@@ -8,7 +8,7 @@ import database from '@database'
  * 添加帖子
  * @param { Post } post
  */
-const Create = async (post: Post, tags?: number[]): Promise<Restful> => {
+const Create = async (post: Post, tids?: number[]): Promise<Restful> => {
   // Sequelize事务: https://www.sequelize.com.cn/other-topics/transactions
   // 创建事务
   const t = await database.transaction()
@@ -22,16 +22,17 @@ const Create = async (post: Post, tags?: number[]): Promise<Restful> => {
     }
     post = await Action.Create(post, t)
     // 如果帖子有标签
-    if (tags?.length) {
+    tids = tids?.filter((tid) => isDef(tid))
+    if (tids?.length) {
       await PostTagAssociationAction.CreateBulk(
-        tags.map((tag) => ({ pid: post.id, tid: tag })),
+        tids.map((tid) => ({ pid: post.id, tid })),
         t,
       )
     }
     // 提交事务
     await t.commit()
     await post.reload()
-    return new Restful(CodeDictionary.SUCCESS, '注册成功', post.toJSON())
+    return new Restful(CodeDictionary.SUCCESS, '添加帖子成功', post.toJSON())
   } catch (e) {
     // 回退事务
     await t.rollback()
@@ -162,7 +163,13 @@ const Edit = async (post: any, tids: number[]): Promise<Restful> => {
       // 然后再创建
       PostTagAssociationAction.DeleteBulk(post.id as number)
         .then(() => {
-          if (tids.length) return PostTagAssociationAction.CreateBulk(tids, t)
+          tids = tids.filter((tid) => isDef(tid))
+          if (tids.length) {
+            return PostTagAssociationAction.CreateBulk(
+              tids.map((tid) => ({ pid: post.id, tid })),
+              t,
+            )
+          }
         })
         .then((res) => {
           resolve(res)
@@ -246,6 +253,52 @@ const Delete__Admin = async (id: string) => {
   }
 }
 
+/**
+ * 点赞帖子
+ * @param { number } id
+ */
+const Like = async (id: number) => {
+  try {
+    const existedPost = await Action.Retrieve__ID(id)
+    if (isUndef(existedPost)) {
+      return new Restful(
+        CodeDictionary.RETRIEVE_ERROR__POST_NON_EXISTED,
+        '此帖子已不存在',
+      )
+    }
+    await existedPost.increment('likesCount')
+    return new Restful(CodeDictionary.SUCCESS, '点赞成功')
+  } catch (e) {
+    return new Restful(
+      CodeDictionary.COMMON_ERROR,
+      `点赞帖子失败, ${String(e.message)}`,
+    )
+  }
+}
+
+/**
+ * 踩帖子
+ * @param { number } id
+ */
+const Dislike = async (id: number) => {
+  try {
+    const existedPost = await Action.Retrieve__ID(id)
+    if (isUndef(existedPost)) {
+      return new Restful(
+        CodeDictionary.RETRIEVE_ERROR__POST_NON_EXISTED,
+        '此帖子已不存在',
+      )
+    }
+    await existedPost.increment('dislikesCount')
+    return new Restful(CodeDictionary.SUCCESS, '踩成功')
+  } catch (e) {
+    return new Restful(
+      CodeDictionary.COMMON_ERROR,
+      `踩帖子失败, ${String(e.message)}`,
+    )
+  }
+}
+
 export default {
   Create,
   Retrieve__ID,
@@ -254,4 +307,6 @@ export default {
   Edit,
   Delete,
   Delete__Admin,
+  Like,
+  Dislike,
 }
