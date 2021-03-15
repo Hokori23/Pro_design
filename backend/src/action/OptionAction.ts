@@ -5,21 +5,24 @@ import { Transaction } from 'sequelize/types'
  * 添加设置字段
  * @param { Option } option
  */
-const Create = async (option: Option) => {
+const Create = async (option: Option): Promise<Option> => {
   return await option.save()
 }
 
 /**
  * 查询全部
  */
-const Retrieve__All = async () => {
+const Retrieve__All = async (): Promise<Option[]> => {
   return await Option.findAll()
 }
 
 /**
  * 修改
  */
-const Update = async (oldOption: Option, newOption: Option) => {
+const Update = async (
+  oldOption: Option,
+  newOption: Option,
+): Promise<Option> => {
   return await Object.assign(oldOption, newOption).save()
 }
 
@@ -27,7 +30,7 @@ const Update = async (oldOption: Option, newOption: Option) => {
  * 批量添加设置字段
  * @param { any[] } arr
  */
-const CreateBulk = async (arr: any[], t?: Transaction) => {
+const CreateBulk = async (arr: any[], t?: Transaction): Promise<Option[]> => {
   return await Option.bulkCreate(arr, {
     validate: true,
     transaction: t,

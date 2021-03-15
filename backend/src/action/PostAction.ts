@@ -9,7 +9,7 @@ import { Op, Transaction } from 'sequelize'
  * @param { Post } post
  * @param { Transaction } t?
  */
-const Create = async (post: Post, t?: Transaction) => {
+const Create = async (post: Post, t?: Transaction): Promise<Post> => {
   return await post.save({ transaction: t })
 }
 
@@ -132,7 +132,7 @@ const Retrieve__Page_Tag = async (
   })
 }
 
-const Count__Page = async (postType?: PostType) => {
+const Count__Page = async (postType?: PostType): Promise<number> => {
   return await Post.count({
     where: isUndef(postType)
       ? undefined
@@ -142,7 +142,10 @@ const Count__Page = async (postType?: PostType) => {
   })
 }
 
-const Count__Page_Tag = async (postType?: PostType, tids: number[] = []) => {
+const Count__Page_Tag = async (
+  postType?: PostType,
+  tids: number[] = [],
+): Promise<number> => {
   return await Post.count({
     where: isUndef(postType)
       ? {

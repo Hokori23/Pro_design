@@ -59,7 +59,7 @@ const Register = async (user: User): Promise<Restful> => {
     const values = await Promise.all(tasks)
     if (values.filter((v) => isDef(v)).length) {
       return new Restful(
-        CodeDictionary.REGISTER_ERROR__USERACCOUNT_EXISTED,
+        CodeDictionary.REGISTER_ERROR__USER_ACCOUNT_EXISTED,
         '账号已存在',
       )
     }
@@ -181,7 +181,7 @@ const Edit = async (user: any): Promise<Restful> => {
 /**
  * 删除用户
  */
-const Delete = async (id: string) => {
+const Delete = async (id: string): Promise<Restful> => {
   try {
     const existedUser = await Action.Retrieve('id', Number(id))
     if (isUndef(existedUser)) {

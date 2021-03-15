@@ -2,7 +2,7 @@ import sequelize from '@database'
 import { QueryTypes } from 'sequelize'
 import config from '@config'
 
-const GetTableRows = async () => {
+const GetTableRows = async (): Promise<number> => {
   return (
     await sequelize.query(
       `SELECT count(TABLE_NAME)

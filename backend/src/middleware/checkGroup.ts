@@ -4,7 +4,7 @@ import {
   ROUTER_ADMIN_ALLOW,
   ROUTER_SUPER_ADMIN_ALLOW,
 } from '@utils/const'
-export default (req: any, res, next) => {
+export default (req, res, next) => {
   if (ROUTER_WHITE_LIST.some((path) => req.path === path)) {
     // 白名单不验证用户权限
     return next()

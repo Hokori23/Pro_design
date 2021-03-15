@@ -4,7 +4,7 @@ import { PostTag } from '@models'
  * 添加标签
  * @param { PostTag } postTag
  */
-const Create = async (postTag: PostTag) => {
+const Create = async (postTag: PostTag): Promise<PostTag> => {
   return await postTag.save()
 }
 
@@ -70,7 +70,7 @@ const Retrieve__Page = async (
   })
 }
 
-const Count__Page = async () => {
+const Count__Page = async (): Promise<number> => {
   return await PostTag.count()
 }
 

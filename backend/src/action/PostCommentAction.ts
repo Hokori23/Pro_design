@@ -5,7 +5,7 @@ import { Op } from 'sequelize'
  * 添加评论
  * @param { PostComment } comment
  */
-const Create = async (comment: PostComment) => {
+const Create = async (comment: PostComment): Promise<PostComment> => {
   return await comment.save()
 }
 
@@ -13,7 +13,7 @@ const Create = async (comment: PostComment) => {
  * 通过ID查询评论
  * @param id
  */
-const Retrieve__ID = async (id: number) => {
+const Retrieve__ID = async (id: number): Promise<PostComment | null> => {
   return await PostComment.findOne({
     where: {
       id,

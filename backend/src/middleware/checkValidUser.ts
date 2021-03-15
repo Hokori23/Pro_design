@@ -1,6 +1,6 @@
 import { UserAction } from '@action'
 import { ROUTER_WHITE_LIST } from '@utils/const'
-export default (req: any, res, next) => {
+export default (req, res, next) => {
   if (ROUTER_WHITE_LIST.some((path) => req.path === path)) {
     // 白名单不验证token合法性
     return next()

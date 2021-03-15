@@ -5,7 +5,9 @@ import { Transaction } from 'sequelize/types'
  * 添加帖子和标签的关系
  * @param { PostTagAssociation } association
  */
-const Create = async (association: PostTagAssociation) => {
+const Create = async (
+  association: PostTagAssociation,
+): Promise<PostTagAssociation> => {
   return await association.save()
 }
 
@@ -14,7 +16,10 @@ const Create = async (association: PostTagAssociation) => {
  * @param { any[] } arr
  * @param { Transaction } t?
  */
-const CreateBulk = async (arr: any[], t?: Transaction) => {
+const CreateBulk = async (
+  arr: any[],
+  t?: Transaction,
+): Promise<PostTagAssociation[]> => {
   return await PostTagAssociation.bulkCreate(arr, {
     validate: true,
     transaction: t,
@@ -38,7 +43,7 @@ const Delete = async (id: number): Promise<number> => {
  * @param { number } pid
  * @param { Transaction } t?
  */
-const DeleteBulk = async (pid: number, t?: Transaction) => {
+const DeleteBulk = async (pid: number, t?: Transaction): Promise<number> => {
   return await PostTagAssociation.destroy({
     where: {
       pid,

@@ -200,7 +200,7 @@ const Edit = async (post: any, tids: number[]): Promise<Restful> => {
  * @param { string } id
  * @param { string } uid
  */
-const Delete = async (id: string, uid: string) => {
+const Delete = async (id: string, uid: string): Promise<Restful> => {
   try {
     const existedPost = await Action.Retrieve__ID(Number(id))
     if (isUndef(existedPost)) {
@@ -232,7 +232,7 @@ const Delete = async (id: string, uid: string) => {
  * @param { string } id
  * @param { string } uid
  */
-const Delete__Admin = async (id: string) => {
+const Delete__Admin = async (id: string): Promise<Restful> => {
   try {
     const existedPost = await Action.Retrieve__ID(Number(id))
     if (isUndef(existedPost)) {
@@ -257,7 +257,7 @@ const Delete__Admin = async (id: string) => {
  * 点赞帖子
  * @param { number } id
  */
-const Like = async (id: number) => {
+const Like = async (id: number): Promise<Restful> => {
   try {
     const existedPost = await Action.Retrieve__ID(id)
     if (isUndef(existedPost)) {
@@ -280,7 +280,7 @@ const Like = async (id: number) => {
  * 踩帖子
  * @param { number } id
  */
-const Dislike = async (id: number) => {
+const Dislike = async (id: number): Promise<Restful> => {
   try {
     const existedPost = await Action.Retrieve__ID(id)
     if (isUndef(existedPost)) {

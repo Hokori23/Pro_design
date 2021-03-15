@@ -68,7 +68,7 @@ const Create = async (comment: PostComment): Promise<Restful> => {
  * 删除评论
  * @param { number } id
  */
-const Delete = async (id: number) => {
+const Delete = async (id: number): Promise<Restful> => {
   try {
     const existedComment = await Action.Retrieve__ID(id)
     if (isUndef(existedComment)) {
@@ -93,7 +93,7 @@ const Delete = async (id: number) => {
  * 点赞评论
  * @param { number } id
  */
-const Like = async (id: number) => {
+const Like = async (id: number): Promise<Restful> => {
   try {
     const existedComment = await Action.Retrieve__ID(id)
     if (isUndef(existedComment)) {
@@ -116,7 +116,7 @@ const Like = async (id: number) => {
  * 踩评论
  * @param { number } id
  */
-const Dislike = async (id: number) => {
+const Dislike = async (id: number): Promise<Restful> => {
   try {
     const existedComment = await Action.Retrieve__ID(id)
     if (isUndef(existedComment)) {
