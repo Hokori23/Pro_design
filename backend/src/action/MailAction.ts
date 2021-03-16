@@ -4,7 +4,7 @@ import { Mail } from 'models'
  * 添加邮箱信息
  * @param { Mail } mail
  */
-const Create = async (mail: Mail) => {
+const Create = async (mail: Mail): Promise<Mail> => {
   return await mail.save()
 }
 

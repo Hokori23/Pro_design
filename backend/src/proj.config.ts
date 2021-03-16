@@ -29,10 +29,12 @@ const sequelizeOptions: Options = {
     idle: 30000,
     acquire: 60000,
   },
+  // 时区
+  timezone: '+08:00',
 }
 
 const devConfig = {
-  port: 8005,
+  port: 8007,
   host: 'http://localhost/',
   cryptoConfig: {
     // 每次分段加密的字符串最大长度（优先度高于cryptCount字段）
@@ -48,19 +50,16 @@ const devConfig = {
   },
   dataBaseConfig: {
     // 数据库名
-    database: 'bd7',
+    database: process.env.DATABASE_NAME as string,
 
     // 数据库账号
-    user: 'bd7',
+    user: process.env.DATABASE_USER as string,
 
     // 密码
     password: process.env.DATABASE_PASSWORD as string,
 
     // options
     options: sequelizeOptions,
-
-    // 时区
-    timezone: '+08:00',
   },
   upyunConfig: {
     operator: process.env.UPYUN_OPERATOR as string,

@@ -1,7 +1,6 @@
 import errorHandler from './errorHandler'
 import checkJWT from './checkJWT'
-export { errorHandler, checkJWT }
-export default {
-  errorHandler,
-  checkJWT,
-}
+import logger from './logger'
+import checkValidUser from './checkValidUser'
+import checkGroup from './checkGroup'
+export { errorHandler, checkJWT, logger, checkValidUser, checkGroup }

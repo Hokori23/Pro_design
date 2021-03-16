@@ -1,11 +1,13 @@
 import CRYPTO from 'crypto'
 
 import config from 'proj.config'
+import { CodeDictionary } from './const'
 const { cryptoConfig } = config
 
 /**
  * 判断变量是否已定义
  * @param { object } v
+ * @returns { boolean }
  */
 const isDef = (v: any): boolean => {
   return v !== undefined && v !== null
@@ -15,33 +17,50 @@ const isDef = (v: any): boolean => {
  * 判断变量是否未定义
  * 增加了 type guards: https://www.typescriptlang.org/docs/handbook/advanced-types.html#typeof-type-guards
  * @param { object } v
+ * @returns { boolean }
  */
 const isUndef = (v: any): v is null | undefined => {
   return v === undefined || v === null
 }
 
 /**
- * @param { Array<Object> } objArr
+ * 重写isNaN方法
+ * @description 会进行类型转换再判断NaN，可以判断字符串、数字、数字数组等
+ * @example isNaN([1, 2, 3]) => false
+ * @example isNaN(null) => false
+ * @example isNaN(NaN) => true
+ * @param { any } v
+ * @returns { boolean }
  */
-const mixin = (attrs: Object[]): any => {
-  if (isUndef(attrs)) {
-    throw new ReferenceError('参数错误: [ attrs: Array, flag?: boolean ]')
+const isNaN = (v: any) => {
+  if (isUndef(v)) return true
+  if (v instanceof Array) {
+    return v.some((v) => isNaN(v))
   }
+  return Number.isNaN(Number(v))
+}
+
+/**
+ * @param { Array<Object> } attrs
+ * @description 如果前一个对象有当前对象的属性，则采用前一个对象的
+ * @description 如果前一个对象没有当前对象的属性，则采用当前对象的
+ * @description 针对Object.assign后面对象属性覆盖前面对象属性的问题
+ */
+const mixin = <T>(...objs: T[]): T => {
+  if (!objs.length) throw new Error('参数错误: { objs: Object[] }')
+  if (objs.length === 1) return objs[0]
   // 检查传参类型
-  for (let i = attrs.length - 1; i > 0; i--) {
-    if (
-      typeof attrs[i] !== 'object' ||
-      String(attrs[i]) !== '[object Object]'
-    ) {
-      throw new TypeError('参数类型错误: [ attrs: Array<Object> ]')
+  for (let i = objs.length - 1; i > 0; i--) {
+    if (typeof objs[i] !== 'object') {
+      throw new TypeError('参数类型错误: [ objs: Object[] ]')
     }
-    Object.keys(attrs[i]).forEach((v: string) => {
-      if (isDef(attrs[i][v])) {
-        attrs[i - 1][v] = attrs[i][v]
+    Object.keys(objs[i]).forEach((key: string) => {
+      if (isUndef(objs[i - 1][key])) {
+        objs[i - 1][key] = objs[i][key]
       }
     })
   }
-  return attrs[0]
+  return objs[0]
 }
 
 /**
@@ -103,7 +122,7 @@ const md5Crypto = (v: string): string => {
     }
   }
   throw new ReferenceError(
-    'proj.config.js缺少字段cryptoConfig: [ onceCryptLength: Number > 0, cryptCount: Number > 0 ]',
+    'proj.config.js缺少字段cryptoConfig: { onceCryptLength: Number > 0, cryptCount: Number > 0 }',
   )
 }
 
@@ -139,20 +158,6 @@ const decipherCrypto = (v: string | null, password: string) => {
   return decipher.final('utf-8')
 }
 
-enum CodeDictionary {
-  SUCCESS = 0,
-  REGISTER_ERROR__USER_EXISTED = 1,
-  LOGIN_ERROR = 2,
-  RETRIEVE_ERROR__USER_NON_EXISTED = 3,
-  UPLOAD_TYPE_ERROR = 4,
-  CREATE_ERROR__LIVE_EXISTED = 5,
-  CREATE_ERROR__LIVE_PARAM_WRONG = 6,
-  PARAMS_ERROR = 98,
-  COMMON_ERROR = 99,
-  JWT_ERROR__REQUIRED = 100,
-  JWT_ERROR__EXPIRED = 101,
-}
-
 /**
  * Restful API类声明
  */
@@ -174,6 +179,7 @@ class Restful {
 export {
   isDef,
   isUndef,
+  isNaN,
   mixin,
   toArray,
   checkIntegrity,
@@ -181,18 +187,4 @@ export {
   cipherCrypto,
   decipherCrypto,
   Restful,
-  CodeDictionary,
-}
-
-export default {
-  isDef,
-  isUndef,
-  mixin,
-  toArray,
-  checkIntegrity,
-  md5Crypto,
-  cipherCrypto,
-  decipherCrypto,
-  Restful,
-  CodeDictionary,
 }

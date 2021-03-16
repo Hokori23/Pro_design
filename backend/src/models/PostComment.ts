@@ -1,17 +1,16 @@
 import { DataTypes, Model } from 'sequelize'
 import sequelize from 'database'
-import User from './User'
 import Post from './Post'
 
 class PostComment extends Model {
   id!: number
   parentId?: number
   pid!: number
-  uid?: number
+  uid!: number
   content!: string
   email!: string
   url?: string
-  ip?: string
+  ip!: string
   userAgent?: string
   likesCount?: number
   dislikesCount?: number
@@ -35,7 +34,6 @@ PostComment.init(
       comment: '评论所处帖子id',
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
-      unique: 'pid',
       /**
        * < references >
        * @description Sequelize关联模型
@@ -48,14 +46,9 @@ PostComment.init(
     },
     uid: {
       comment: '评论用户id, -1 代表未注册用户',
-      type: DataTypes.INTEGER.UNSIGNED,
-      unique: 'uid',
+      type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: -1,
-      references: {
-        model: User,
-        key: 'id',
-      },
     },
     content: {
       comment: '评论内容',

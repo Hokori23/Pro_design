@@ -4,7 +4,7 @@ import { User } from 'models'
  * 添加用户
  * @param { User } user
  */
-const Create = async (user: User) => {
+const Create = async (user: User): Promise<User> => {
   return await user.save()
 }
 
@@ -29,7 +29,10 @@ const Retrieve = async (
  * @param { string } param
  * @param { string } value
  */
-const Retrieve__Safely = async (key: string, value: string | number) => {
+const Retrieve__Safely = async (
+  key: string,
+  value: string | number,
+): Promise<User | null> => {
   return await User.findOne({
     attributes: {
       exclude: ['password'],
@@ -43,7 +46,7 @@ const Retrieve__Safely = async (key: string, value: string | number) => {
 /**
  * 遍历用户（不含密码）
  */
-const Retrieve__All__Safely = async () => {
+const Retrieve__All__Safely = async (): Promise<User[]> => {
   return await User.findAll({
     attributes: {
       exclude: ['password'],

@@ -11,9 +11,10 @@ const sequelize = new Sequelize(database, user, password, {
   logging: isDev ? console.log : false, // 是否输出数据库日志
 })
 
-const init = async () => {
-  // await sequelize.sync({ alter: isDev })
-  // console.log('All models were synchronized successfully.')
+export const init = async () => {
+  await sequelize.sync({ force: isDev })
 }
-export { init }
+export const authenticate = async () => {
+  return await sequelize.authenticate()
+}
 export default sequelize

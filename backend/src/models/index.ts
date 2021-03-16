@@ -4,24 +4,15 @@ import PostComment from './PostComment'
 import PostTag from './PostTag'
 import PostTagAssociation from './PostTagAssociation'
 import Mail from './Mail'
-import Setting from './Setting'
+import Option from './Option'
 
-export { User, Post, PostComment, PostTag, PostTagAssociation, Mail, Setting }
-export default {
-  User,
-  Post,
-  PostComment,
-  PostTag,
-  PostTagAssociation,
-  Mail,
-  Setting,
-}
+export { User, Post, PostComment, PostTag, PostTagAssociation, Mail, Option }
 
 /**
  * Post : User
  * N : 1
  */
-Post.belongsTo(User, { targetKey: 'id', foreignKey: 'uid' })
+Post.belongsTo(User, { as: 'author', targetKey: 'id', foreignKey: 'uid' })
 User.hasMany(Post, {
   sourceKey: 'id',
   foreignKey: 'uid',
@@ -31,10 +22,16 @@ User.hasMany(Post, {
  * PostComment : Post
  * N : 1
  */
-PostComment.belongsTo(Post, { targetKey: 'id', foreignKey: 'uid' })
+PostComment.belongsTo(Post, {
+  as: 'post',
+  targetKey: 'id',
+  foreignKey: 'pid',
+  onDelete: 'CASCADE',
+})
 Post.hasMany(PostComment, {
+  as: 'postComments',
   sourceKey: 'id',
-  foreignKey: 'uid',
+  foreignKey: 'pid',
 })
 
 /**
@@ -44,15 +41,17 @@ Post.hasMany(PostComment, {
  */
 Post.belongsToMany(PostTag, {
   through: PostTagAssociation,
-  as: 'Tags',
+  as: 'tags',
   foreignKey: 'pid',
   otherKey: 'tid',
+  onDelete: 'CASCADE',
 })
 PostTag.belongsToMany(Post, {
   through: PostTagAssociation,
-  as: 'Posts',
+  as: 'posts',
   foreignKey: 'tid',
   otherKey: 'pid',
+  onDelete: 'CASCADE',
 })
 
 /**

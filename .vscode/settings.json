@@ -15,7 +15,18 @@
     "typescript",
     "typescriptreact"
   ],
-  "cSpell.words": ["miment"],
+  "cSpell.words": [
+    "miment",
+    "zerollup",
+    "browserslist",
+    "commitlint",
+    "prodesign",
+    "Hokori",
+    "TINYINT",
+    "USERACCOUNT",
+    "tids",
+    "objs"
+  ],
   "[less]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
