@@ -7,6 +7,7 @@ import {
   PostRouter,
   PostCommentRouter,
   PostTagRouter,
+  OptionRouter,
 } from '@routes'
 import {
   errorHandler,
@@ -35,6 +36,7 @@ app.use('/api/user', UserRouter)
 app.use('/api/post', PostRouter)
 app.use('/api/post-comment', PostCommentRouter)
 app.use('/api/post-tag', PostTagRouter)
+app.use('/api/option', OptionRouter)
 
 // 包底错误处理中间件
 app.use(errorHandler)

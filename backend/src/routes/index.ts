@@ -4,6 +4,7 @@ import UserRouter from './UserRouter'
 import PostRouter from './PostRouter'
 import PostCommentRouter from './PostCommentRouter'
 import PostTagRouter from './PostTagRouter'
+import OptionRouter from './OptionRouter'
 
 export {
   TestRouter,
@@ -12,4 +13,5 @@ export {
   PostRouter,
   PostCommentRouter,
   PostTagRouter,
+  OptionRouter,
 }

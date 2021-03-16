@@ -1,5 +1,7 @@
 const QUERY_METHODS = ['GET', 'DELETE']
 const BODY_METHODS = ['POST', 'PUT']
+
+// 白名单，不需要JWT
 const ROUTER_WHITE_LIST = [
   // init
   `init`,
@@ -16,12 +18,16 @@ const ROUTER_WHITE_LIST = [
   `post/retrieve-tag`,
 ].map((v) => `/api/${v}`)
 
+// 只有管理员和超级管理员可以访问的接口
 const ROUTER_ADMIN_ALLOW = [
   // user
   `user/edit-admin`,
   `user/delete-admin`,
   // post
   `post/create`,
+  `post/retrieve-id-admin`,
+  `post/retrieve-admin`,
+  `post/retrieve-tag-admin`,
   `post/edit`,
   `post/edit-admin`,
   `post/delete`,
@@ -34,10 +40,13 @@ const ROUTER_ADMIN_ALLOW = [
   `post-tag/delete-admin`,
 ].map((v) => `/api/${v}`)
 
+// 只有超级管理员可以访问的接口
 const ROUTER_SUPER_ADMIN_ALLOW = [
   // init
   `init/force-admin`,
   `init/table-rows-admin`,
+  `option/save-admin`,
+  `option/retrieve-admin`,
 ].map((v) => `/api${v}`)
 
 const isDev = process.env.NODE_ENV === 'development'
@@ -70,6 +79,9 @@ enum CodeDictionary {
   // PostTag
   SERVICE_ERROR__TAG_EXISTED,
   SERVICE_ERROR__TAG_NON_EXISTED,
+  // Option
+  SERVICE_ERROR__OPTION_NEEDED,
+  SERVICE_ERROR__OPTION_EXISTED,
   // OTHER
   UPLOAD_TYPE_ERROR,
   PARAMS_ERROR = 98,
