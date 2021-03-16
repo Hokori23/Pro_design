@@ -52,7 +52,7 @@ const Retrieve = async (
  * @param { string } value
  * @param { number } id
  */
-const Retrieve__Exclude_ID = async (
+const Retrieve__Exclude__ID = async (
   key: string,
   value: string | number,
   id: number,
@@ -101,7 +101,7 @@ export default {
   Delete,
   Update,
   Retrieve,
-  Retrieve__Exclude_ID,
+  Retrieve__Exclude__ID,
   Retrieve__All,
   Retrieve__Page,
   Count__Page,

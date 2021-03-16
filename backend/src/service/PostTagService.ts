@@ -46,7 +46,7 @@ const Retrieve__All = async (): Promise<Restful> => {
   } catch (e) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
-      `删除标签失败, ${String(e.message)}`,
+      `查询失败, ${String(e.message)}`,
     )
   }
 }
@@ -58,8 +58,8 @@ const Retrieve__All = async (): Promise<Restful> => {
 const Edit = async (tag: PostTag): Promise<Restful> => {
   try {
     const tasks: Array<Promise<any>> = [
-      Action.Retrieve__Exclude_ID('name', tag.name, tag.id as number),
-      Action.Retrieve__Exclude_ID('slug', tag.slug, tag.id as number),
+      Action.Retrieve__Exclude__ID('name', tag.name, tag.id as number),
+      Action.Retrieve__Exclude__ID('slug', tag.slug, tag.id as number),
     ]
     const values = await Promise.all(tasks)
     if (isDef(values[0])) {

@@ -16,6 +16,7 @@ const Create = async (comment: PostComment): Promise<Restful> => {
         '该帖子已不存在',
       )
     }
+    // TODO: 添加逻辑：判断评论区是否已封禁
 
     // 判断是否为父评论
     const isParentComment = !isUndef(comment.parentId)

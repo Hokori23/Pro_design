@@ -8,7 +8,7 @@ import database from '@database'
  * 添加帖子
  * @param { Post } post
  */
-const Create = async (post: Post, tids?: number[]): Promise<Restful> => {
+const Create = async (post: Post, tids: number[]): Promise<Restful> => {
   // Sequelize事务: https://www.sequelize.com.cn/other-topics/transactions
   // 创建事务
   const t = await database.transaction()
@@ -25,7 +25,7 @@ const Create = async (post: Post, tids?: number[]): Promise<Restful> => {
     tids = tids?.filter((tid) => isDef(tid))
     if (tids?.length) {
       await PostTagAssociationAction.CreateBulk(
-        tids.map((tid) => ({ pid: post.id, tid })),
+        tids.map((tid) => ({ pid: post.id, tid })), // 不采取Promise.all的原因是创建关联需要获取到post.id
         t,
       )
     }
@@ -47,15 +47,20 @@ const Create = async (post: Post, tids?: number[]): Promise<Restful> => {
  * 通过id查询某个帖子
  * @param { number } id
  */
-const Retrieve__ID = async (id: number): Promise<Restful> => {
+const Retrieve__ID = async (
+  id: number,
+  showDrafts: boolean,
+  showHidden: boolean,
+): Promise<Restful> => {
   try {
-    const post = await Action.Retrieve__ID(id)
+    const post = await Action.Retrieve__ID(id, showDrafts, showHidden)
     if (isUndef(post)) {
       return new Restful(
         CodeDictionary.RETRIEVE_ERROR__POST_NON_EXISTED,
         '帖子不存在',
       )
     }
+    await post.increment('pageViews')
     return new Restful(CodeDictionary.SUCCESS, '查询成功', post.toJSON())
   } catch (e) {
     return new Restful(
@@ -66,17 +71,21 @@ const Retrieve__ID = async (id: number): Promise<Restful> => {
 }
 
 /**
- * 按页查询（公开接口）
+ * 按页查询
  * @param { string } page
  * @param { string } capacity
  * @param { PostType } postType?
- * @param { string } isASC?
+ * @param { boolean } showDrafts = false
+ * @param { boolean } showHidden = false
+ * @param { string } isASC = '0'
  */
 const Retrieve__Page = async (
   page: string,
   capacity: string,
   postType?: PostType,
-  isASC: string = 'false',
+  showDrafts: boolean = false,
+  showHidden: boolean = false,
+  isASC: string = '0',
 ): Promise<Restful> => {
   try {
     const values = await Promise.all([
@@ -84,9 +93,11 @@ const Retrieve__Page = async (
         (Number(page) - 1) * Number(capacity),
         Number(capacity),
         postType,
-        isASC === 'true',
+        showDrafts,
+        showHidden,
+        isASC === '1',
       ),
-      Action.Count__Page(postType),
+      Action.Count__Page(postType, showDrafts),
     ])
     const result = {
       posts: values[0],
@@ -102,19 +113,23 @@ const Retrieve__Page = async (
 }
 
 /**
- * 按标签和页查询（公开接口）
+ * 按标签和页查询
  * @param { string } page
  * @param { string } capacity
  * @param { string[] } tids
  * @param { PostType } postType?
- * @param { string } isASC?
+ * @param { boolean } showDrafts = false
+ * @param { boolean } showHidden = false
+ * @param { string } isASC = '0'
  */
 const Retrieve__Page_Tag = async (
   page: string,
   capacity: string,
   tids: string[],
   postType?: PostType,
-  isASC: string = 'false',
+  showDrafts: boolean = false,
+  showHidden: boolean = false,
+  isASC: string = '0',
 ): Promise<Restful> => {
   try {
     const values = await Promise.all([
@@ -123,10 +138,14 @@ const Retrieve__Page_Tag = async (
         Number(capacity),
         postType,
         tids.map((tid) => Number(tid)),
-        isASC === 'true',
+        showDrafts,
+        showHidden,
+        isASC === '1',
       ),
       Action.Count__Page_Tag(
         postType,
+        showDrafts,
+        showHidden,
         tids.map((tid) => Number(tid)),
       ),
     ])

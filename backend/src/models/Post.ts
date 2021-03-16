@@ -35,6 +35,7 @@ class Post extends Model {
   priority?: number
   likesCount?: number
   dislikesCount?: number
+  pageViews?: number
 
   postComments?: PostComment[]
 
@@ -127,6 +128,12 @@ Post.init(
     },
     dislikesCount: {
       comment: '踩',
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    pageViews: {
+      comment: '文章浏览量',
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       defaultValue: 0,

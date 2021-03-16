@@ -30,12 +30,23 @@ const Update = async (
 /**
  * 通过ID查询某个帖子
  * @param { number } id
- * @param { boolean } showDrafts?
+ * @param { boolean } showDrafts = false
+ * @param { boolean } isHidden = false
  */
 const Retrieve__ID = async (
   id: number,
   showDrafts: boolean = false,
+  showHidden: boolean = false,
 ): Promise<Post | null> => {
+  const where: any = {
+    id,
+  }
+  if (!showDrafts) {
+    where.isDraft = false
+  }
+  if (!showHidden) {
+    where.isHidden = false
+  }
   return await Post.findOne({
     include: [
       {
@@ -53,10 +64,7 @@ const Retrieve__ID = async (
         },
       },
     ],
-    where: {
-      id,
-      isDraft: showDrafts,
-    },
+    where,
   })
 }
 
@@ -64,26 +72,36 @@ const Retrieve__ID = async (
  * 分页查询帖子
  * @param { number } offset
  * @param { number } limit
- * @param { PostType } postType
- * @param { boolean } isASC // 升序
+ * @param { PostType } postType?
+ * @param { boolean } showDrafts = false
+ * @param { boolean } showHidden = false
+ * @param { boolean } isASC = false // 升序
  */
 const Retrieve__Page = async (
   offset: number,
   limit: number,
   postType?: PostType,
+  showDrafts: boolean = false,
+  showHidden: boolean = false,
   isASC: boolean = false,
 ): Promise<Post[]> => {
+  const where: any = {}
+  if (!showDrafts) {
+    where.isDraft = false
+  }
+  if (!showHidden) {
+    where.isHidden = false
+  }
+  if (!isUndef(postType)) {
+    where.postType = postType
+  }
   return await Post.findAll({
     include: [
       {
         association: 'tags',
       },
     ],
-    where: isUndef(postType)
-      ? undefined
-      : {
-          postType,
-        },
+    where,
     offset,
     limit,
     order: [
@@ -99,22 +117,33 @@ const Retrieve__Page = async (
  * @param { number } limit
  * @param { number[] } tid
  * @param { PostType } postType
- * @param { boolean } isASC // 升序
+ * @param { boolean } showDrafts = false
+ * @param { boolean } showHidden = false
+ * @param { boolean } isASC = false // 升序
  */
 const Retrieve__Page_Tag = async (
   offset: number,
   limit: number,
   postType?: PostType,
   tids: number[] = [],
+  showDrafts: boolean = false,
+  showHidden: boolean = false,
   isASC: boolean = false,
 ): Promise<Post[]> => {
   // 处理where对象
-  const where = {}
+  const where: any = {}
+  if (!showDrafts) {
+    where.isDraft = false
+  }
+  if (!showHidden) {
+    where.isHidden = false
+  }
   if (tids.length)
     where[Op.or] = tids.map((value) => {
       return { tid: value }
     })
   if (!isUndef(postType)) where[postType] = postType
+  where.isDraft = false
 
   return await Post.findAll({
     include: [
@@ -132,33 +161,48 @@ const Retrieve__Page_Tag = async (
   })
 }
 
-const Count__Page = async (postType?: PostType): Promise<number> => {
+const Count__Page = async (
+  postType?: PostType,
+  showDrafts: boolean = false,
+  showHidden: boolean = false,
+): Promise<number> => {
+  const where: any = {}
+  if (!isUndef(postType)) {
+    where.postType = postType
+  }
+  if (!showDrafts) {
+    where.isDraft = false
+  }
+  if (!showHidden) {
+    where.isHidden = false
+  }
   return await Post.count({
-    where: isUndef(postType)
-      ? undefined
-      : {
-          postType,
-        },
+    where,
   })
 }
 
 const Count__Page_Tag = async (
   postType?: PostType,
+  showDrafts: boolean = false,
+  showHidden: boolean = false,
   tids: number[] = [],
 ): Promise<number> => {
+  const where: any = {
+    [Op.or]: tids.map((value) => {
+      return { tid: value }
+    }),
+  }
+  if (!showDrafts) {
+    where.isDraft = false
+  }
+  if (!showHidden) {
+    where.isHidden = false
+  }
+  if (!isUndef(postType)) {
+    where.postType = postType
+  }
   return await Post.count({
-    where: isUndef(postType)
-      ? {
-          [Op.or]: tids.map((value) => {
-            return { tid: value }
-          }),
-        }
-      : {
-          postType,
-          [Op.or]: tids.map((value) => {
-            return { tid: value }
-          }),
-        },
+    where,
   })
 }
 

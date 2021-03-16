@@ -17,13 +17,14 @@ const postRouter = Router()
 postRouter.post(
   '/create',
   asyncWrapper(async (req, res, next) => {
-    const post = Post.build(req.body)
-    if (!checkIntegrity(post, ['uid', 'content'])) {
+    const post = Post.build(req.body.post)
+    const { tids } = req.body
+    if (isUndef(tids) || !checkIntegrity(post, ['uid', 'content'])) {
       res.status(200).json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
       return next()
     }
     try {
-      res.status(200).json(await Service.Create(post))
+      res.status(200).json(await Service.Create(post, tids))
     } catch (e) {
       // TODO: 进行邮件提醒
       res.status(500).end()
@@ -34,7 +35,7 @@ postRouter.post(
 
 /**
  * 通过ID查询
- * @path /retrieve-id
+ * @path /retrieve-id（公共接口）
  * @param { string } id
  */
 postRouter.get(
@@ -47,7 +48,34 @@ postRouter.get(
           .status(200)
           .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
       } else {
-        res.status(200).json(await Service.Retrieve__ID(Number(id)))
+        res
+          .status(200)
+          .json(await Service.Retrieve__ID(Number(id), false, false))
+      }
+    } catch (e) {
+      // 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
+ * 通过ID查询
+ * @path /retrieve-id-admin
+ * @param { string } id
+ */
+postRouter.get(
+  '/retrieve-id-admin',
+  asyncWrapper(async (req, res, next) => {
+    const { id } = req.query
+    try {
+      if (isNaN(id)) {
+        res
+          .status(200)
+          .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+      } else {
+        res.status(200).json(await Service.Retrieve__ID(Number(id), true, true))
       }
     } catch (e) {
       // 进行邮件提醒
@@ -73,6 +101,7 @@ postRouter.get(
       if (
         isNaN(page) ||
         isNaN(capacity) ||
+        isNaN(isASC) ||
         (isDef(postType) && isNaN(postType))
       ) {
         res
@@ -86,6 +115,52 @@ postRouter.get(
               page as string,
               capacity as string,
               (postType as unknown) as PostType,
+              false,
+              false,
+              isASC as string,
+            ),
+          )
+      }
+    } catch (e) {
+      // 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
+ * 按页查询
+ * @path /retrieve-admin
+ * @param { string } page
+ * @param { string } capacity
+ * @param { PostType } postType
+ * @param { string } page
+ */
+postRouter.get(
+  '/retrieve-admin',
+  asyncWrapper(async (req, res, next) => {
+    const { page, capacity, isASC, postType } = req.query
+    try {
+      if (
+        isNaN(page) ||
+        isNaN(capacity) ||
+        isNaN(isASC) ||
+        (isDef(postType) && isNaN(postType))
+      ) {
+        res
+          .status(200)
+          .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+      } else {
+        res
+          .status(200)
+          .json(
+            await Service.Retrieve__Page(
+              page as string,
+              capacity as string,
+              (postType as unknown) as PostType,
+              true,
+              true,
               isASC as string,
             ),
           )
@@ -117,6 +192,7 @@ postRouter.get(
         isNaN(capacity) ||
         isNaN(postType) ||
         isNaN(tids) ||
+        isNaN(isASC) ||
         !(tids as string[]).length
       ) {
         res
@@ -131,6 +207,56 @@ postRouter.get(
               capacity as string,
               tids as string[],
               (postType as unknown) as PostType,
+              false,
+              false,
+              isASC as string,
+            ),
+          )
+      }
+    } catch (e) {
+      // 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
+ * 按标签和页查询
+ * @path /retrieve-tag-admin
+ * @param { string } page
+ * @param { string } capacity
+ * @param { number[] } tids
+ * @param { PostType } postType
+ * @param { string } page
+ */
+postRouter.get(
+  '/retrieve-tag-admin',
+  asyncWrapper(async (req, res, next) => {
+    const { page, capacity, tids, isASC, postType } = req.query
+    try {
+      if (
+        isNaN(page) ||
+        isNaN(capacity) ||
+        isNaN(postType) ||
+        isNaN(tids) ||
+        isNaN(isASC) ||
+        !(tids as string[]).length
+      ) {
+        res
+          .status(200)
+          .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+      } else {
+        res
+          .status(200)
+          .json(
+            await Service.Retrieve__Page_Tag(
+              page as string,
+              capacity as string,
+              tids as string[],
+              (postType as unknown) as PostType,
+              true,
+              true,
               isASC as string,
             ),
           )
