@@ -161,7 +161,7 @@ const Edit = async (post: any, tids: number[]): Promise<Restful> => {
     const tagTransaction = new Promise<any>((resolve, reject) => {
       // 先删除该帖子上的所有标签关联
       // 然后再创建
-      PostTagAssociationAction.DeleteBulk(post.id as number)
+      PostTagAssociationAction.DeleteBulk(post.id as number, t)
         .then(() => {
           tids = tids.filter((tid) => isDef(tid))
           if (tids.length) {

@@ -6,6 +6,7 @@ import {
   UserRouter,
   PostRouter,
   PostCommentRouter,
+  PostTagRouter,
 } from '@routes'
 import {
   errorHandler,
@@ -21,8 +22,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // 中间件
-app.use(logger)
 app.use(checkJWT)
+app.use(logger)
 app.use(checkValidUser)
 app.use(checkGroup)
 
@@ -33,6 +34,7 @@ app.use('/api/test', TestRouter)
 app.use('/api/user', UserRouter)
 app.use('/api/post', PostRouter)
 app.use('/api/post-comment', PostCommentRouter)
+app.use('/api/post-tag', PostTagRouter)
 
 // 包底错误处理中间件
 app.use(errorHandler)

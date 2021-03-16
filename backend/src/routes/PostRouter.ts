@@ -190,7 +190,11 @@ postRouter.post(
   asyncWrapper(async (req: any, res, next) => {
     try {
       const { post, tids } = req.body
-      if (!checkIntegrity(post, ['id', 'uid', 'content']) || isNaN(tids)) {
+      if (
+        isUndef(post) ||
+        !checkIntegrity(post, ['id', 'uid', 'content']) ||
+        isNaN(tids)
+      ) {
         res
           .status(200)
           .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))

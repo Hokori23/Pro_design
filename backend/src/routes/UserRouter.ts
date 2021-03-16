@@ -84,6 +84,7 @@ userRouter.post(
           {
             id: result.data.id,
             userAccount,
+            userName: result.data.userName,
             group: result.data.group,
           },
           cryptoConfig.secret,
@@ -141,7 +142,9 @@ userRouter.post(
         res.status(403).end()
         return next()
       }
-      if (!checkIntegrity(req.body, ['id'])) {
+      if (
+        !checkIntegrity(req.body, ['id', 'userAccount', 'userName', 'email'])
+      ) {
         res
           .status(200)
           .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
@@ -165,7 +168,9 @@ userRouter.post(
   '/edit-admin',
   asyncWrapper(async (req: any, res, next) => {
     try {
-      if (!checkIntegrity(req.body, ['id'])) {
+      if (
+        !checkIntegrity(req.body, ['id', 'userAccount', 'userName', 'email'])
+      ) {
         res
           .status(200)
           .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
@@ -216,7 +221,7 @@ userRouter.post(
           .status(200)
           .json(
             new Restful(
-              CodeDictionary.DELETE_ERROR__USER,
+              CodeDictionary.DELETE_ERROR__USER_ADMIN,
               '不能删除超级管理员账号',
             ),
           )
