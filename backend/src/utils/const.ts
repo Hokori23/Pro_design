@@ -28,6 +28,10 @@ const ROUTER_ADMIN_ALLOW = [
   `post/delete-admin`,
   // comment
   `post-comment/delete-admin`,
+  // post-tag
+  `post-tag/create-admin`,
+  `post-tag/edit-admin`,
+  `post-tag/delete-admin`,
 ].map((v) => `/api/${v}`)
 
 const ROUTER_SUPER_ADMIN_ALLOW = [

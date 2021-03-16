@@ -1,4 +1,5 @@
 import { PostTag } from '@models'
+import { Op } from 'sequelize'
 
 /**
  * 添加标签
@@ -46,6 +47,27 @@ const Retrieve = async (
 }
 
 /**
+ * 通过某个字段查询标签（除了某id）
+ * @param { string } param
+ * @param { string } value
+ * @param { number } id
+ */
+const Retrieve__Exclude_ID = async (
+  key: string,
+  value: string | number,
+  id: number,
+): Promise<PostTag | null> => {
+  return await PostTag.findOne({
+    where: {
+      [`${key}`]: value,
+      [Op.not]: {
+        id,
+      },
+    },
+  })
+}
+
+/**
  * 查询所有标签
  */
 const Retrieve__All = async (): Promise<PostTag[]> => {
@@ -79,6 +101,7 @@ export default {
   Delete,
   Update,
   Retrieve,
+  Retrieve__Exclude_ID,
   Retrieve__All,
   Retrieve__Page,
   Count__Page,
