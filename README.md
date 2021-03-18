@@ -48,6 +48,10 @@ npm run serve # 生产模式运行
 - Express
 - Sequelize
 
+#### 接口文档
+
+参考：<https://documenter.getpostman.com/view/8434489/Tz5tZGYX#intro>
+
 ## 项目基础配置
 
 ### 推荐插件
