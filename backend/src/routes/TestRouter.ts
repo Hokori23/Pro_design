@@ -1,11 +1,11 @@
 import { Restful } from 'utils'
 import EXPRESS from 'express'
-import miment from 'miment'
+import moment from 'moment'
 
 const testRouter = EXPRESS.Router()
 
 testRouter.get('/', (_req, res, next) => {
-  const currentTime = miment().format('YYYY-MM-DD hh:mm:ss') as string
+  const currentTime = moment().format('YYYY-MM-DD hh:mm:ss')
   res
     .status(200)
     .json(
@@ -18,7 +18,7 @@ testRouter.get('/', (_req, res, next) => {
   next()
 })
 testRouter.get('/token', (_req, res, next) => {
-  const currentTime = miment().format('YYYY-MM-DD hh:mm:ss') as string
+  const currentTime = moment().format('YYYY-MM-DD hh:mm:ss')
   res
     .status(200)
     .json(

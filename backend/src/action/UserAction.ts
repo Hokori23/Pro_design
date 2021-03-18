@@ -1,3 +1,4 @@
+import { Group } from '@models/User'
 import { User } from 'models'
 
 /**
@@ -6,6 +7,17 @@ import { User } from 'models'
  */
 const Create = async (user: User): Promise<User> => {
   return await user.save()
+}
+
+/**
+ * 获取超级管理员
+ */
+const Retrieve__Super_Admin = async (): Promise<User | null> => {
+  return await User.findOne({
+    where: {
+      group: Group.SUPER_ADMIN,
+    },
+  })
 }
 
 /**
@@ -77,6 +89,7 @@ const Delete = async (id: number): Promise<number> => {
 
 export default {
   Create,
+  Retrieve__Super_Admin,
   Retrieve,
   Retrieve__Safely,
   Retrieve__All__Safely,

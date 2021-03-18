@@ -51,6 +51,7 @@
       "@routes": ["routes"],
       "@database": ["database"],
       "@middleware": ["middleware"],
+      "@mailer": ["mailer"],
       "@const": ["utils/const"],
 
       "@models/*": ["models/*"],
@@ -60,6 +61,7 @@
       "@routes/*": ["routes/*"],
       "@database/*": ["database/*"],
       "@middleware/*": ["middleware/*"],
+      "@mailer/*": ["mailer/*"],
       "@const/*": ["utils/const/*"],
 
       "@config": ["proj.config"]

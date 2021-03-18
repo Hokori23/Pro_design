@@ -11,8 +11,7 @@ import sequelize from '@database'
 const Save = async (options: Option[]): Promise<Restful> => {
   const t = await sequelize.transaction()
   try {
-    await Action.Delete__All(t)
-    options = await Action.CreateBulk(options, t)
+    options = await Action.CreateBulk__Update(options, t)
     await t.commit()
     return new Restful(CodeDictionary.SUCCESS, '保存设置成功')
   } catch (e) {

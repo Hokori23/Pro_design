@@ -23,6 +23,10 @@ const isUndef = (v: any): v is null | undefined => {
   return v === undefined || v === null
 }
 
+const isEmpty = (v: string): boolean => {
+  return v === ''
+}
+
 /**
  * 重写isNaN方法
  * @description 会进行类型转换再判断NaN，可以判断字符串、数字、数字数组等
@@ -67,8 +71,8 @@ const mixin = <T>(...objs: T[]): T => {
  * 属性转数组
  * @param { Object } obj
  */
-const toArray = (obj: Object): any[] => {
-  const res = [] as any[]
+const toArray = (obj: Object): string[] => {
+  const res: string[] = []
   Object.keys(obj).forEach((key) => {
     res.push(obj[key])
   })
@@ -88,6 +92,26 @@ const checkIntegrity = (obj: Object, params?: string[]): boolean => {
     : toArray(obj).every((v) => {
         return isDef(v)
       })
+}
+
+/**
+ * @param { Function } callback 回调函数
+ * @param { number } delay 延迟ms
+ * @description 输出一个经过防抖处理的函数
+ */
+const debounce = (
+  callback: (...args: any[]) => any,
+  delay: number,
+): Function => {
+  return (() => {
+    let timer: number | any = null
+    return (...params: any[]) => {
+      if (timer) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(callback, delay, params)
+    }
+  })()
 }
 
 /**
@@ -179,10 +203,12 @@ class Restful {
 export {
   isDef,
   isUndef,
+  isEmpty,
   isNaN,
   mixin,
   toArray,
   checkIntegrity,
+  debounce,
   md5Crypto,
   cipherCrypto,
   decipherCrypto,

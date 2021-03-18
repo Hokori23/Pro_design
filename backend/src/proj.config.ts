@@ -61,6 +61,7 @@ const devConfig = {
     // options
     options: sequelizeOptions,
   },
+  // 又拍云设置
   upyunConfig: {
     operator: process.env.UPYUN_OPERATOR as string,
     secret: process.env.UPYUN_SECRET as string,
@@ -68,6 +69,13 @@ const devConfig = {
     domainName: process.env.UPYUN_DOMAINNAME as string,
     imgPath: 'pro_design/image/',
     videoPath: 'pro_design/video/',
+  },
+  // 邮箱设置
+  emailConfig: {
+    host: process.env.EMAIL_HOST as string,
+    user: process.env.EMAIL_USER as string,
+    pass: process.env.EMAIL_PASS as string,
+    name: process.env.EMAIL_NAME as string,
   },
   // 12个小时
   tokenExpiredTime: '12h',

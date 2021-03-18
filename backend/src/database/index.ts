@@ -1,6 +1,7 @@
 import config from 'proj.config'
 import { Sequelize } from 'sequelize'
 import { isDev } from '@utils/const'
+
 const { dataBaseConfig } = config
 
 const { database, user, password, options } = dataBaseConfig
@@ -12,7 +13,7 @@ const sequelize = new Sequelize(database, user, password, {
 })
 
 export const init = async () => {
-  await sequelize.sync({ force: isDev })
+  await sequelize.sync({ force: true })
 }
 export const authenticate = async () => {
   return await sequelize.authenticate()

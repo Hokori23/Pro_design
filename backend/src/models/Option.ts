@@ -1,6 +1,10 @@
 import { DataTypes, Model } from 'sequelize'
 import sequelize from 'database'
-
+export interface OptionAttribute {
+  module: string
+  key: string
+  value?: string
+}
 class Option extends Model {
   module!: string
   key!: string

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import miment from 'miment'
+import moment from 'moment'
 import chalk from 'chalk'
 export default (req, res, next) => {
   const isWhiteRoute = req.auth?.id
@@ -25,9 +25,7 @@ export default (req, res, next) => {
   }
 
   console.log(
-    `${chalk.green('Request-Time:')} ${
-      miment().format('YYYY-MM-DD hh:mm:ss') as string
-    }`,
+    `${chalk.green('Request-Time:')} ${moment().format('YYYY-MM-DD hh:mm:ss')}`,
   )
   res.locals.ip = req.ip || req.ips[0]
   next()

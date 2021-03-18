@@ -8,24 +8,23 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  // JS/TS 统一使用 eslint 进行 format
-  "prettier.disableLanguages": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
   "cSpell.words": [
-    "miment",
-    "zerollup",
-    "browserslist",
-    "commitlint",
-    "prodesign",
+    "DOMAINNAME",
     "Hokori",
     "TINYINT",
+    "UPYUN",
     "USERACCOUNT",
+    "accepters",
+    "browserslist",
+    "commitlint",
+    "miment",
+    "objs",
+    "precss",
+    "prodesign",
     "tids",
-    "objs"
+    "ttsc",
+    "ttypescript",
+    "zerollup"
   ],
   "[less]": {
     "editor.formatOnSave": true,
@@ -33,5 +32,18 @@
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // JS/TS 统一使用 eslint 进行 format
+  "[javascript]": {
+    "editor.defaultFormatter": null
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": null
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": null
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": null
+  },
   "files.eol": "\n"
 }

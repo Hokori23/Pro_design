@@ -7,7 +7,12 @@
     "compile": "ttsc && node --inspect ./build/bin/www.js",
     "serve": "cross-env NODE_ENV=production nodemon ./build/bin/www.js",
     "dev": "cross-env NODE_ENV=development nodemon -e ts --exec \"npm run compile\"",
-    "build": "ttsc"
+    "build": "ttsc",
+    "build:force": "rm -r-f ./build && ttsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hokori23/Pro_design.git"
   },
   "keywords": [],
   "license": "ISC",
@@ -19,19 +24,26 @@
     "async-wrapper-express-ts": "^3.1.1",
     "axios": "^0.21.0",
     "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
     "express": "~4.16.1",
     "express-jwt": "^6.0.0",
+    "express-sequelize-crud": "^6.1.5",
     "jsonwebtoken": "^8.5.1",
-    "miment": "0.0.9",
+    "juice": "^7.0.0",
+    "moment": "^2.29.1",
     "mysql2": "^2.1.0",
+    "nodemailer": "^6.4.12",
     "omit.js": "^2.0.2",
+    "precss": "^4.0.0",
     "sequelize": "^6.3.5"
   },
   "devDependencies": {
+    "@types/ejs": "^3.0.6",
     "@types/express": "^4.17.11",
     "@types/express-jwt": "^6.0.0",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/node": "^14.11.4",
+    "@types/nodemailer": "^6.4.1",
     "@types/validator": "^13.1.0",
     "@zerollup/ts-transform-paths": "^1.7.18",
     "cross-env": "^7.0.3",
