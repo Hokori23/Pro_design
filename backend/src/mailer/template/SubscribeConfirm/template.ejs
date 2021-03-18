@@ -49,9 +49,11 @@
                     本邮件由系统发出，请勿回复
                   </div>
                   <div class="footer__tips__right">
+                    <% if (blogConfig.avatarUrl) { %>
                     <a href="<%=blogConfig.publicPath %>"
-                      ><img src="https://hokori.online/image/profile.jpg"
+                      ><img src="<%= blogConfig.avatarUrl %>"
                     /></a>
+                    <% } %>
                   </div>
                 </div>
                 <div class="footer__time">

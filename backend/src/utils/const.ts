@@ -16,6 +16,8 @@ const ROUTER_WHITE_LIST = [
   `post/retrieve-id`,
   `post/retrieve`,
   `post/retrieve-tag`,
+  // template,
+  `template`,
 ].map((v) => `/api/${v}`)
 
 // 只有管理员和超级管理员可以访问的接口

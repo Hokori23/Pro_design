@@ -1,7 +1,13 @@
 import CRYPTO from 'crypto'
+import fs from 'fs'
+import precss from 'precss'
+import path from 'path'
+import chalk from 'chalk'
 
 import config from 'proj.config'
 import { CodeDictionary } from './const'
+const fsp = fs.promises
+
 const { cryptoConfig } = config
 
 /**
@@ -183,6 +189,55 @@ const decipherCrypto = (v: string | null, password: string) => {
 }
 
 /**
+ * 查询文件
+ * @param { string } filePath
+ * @param { File[] } filesList
+ * @param { RegExp } reg
+ * @returns
+ */
+interface File {
+  path: string
+  name: string
+}
+const ignoreDirectory = ['node_modules', '.git', 'build']
+const findSrcFiles = (filePath: string, filesList: File[], reg: RegExp) => {
+  const files = fs.readdirSync(filePath)
+  files.forEach((name) => {
+    if (ignoreDirectory.includes(name)) return
+    const childFilePath = path.resolve(filePath, name)
+    const stat = fs.statSync(childFilePath)
+    if (stat.isDirectory()) {
+      findSrcFiles(childFilePath, filesList, reg)
+    } else if (reg.test(name)) {
+      filesList.push({
+        path: childFilePath,
+        name,
+      })
+    }
+  })
+  return filesList
+}
+
+/**
+ * 编译sass/scss文件
+ * @param { string } importPath css文件路径
+ * @returns { Promise<string> }
+ */
+const sassCompiler = async (importPath: string): Promise<string> => {
+  return precss
+    .process(await fsp.readFile(importPath), {
+      from: importPath,
+    })
+    .then(async (result) => {
+      result.warnings().forEach((warn) => {
+        // eslint-disable-next-line no-console
+        warn && console.log(chalk.yellow(warn))
+      })
+      return result.css.replace(/[\r|\t|\n]/g, '')
+    })
+}
+
+/**
  * Restful API类声明
  */
 class Restful {
@@ -212,5 +267,7 @@ export {
   md5Crypto,
   cipherCrypto,
   decipherCrypto,
+  findSrcFiles,
+  sassCompiler,
   Restful,
 }

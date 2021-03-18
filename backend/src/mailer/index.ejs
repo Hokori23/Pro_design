@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Mailer Template</title>
+  </head>
+  <body>
+    <h1>
+      WelCome to your blog <% if (blogConfig.blogName) { %> : <%=
+      blogConfig.blogName %> <% } %>mailer template, <%= blogConfig.blogger %>
+    </h1>
+    <ul>
+      <% templates.forEach(function(template){ %>
+      <li>
+        <strong
+          ><a
+            href="http://localhost:<%= port %>/api/template?name=<%= template %>"
+            ><%= template %></a
+          ></strong
+        >
+      </li>
+      <% }); %>
+    </ul>
+  </body>
+</html>

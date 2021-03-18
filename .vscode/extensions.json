@@ -8,6 +8,7 @@
     "dbaeumer.vscode-eslint",
     "wix.vscode-import-cost",
     "editorconfig.editorconfig",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "syler.sass-indented"
   ]
 }

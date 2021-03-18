@@ -4,13 +4,9 @@ import path from 'path'
 import ejs from 'ejs'
 import moment from 'moment'
 import juice from 'juice'
-import { OptionAction, UserAction } from '@action'
-import { isUndef } from '@utils'
-import { User, Option } from '@models'
-import { FormattedOption } from '@action/OptionAction'
-import { CodeDictionary } from '@const'
-import { compilerStyleFile } from '../../utils'
+import { isDev } from '@const'
 import { BlogConfig } from '../../interface'
+import { getBlogConfig } from '../utils'
 
 const fsp = fs.promises
 moment.locale('zh-cn')
@@ -32,49 +28,23 @@ interface TemplateAttribute {
 
 const obj = {
   cssOutputString: '',
+  ejsOutputString: '',
 } // 单例变量，作为缓存使用
 
-export const getBlogConfig = async (): Promise<BlogConfig> => {
-  const tasks = [
-    UserAction.Retrieve__Super_Admin(),
-    OptionAction.Retrieve__All(),
-  ]
-  const values = await Promise.all(tasks as any)
-  const superAdmin = values[0] as User | null
-  if (isUndef(superAdmin)) {
-    throw new Error(String(CodeDictionary.EMAIL_ERROR__USER_NOT_INIT))
-  }
-  const { userName, avatarUrl } = superAdmin
-  const rawOptions = values[1] as Option[]
-  const formattedOption: Partial<FormattedOption> = {}
-  rawOptions.forEach((v) => {
-    formattedOption[v.module][v.key] = v.value
-  })
-  if (String(formattedOption.email?.isActivated) === '0') {
-    throw new Error(String(CodeDictionary.EMAIL_ERROR__NOT_ACTIVE))
-  }
-  return {
-    blogger: userName,
-    avatarUrl: avatarUrl || '',
-    blogName: formattedOption.system?.blogName || '',
-    publicPath: formattedOption.system?.publicPath || '',
-  }
-}
-
-const OutputTemplate = async (
+export const OutputTemplate = async (
   newPostInfo: NewPostInfoAttribute,
-  hotLoading: boolean = false,
 ): Promise<string> => {
   const { title, postTitle, newPostUrl } = newPostInfo
-  obj.cssOutputString = await compilerStyleFile(
-    path.resolve(__dirname, 'template.scss'),
-    path.resolve(__dirname, 'template.css'),
-    hotLoading,
-    obj.cssOutputString,
-  )
-  // 若出现雪崩问题，可使用events.EventEmitter().once解决
-  // 《深入浅出Node》Ch4.3 P77
-  const template = await fsp.readFile(path.resolve(__dirname, 'template.ejs'))
+  if (isDev || !obj.cssOutputString) {
+    obj.cssOutputString = (
+      await fsp.readFile(path.resolve(__dirname, 'template.css'))
+    ).toString()
+  }
+  if (isDev || !obj.ejsOutputString) {
+    obj.ejsOutputString = (
+      await fsp.readFile(path.resolve(__dirname, 'template.ejs'))
+    ).toString()
+  }
   const params: TemplateAttribute = {
     title,
     postTitle,
@@ -83,8 +53,19 @@ const OutputTemplate = async (
     blogConfig: await getBlogConfig(),
     time: moment().format('lll'),
   }
-  return juice(ejs.render(template.toString(), params), {
+  return juice(ejs.render(obj.ejsOutputString, params), {
     inlinePseudoElements: true,
   })
 }
+
+/**
+ * 测试数据
+ * @name exampleAttribute 不能为其他命名
+ */
+export const exampleAttribute: NewPostInfoAttribute = {
+  title: 'testTitle',
+  postTitle: 'postTitle',
+  newPostUrl: 'https://example.com/post/1',
+}
+
 export default OutputTemplate

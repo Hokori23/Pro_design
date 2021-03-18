@@ -4,11 +4,14 @@
   "private": true,
   "main": "/bin/www.js",
   "scripts": {
-    "compile": "ttsc && node --inspect ./build/bin/www.js",
+    "compile": "npm run build && node --inspect ./build/bin/www.js",
     "serve": "cross-env NODE_ENV=production nodemon ./build/bin/www.js",
     "dev": "cross-env NODE_ENV=development nodemon -e ts --exec \"npm run compile\"",
-    "build": "ttsc",
-    "build:force": "rm -r-f ./build && ttsc"
+    "dev:template": "cross-env NODE_ENV=development node ./.scripts/compile_template.js",
+    "build": "ttsc && npm run build:other",
+    "build:force": "rm -r-f ./build && ttsc && npm run build:other",
+    "build:other": "node ./build/scripts/build.js",
+    "build:sass": "node ./build/scripts/build_sass.js"
   },
   "repository": {
     "type": "git",

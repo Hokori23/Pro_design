@@ -3,14 +3,16 @@ import path from 'path'
 import ejs from 'ejs'
 import moment from 'moment'
 import juice from 'juice'
-import { compilerStyleFile } from '../../utils/index'
 import { BlogConfig } from '../../interface'
-import { getBlogConfig } from '../NewPost'
+import { isDev } from '@const'
+import { getBlogConfig } from '../utils'
 
+const fsp = fs.promises
 moment.locale('zh-cn')
 
 const obj = {
   cssOutputString: '',
+  ejsOutputString: '',
 } // 单例变量，作为缓存使用
 
 export interface SubscribeConfirmAttributes {
@@ -32,21 +34,21 @@ interface TemplateAttribute {
   blogConfig: BlogConfig
 }
 
-const OutputTemplate = async (
+export const OutputTemplate = async (
   subscribeConfirmInfo: SubscribeConfirmAttributes,
-  hotLoading: boolean = false,
 ): Promise<string> => {
   const { title, accepter, subscribeUrl } = subscribeConfirmInfo
   const { userName, email } = accepter
-  obj.cssOutputString = await compilerStyleFile(
-    path.resolve(__dirname, 'template.scss'),
-    path.resolve(__dirname, 'template.css'),
-    hotLoading,
-    obj.cssOutputString,
-  )
-  // 若出现雪崩问题，可使用events.EventEmitter().once解决
-  // 《深入浅出Node》Ch4.3 P77
-  const template = fs.readFileSync(path.resolve(__dirname, 'template.ejs'))
+  if (isDev || !obj.cssOutputString) {
+    obj.cssOutputString = (
+      await fsp.readFile(path.resolve(__dirname, 'template.css'))
+    ).toString()
+  }
+  if (isDev || !obj.ejsOutputString) {
+    obj.ejsOutputString = (
+      await fsp.readFile(path.resolve(__dirname, 'template.ejs'))
+    ).toString()
+  }
   const params: TemplateAttribute = {
     title,
     subscribeUrl,
@@ -56,8 +58,22 @@ const OutputTemplate = async (
     blogConfig: await getBlogConfig(),
     time: moment().format('lll'),
   }
-  return juice(ejs.render(template.toString(), params), {
+  return juice(ejs.render(obj.ejsOutputString, params), {
     inlinePseudoElements: true,
   })
+}
+
+/**
+ * 测试数据
+ * @name exampleAttribute 不能为其他命名
+ */
+export const exampleAttribute: SubscribeConfirmAttributes = {
+  title: 'testTitle',
+  accepter: {
+    userName: 'testName',
+    email: 'example@example.com',
+  },
+  subscribeUrl:
+    'https://example.com/mail/subscribe-confirm?name=b8ea69d0573954a20348df29cb3f4539&address=e5d7416832a0084a6b8bbdaa57327adf',
 }
 export default OutputTemplate

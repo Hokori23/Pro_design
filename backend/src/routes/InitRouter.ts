@@ -5,12 +5,12 @@ import { init } from '@database'
 import { CodeDictionary } from '@const'
 import { DBAction } from '@action'
 
-const ROUTER = EXPRESS.Router()
+const initRouter = EXPRESS.Router()
 
 /**
  * 初始化数据库
  */
-ROUTER.post(
+initRouter.post(
   '/',
   asyncWrapper(async (req, res, next) => {
     try {
@@ -44,7 +44,7 @@ ROUTER.post(
 /**
  * 格式化数据库
  */
-ROUTER.post(
+initRouter.post(
   '/force-admin',
   asyncWrapper(async (req, res, next) => {
     try {
@@ -64,7 +64,7 @@ ROUTER.post(
   }),
 )
 
-ROUTER.get(
+initRouter.get(
   '/table-rows-admin',
   asyncWrapper(async (req, res, next) => {
     try {
@@ -85,4 +85,4 @@ ROUTER.get(
     }
   }),
 )
-export default ROUTER
+export default initRouter
