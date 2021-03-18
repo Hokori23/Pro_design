@@ -7,7 +7,6 @@
     "compile": "npm run build && node --inspect ./build/bin/www.js",
     "serve": "cross-env NODE_ENV=production nodemon ./build/bin/www.js",
     "dev": "cross-env NODE_ENV=development nodemon -e ts --exec \"npm run compile\"",
-    "dev:template": "cross-env NODE_ENV=development node ./.scripts/compile_template.js",
     "build": "ttsc && npm run build:other",
     "build:force": "rm -r-f ./build && ttsc && npm run build:other",
     "build:other": "node ./build/scripts/build.js",
