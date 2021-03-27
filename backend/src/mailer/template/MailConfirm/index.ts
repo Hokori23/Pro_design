@@ -15,18 +15,18 @@ const obj = {
   ejsOutputString: '',
 } // 单例变量，作为缓存使用
 
-export interface SubscribeConfirmAttributes {
+export interface MailConfirmAttributes {
   title: string
   accepter: {
     userName: string
     email: string
   }
-  subscribeUrl: string
+  captcha: string
 }
 
 interface TemplateAttribute {
   title: string
-  subscribeUrl: string
+  captcha: string
   userName: string
   email: string
   css: string
@@ -35,9 +35,9 @@ interface TemplateAttribute {
 }
 
 export const OutputTemplate = async (
-  subscribeConfirmInfo: SubscribeConfirmAttributes,
+  subscribeConfirmInfo: MailConfirmAttributes,
 ): Promise<string> => {
-  const { title, accepter, subscribeUrl } = subscribeConfirmInfo
+  const { title, accepter, captcha } = subscribeConfirmInfo
   const { userName, email } = accepter
   if (isDev || !obj.cssOutputString) {
     obj.cssOutputString = (
@@ -51,7 +51,7 @@ export const OutputTemplate = async (
   }
   const params: TemplateAttribute = {
     title,
-    subscribeUrl,
+    captcha,
     userName: userName,
     email: email,
     css: `<style>${obj.cssOutputString}</style>`,
@@ -67,13 +67,12 @@ export const OutputTemplate = async (
  * 测试数据
  * @name exampleAttribute 不能为其他命名
  */
-export const exampleAttribute: SubscribeConfirmAttributes = {
+export const exampleAttribute: MailConfirmAttributes = {
   title: 'testTitle',
   accepter: {
     userName: 'testName',
     email: 'example@example.com',
   },
-  subscribeUrl:
-    'https://example.com/mail/subscribe-confirm?name=b8ea69d0573954a20348df29cb3f4539&address=e5d7416832a0084a6b8bbdaa57327adf',
+  captcha: 'ABCD123456',
 }
 export default OutputTemplate

@@ -11,21 +11,9 @@ import config from '@config'
 const templateRouter = EXPRESS.Router()
 const fsp = fs.promises
 
-const obj = {
-  ejsOutputString: '',
-}
-/**
- * 初始化数据库
- */
 templateRouter.get(
   '',
   asyncWrapper(async (req, res, next) => {
-    if (!obj.ejsOutputString) {
-      obj.ejsOutputString = (
-        await fsp.readFile(path.resolve('./src/mailer/index.ejs'))
-      ).toString()
-    }
-    const blogConfig = await getBlogConfig()
     if (req.query.name) {
       const importPath = path.resolve(
         __dirname,
@@ -35,7 +23,13 @@ templateRouter.get(
       const content = await OutputTemplate(exampleAttribute)
       res.status(200).send(content)
     } else {
-      const content = ejs.render(obj.ejsOutputString, {
+      const blogConfig = await getBlogConfig()
+      const rawContent = await fsp.readFile(
+        path.resolve('./src/mailer/index.ejs'),
+        { encoding: 'utf8' },
+      )
+
+      const content = ejs.render(rawContent, {
         blogConfig,
         port: config.port,
         templates: Object.keys(template),

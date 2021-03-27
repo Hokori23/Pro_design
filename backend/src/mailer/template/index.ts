@@ -1,7 +1,7 @@
-import SubscribeConfirm from './SubscribeConfirm'
+import MailConfirm from './MailConfirm'
 import NewPost from './NewPost'
 
 export default {
-  SubscribeConfirm,
+  MailConfirm,
   NewPost,
 }

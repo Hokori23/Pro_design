@@ -46,14 +46,18 @@ userRouter.post(
   '/register',
   asyncWrapper(async (req, res, next) => {
     const user = User.build(req.body)
+    const { captcha } = req.body
     if (
-      !checkIntegrity(user, ['userAccount', 'userName', 'password', 'email'])
+      !checkIntegrity(
+        user,
+        ['userAccount', 'userName', 'password', 'email'] || isUndef(captcha),
+      )
     ) {
       res.status(200).json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
       return next()
     }
     try {
-      res.status(200).json(await Service.Register(user))
+      res.status(200).json(await Service.Register(user, captcha))
     } catch (e) {
       // TODO: 进行邮件提醒
       res.status(500).end()

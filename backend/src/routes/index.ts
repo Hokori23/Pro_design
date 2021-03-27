@@ -4,6 +4,7 @@ import UserRouter from './UserRouter'
 import PostRouter from './PostRouter'
 import PostCommentRouter from './PostCommentRouter'
 import PostTagRouter from './PostTagRouter'
+import MailCaptchaRouter from './MailCaptchaRouter'
 import OptionRouter from './OptionRouter'
 import TemplateRouter from './TemplateRouter'
 
@@ -14,6 +15,7 @@ export {
   PostRouter,
   PostCommentRouter,
   PostTagRouter,
+  MailCaptchaRouter,
   OptionRouter,
   TemplateRouter,
 }

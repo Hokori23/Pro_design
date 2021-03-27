@@ -15,10 +15,12 @@ interface NewPostInfoAttribute {
   title: string
   postTitle: string
   newPostUrl: string
+  userName: string
 }
 
 interface TemplateAttribute {
   title: string
+  userName: string
   postTitle: string
   newPostUrl: string
   css: string
@@ -34,7 +36,7 @@ const obj = {
 export const OutputTemplate = async (
   newPostInfo: NewPostInfoAttribute,
 ): Promise<string> => {
-  const { title, postTitle, newPostUrl } = newPostInfo
+  const { title, postTitle, newPostUrl, userName } = newPostInfo
   if (isDev || !obj.cssOutputString) {
     obj.cssOutputString = (
       await fsp.readFile(path.resolve(__dirname, 'template.css'))
@@ -47,6 +49,7 @@ export const OutputTemplate = async (
   }
   const params: TemplateAttribute = {
     title,
+    userName,
     postTitle,
     newPostUrl,
     css: `<style>${obj.cssOutputString}</style>`,
@@ -63,6 +66,7 @@ export const OutputTemplate = async (
  * @name exampleAttribute 不能为其他命名
  */
 export const exampleAttribute: NewPostInfoAttribute = {
+  userName: 'User',
   title: 'testTitle',
   postTitle: 'postTitle',
   newPostUrl: 'https://example.com/post/1',

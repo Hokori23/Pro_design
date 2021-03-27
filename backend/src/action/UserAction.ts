@@ -1,12 +1,14 @@
 import { Group } from '@models/User'
 import { User } from 'models'
+import { Transaction } from 'sequelize/types'
 
 /**
  * 添加用户
  * @param { User } user
+ * @param { Transaction } t?
  */
-const Create = async (user: User): Promise<User> => {
-  return await user.save()
+const Create = async (user: User, t?: Transaction): Promise<User> => {
+  return await user.save({ transaction: t })
 }
 
 /**

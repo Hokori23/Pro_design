@@ -10,7 +10,7 @@
     "build": "ttsc && npm run build:other",
     "build:force": "rm -r-f ./build && ttsc && npm run build:other",
     "build:other": "node ./build/scripts/build.js",
-    "build:sass": "node ./build/scripts/build_sass.js"
+    "build:template": "node ./build/scripts/build_template.js"
   },
   "repository": {
     "type": "git",

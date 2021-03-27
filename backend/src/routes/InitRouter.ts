@@ -4,6 +4,7 @@ import { Restful } from '@utils'
 import { init } from '@database'
 import { CodeDictionary } from '@const'
 import { DBAction } from '@action'
+import { Init as OptionInit } from '@action/OptionAction'
 
 const initRouter = EXPRESS.Router()
 
@@ -27,6 +28,7 @@ initRouter.post(
         return next()
       }
       await init()
+      await OptionInit()
       res.status(200).json(new Restful(0, '初始化数据库成功'))
     } catch (e) {
       res
@@ -49,6 +51,7 @@ initRouter.post(
   asyncWrapper(async (req, res, next) => {
     try {
       await init()
+      await OptionInit()
       res.status(200).json(new Restful(0, '格式化数据库成功'))
     } catch (e) {
       res

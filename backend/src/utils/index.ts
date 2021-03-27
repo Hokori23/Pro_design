@@ -195,7 +195,7 @@ const decipherCrypto = (v: string | null, password: string) => {
  * @param { RegExp } reg
  * @returns
  */
-interface File {
+export interface File {
   path: string
   name: string
 }

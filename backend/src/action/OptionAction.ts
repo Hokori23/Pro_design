@@ -112,29 +112,29 @@ const Delete__All = async (t?: Transaction): Promise<void> => {
  * @param { string } system_blogName_$
  * @param { string } email_isActivated_$
  */
-const Init = async () => {
+export const Init = async () => {
   const existedOptions = await Retrieve__All()
   if (existedOptions.length) return
   const options: OptionAttribute[] = [
     {
       module: 'system',
       key: 'publicPath',
-      value: '',
+      value: 'https://example.com',
     },
     {
       module: 'system',
       key: 'blogName',
-      value: '',
+      value: '某博客',
     },
     {
       module: 'email',
-      key: 'isActivated', // 是否开启邮箱系统（但不关闭激活邮件功能）
+      key: 'isActivated', // 是否开启邮箱系统（但不关闭邮箱注册验证功能）
       value: '1',
     },
     {
       module: 'email',
       key: 'expiredTime',
-      value: '1days',
+      value: '5minutes',
     },
   ]
   await CreateBulk(options as Option[])

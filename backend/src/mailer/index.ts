@@ -6,7 +6,6 @@ import template from './template'
 import { isDev } from '@const'
 
 const { emailConfig } = config
-
 interface MailAccepter {
   name: string
   address: string

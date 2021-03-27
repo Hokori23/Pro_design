@@ -1,9 +1,10 @@
-import { UserAction as Action } from 'action'
+import { UserAction as Action, MailCaptchaAction } from 'action'
 import { User } from 'models'
 import { Restful, md5Crypto, isUndef, isDef } from 'utils'
 import { CodeDictionary } from '@const'
 import Omit from 'omit.js'
 import { Group } from '@models/User'
+import sequelize from '@database'
 
 /**
  * 初始化超级管理员
@@ -43,8 +44,22 @@ const Init = async (user: User): Promise<Restful> => {
  * 添加账号
  * @param { User } user
  */
-const Register = async (user: User): Promise<Restful> => {
+const Register = async (user: User, captcha: string): Promise<Restful> => {
+  const t = await sequelize.transaction()
   try {
+    const existedMailCaptcha = await MailCaptchaAction.Retrieve(user.email)
+    if (isUndef(existedMailCaptcha)) {
+      return new Restful(
+        CodeDictionary.REGISTER_ERROR__NO_CAPTCHA,
+        '没有相应激活码信息',
+      )
+    }
+    if (existedMailCaptcha.captcha !== captcha) {
+      return new Restful(
+        CodeDictionary.REGISTER_ERROR__ERROR_CAPTCHA,
+        '邮箱激活码错误',
+      )
+    }
     const existedUsers = await Action.Retrieve__All__Safely()
     if (!existedUsers.length) {
       return new Restful(
@@ -55,6 +70,7 @@ const Register = async (user: User): Promise<Restful> => {
     const tasks: Array<Promise<any>> = [
       Action.Retrieve('userAccount', user.userAccount),
       Action.Retrieve('userName', user.userName),
+      Action.Retrieve('email', user.email),
     ]
     const values = await Promise.all(tasks)
     if (values.filter((v) => isDef(v)).length) {
@@ -71,13 +87,16 @@ const Register = async (user: User): Promise<Restful> => {
     // 强制普通用户
     user.group = Group.SUBSCRIBER
 
-    const registeredUser = await Action.Create(user)
+    const registeredUser = await Action.Create(user, t)
+    await MailCaptchaAction.Delete(existedMailCaptcha.id as number, t)
+    await t.commit()
     return new Restful(
       CodeDictionary.SUCCESS,
       '注册成功',
       Omit(registeredUser.toJSON() as any, ['password']),
     )
   } catch (e) {
+    await t.rollback()
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `注册失败, ${String(e.message)}`,

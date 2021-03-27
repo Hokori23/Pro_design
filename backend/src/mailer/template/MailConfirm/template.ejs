@@ -20,46 +20,43 @@
               <% } %>
               <!-- 订阅者邮箱 -->
               <% if (email) { %>
-              <div class="mail__container__address">
-                <div>
-                  以下是您订阅
+              <div class="mail__container__captcha">
+                <div class="mail__container__captcha-tips">
+                  以下是您在
                   <a href="<%= blogConfig.publicPath %> ">
                     <% if (blogConfig.blogName) { %> <%= blogConfig.blogName %>
-                    <% } %> <% if (!blogConfig.blogName) { %> <%=
-                    blogConfig.publicPath %> <% } %>
+                    <% } else { %> 某博客 <% } %>
                   </a>
-                  的邮箱：
+                  注册的邮箱验证码：
                 </div>
-                <div>
-                  <span class="text-emphasize"><%= email %></span>
+                <div class="mail__container__captcha-text">
+                  <span class="text-emphasize"><%= captcha %></span>
                 </div>
-              </div>
-              <% } %>
-              <!-- 订阅链接 -->
-              <% if (subscribeUrl) { %>
-              <div class="mail__container__subscribeUrl">
-                <div style="margin-bottom: 5px">请点击以下链接进行确认订阅</div>
-                <a href="<%= subscribeUrl %>"><%= subscribeUrl %></a>
               </div>
               <% } %>
               <div class="footer">
-                <div class="footer__tips">
-                  <div class="footer__tips__left">
+                <div class="footer__left">
+                  <div class="footer__left-text">
                     若不是您订阅的邮件，请勿理会<br />
                     本邮件由系统发出，请勿回复
                   </div>
-                  <div class="footer__tips__right">
+                </div>
+                <div class="footer__right">
+                  <div class="footer__right__avatar">
                     <% if (blogConfig.avatarUrl) { %>
                     <a href="<%=blogConfig.publicPath %>"
-                      ><img src="<%= blogConfig.avatarUrl %>"
+                      ><img
+                        class="footer__right__avatar-img"
+                        src="<%= blogConfig.avatarUrl %>"
                     /></a>
                     <% } %>
                   </div>
+                  <div class="footer__right__time">
+                    <% if (blogConfig.blogger) { %> <%= blogConfig.blogger %><br />
+                    <% } %> <%= time %>
+                  </div>
                 </div>
-                <div class="footer__time">
-                  <% if (blogConfig.blogger) { %> <%= blogConfig.blogger %><br />
-                  <% } %> <%= time %>
-                </div>
+                <div class="clear-both"></div>
               </div>
             </div>
           </td>

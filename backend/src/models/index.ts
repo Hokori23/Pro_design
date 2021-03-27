@@ -4,9 +4,19 @@ import PostComment from './PostComment'
 import PostTag from './PostTag'
 import PostTagAssociation from './PostTagAssociation'
 import Mail from './Mail'
+import MailCaptcha from './MailCaptcha'
 import Option from './Option'
 
-export { User, Post, PostComment, PostTag, PostTagAssociation, Mail, Option }
+export {
+  User,
+  Post,
+  PostComment,
+  PostTag,
+  PostTagAssociation,
+  Mail,
+  Option,
+  MailCaptcha,
+}
 
 /**
  * Post : User

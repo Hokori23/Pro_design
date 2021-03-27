@@ -7,6 +7,7 @@ import {
   PostRouter,
   PostCommentRouter,
   PostTagRouter,
+  MailCaptchaRouter,
   OptionRouter,
   TemplateRouter,
 } from '@routes'
@@ -38,6 +39,7 @@ app.use('/api/user', UserRouter)
 app.use('/api/post', PostRouter)
 app.use('/api/post-comment', PostCommentRouter)
 app.use('/api/post-tag', PostTagRouter)
+app.use('/api/captcha', MailCaptchaRouter)
 app.use('/api/option', OptionRouter)
 isDev && app.use('/api/template', TemplateRouter)
 
