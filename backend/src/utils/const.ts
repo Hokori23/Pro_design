@@ -16,6 +16,8 @@ const ROUTER_WHITE_LIST = [
   `post/retrieve-id`,
   `post/retrieve`,
   `post/retrieve-tag`,
+  // captcha,
+  `captcha/get`,
   // template,
   `template`,
 ].map((v) => `/api/${v}`)
@@ -64,6 +66,7 @@ enum CodeDictionary {
   REGISTER_ERROR__USER_ACCOUNT_EXISTED,
   REGISTER_ERROR__NO_CAPTCHA,
   REGISTER_ERROR__ERROR_CAPTCHA,
+  REGISTER_ERROR__CAPTCHA_EXPIRED,
   LOGIN_ERROR,
   RETRIEVE_ERROR__USER_NON_EXISTED,
   DELETE_ERROR__USER,
