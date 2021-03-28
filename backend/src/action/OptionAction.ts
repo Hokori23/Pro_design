@@ -2,9 +2,11 @@ import { Option } from '@models'
 import { Transaction } from 'sequelize/types'
 import { Op, QueryTypes } from 'sequelize'
 import { OptionAttribute } from '@models/Option'
+import config from '@config'
 
 import sequelize from '@database'
 import { toArray } from '@utils'
+const { captchaExpiredTime, host, blogName } = config
 
 /**
  * 添加设置字段
@@ -119,12 +121,12 @@ export const Init = async () => {
     {
       module: 'system',
       key: 'publicPath',
-      value: 'https://example.com',
+      value: host,
     },
     {
       module: 'system',
       key: 'blogName',
-      value: '某博客',
+      value: blogName,
     },
     {
       module: 'email',
@@ -134,7 +136,7 @@ export const Init = async () => {
     {
       module: 'email',
       key: 'expiredTime',
-      value: '5minutes',
+      value: captchaExpiredTime,
     },
   ]
   await CreateBulk(options as Option[])

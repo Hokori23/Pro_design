@@ -36,6 +36,7 @@ const sequelizeOptions: Options = {
 const devConfig = {
   port: 8007,
   host: 'http://localhost/',
+  blogName: '埃と誇り',
   cryptoConfig: {
     // 每次分段加密的字符串最大长度（优先度高于cryptCount字段）
     onceCryptLength: 5,
@@ -79,6 +80,7 @@ const devConfig = {
   },
   // 12个小时
   tokenExpiredTime: '12h',
+  captchaExpiredTime: '5minutes',
 }
 
 const prodConfig = {
