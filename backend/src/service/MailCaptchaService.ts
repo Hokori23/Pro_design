@@ -31,11 +31,11 @@ const Activate = async (user: User): Promise<Restful> => {
       `${userAccount} - ${email} - ${Date.now().toString()}`,
     ).slice(0, 8)
     const existedMailCaptcha = await Action.Retrieve(email)
-    const newCaptcha = MailCaptcha.build({ email, captcha })
+    const newCaptcha = { email, captcha }
     if (isUndef(existedMailCaptcha)) {
-      await Action.Create(newCaptcha, t)
+      await Action.Create(MailCaptcha.build(newCaptcha), t)
     } else {
-      await Action.Update(existedMailCaptcha, newCaptcha, t)
+      await Action.Update(existedMailCaptcha, newCaptcha as MailCaptcha, t)
     }
     const rawOptions = await OptionAction.Retrieve__All()
     const formattedOption: Partial<FormattedOption> = {}

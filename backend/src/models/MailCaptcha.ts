@@ -21,6 +21,7 @@ MailCaptcha.init(
       comment: '欲验证邮箱',
       type: DataTypes.STRING(150),
       allowNull: false,
+      unique: 'email',
     },
     captcha: {
       comment: '邮箱验证码',

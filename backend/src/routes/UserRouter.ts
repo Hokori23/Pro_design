@@ -142,6 +142,7 @@ userRouter.post(
   '/edit',
   asyncWrapper(async (req: any, res, next) => {
     try {
+      // DEBUG: 注意Postman x-www-form-urlencoded传的是字符串， 严格等于会弹403
       if (req.auth.id !== req.body.id) {
         res.status(403).end()
         return next()

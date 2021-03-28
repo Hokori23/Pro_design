@@ -35,7 +35,7 @@ optionRouter.post(
  * 保存设置
  * @path /retrieve-admin
  */
-optionRouter.post(
+optionRouter.get(
   '/retrieve-admin',
   asyncWrapper(async (req, res, next) => {
     try {
