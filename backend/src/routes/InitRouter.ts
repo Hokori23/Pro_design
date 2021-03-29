@@ -4,13 +4,14 @@ import { Restful } from '@utils'
 import { init } from '@database'
 import { CodeDictionary } from '@const'
 import { DBAction } from '@action'
+import { Init as OptionInit } from '@action/OptionAction'
 
-const ROUTER = EXPRESS.Router()
+const initRouter = EXPRESS.Router()
 
 /**
  * 初始化数据库
  */
-ROUTER.post(
+initRouter.post(
   '/',
   asyncWrapper(async (req, res, next) => {
     try {
@@ -27,6 +28,7 @@ ROUTER.post(
         return next()
       }
       await init()
+      await OptionInit()
       res.status(200).json(new Restful(0, '初始化数据库成功'))
     } catch (e) {
       res
@@ -44,11 +46,12 @@ ROUTER.post(
 /**
  * 格式化数据库
  */
-ROUTER.post(
+initRouter.post(
   '/force-admin',
   asyncWrapper(async (req, res, next) => {
     try {
       await init()
+      await OptionInit()
       res.status(200).json(new Restful(0, '格式化数据库成功'))
     } catch (e) {
       res
@@ -64,7 +67,7 @@ ROUTER.post(
   }),
 )
 
-ROUTER.get(
+initRouter.get(
   '/table-rows-admin',
   asyncWrapper(async (req, res, next) => {
     try {
@@ -85,4 +88,4 @@ ROUTER.get(
     }
   }),
 )
-export default ROUTER
+export default initRouter

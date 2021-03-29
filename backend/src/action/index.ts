@@ -4,6 +4,7 @@ import PostCommentAction from './PostCommentAction'
 import PostTagAction from './PostTagAction'
 import PostTagAssociationAction from './PostTagAssociationAction'
 import MailAction from './MailAction'
+import MailCaptchaAction from './MailCaptchaAction'
 import OptionAction from './OptionAction'
 import DBAction from './DBAction'
 
@@ -14,6 +15,7 @@ export {
   PostTagAction,
   PostTagAssociationAction,
   MailAction,
+  MailCaptchaAction,
   OptionAction,
   DBAction,
 }

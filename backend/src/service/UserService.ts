@@ -1,10 +1,45 @@
-import { UserAction as Action } from 'action'
-import { User } from 'models'
+import {
+  UserAction as Action,
+  MailCaptchaAction,
+  OptionAction,
+  MailAction,
+} from 'action'
+import { User, Option, Mail } from 'models'
 import { Restful, md5Crypto, isUndef, isDef } from 'utils'
 import { CodeDictionary } from '@const'
 import Omit from 'omit.js'
 import { Group } from '@models/User'
+import sequelize from '@database'
+import moment from 'moment'
 
+enum CheckCaptchaResult {
+  SUCCESS = 0,
+  EXPIRED = 1,
+  ERROR = 2,
+}
+
+const checkCaptcha = (
+  updateTime: any,
+  rawOptions: Option[],
+): CheckCaptchaResult => {
+  const captchaExpiredTimeData = rawOptions.find(
+    (v) => v.module === 'email' && v.key === 'expiredTime',
+  )
+  if (isUndef(captchaExpiredTimeData)) return CheckCaptchaResult.ERROR
+  const reg = /^\d*/g
+  const match = reg.exec(captchaExpiredTimeData.value)
+  if (isUndef(match)) return CheckCaptchaResult.ERROR
+  const expiredTime = moment(updateTime).add(
+    match[0],
+    captchaExpiredTimeData.value.slice(
+      reg.lastIndex,
+    ) as moment.DurationInputArg2,
+  )
+
+  const nowTime = moment()
+  if (nowTime.isAfter(expiredTime)) return CheckCaptchaResult.EXPIRED
+  return CheckCaptchaResult.SUCCESS
+}
 /**
  * 初始化超级管理员
  * @param { User } user
@@ -40,10 +75,11 @@ const Init = async (user: User): Promise<Restful> => {
 }
 
 /**
- * 添加账号
+ * 注册账号
  * @param { User } user
  */
-const Register = async (user: User): Promise<Restful> => {
+const Register = async (user: User, captcha: string): Promise<Restful> => {
+  const t = await sequelize.transaction()
   try {
     const existedUsers = await Action.Retrieve__All__Safely()
     if (!existedUsers.length) {
@@ -52,16 +88,48 @@ const Register = async (user: User): Promise<Restful> => {
         '数据库用户表为空，请先初始化超级管理员',
       )
     }
-    const tasks: Array<Promise<any>> = [
+
+    const values = await Promise.all([
       Action.Retrieve('userAccount', user.userAccount),
       Action.Retrieve('userName', user.userName),
-    ]
-    const values = await Promise.all(tasks)
+      Action.Retrieve('email', user.email),
+    ])
     if (values.filter((v) => isDef(v)).length) {
       return new Restful(
         CodeDictionary.REGISTER_ERROR__USER_ACCOUNT_EXISTED,
         '账号已存在',
       )
+    }
+
+    const [existedMailCaptcha, rawOptions] = await Promise.all([
+      MailCaptchaAction.Retrieve(user.email),
+      OptionAction.Retrieve__All(),
+    ])
+    if (isUndef(existedMailCaptcha)) {
+      return new Restful(
+        CodeDictionary.REGISTER_ERROR__NO_CAPTCHA,
+        '没有相应激活码信息',
+      )
+    }
+    if (existedMailCaptcha.captcha !== captcha) {
+      return new Restful(
+        CodeDictionary.REGISTER_ERROR__ERROR_CAPTCHA,
+        '邮箱激活码错误',
+      )
+    }
+
+    const checkCaptchaResult = checkCaptcha(
+      existedMailCaptcha.updatedAt,
+      rawOptions,
+    )
+    if (checkCaptchaResult === CheckCaptchaResult.EXPIRED) {
+      return new Restful(
+        CodeDictionary.REGISTER_ERROR__CAPTCHA_EXPIRED,
+        '邮箱激活码过期',
+      )
+    }
+    if (checkCaptchaResult === CheckCaptchaResult.ERROR) {
+      throw new Error('解析邮箱系统设置失败')
     }
 
     // 加密密码
@@ -71,13 +139,17 @@ const Register = async (user: User): Promise<Restful> => {
     // 强制普通用户
     user.group = Group.SUBSCRIBER
 
-    const registeredUser = await Action.Create(user)
+    const registeredUser = await Action.Create(user, t)
+    await MailAction.Create(Mail.build({ uid: registeredUser.id }), t)
+    await MailCaptchaAction.Delete(existedMailCaptcha.id as number, t)
+    await t.commit()
     return new Restful(
       CodeDictionary.SUCCESS,
       '注册成功',
       Omit(registeredUser.toJSON() as any, ['password']),
     )
   } catch (e) {
+    await t.rollback()
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `注册失败, ${String(e.message)}`,

@@ -1,7 +1,13 @@
 import CRYPTO from 'crypto'
+import fs from 'fs'
+import precss from 'precss'
+import path from 'path'
+import chalk from 'chalk'
 
 import config from 'proj.config'
 import { CodeDictionary } from './const'
+const fsp = fs.promises
+
 const { cryptoConfig } = config
 
 /**
@@ -21,6 +27,10 @@ const isDef = (v: any): boolean => {
  */
 const isUndef = (v: any): v is null | undefined => {
   return v === undefined || v === null
+}
+
+const isEmpty = (v: string): boolean => {
+  return v === ''
 }
 
 /**
@@ -67,8 +77,8 @@ const mixin = <T>(...objs: T[]): T => {
  * 属性转数组
  * @param { Object } obj
  */
-const toArray = (obj: Object): any[] => {
-  const res = [] as any[]
+const toArray = (obj: Object): string[] => {
+  const res: string[] = []
   Object.keys(obj).forEach((key) => {
     res.push(obj[key])
   })
@@ -88,6 +98,26 @@ const checkIntegrity = (obj: Object, params?: string[]): boolean => {
     : toArray(obj).every((v) => {
         return isDef(v)
       })
+}
+
+/**
+ * @param { Function } callback 回调函数
+ * @param { number } delay 延迟ms
+ * @description 输出一个经过防抖处理的函数
+ */
+const debounce = (
+  callback: (...args: any[]) => any,
+  delay: number,
+): Function => {
+  return (() => {
+    let timer: number | any = null
+    return (...params: any[]) => {
+      if (timer) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(callback, delay, params)
+    }
+  })()
 }
 
 /**
@@ -159,6 +189,55 @@ const decipherCrypto = (v: string | null, password: string) => {
 }
 
 /**
+ * 查询文件
+ * @param { string } filePath
+ * @param { File[] } filesList
+ * @param { RegExp } reg
+ * @returns
+ */
+export interface File {
+  path: string
+  name: string
+}
+const ignoreDirectory = ['node_modules', '.git', 'build']
+const findSrcFiles = (filePath: string, filesList: File[], reg: RegExp) => {
+  const files = fs.readdirSync(filePath)
+  files.forEach((name) => {
+    if (ignoreDirectory.includes(name)) return
+    const childFilePath = path.resolve(filePath, name)
+    const stat = fs.statSync(childFilePath)
+    if (stat.isDirectory()) {
+      findSrcFiles(childFilePath, filesList, reg)
+    } else if (reg.test(name)) {
+      filesList.push({
+        path: childFilePath,
+        name,
+      })
+    }
+  })
+  return filesList
+}
+
+/**
+ * 编译sass/scss文件
+ * @param { string } importPath css文件路径
+ * @returns { Promise<string> }
+ */
+const sassCompiler = async (importPath: string): Promise<string> => {
+  return precss
+    .process(await fsp.readFile(importPath), {
+      from: importPath,
+    })
+    .then(async (result) => {
+      result.warnings().forEach((warn) => {
+        // eslint-disable-next-line no-console
+        warn && console.log(chalk.yellow(warn))
+      })
+      return result.css.replace(/[\r|\t|\n]/g, '')
+    })
+}
+
+/**
  * Restful API类声明
  */
 class Restful {
@@ -179,12 +258,16 @@ class Restful {
 export {
   isDef,
   isUndef,
+  isEmpty,
   isNaN,
   mixin,
   toArray,
   checkIntegrity,
+  debounce,
   md5Crypto,
   cipherCrypto,
   decipherCrypto,
+  findSrcFiles,
+  sassCompiler,
   Restful,
 }

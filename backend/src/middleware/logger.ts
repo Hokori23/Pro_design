@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
-import miment from 'miment'
+import moment from 'moment'
 import chalk from 'chalk'
+import { Group, GroupCN } from '@models/User'
 export default (req, res, next) => {
   const isWhiteRoute = req.auth?.id
   console.log(
@@ -22,12 +23,15 @@ export default (req, res, next) => {
     console.log(
       `${chalk.green('USER_ACCOUNT')} ${req.auth.userAccount as string}`,
     )
+    console.log(
+      `${chalk.green('USER_GROUP')} ${
+        GroupCN[Group[req.auth.group]] as string
+      }`,
+    )
   }
 
   console.log(
-    `${chalk.green('Request-Time:')} ${
-      miment().format('YYYY-MM-DD hh:mm:ss') as string
-    }`,
+    `${chalk.green('Request-Time:')} ${moment().format('YYYY-MM-DD hh:mm:ss')}`,
   )
   res.locals.ip = req.ip || req.ips[0]
   next()

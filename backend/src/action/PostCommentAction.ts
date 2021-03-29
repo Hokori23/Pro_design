@@ -1,12 +1,16 @@
 import { PostComment } from '@models'
-import { Op } from 'sequelize'
+import { Op, Transaction } from 'sequelize'
 
 /**
  * 添加评论
  * @param { PostComment } comment
+ * @param { Transaction } t?
  */
-const Create = async (comment: PostComment): Promise<PostComment> => {
-  return await comment.save()
+const Create = async (
+  comment: PostComment,
+  t?: Transaction,
+): Promise<PostComment> => {
+  return await comment.save({ transaction: t })
 }
 
 /**

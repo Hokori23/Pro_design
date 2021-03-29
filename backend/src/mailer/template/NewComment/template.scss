@@ -1,0 +1,90 @@
+.mail__container {
+  margin: 0;
+  padding: 0;
+  $text-emphasize-color: #115ca7;
+  margin: 2rem auto;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 400px;
+  font-size: 14px;
+  border-radius: 10px;
+  box-shadow: 0 1px 10px 2px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  font-family: 'Century Gothic', 'Trebuchet MS', 'Hiragino Sans GB', '微软雅黑',
+    'Microsoft Yahei', Tahoma, Helvetica, Arial, SimSun, sans-serif;
+  a {
+    text-decoration: none;
+    margin: 0 3px;
+    color: inherit;
+    color: $text-emphasize-color;
+    font-weight: bold;
+  }
+  &__subscriber {
+    font-size: 18px;
+    margin-bottom: 10px;
+    & > div {
+      margin-bottom: 5px;
+    }
+  }
+  &__comment {
+    background: #fafafa
+      repeating-linear-gradient(
+        -45deg,
+        #fff,
+        #fff 1.125rem,
+        transparent 1.125rem,
+        transparent 2.25rem
+      );
+    box-shadow: 0 2px 5px rgb(0 0 0 / 15%);
+    padding: 15px;
+  }
+  &__captcha {
+    &-tips,
+    &-tips a {
+      font-size: 16px;
+    }
+    &-text {
+      font-size: 18px;
+      margin: 15px 20px 10px 0;
+      text-align: center;
+    }
+  }
+  .text-emphasize {
+    color: $text-emphasize-color;
+    font-weight: bold;
+  }
+  .clear-both {
+    clear: both;
+  }
+  .footer {
+    margin-top: 10px;
+    width: 100%;
+    white-space: nowrap;
+    &__left {
+      display: inline-table;
+      height: 70px;
+      &-text {
+        display: table-cell;
+        vertical-align: middle;
+        margin-top: 20px;
+        font-size: 15px;
+        color: #777777;
+      }
+    }
+    &__right {
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+      &__avatar-img {
+        border: 3px solid #000;
+        border-radius: 50%;
+        width: 70px;
+        height: 70px;
+      }
+      &__time {
+        line-height: 25px;
+      }
+    }
+  }
+}

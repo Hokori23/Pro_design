@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title><%= title %></title>
+  </head>
+  <body>
+    <table style="width: 100%; height: 100%">
+      <tbody>
+        <tr>
+          <%- css %>
+          <td>
+            <div class="mail__container">
+              <!-- 订阅者名称 -->
+              <div class="mail__container__subscriber">
+                你好呀~
+                <span class="text-emphasize"><%= userName %></span>
+              </div>
+
+              <p>
+                你曾在文章《<a href="<%= post.getUrl(blogConfig.publicPath) %>"
+                  ><%= post.title %></a
+                >》上发表评论：
+              </p>
+              <p class="mail__container__comment"><%= originComment %></p>
+              <p><%= senderName %> 给你的回复如下：</p>
+              <p class="mail__container__comment"><%= replyComment %></p>
+
+              <p>
+                你可以
+                <a href="<%= post.getUrl(blogConfig.publicPath) %>"
+                  >查看回复完整内容</a
+                >， 欢迎再次光临<a href="<%= blogConfig.publicPath %>"
+                  ><%= blogConfig.blogName %></a
+                >
+              </p>
+              <div class="footer">
+                <div class="footer__left">
+                  <div class="footer__left-text">
+                    若不是你订阅的邮件，请勿理会<br />
+                    本邮件由系统发出，请勿回复
+                  </div>
+                </div>
+                <div class="footer__right">
+                  <div class="footer__right__avatar">
+                    <% if (blogConfig.avatarUrl) { %>
+                    <a href="<%=blogConfig.publicPath %>"
+                      ><img
+                        class="footer__right__avatar-img"
+                        src="<%= blogConfig.avatarUrl %>"
+                    /></a>
+                    <% } %>
+                  </div>
+                  <div class="footer__right__time">
+                    <% if (blogConfig.blogger) { %> <%= blogConfig.blogger %><br />
+                    <% } %> <%= time %>
+                  </div>
+                </div>
+                <div class="clear-both"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.mail__container {
+  $text-emphasize-color: #115ca7;
+  margin: 2rem auto;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 400px;
+  font-size: 14px;
+  border-radius: 10px;
+  box-shadow: 0 1px 10px 2px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  font-family: 'Century Gothic', 'Trebuchet MS', 'Hiragino Sans GB', '微软雅黑',
+    'Microsoft Yahei', Tahoma, Helvetica, Arial, SimSun, sans-serif;
+  a {
+    text-decoration: none;
+    margin: 0 3px;
+    color: inherit;
+    color: $text-emphasize-color;
+    font-weight: bold;
+  }
+  &__subscriber,
+  &__address {
+    & > div {
+      margin-bottom: 5px;
+    }
+    justify-self: flex-start;
+  }
+  &__subscriber {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  &__address {
+    margin-bottom: 35px;
+    font-size: 16px;
+    & > a {
+      font-size: 16px;
+    }
+  }
+  &__newPostUrl {
+    text-align: center;
+    &-text {
+      margin-bottom: 15px;
+    }
+    font-size: 16px;
+    & > a {
+      font-size: 20px;
+      word-break: break-all;
+      white-space: pre-wrap;
+    }
+    margin-bottom: 15px;
+  }
+  .text-emphasize {
+    color: $text-emphasize-color;
+    font-weight: bold;
+  }
+  .footer {
+    margin-top: 10px;
+    width: 100%;
+    white-space: nowrap;
+    &__left {
+      display: inline-table;
+      height: 70px;
+      &-text {
+        display: table-cell;
+        vertical-align: middle;
+        margin-top: 20px;
+        font-size: 15px;
+        color: #777777;
+      }
+    }
+    &__right {
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+      &__avatar-img {
+        border: 3px solid #000;
+        border-radius: 50%;
+        width: 70px;
+        height: 70px;
+      }
+      &__time {
+        line-height: 25px;
+      }
+    }
+  }
+}

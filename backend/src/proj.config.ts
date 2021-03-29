@@ -35,7 +35,8 @@ const sequelizeOptions: Options = {
 
 const devConfig = {
   port: 8007,
-  host: 'http://localhost/',
+  host: 'http://localhost', // 请不要在最后带上 '/'
+  blogName: '埃と誇り',
   cryptoConfig: {
     // 每次分段加密的字符串最大长度（优先度高于cryptCount字段）
     onceCryptLength: 5,
@@ -61,6 +62,7 @@ const devConfig = {
     // options
     options: sequelizeOptions,
   },
+  // 又拍云设置
   upyunConfig: {
     operator: process.env.UPYUN_OPERATOR as string,
     secret: process.env.UPYUN_SECRET as string,
@@ -69,8 +71,16 @@ const devConfig = {
     imgPath: 'pro_design/image/',
     videoPath: 'pro_design/video/',
   },
+  // 邮箱设置
+  emailConfig: {
+    host: process.env.EMAIL_HOST as string,
+    user: process.env.EMAIL_USER as string,
+    pass: process.env.EMAIL_PASS as string,
+    name: process.env.EMAIL_NAME as string,
+  },
   // 12个小时
   tokenExpiredTime: '12h',
+  captchaExpiredTime: '5minutes',
 }
 
 const prodConfig = {

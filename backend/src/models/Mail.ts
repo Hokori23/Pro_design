@@ -33,22 +33,11 @@ Mail.init(
         key: 'id',
       },
     },
-    isActived: {
-      comment: '是否激活',
-      type: DataTypes.TINYINT.UNSIGNED,
-      allowNull: false,
-      defaultValue: Toggle.N,
-    },
     isSubscribed: {
       comment: '是否订阅',
       type: DataTypes.TINYINT.UNSIGNED,
       allowNull: false,
       defaultValue: Toggle.Y,
-    },
-    key: {
-      comment: '验证邮件携带的key值',
-      type: DataTypes.STRING(512),
-      allowNull: false,
     },
   },
   {

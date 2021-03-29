@@ -1,11 +1,13 @@
 import { Mail } from 'models'
+import { Transaction } from 'sequelize/types'
 
 /**
  * 添加邮箱信息
  * @param { Mail } mail
+ * @param { Transaction } t?
  */
-const Create = async (mail: Mail): Promise<Mail> => {
-  return await mail.save()
+const Create = async (mail: Mail, t?: Transaction): Promise<Mail> => {
+  return await mail.save({ transaction: t })
 }
 
 /**

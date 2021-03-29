@@ -41,6 +41,12 @@ class Post extends Model {
 
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
+
+  getUrl(publicPath: string) {
+    return `${publicPath}/${PostType[
+      this.type as PostType
+    ].toLowerCase()}/${String(this.id)}`
+  }
 }
 
 Post.init(

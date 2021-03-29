@@ -11,6 +11,11 @@ export enum Group {
   ADMIN = 1,
   SUPER_ADMIN = 2,
 }
+export enum GroupCN {
+  SUBSCRIBER = '普通用户',
+  ADMIN = '管理员',
+  SUPER_ADMIN = '超级管理员',
+}
 
 class User extends Model {
   public id!: number | null

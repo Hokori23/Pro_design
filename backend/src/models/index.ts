@@ -4,9 +4,19 @@ import PostComment from './PostComment'
 import PostTag from './PostTag'
 import PostTagAssociation from './PostTagAssociation'
 import Mail from './Mail'
+import MailCaptcha from './MailCaptcha'
 import Option from './Option'
 
-export { User, Post, PostComment, PostTag, PostTagAssociation, Mail, Option }
+export {
+  User,
+  Post,
+  PostComment,
+  PostTag,
+  PostTagAssociation,
+  Mail,
+  Option,
+  MailCaptcha,
+}
 
 /**
  * Post : User
@@ -58,5 +68,9 @@ PostTag.belongsToMany(Post, {
  * Mail : User
  * 1 : 1
  */
-Mail.belongsTo(User, { targetKey: 'id', foreignKey: 'uid' })
-User.hasOne(Mail, { sourceKey: 'id', foreignKey: 'uid' })
+Mail.belongsTo(User, {
+  as: 'mail',
+  targetKey: 'id',
+  foreignKey: 'uid',
+})
+User.hasOne(Mail, { as: 'mail', sourceKey: 'id', foreignKey: 'uid' })

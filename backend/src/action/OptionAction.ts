@@ -1,8 +1,12 @@
 import { Option } from '@models'
 import { Transaction } from 'sequelize/types'
 import { Op, QueryTypes } from 'sequelize'
+import { OptionAttribute } from '@models/Option'
+import config from '@config'
 
 import sequelize from '@database'
+import { toArray } from '@utils'
+const { captchaExpiredTime, host, blogName } = config
 
 /**
  * 添加设置字段
@@ -26,6 +30,22 @@ const CreateBulk = async (
 ): Promise<Option[]> => {
   return await Option.bulkCreate(arr, {
     validate: true,
+    transaction: t,
+  })
+}
+
+/**
+ * 批量添加设置字段（重复字段更新）
+ * @param { Option[] } arr
+ * @param { Transaction } t?
+ */
+const CreateBulk__Update = async (
+  arr: Option[],
+  t?: Transaction,
+): Promise<Option[]> => {
+  return await Option.bulkCreate(arr, {
+    validate: true,
+    updateOnDuplicate: toArray(Option.build()),
     transaction: t,
   })
 }
@@ -88,12 +108,64 @@ const Delete__All = async (t?: Transaction): Promise<void> => {
   })
 }
 
+/**
+ * 初始化系统设置表默认设置
+ * @param { string } system_publicPath_$
+ * @param { string } system_blogName_$
+ * @param { string } email_isActivated_$
+ */
+export const Init = async () => {
+  const existedOptions = await Retrieve__All()
+  if (existedOptions.length) return
+  const options: OptionAttribute[] = [
+    {
+      module: 'system',
+      key: 'publicPath',
+      value: host,
+    },
+    {
+      module: 'system',
+      key: 'blogName',
+      value: blogName,
+    },
+    {
+      module: 'email',
+      key: 'isActivated', // 是否开启邮箱系统（但不关闭邮箱注册验证功能）
+      value: '1',
+    },
+    {
+      module: 'email',
+      key: 'expiredTime',
+      value: captchaExpiredTime,
+    },
+  ]
+  await CreateBulk(options as Option[])
+}
+Init()
+  .then(() => {})
+  .catch((e) => {
+    throw new Error(e)
+  })
+
+export interface FormattedOption {
+  system: {
+    publicPath: string
+    blogName: string
+  }
+  email: {
+    isActivated: string
+    expiredTime: string
+  }
+}
+
 export default {
   Create,
   CreateBulk,
+  CreateBulk__Update,
   Retrieve,
   Retrieve__All,
   Update,
   Delete,
   Delete__All,
+  Init,
 }

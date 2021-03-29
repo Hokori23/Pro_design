@@ -13,6 +13,7 @@ const postRouter = Router()
  * 添加帖子
  * @path /create
  * @param { Post } post
+ * @description --即使没有标签也要给一个空数组 -- tids: []
  */
 postRouter.post(
   '/create',

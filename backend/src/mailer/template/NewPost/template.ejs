@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title><% if (title) { %> <%= title %> <% } %></title>
+  </head>
+  <body>
+    <table style="width: 100%; height: 100%">
+      <tbody>
+        <tr>
+          <% if (css) { %> <%- css %> <% } %>
+          <td>
+            <div class="mail__container">
+              <!-- 订阅者名称 -->
+              <div class="mail__container__subscriber">
+                你好呀~ <span class="text-emphasize"><%= userName %></span>
+              </div>
+              <!-- 订阅者邮箱 -->
+              <% if (newPostUrl) { %>
+              <div class="mail__container__address">
+                <div>
+                  你关注的博主
+                  <a href="<%= blogConfig.publicPath %> ">
+                    <% if (blogConfig.blogger) { %> <%= blogConfig.blogger %> <%
+                    } %>
+                  </a>
+                  更新啦！
+                </div>
+              </div>
+              <% } %>
+              <!-- 订阅链接 -->
+              <% if (newPostUrl) { %>
+              <div class="mail__container__newPostUrl">
+                <div class="mail__container__newPostUrl-text">
+                  请点击以下链接进行查看
+                </div>
+                <a href="<%= newPostUrl %>">《<%= postTitle %>》</a>
+              </div>
+              <% } %>
+              <div class="footer">
+                <div class="footer__left">
+                  <div class="footer__left-text">
+                    若不是你订阅的邮件，请勿理会<br />
+                    本邮件由系统发出，请勿回复
+                  </div>
+                </div>
+                <div class="footer__right">
+                  <div class="footer__right__avatar">
+                    <% if (blogConfig.avatarUrl) { %>
+                    <a href="<%=blogConfig.publicPath %>"
+                      ><img
+                        class="footer__right__avatar-img"
+                        src="<%= blogConfig.avatarUrl %>"
+                    /></a>
+                    <% } %>
+                  </div>
+                  <div class="footer__right__time">
+                    <% if (blogConfig.blogger) { %> <%= blogConfig.blogger %><br />
+                    <% } %> <%= time %>
+                  </div>
+                </div>
+                <div class="clear-both"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

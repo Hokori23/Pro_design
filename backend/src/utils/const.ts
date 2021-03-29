@@ -16,6 +16,10 @@ const ROUTER_WHITE_LIST = [
   `post/retrieve-id`,
   `post/retrieve`,
   `post/retrieve-tag`,
+  // captcha,
+  `captcha/get`,
+  // template,
+  `template`,
 ].map((v) => `/api/${v}`)
 
 // 只有管理员和超级管理员可以访问的接口
@@ -60,6 +64,9 @@ enum CodeDictionary {
   // User
   REGISTER_ERROR__NOT_INIT,
   REGISTER_ERROR__USER_ACCOUNT_EXISTED,
+  REGISTER_ERROR__NO_CAPTCHA,
+  REGISTER_ERROR__ERROR_CAPTCHA,
+  REGISTER_ERROR__CAPTCHA_EXPIRED,
   LOGIN_ERROR,
   RETRIEVE_ERROR__USER_NON_EXISTED,
   DELETE_ERROR__USER,
@@ -71,6 +78,7 @@ enum CodeDictionary {
   DELETE_ERROR__POST,
   // PostComment
   SERVICE_ERROR__COMMENT_POST_NON_EXISTED,
+  SERVICE_ERROR__COMMENT_POST_IS_LOCKED,
   SERVICE_ERROR__COMMENT_PARENT_COMMENT_NON_EXISTED,
   SERVICE_ERROR__COMMENT_NON_EXISTED,
   DELETE_ERROR__COMMENT,
@@ -79,9 +87,14 @@ enum CodeDictionary {
   // PostTag
   SERVICE_ERROR__TAG_EXISTED,
   SERVICE_ERROR__TAG_NON_EXISTED,
+  // MailCaptcha
+  SERVICE_ERROR__CAPTCHA_USER_EXISTED,
   // Option
   SERVICE_ERROR__OPTION_NEEDED,
   SERVICE_ERROR__OPTION_EXISTED,
+  // Email
+  EMAIL_ERROR__USER_NOT_INIT,
+  EMAIL_ERROR__NOT_ACTIVE,
   // OTHER
   UPLOAD_TYPE_ERROR,
   PARAMS_ERROR = 98,
