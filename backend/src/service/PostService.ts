@@ -1,9 +1,42 @@
-import { PostAction as Action, PostTagAssociationAction } from 'action'
+import {
+  PostAction as Action,
+  UserAction,
+  PostTagAssociationAction,
+} from 'action'
 import { Post } from 'models'
 import { Restful, isUndef, isDef } from 'utils'
 import { CodeDictionary } from '@const'
 import { PostType } from '@models/Post'
 import database from '@database'
+import { broadcastMails, BroadcastMailsAttribute, template } from '@mailer'
+import { getBlogConfig } from '@mailer/template/utils'
+
+const BoardCastNewPost = async (postTitle: string, newPostUrl: string) => {
+  const [blogConfig, subscribedUsers] = await Promise.all([
+    getBlogConfig(),
+    UserAction.Retrieve__All__Subscribed(),
+  ])
+  const attributes: BroadcastMailsAttribute[] = await Promise.all(
+    subscribedUsers.map(async (user) => {
+      const emailTitle = `你订阅的博客: ${blogConfig.blogName} 发布了新帖 ${postTitle}`
+      return {
+        subject: emailTitle,
+        html: await template.NewPost({
+          title: emailTitle,
+          postTitle,
+          newPostUrl,
+          userName: user.userName,
+          blogConfig,
+        }),
+        accepter: {
+          name: user.userName,
+          address: user.email,
+        },
+      }
+    }),
+  )
+  await broadcastMails(attributes)
+}
 /**
  * 添加帖子
  * @param { Post } post
@@ -20,7 +53,9 @@ const Create = async (post: Post, tids: number[]): Promise<Restful> => {
         '除说说以外的文章类型，标题是必需的',
       )
     }
-    post = await Action.Create(post, t)
+    const values = await Promise.all([Action.Create(post, t), getBlogConfig()])
+    post = values[0]
+    const blogConfig = values[1]
     // 如果帖子有标签
     tids = tids?.filter((tid) => isDef(tid))
     if (tids?.length) {
@@ -29,6 +64,19 @@ const Create = async (post: Post, tids: number[]): Promise<Restful> => {
         t,
       )
     }
+
+    // 广播新帖订阅邮件，仅LANDSCAPE/POST且非隐藏非草稿广播
+    if (
+      !post.isDraft &&
+      !post.isHidden &&
+      (post.type === PostType.LANDSCAPE || post.type === PostType.POST)
+    ) {
+      await BoardCastNewPost(
+        post.title || '',
+        post.getUrl(blogConfig.publicPath),
+      )
+    }
+
     // 提交事务
     await t.commit()
     await post.reload()
@@ -197,11 +245,28 @@ const Edit = async (post: any, tids: number[]): Promise<Restful> => {
           reject(e)
         })
     })
-    const values = await Promise.all([
+    const [newPost, blogConfig] = await Promise.all([
       Action.Update(existedPost, post, t),
+      getBlogConfig(),
       tagTransaction,
-    ] as any[])
-    const newPost = values[0]
+    ])
+
+    // 广播新帖订阅邮件，仅LANDSCAPE/POST且非隐藏非草稿广播
+    if (
+      !newPost.isDraft &&
+      !newPost.isHidden &&
+      (newPost.type === PostType.LANDSCAPE || newPost.type === PostType.POST) &&
+      existedPost.type !== PostType.LANDSCAPE &&
+      existedPost.type !== PostType.POST
+    ) {
+      await BoardCastNewPost(
+        newPost.title || '',
+        `${blogConfig.publicPath}/${
+          PostType[newPost.type as PostType]
+        }/${String(newPost.id)}`,
+      )
+    }
+
     await t.commit()
     return new Restful(CodeDictionary.SUCCESS, '编辑成功', newPost.toJSON())
   } catch (e) {

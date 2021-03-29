@@ -6,16 +6,16 @@ import moment from 'moment'
 import juice from 'juice'
 import { isDev } from '@const'
 import { BlogConfig } from '../../interface'
-import { getBlogConfig } from '../utils'
 
 const fsp = fs.promises
 moment.locale('zh-cn')
 
-interface NewPostInfoAttribute {
+export interface NewPostInfoAttribute {
   title: string
   postTitle: string
   newPostUrl: string
   userName: string
+  blogConfig: BlogConfig
 }
 
 interface TemplateAttribute {
@@ -36,7 +36,7 @@ const obj = {
 export const OutputTemplate = async (
   newPostInfo: NewPostInfoAttribute,
 ): Promise<string> => {
-  const { title, postTitle, newPostUrl, userName } = newPostInfo
+  const { title, postTitle, newPostUrl, userName, blogConfig } = newPostInfo
   if (isDev || !obj.cssOutputString) {
     obj.cssOutputString = (
       await fsp.readFile(path.resolve(__dirname, 'template.css'))
@@ -53,7 +53,7 @@ export const OutputTemplate = async (
     postTitle,
     newPostUrl,
     css: `<style>${obj.cssOutputString}</style>`,
-    blogConfig: await getBlogConfig(),
+    blogConfig,
     time: moment().format('lll'),
   }
   return juice(ejs.render(obj.ejsOutputString, params), {
@@ -70,6 +70,12 @@ export const exampleAttribute: NewPostInfoAttribute = {
   title: 'testTitle',
   postTitle: 'postTitle',
   newPostUrl: 'https://example.com/post/1',
+  blogConfig: {
+    blogger: 'blogger',
+    avatarUrl: '#',
+    blogName: 'blogName',
+    publicPath: '#',
+  },
 }
 
 export default OutputTemplate

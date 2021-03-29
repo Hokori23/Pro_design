@@ -35,7 +35,7 @@ const sequelizeOptions: Options = {
 
 const devConfig = {
   port: 8007,
-  host: 'http://localhost/',
+  host: 'http://localhost', // 请不要在最后带上 '/'
   blogName: '埃と誇り',
   cryptoConfig: {
     // 每次分段加密的字符串最大长度（优先度高于cryptCount字段）

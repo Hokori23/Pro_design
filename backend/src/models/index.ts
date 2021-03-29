@@ -68,5 +68,9 @@ PostTag.belongsToMany(Post, {
  * Mail : User
  * 1 : 1
  */
-Mail.belongsTo(User, { targetKey: 'id', foreignKey: 'uid' })
-User.hasOne(Mail, { sourceKey: 'id', foreignKey: 'uid' })
+Mail.belongsTo(User, {
+  as: 'mail',
+  targetKey: 'id',
+  foreignKey: 'uid',
+})
+User.hasOne(Mail, { as: 'mail', sourceKey: 'id', foreignKey: 'uid' })

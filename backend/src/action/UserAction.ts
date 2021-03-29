@@ -1,5 +1,5 @@
 import { Group } from '@models/User'
-import { User } from 'models'
+import { Mail, User } from 'models'
 import { Transaction } from 'sequelize/types'
 
 /**
@@ -69,6 +69,26 @@ const Retrieve__All__Safely = async (): Promise<User[]> => {
 }
 
 /**
+ * 遍历已订阅用户
+ */
+const Retrieve__All__Subscribed = async (): Promise<User[]> => {
+  return await User.findAll({
+    attributes: {
+      exclude: ['password'],
+    },
+    include: [
+      {
+        model: Mail,
+        as: 'mail',
+        where: {
+          isSubscribed: true,
+        },
+      },
+    ],
+  })
+}
+
+/**
  * 更新用户信息
  * @param { User } oldUser
  * @param { User } newUser
@@ -95,6 +115,7 @@ export default {
   Retrieve,
   Retrieve__Safely,
   Retrieve__All__Safely,
+  Retrieve__All__Subscribed,
   Update,
   Delete,
 }

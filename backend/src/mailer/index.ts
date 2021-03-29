@@ -38,7 +38,7 @@ const SENDER_OPTIONS = {
  * @param { Array<MailAccepter> } accepters 邮件接收者
  * @description 广播邮件
  */
-const broadcast = async (
+const broadcastMail = async (
   subject: string,
   html: string,
   accepters: MailAccepter[],
@@ -47,6 +47,25 @@ const broadcast = async (
     // 添加to, subject, HTML文本内容属性
     return await send(subject, html, accepter)
   })
+  return await Promise.all(promiseArr)
+}
+
+export interface BroadcastMailsAttribute {
+  subject: string
+  html: string
+  accepter: MailAccepter
+}
+/**
+ * @param { BroadcastMailsAttribute } attributes
+ * @description 广播邮件
+ */
+const broadcastMails = async (attributes: BroadcastMailsAttribute[]) => {
+  const promiseArr: Array<Promise<any>> = attributes.map(
+    async ({ subject, html, accepter }) => {
+      // 添加to, subject, HTML文本内容属性
+      return await send(subject, html, accepter)
+    },
+  )
   return await Promise.all(promiseArr)
 }
 
@@ -88,16 +107,17 @@ const send = async (
             `邮件发送失败，时间：${moment().format('YYYY-MM-DD hh:mm:ss')}`,
           ),
         )
-      throw new Error(String(e)) // TODO: 调用函数者需处理error
+      throw new Error(String(e)) // 调用函数者需处理error
     } else {
       await send(subject, html, accepter, count, e)
     }
   }
 }
 
-export { broadcast, send, template }
+export { broadcastMail, broadcastMails, send, template }
 export default {
-  broadcast,
+  broadcastMail,
+  broadcastMails,
   send,
   template,
 }

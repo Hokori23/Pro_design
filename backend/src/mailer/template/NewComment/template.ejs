@@ -3,41 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <title><% if (title) { %> <%= title %> <% } %></title>
+    <title><%= title %></title>
   </head>
   <body>
     <table style="width: 100%; height: 100%">
       <tbody>
         <tr>
-          <% if (css) { %> <%- css %> <% } %>
+          <%- css %>
           <td>
             <div class="mail__container">
               <!-- 订阅者名称 -->
               <div class="mail__container__subscriber">
-                你好呀~ <span class="text-emphasize"><%= userName %></span>
+                你好呀~
+                <span class="text-emphasize"><%= userName %></span>
               </div>
-              <!-- 订阅者邮箱 -->
-              <% if (newPostUrl) { %>
-              <div class="mail__container__address">
-                <div>
-                  你关注的博主
-                  <a href="<%= blogConfig.publicPath %> ">
-                    <% if (blogConfig.blogger) { %> <%= blogConfig.blogger %> <%
-                    } %>
-                  </a>
-                  更新啦！
-                </div>
-              </div>
-              <% } %>
-              <!-- 订阅链接 -->
-              <% if (newPostUrl) { %>
-              <div class="mail__container__newPostUrl">
-                <div class="mail__container__newPostUrl-text">
-                  请点击以下链接进行查看
-                </div>
-                <a href="<%= newPostUrl %>">《<%= postTitle %>》</a>
-              </div>
-              <% } %>
+
+              <p>
+                你曾在文章《<a href="<%= post.getUrl(blogConfig.publicPath) %>"
+                  ><%= post.title %></a
+                >》上发表评论：
+              </p>
+              <p class="mail__container__comment"><%= originComment %></p>
+              <p><%= senderName %> 给你的回复如下：</p>
+              <p class="mail__container__comment"><%= replyComment %></p>
+
+              <p>
+                你可以
+                <a href="<%= post.getUrl(blogConfig.publicPath) %>"
+                  >查看回复完整内容</a
+                >， 欢迎再次光临<a href="<%= blogConfig.publicPath %>"
+                  ><%= blogConfig.blogName %></a
+                >
+              </p>
               <div class="footer">
                 <div class="footer__left">
                   <div class="footer__left-text">

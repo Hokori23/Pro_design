@@ -6,6 +6,7 @@ import { send, template } from '@mailer'
 import { FormattedOption } from '@action/OptionAction'
 import sequelize from '@database'
 import { MailConfirmAttributes } from '@mailer/template/MailConfirm'
+import { getBlogConfig } from '@mailer/template/utils'
 
 /**
  * 发送激活邮件
@@ -27,9 +28,12 @@ const Activate = async (user: User): Promise<Restful> => {
         '账号已存在',
       )
     }
+
+    // 生成验证码
     const captcha = md5Crypto(
       `${userAccount} - ${email} - ${Date.now().toString()}`,
     ).slice(0, 8)
+
     const existedMailCaptcha = await Action.Retrieve(email)
     const newCaptcha = { email, captcha }
     if (isUndef(existedMailCaptcha)) {
@@ -37,6 +41,8 @@ const Activate = async (user: User): Promise<Restful> => {
     } else {
       await Action.Update(existedMailCaptcha, newCaptcha as MailCaptcha, t)
     }
+
+    // 获取系统设置
     const rawOptions = await OptionAction.Retrieve__All()
     const formattedOption: Partial<FormattedOption> = {}
     rawOptions.forEach((v) => {
@@ -49,7 +55,10 @@ const Activate = async (user: User): Promise<Restful> => {
       }`,
       accepter: { userName, email },
       captcha: newCaptcha.captcha,
+      blogConfig: await getBlogConfig(),
     }
+
+    // 发送邮件
     await send(
       MailConfirmInfo.title,
       await template.MailConfirm(MailConfirmInfo),

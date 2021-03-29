@@ -1,5 +1,10 @@
-import { UserAction as Action, MailCaptchaAction, OptionAction } from 'action'
-import { User, Option } from 'models'
+import {
+  UserAction as Action,
+  MailCaptchaAction,
+  OptionAction,
+  MailAction,
+} from 'action'
+import { User, Option, Mail } from 'models'
 import { Restful, md5Crypto, isUndef, isDef } from 'utils'
 import { CodeDictionary } from '@const'
 import Omit from 'omit.js'
@@ -135,6 +140,7 @@ const Register = async (user: User, captcha: string): Promise<Restful> => {
     user.group = Group.SUBSCRIBER
 
     const registeredUser = await Action.Create(user, t)
+    await MailAction.Create(Mail.build({ uid: registeredUser.id }), t)
     await MailCaptchaAction.Delete(existedMailCaptcha.id as number, t)
     await t.commit()
     return new Restful(

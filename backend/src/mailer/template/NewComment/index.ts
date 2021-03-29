@@ -5,6 +5,7 @@ import moment from 'moment'
 import juice from 'juice'
 import { BlogConfig } from '../../interface'
 import { isDev } from '@const'
+import { Post } from '@models'
 
 const fsp = fs.promises
 moment.locale('zh-cn')
@@ -14,20 +15,26 @@ const obj = {
   ejsOutputString: '',
 } // 单例变量，作为缓存使用
 
-export interface MailConfirmAttributes {
+export interface NewCommentAttributes {
   title: string
   accepter: {
     userName: string
     email: string
   }
-  captcha: string
+  post: Post
+  senderName: string
+  originComment: string
+  replyComment: string
   blogConfig: BlogConfig
 }
 
 interface TemplateAttribute {
   title: string
-  captcha: string
+  post: Post
+  originComment: string
+  replyComment: string
   userName: string
+  senderName: string
   email: string
   css: string
   time: string
@@ -35,9 +42,17 @@ interface TemplateAttribute {
 }
 
 export const OutputTemplate = async (
-  subscribeConfirmInfo: MailConfirmAttributes,
+  subscribeConfirmInfo: NewCommentAttributes,
 ): Promise<string> => {
-  const { title, accepter, captcha, blogConfig } = subscribeConfirmInfo
+  const {
+    title,
+    accepter,
+    originComment,
+    replyComment,
+    blogConfig,
+    post,
+    senderName,
+  } = subscribeConfirmInfo
   const { userName, email } = accepter
   if (isDev || !obj.cssOutputString) {
     obj.cssOutputString = (
@@ -51,8 +66,11 @@ export const OutputTemplate = async (
   }
   const params: TemplateAttribute = {
     title,
-    captcha,
-    userName: userName,
+    post,
+    originComment,
+    replyComment,
+    userName,
+    senderName,
     email: email,
     css: `<style>${obj.cssOutputString}</style>`,
     blogConfig,
@@ -67,18 +85,26 @@ export const OutputTemplate = async (
  * 测试数据
  * @name exampleAttribute 不能为其他命名
  */
-export const exampleAttribute: MailConfirmAttributes = {
-  title: 'testTitle',
+export const exampleAttribute: NewCommentAttributes = {
+  title: '你在 [埃と誇り] 的评论有了新的回复！',
+  post: Post.build({
+    id: 1,
+    title: 'postTitle',
+    content: ' content',
+  }),
   accepter: {
     userName: 'testName',
     email: 'example@example.com',
   },
+  senderName: 'sender',
+  originComment:
+    '原评论原评论原评论原评论原评论原评论原评论原评论原评论原评论原评论原评论原评论原评论原评论原评论原评论原评论原评论原评论原评论原评论原评论原评论',
+  replyComment: '回复的评论',
   blogConfig: {
     blogger: 'blogger',
     avatarUrl: '#',
     blogName: 'blogName',
-    publicPath: '#',
+    publicPath: 'http://example.com',
   },
-  captcha: 'ABCD123456',
 }
 export default OutputTemplate
