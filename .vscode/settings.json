@@ -13,19 +13,34 @@
     "Hiragino",
     "Hokori",
     "TINYINT",
+    "TTFB",
     "UPYUN",
     "USERACCOUNT",
     "Yahei",
     "accepters",
+    "avif",
     "browserslist",
+    "camelcase",
+    "capp",
     "commitlint",
+    "flexbugs",
+    "flowtype",
+    "fontsource",
+    "immer",
     "miment",
     "objs",
+    "pmmmwh",
     "precss",
     "prodesign",
+    "roboto",
+    "svgr",
+    "testname",
     "tids",
     "ttsc",
     "ttypescript",
+    "typeahead",
+    "upupming",
+    "webp",
     "zerollup"
   ],
   "[less]": {
@@ -47,5 +62,6 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": null
   },
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }
