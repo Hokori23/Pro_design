@@ -1,8 +1,8 @@
-import { isDef } from '@/utils/tools'
 import { createModel } from '@rematch/core'
+import { RequestSnackBarProps } from './components/RequestSnackBar'
 import { RootModel } from './models'
 import { ACCESS_TOKEN_NAME, USER_INFO_NAME } from './utils/const'
-import { User } from './utils/request/user'
+import { User } from './utils/Request/user'
 
 export interface CommonState {
   dialogStatus: boolean
@@ -11,6 +11,7 @@ export interface CommonState {
   snackStatus: boolean
   snackContent: string
   userInfo: Partial<User>
+  axiosSnackBar: RequestSnackBarProps
 }
 
 export const defaultCommonState: CommonState = {
@@ -19,49 +20,30 @@ export const defaultCommonState: CommonState = {
   dialogTitle: '',
   snackStatus: false,
   snackContent: '',
-  userInfo: {
-    id: null,
-    username: '',
-    profile: '',
-    gender: 0,
-    avatar_url: '',
-    createdAt: undefined,
-    updatedAt: undefined,
+  userInfo: {},
+  axiosSnackBar: {
+    color: 'primary',
+    message: '',
+    open: false,
+    autoHideDuration: 3000,
   },
 }
-
 export const common = createModel<RootModel>()({
   state: defaultCommonState,
   reducers: {
-    SET_DIALOGSTATUS: (state: CommonState, newStatus: boolean) => {
-      state.dialogStatus = newStatus
+    SET_AXIOS_SNACK_BAR: (
+      state: CommonState,
+      newAxiosSnackBar: RequestSnackBarProps,
+    ) => {
+      state.axiosSnackBar = newAxiosSnackBar
       return state
     },
-    SET_DIALOGCONTENT: (state: CommonState, newContent: string) => {
-      state.dialogContent = newContent
-      return state
-    },
-    SET_DIALOGTITLE: (state: CommonState, newTitle: string) => {
-      state.dialogTitle = newTitle
-      return state
-    },
-    SET_DIALOG: (state: CommonState, dialog: object) => {
-      const { content, status, title } = dialog as any
-      if (isDef(content)) state.dialogContent = content
-      if (isDef(status)) state.dialogStatus = status
-      if (isDef(title)) state.dialogTitle = title
-      return state
-    },
-    SET_SNACKSTATUS: (state: CommonState, newStatus: boolean) => {
-      state.snackStatus = newStatus
-      return state
-    },
-    SET_SNACKCONTENT: (state: CommonState, newContent: string) => {
-      state.snackContent = newContent
+    CLOSE_AXIOS_SNACK_BAR: (state: CommonState) => {
+      state.axiosSnackBar.open = false
       return state
     },
 
-    SET_USERINFO: (state: CommonState, newUserInfo: Partial<User>) => {
+    SET_USER_INFO: (state: CommonState, newUserInfo: Partial<User>) => {
       state.userInfo = newUserInfo
       if (state.userInfo)
         localStorage.setItem(USER_INFO_NAME, JSON.stringify(state.userInfo))

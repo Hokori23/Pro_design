@@ -12,6 +12,7 @@
     "DOMAINNAME",
     "Hiragino",
     "Hokori",
+    "Initing",
     "TINYINT",
     "TTFB",
     "UPYUN",
@@ -27,13 +28,16 @@
     "flowtype",
     "fontsource",
     "immer",
+    "isequalwith",
     "miment",
+    "notistack",
     "objs",
     "pmmmwh",
     "precss",
     "prodesign",
     "roboto",
     "svgr",
+    "swiper",
     "testname",
     "tids",
     "ttsc",
@@ -51,16 +55,16 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   // JS/TS 统一使用 eslint 进行 format
   "[javascript]": {
-    "editor.defaultFormatter": null
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": null
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescript]": {
-    "editor.defaultFormatter": null
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": null
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "files.eol": "\n",
   "typescript.tsdk": "node_modules\\typescript\\lib"

@@ -1,3 +1,3 @@
-import request from './request'
+import Request from './Request'
 import tools from './tools'
-export { request, tools }
+export { Request, tools }

@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import { RouteConfig, routes } from './routes'
-import { Tabs } from './tabs'
-import { RootDispatch, RootState, history } from '@/store'
-import './boot'
+import { RootState, history /*, store */ } from '@/store'
 import { ConnectedRouter } from 'connected-react-router'
+import { Portal } from '@material-ui/core'
+import { RequestSnackBar } from '@/components/RequestSnackBar'
+import './boot'
 import 'animate.css'
 
 const App = (): JSX.Element => {
@@ -13,11 +14,10 @@ const App = (): JSX.Element => {
     <div className="App">
       <ConnectedRouter history={history}>
         <Switch>
-          {routes.map((route, i) => (
+          {routes.map((route) => (
             <RouteWithSubRoutes key={route.path} {...route} />
           ))}
         </Switch>
-        <Tabs />
       </ConnectedRouter>
     </div>
   )
@@ -26,38 +26,32 @@ const App = (): JSX.Element => {
 // A special wrapper for <Route> that knows how to
 // handle "sub"-routes by passing them in a `routes`
 // prop to the component it renders.
-const mapState = (state: RootState) => ({
-  state: state.common,
-})
-const mapDispatch = (dispatch: RootDispatch) => ({
-  dispatch: dispatch.common,
-})
 
 /**
  * 路由守卫
  */
-const RouteWithSubRoutes = connect(
-  mapState,
-  mapDispatch,
-)(
-  ({
-    state,
-    path,
-    dispatch,
-    routeProps,
-    component: SubComponent,
-  }: RouteConfig &
-    ReturnType<typeof mapState> &
-    ReturnType<typeof mapDispatch>): JSX.Element => {
-    return (
-      <Fragment>
-        <Route
-          {...routeProps}
-          path={path}
-          render={(props: any) => <SubComponent {...props} routes={routes} />}
-        />
-      </Fragment>
-    )
-  },
-)
+export const RouteWithSubRoutes = ({
+  path,
+  routeProps,
+  routes,
+  component: Component,
+}: RouteConfig): JSX.Element => {
+  const state = useSelector((state: RootState) => state.common)
+  // const dispatch = useSelector(() => store.dispatch.common)
+  const root = document.querySelector('#root')
+  return (
+    <Fragment>
+      <Route
+        {...routeProps}
+        path={path}
+        render={(props: any) => (
+          <Component {...props} {...props} routes={routes} />
+        )}
+      />
+      <Portal container={root}>
+        <RequestSnackBar {...state.axiosSnackBar} />
+      </Portal>
+    </Fragment>
+  )
+}
 export default App

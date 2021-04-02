@@ -1,39 +1,46 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.less'
-import 'fontsource-roboto'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { Provider } from 'react-redux'
 import { store } from './store'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import { SnackbarProvider } from 'notistack'
+import { indigo, grey } from '@material-ui/core/colors'
 
-const theme = createMuiTheme({
+import '@/static/index.less'
+import 'fontsource-roboto'
+
+export const theme = createMuiTheme({
   palette: {
-    type: 'dark',
-    text: {
-      primary: '#fff',
-    },
+    type: 'light',
     primary: {
-      main: '#fff',
+      main: indigo[500],
     },
     secondary: {
-      main: '#EE1D52',
+      main: indigo.A200,
     },
-    success: {
-      main: '#69C9D0',
+    text: {
+      primary: '#000',
+      secondary: grey[600],
+      disabled: grey[400],
+      hint: indigo[400],
     },
     background: {
-      default: '#111',
+      default: '#fff',
+      paper: '#fff',
     },
   },
 })
+
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App />
+      <SnackbarProvider maxSnack={3}>
+        <App />
+      </SnackbarProvider>
     </ThemeProvider>
   </Provider>,
   document.getElementById('root'),

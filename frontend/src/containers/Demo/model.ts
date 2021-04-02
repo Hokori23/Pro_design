@@ -1,7 +1,7 @@
 import { createModel } from '@rematch/core'
 import { RootModel } from '@/models'
-import { request } from '@/utils'
-import { LoggedInUser } from '@/utils/request/user'
+import { Request } from '@/utils'
+import { LoggedInUser } from '@/utils/Request/user'
 export interface DemoState {
   count: number
   players: PlayerModel[]
@@ -43,8 +43,8 @@ export const demo = createModel<RootModel>()({
         demo.SET_PLAYERS(data)
       },
       async getTestAPI(): Promise<any> {
-        const res = await request.user.login({
-          username: 'testName',
+        const res = await Request.user.Login({
+          userName: 'testName',
           password: '123456',
         })
         if (res) demo.SET_testAPTResult(res)

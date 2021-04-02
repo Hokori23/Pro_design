@@ -1,15 +1,15 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { store } from '@/store'
-import { ACCESS_TOKEN_NAME } from '../const'
-import user from './user'
-import upload from './upload'
+import { ACCESS_TOKEN_NAME, REQUEST_WHITE_LIST } from '../const'
 import { Restful } from './type'
+import * as user from './user'
+import * as upload from './upload'
+import * as init from './init'
 
-const whiteList = [/^https:\/\/v0.api.upyun.com/]
 const isWhiteUrl = (url: string) => {
-  return !whiteList.every((reg) => !reg.test(url))
+  return !REQUEST_WHITE_LIST.every((reg) => !reg.test(url))
 }
-export const request = async <T>(config: AxiosRequestConfig) => {
+export const Request = async <T>(config: AxiosRequestConfig) => {
   const { dispatch } = store
   const isWhiteUrlFlag = isWhiteUrl(config.url as string)
   try {
@@ -24,43 +24,47 @@ export const request = async <T>(config: AxiosRequestConfig) => {
       headers,
     })
     if (res.status !== 200) {
-      dispatch.common.SET_DIALOG({
-        status: true,
-        title: '警告',
-        content: `请求失败，状态码：${String(res.status)}`,
+      dispatch.common.SET_AXIOS_SNACK_BAR({
+        color: 'primary',
+        open: true,
+        message: `请求失败，状态码：${String(res.status)}`,
+        autoHideDuration: 3000,
       })
     } else if (
       (isWhiteUrlFlag && res.data.code !== 200) ||
-      (!isWhiteUrlFlag && res.data.code !== 0)
+      (!isWhiteUrlFlag && res.data.code !== 0) // TODO: code非零都弹提示框？
     ) {
-      dispatch.common.SET_DIALOG({
-        status: true,
-        title: '警告',
-        content: res.data.message,
+      dispatch.common.SET_AXIOS_SNACK_BAR({
+        color: 'primary',
+        open: true,
+        message: res.data.message,
+        autoHideDuration: 5000,
       })
-    } else {
-      return (res.data.data as T) || ((res.data as unknown) as T)
     }
+    return (res.data.data as T) || ((res.data as unknown) as T)
   } catch (err) {
     // eslint-disable-next-line no-console
     console.log(err.response)
     // eslint-disable-next-line no-console
     console.error('网络错误', err)
     if (err?.response?.status === 401 && !isWhiteUrlFlag) {
-      dispatch.common.SET_SNACKSTATUS(true)
-      dispatch.common.SET_SNACKCONTENT('登陆失效，请重新登陆')
-      dispatch.common.LOGOUT()
-      return
+      dispatch.common.SET_AXIOS_SNACK_BAR({
+        color: 'primary',
+        open: true,
+        message: '登陆失效，请重新登陆',
+        autoHideDuration: 6000,
+      })
+      // dispatch.common.LOGOUT()
     }
     if (err?.response?.status === 403) {
-      dispatch.common.SET_DIALOG({
-        content: '无权进行此操作',
-        title: '警告',
-        status: true,
+      dispatch.common.SET_AXIOS_SNACK_BAR({
+        color: 'primary',
+        open: true,
+        message: '无权进行此操作',
+        autoHideDuration: 6000,
       })
     }
   }
 }
-
-export { user, upload }
-export default { user, upload }
+export { user, upload, init }
+export default { user, upload, init }

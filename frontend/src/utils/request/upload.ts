@@ -1,4 +1,4 @@
-import { request } from '.'
+import { Request } from '.'
 const baseUrl = '/api/upload'
 
 export enum FileType {
@@ -10,12 +10,12 @@ export interface UploadConfig {
   url: string
   payload: any
 }
-const getAuthorizationAndPolicy = async (
+export const GetAuthorizationAndPolicy = async (
   fileName: string,
   fileType: FileType,
   payload: any,
 ) => {
-  return await request<UploadConfig>({
+  return await Request<UploadConfig>({
     method: 'GET',
     url: `${baseUrl}/token`,
     params: {
@@ -25,14 +25,13 @@ const getAuthorizationAndPolicy = async (
     },
   })
 }
-const upload = async (formData: FormData, payload: any, url: string) => {
+export const Upload = async (formData: FormData, payload: any, url: string) => {
   Object.keys(payload).map((key) => {
     formData.append(key, payload[key])
   })
-  return await request<any>({
+  return await Request<any>({
     method: 'POST',
     url,
     data: formData,
   })
 }
-export default { getAuthorizationAndPolicy, upload }
