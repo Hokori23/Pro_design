@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react'
-interface FormValidPropItem {
+export interface FormValidPropItem {
   value: any
   errorSetter: Dispatch<
     SetStateAction<{
@@ -8,14 +8,15 @@ interface FormValidPropItem {
     }>
   >
 }
-interface FormValidProps {
+export interface FormValidProps {
   [key: string]: FormValidPropItem | undefined
   userAccount?: FormValidPropItem
   userName?: FormValidPropItem
   password?: FormValidPropItem
   email?: FormValidPropItem
 }
-const validators: {
+
+export const validators: {
   [key: string]: Array<{ handler: RegExp; text: string }>
 } = {
   userAccount: [
@@ -71,4 +72,31 @@ export const formValid = (props: FormValidProps): boolean => {
     }
   }
   return flag
+}
+
+export const checkPassword = (
+  password: string,
+  confirmPassword: string,
+  confirmPasswordErrorSetter: Dispatch<
+    SetStateAction<{
+      text: string
+      error: boolean
+    }>
+  >,
+) => {
+  if (!confirmPassword) {
+    confirmPasswordErrorSetter({ text: '请输入确认密码', error: true })
+    return
+  }
+  if (password !== confirmPassword) {
+    confirmPasswordErrorSetter({
+      text: '两次输入的密码不同，请检查',
+      error: true,
+    })
+    return
+  }
+  confirmPasswordErrorSetter({
+    text: '',
+    error: false,
+  })
 }

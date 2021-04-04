@@ -4,6 +4,7 @@ import Init from './containers/Init'
 import Sign from './containers/Sign'
 import Login from './containers/Sign/Login'
 import Register from './containers/Sign/Register'
+import Home from './containers/Home'
 
 export enum PathName {
   DEMO = '/demo',
@@ -11,6 +12,7 @@ export enum PathName {
   SIGN = '/sign',
   LOGIN = '/sign/login',
   REGISTER = '/sign/register',
+  HOME = '/',
 }
 
 /* 集中存放所有路由配置 */
@@ -36,6 +38,13 @@ export const routes: RouteConfig[] = [
         component: Register,
       },
     ],
+  },
+  {
+    path: PathName.HOME,
+    component: Home,
+    routeProps: {
+      exact: true,
+    },
   },
 ]
 

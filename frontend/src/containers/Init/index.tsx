@@ -1,11 +1,11 @@
 import React, { FC, useState } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { useAsync } from 'react-use'
-import { useSelector } from 'react-redux'
 import { useSnackbar } from 'notistack'
 import classNames from 'classnames'
 import {
   Button,
+  CircularProgress,
   Grow,
   InputAdornment,
   Paper,
@@ -25,8 +25,7 @@ import { Request } from '@/utils'
 import { Gender } from '@/utils/Request/user'
 import { isDef } from '@/utils/tools'
 import { PathName, RouteConfig } from '@/routes'
-import { store } from '@/store'
-import { formValid } from './formValid'
+import { formValid, checkPassword } from './formValid'
 import './index.less'
 
 const useStyles = makeStyles((theme) => ({
@@ -64,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
 const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
   const { enqueueSnackbar } = useSnackbar()
   const classes = useStyles()
-  const dispatch = useSelector(() => store.dispatch.common)
 
   // 注册表单
   const [userAccount, setUserAccount] = useState('')
@@ -76,6 +74,11 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
   const [userNameError, setUserNameError] = useState({ text: '', error: false })
   const [password, setPassword] = useState('')
   const [passwordError, setPasswordError] = useState({ text: '', error: false })
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [confirmPasswordError, setConfirmPasswordError] = useState({
+    text: '',
+    error: false,
+  })
   const [gender, setGender] = useState(Gender.UNKNOWN)
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState({ text: '', error: false })
@@ -84,6 +87,8 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
   const [isInitingUser, setIsInitingUser] = useState(false)
   const [initErrorMessage, setInitErrorMessage] = useState('')
   const [isRegistered, setIsRegistered] = useState(false)
+
+  const forwardLogin = () => history.replace(`${PathName.LOGIN}`)
 
   // 初始化超级管理员
   const handlerInitUser = async (): Promise<void> => {
@@ -120,7 +125,6 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
       email,
     })
     if (isDef(user)) {
-      dispatch.SET_USER_INFO(user)
       setIsRegistered(true)
     }
     setIsInitingUser(false)
@@ -152,8 +156,11 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
         className={classNames('non-select', classes.subTitle)}
         elevation={0}
       >
-        <Typography color="primary" variant="h5">
+        <Typography className="flex flex-center" color="primary" variant="h5">
           初始化数据库
+          {isIniting && (
+            <CircularProgress size={18} style={{ marginLeft: '10px' }} />
+          )}
         </Typography>
       </Paper>
 
@@ -257,6 +264,20 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
             password={password}
             required
           />
+          <PasswordInput
+            className={classes.formItem}
+            color="primary"
+            disabled={isIniting || Boolean(initErrorMessage) || isInitingUser}
+            error={confirmPasswordError.error}
+            helperText={confirmPasswordError.text}
+            label="确认密码"
+            onBlur={() =>
+              checkPassword(password, confirmPassword, setConfirmPasswordError)
+            }
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            password={confirmPassword}
+            required
+          />
           <EmailInput
             className={classes.formItem}
             color="primary"
@@ -287,14 +308,29 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
 
         {/* ACTION */}
         <div className="flex flex-center" style={{ marginTop: '0.5rem' }}>
-          <Button
-            color="primary"
-            disabled={isIniting || Boolean(initErrorMessage) || isInitingUser}
-            onClick={() => void handlerInitUser()}
-            variant="contained"
-          >
-            注册
-          </Button>
+          <div style={{ position: 'relative' }}>
+            <Button
+              color="primary"
+              disabled={isIniting || Boolean(initErrorMessage) || isInitingUser}
+              onClick={() => void handlerInitUser()}
+              style={{ position: 'relative' }}
+              variant="contained"
+            >
+              注册
+            </Button>
+            {isInitingUser && (
+              <CircularProgress
+                size={20}
+                style={{
+                  position: 'absolute',
+                  left: '50%',
+                  top: '50%',
+                  marginTop: -10,
+                  marginLeft: -10,
+                }}
+              />
+            )}
+          </div>
           <Portal>
             <SimpleAlertDialog
               contentNode={
@@ -302,8 +338,8 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
                   注册成功，跳转到登陆页面
                 </Typography>
               }
-              handleClose={() => setIsRegistered(false)}
-              onClose={() => history.replace(`${PathName.LOGIN}`)} // TODO: 跳转登录页面
+              handleClose={() => forwardLogin()}
+              onClose={() => forwardLogin()}
               open={isRegistered}
               title="提示"
             ></SimpleAlertDialog>

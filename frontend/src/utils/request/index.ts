@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { store } from '@/store'
-import { ACCESS_TOKEN_NAME, REQUEST_WHITE_LIST } from '../const'
+import { REQUEST_WHITE_LIST } from '../const'
 import { Restful } from './type'
 import * as user from './user'
 import * as upload from './upload'
@@ -13,7 +13,7 @@ export const Request = async <T>(config: AxiosRequestConfig) => {
   const { dispatch } = store
   const isWhiteUrlFlag = isWhiteUrl(config.url as string)
   try {
-    const token = localStorage.getItem(ACCESS_TOKEN_NAME)
+    const token = store.getState().common.token
     const headers = config.headers || {}
     // 如果本地有token，每个非白名单请求都附带上token
     if (token && !isWhiteUrlFlag) {
@@ -54,7 +54,7 @@ export const Request = async <T>(config: AxiosRequestConfig) => {
         message: '登陆失效，请重新登陆',
         autoHideDuration: 6000,
       })
-      // dispatch.common.LOGOUT()
+      dispatch.common.LOGOUT()
     }
     if (err?.response?.status === 403) {
       dispatch.common.SET_AXIOS_SNACK_BAR({

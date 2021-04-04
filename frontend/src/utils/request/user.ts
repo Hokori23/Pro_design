@@ -1,5 +1,4 @@
 import { Request } from '.'
-import { ACCESS_TOKEN_NAME } from '../const'
 import { store } from '@/store'
 
 const baseUrl = '/api/user'
@@ -67,10 +66,6 @@ export const Login = async (user: Partial<User>) => {
     url: `${baseUrl}/login`,
     data: user,
   })
-  if (loggedInUser) {
-    // 存储token
-    localStorage.setItem(ACCESS_TOKEN_NAME, loggedInUser.token)
-  }
   return loggedInUser
 }
 
