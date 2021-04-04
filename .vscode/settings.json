@@ -12,20 +12,40 @@
     "DOMAINNAME",
     "Hiragino",
     "Hokori",
+    "Initing",
+    "Logining",
     "TINYINT",
+    "TTFB",
     "UPYUN",
     "USERACCOUNT",
     "Yahei",
     "accepters",
+    "avif",
     "browserslist",
+    "camelcase",
+    "capp",
     "commitlint",
+    "flexbugs",
+    "flowtype",
+    "fontsource",
+    "immer",
+    "isequalwith",
     "miment",
+    "notistack",
     "objs",
+    "pmmmwh",
     "precss",
     "prodesign",
+    "roboto",
+    "svgr",
+    "swiper",
+    "testname",
     "tids",
     "ttsc",
     "ttypescript",
+    "typeahead",
+    "upupming",
+    "webp",
     "zerollup"
   ],
   "[less]": {
@@ -36,16 +56,17 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   // JS/TS 统一使用 eslint 进行 format
   "[javascript]": {
-    "editor.defaultFormatter": null
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": null
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescript]": {
-    "editor.defaultFormatter": null
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": null
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }
