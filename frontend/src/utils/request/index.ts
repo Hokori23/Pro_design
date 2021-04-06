@@ -41,7 +41,7 @@ export const Request = async <T>(config: AxiosRequestConfig) => {
         autoHideDuration: 5000,
       })
     }
-    return (res.data.data as T) || ((res.data as unknown) as T)
+    return (res.data as unknown) as T
   } catch (err) {
     // eslint-disable-next-line no-console
     console.log(err.response)

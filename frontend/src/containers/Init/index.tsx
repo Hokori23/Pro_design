@@ -133,11 +133,11 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
   // 初始化数据库
   useAsync(async () => {
     setIsIniting(true)
-    const { code, message } = await Request.init.Init()
-    if (code || (!code && !message)) {
-      setInitErrorMessage(message)
+    const data = await Request.init.Init()
+    if (data?.code) {
+      setInitErrorMessage(data?.message)
     } else {
-      enqueueSnackbar(message, {
+      enqueueSnackbar(data?.message, {
         variant: 'success',
       })
     }

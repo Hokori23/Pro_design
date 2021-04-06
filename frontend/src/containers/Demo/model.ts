@@ -47,7 +47,7 @@ export const demo = createModel<RootModel>()({
           userName: 'testName',
           password: '123456',
         })
-        if (res) demo.SET_testAPTResult(res)
+        if (res?.data) demo.SET_testAPTResult(res.data)
       },
     }
   },

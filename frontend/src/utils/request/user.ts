@@ -1,4 +1,5 @@
 import { Request } from '.'
+import { Restful } from './type'
 import { store } from '@/store'
 
 const baseUrl = '/api/user'
@@ -47,7 +48,7 @@ export interface LoggedInUser extends User {
 }
 
 export const Init = async (user: Partial<User>) => {
-  return await Request<User>({
+  return await Request<Restful<User>>({
     method: 'POST',
     url: `${baseUrl}/init`,
     data: user,
@@ -61,7 +62,7 @@ export const Init = async (user: Partial<User>) => {
  * }
  */
 export const Login = async (user: Partial<User>) => {
-  const loggedInUser = await Request<LoggedInUser>({
+  const loggedInUser = await Request<Restful<LoggedInUser>>({
     method: 'POST',
     url: `${baseUrl}/login`,
     data: user,
@@ -70,7 +71,7 @@ export const Login = async (user: Partial<User>) => {
 }
 
 export const Retrieve = async (id: number) => {
-  return await Request<User>({
+  return await Request<Restful<User>>({
     method: 'GET',
     url: `${baseUrl}/retrieve`,
     params: {
@@ -79,14 +80,14 @@ export const Retrieve = async (id: number) => {
   })
 }
 export const RetrieveAll = async () => {
-  return await Request<User[]>({
+  return await Request<Restful<User[]>>({
     method: 'GET',
     url: `${baseUrl}/retrieve`,
   })
 }
 
 export const Register = async (user: Partial<User>) => {
-  return await Request<User>({
+  return await Request<Restful<User>>({
     method: 'POST',
     url: `${baseUrl}/register`,
     data: user,
@@ -94,23 +95,23 @@ export const Register = async (user: Partial<User>) => {
 }
 
 export const Edit = async (user: Partial<User>) => {
-  const newUser = await Request<User>({
+  const data = await Request<Restful<User>>({
     method: 'POST',
     url: `${baseUrl}/edit`,
     data: user,
   })
-  if (!newUser) return
-  store.dispatch.common.SET_USER_INFO(newUser)
-  return newUser
+  if (!data?.data) return
+  store.dispatch.common.SET_USER_INFO(data.data)
+  return data.data
 }
 
 export const Delete = async (user: Partial<User>) => {
-  const newUser = await Request<User>({
+  const data = await Request<Restful<User>>({
     method: 'POST',
     url: `${baseUrl}/edit`,
     data: user,
   })
-  if (!newUser) return
-  store.dispatch.common.SET_USER_INFO(newUser)
-  return newUser
+  if (!data?.data) return
+  store.dispatch.common.SET_USER_INFO(data.data)
+  return data.data
 }

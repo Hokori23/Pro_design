@@ -1,5 +1,6 @@
-import React, { FC, useState } from 'react'
+import React, { FC, Fragment, useState } from 'react'
 import classNames from 'classnames'
+import { RouteComponentProps } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Button,
@@ -8,11 +9,9 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core'
-import { RouteComponentProps } from 'react-router-dom'
-import { PathName, RouteConfig } from '@/routes'
+import { RouteConfig } from '@/routes'
 import { RootState, store } from '@/store'
 import { useSelector } from 'react-redux'
-import './index.less'
 import { Input, PasswordInput } from '@/components/Input'
 import { Request } from '@/utils'
 import { formValid } from '@/containers/Init/formValid'
@@ -20,9 +19,6 @@ import { AccountCircle } from '@material-ui/icons'
 import { isDef } from '@/utils/tools'
 
 const useStyles = makeStyles((theme) => ({
-  title: {
-    padding: '1rem 2.5rem',
-  },
   form: {
     padding: '0.5rem 3rem 2rem 3rem',
     backgroundColor: theme.palette.grey[50],
@@ -37,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 const Login: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
   const classes = useStyles()
-  const dispatch = useSelector(() => store.dispatch.common)
   const state = useSelector((state: RootState) => state.common)
+  const dispatch = useSelector(() => store.dispatch.common)
 
   // 登录表单
   const [userAccount, setUserAccount] = useState('')
@@ -70,31 +66,26 @@ const Login: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
     }
 
     setIsLogining(true)
-    const user = await Request.user.Login({
+    const data = await Request.user.Login({
       userAccount,
       password,
     })
-    if (isDef(user)) {
-      dispatch.SET_USER_INFO(user)
-      dispatch.SET_TOKEN(user.token)
+    setIsLogining(false)
+    if (isDef(data) && isDef(data.data) && !data.code) {
+      dispatch.SET_USER_INFO(data.data)
+      dispatch.SET_TOKEN(data.data.token)
       dispatch.LOGIN()
-      history.replace(PathName.HOME)
     }
   }
 
   if (state.isLogin) return null
 
   return (
-    <div className="Login flex flex-column">
-      <Paper className={classNames('non-select', classes.title)} elevation={0}>
-        <Typography color="primary" noWrap variant="h3">
-          Geek Blog
-        </Typography>
-      </Paper>
+    <Fragment>
       <Paper className={classes.form} elevation={1}>
         <form className="flex flex-column">
           <Typography
-            className={classes.formTitle}
+            className={classNames('non-select', classes.formTitle)}
             color="primary"
             variant="h4"
           >
@@ -141,6 +132,9 @@ const Login: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
               })
             }
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') void handlerLogin()
+            }}
             password={password}
             required
           />
@@ -172,7 +166,7 @@ const Login: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
           </div>
         </form>
       </Paper>
-    </div>
+    </Fragment>
   )
 }
 export default Login
