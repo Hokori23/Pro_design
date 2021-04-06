@@ -32,9 +32,7 @@ export const GenderSelect: FC<GenderSelectProps> = ({
         disabled={disabled}
         displayEmpty={displayEmpty}
         fullWidth
-        onChange={(e, el) => {
-          onChange?.(e, el)
-        }}
+        onChange={onChange}
         style={{ textAlign: 'center' }}
         value={value}
       >
