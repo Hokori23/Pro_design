@@ -2,7 +2,7 @@ import { createModel } from '@rematch/core'
 import { RequestSnackBarProps } from './components/RequestSnackBar'
 import { RootModel } from './models'
 import { ACCESS_TOKEN_NAME, USER_INFO_NAME } from './utils/const'
-import { User } from './utils/Request/user'
+import { User } from './utils/Request/User'
 
 export interface CommonState {
   userInfo: Partial<User>

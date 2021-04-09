@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Gender, GenderCN } from '@/utils/Request/user'
+import { Gender, GenderCN } from '@/utils/Request/User'
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core'
 
 interface GenderSelectProps {
@@ -32,9 +32,7 @@ export const GenderSelect: FC<GenderSelectProps> = ({
         disabled={disabled}
         displayEmpty={displayEmpty}
         fullWidth
-        onChange={(e, el) => {
-          onChange?.(e, el)
-        }}
+        onChange={onChange}
         style={{ textAlign: 'center' }}
         value={value}
       >

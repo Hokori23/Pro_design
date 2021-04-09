@@ -11,7 +11,7 @@ const mailCaptchaRouter = EXPRESS.Router()
  * 发送邮箱验证码
  * @path /get
  */
-mailCaptchaRouter.get(
+mailCaptchaRouter.post(
   '/get',
   asyncWrapper(async (req, res, next) => {
     const user = User.build(req.body)

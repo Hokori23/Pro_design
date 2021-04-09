@@ -2,9 +2,9 @@ import axios, { AxiosRequestConfig } from 'axios'
 import { store } from '@/store'
 import { REQUEST_WHITE_LIST } from '../const'
 import { Restful } from './type'
-import * as user from './user'
-import * as upload from './upload'
-import * as init from './init'
+import * as User from './User'
+import * as Upload from './Upload'
+import * as Init from './Init'
 
 const isWhiteUrl = (url: string) => {
   return !REQUEST_WHITE_LIST.every((reg) => !reg.test(url))
@@ -41,7 +41,7 @@ export const Request = async <T>(config: AxiosRequestConfig) => {
         autoHideDuration: 5000,
       })
     }
-    return (res.data.data as T) || ((res.data as unknown) as T)
+    return (res.data as unknown) as T
   } catch (err) {
     // eslint-disable-next-line no-console
     console.log(err.response)
@@ -66,5 +66,5 @@ export const Request = async <T>(config: AxiosRequestConfig) => {
     }
   }
 }
-export { user, upload, init }
-export default { user, upload, init }
+export { User, Upload, Init }
+export default { User, Upload, Init }

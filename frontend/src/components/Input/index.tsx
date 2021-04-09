@@ -5,6 +5,7 @@ export { GenderRadio } from './GenderRadio'
 export { GenderSelect } from './GenderSelect'
 export { PasswordInput } from './PasswordInput'
 export { EmailInput } from './EmailInput'
+export { EmailCaptcha } from './EmailCaptcha'
 
 interface InputProps {
   className?: string
@@ -48,12 +49,8 @@ export const Input: FC<InputProps> = ({
       error={error}
       helperText={helperText}
       label={label}
-      onBlur={(e) => {
-        onBlur?.(e)
-      }}
-      onChange={(e) => {
-        onChange?.(e)
-      }}
+      onBlur={onBlur}
+      onChange={onChange}
       required={required}
       value={value}
     />

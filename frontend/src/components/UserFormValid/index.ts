@@ -21,20 +21,32 @@ export const validators: {
 } = {
   userAccount: [
     {
-      handler: /^(\d|\w){5,20}$/,
+      handler: /^.{5,20}$/,
       text: '用户账号长度应为5至20字符',
+    },
+    {
+      handler: /^\w+$/,
+      text: '用户账号只能由字母、数字、下划线组成',
     },
   ],
   userName: [
     {
-      handler: /^(\d|\w){2,20}$/,
+      handler: /^.{2,20}$/,
       text: '用户名长度应为2至20字符',
+    },
+    {
+      handler: /^\w+$/,
+      text: '用户名只能由字母、数字、下划线组成',
     },
   ],
   password: [
     {
-      handler: /^.+$/,
-      text: '密码长度应为2至20字符',
+      handler: /^.{5,20}$/,
+      text: '密码长度应为5至20字符',
+    },
+    {
+      handler: /^\w+$/,
+      text: '密码只能由字母、数字、下划线组成',
     },
   ],
   email: [
@@ -45,6 +57,16 @@ export const validators: {
     {
       handler: /^[a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/,
       text: '邮箱格式错误',
+    },
+  ],
+  emailCaptcha: [
+    {
+      handler: /^.+$/,
+      text: '邮箱验证码不能为空',
+    },
+    {
+      handler: /^[a-z0-9]{8,8}$/,
+      text: '邮箱验证码为8位小写字母和数字组成，请检查格式',
     },
   ],
 }

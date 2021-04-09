@@ -51,12 +51,8 @@ export const EmailInput: FC<EmailInputProps> = ({
         color={color}
         disabled={disabled}
         error={error}
-        onBlur={(e) => {
-          onBlur?.(e)
-        }}
-        onChange={(e) => {
-          onChange?.(e)
-        }}
+        onBlur={onBlur}
+        onChange={onChange}
         required={required}
         startAdornment={
           <InputAdornment className="non-select" position="start">

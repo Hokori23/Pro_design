@@ -8,9 +8,14 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { SnackbarProvider } from 'notistack'
 import { indigo, grey } from '@material-ui/core/colors'
-
+import { autoFixContext } from 'react-activation'
 import '@/static/index.less'
 import 'fontsource-roboto'
+import { isDev } from './utils/const'
+
+autoFixContext([require('react/jsx-runtime'), 'jsx', 'jsxs', 'jsxDEV'])
+isDev &&
+  autoFixContext([require('react/jsx-dev-runtime'), 'jsx', 'jsxs', 'jsxDEV'])
 
 export const theme = createMuiTheme({
   palette: {

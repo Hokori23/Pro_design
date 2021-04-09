@@ -9,8 +9,12 @@ enum CodeDictionary {
   JWT_ERROR__EXPIRED = 101,
 }
 
-export interface Restful<T> {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export interface _Restful {
   code: CodeDictionary
   message: string
+}
+
+export interface Restful<T> extends _Restful {
   data?: T
 }

@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core'
 import { Lock, Visibility, VisibilityOff } from '@material-ui/icons'
 import classNames from 'classnames'
-import React, { FC, ChangeEvent, useState } from 'react'
+import React, { FC, ChangeEvent, KeyboardEvent, useState } from 'react'
 
 interface PasswordInputProps {
   className?: string
@@ -24,6 +24,9 @@ interface PasswordInputProps {
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => void
   onBlur?: StandardTextFieldProps['onBlur']
+  onKeyDown?: (
+    event: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ) => void
 }
 export const PasswordInput: FC<PasswordInputProps> = ({
   className,
@@ -36,6 +39,7 @@ export const PasswordInput: FC<PasswordInputProps> = ({
   helperText,
   onChange,
   onBlur,
+  onKeyDown,
 }) => {
   const [show, setShow] = useState(false)
   return (
@@ -63,12 +67,9 @@ export const PasswordInput: FC<PasswordInputProps> = ({
           </InputAdornment>
         }
         error={error}
-        onBlur={(e) => {
-          onBlur?.(e)
-        }}
-        onChange={(e) => {
-          onChange?.(e)
-        }}
+        onBlur={onBlur}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
         required={required}
         startAdornment={
           <InputAdornment position="start">
