@@ -22,10 +22,10 @@ import {
 } from '@/components/Input'
 import { SimpleAlertDialog } from '@/components/SimpleAlertDialog'
 import { Request } from '@/utils'
-import { Gender } from '@/utils/Request/user'
+import { Gender } from '@/utils/Request/User'
 import { isDef } from '@/utils/tools'
 import { PathName, RouteConfig } from '@/routes'
-import { formValid, checkPassword } from './formValid'
+import { formValid, checkPassword } from '@/components/UserFormValid'
 import './index.less'
 
 const useStyles = makeStyles((theme) => ({
@@ -83,6 +83,7 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState({ text: '', error: false })
 
+  // status
   const [isIniting, setIsIniting] = useState(true)
   const [isInitingUser, setIsInitingUser] = useState(false)
   const [initErrorMessage, setInitErrorMessage] = useState('')
@@ -91,7 +92,7 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
   const forwardLogin = () => history.replace(`${PathName.LOGIN}`)
 
   // 初始化超级管理员
-  const handlerInitUser = async (): Promise<void> => {
+  const handleInitUser = async (): Promise<void> => {
     // 验证表单
     if (
       !formValid({
@@ -117,7 +118,7 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
     }
 
     setIsInitingUser(true)
-    const user = await Request.user.Init({
+    const user = await Request.User.Init({
       userAccount,
       userName,
       password,
@@ -133,7 +134,7 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
   // 初始化数据库
   useAsync(async () => {
     setIsIniting(true)
-    const data = await Request.init.Init()
+    const data = await Request.Init.Init()
     if (data?.code) {
       setInitErrorMessage(data?.message)
     } else {
@@ -312,7 +313,7 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
             <Button
               color="primary"
               disabled={isIniting || Boolean(initErrorMessage) || isInitingUser}
-              onClick={() => void handlerInitUser()}
+              onClick={() => void handleInitUser()}
               style={{ position: 'relative' }}
               variant="contained"
             >

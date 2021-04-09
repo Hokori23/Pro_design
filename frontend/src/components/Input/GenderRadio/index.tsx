@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Gender, GenderCN } from '@/utils/Request/user'
+import { Gender, GenderCN } from '@/utils/Request/User'
 import { FormControlLabel, Radio, RadioGroup } from '@material-ui/core'
 
 interface GenderRadioProps {

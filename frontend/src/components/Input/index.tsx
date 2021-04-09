@@ -5,6 +5,7 @@ export { GenderRadio } from './GenderRadio'
 export { GenderSelect } from './GenderSelect'
 export { PasswordInput } from './PasswordInput'
 export { EmailInput } from './EmailInput'
+export { EmailCaptcha } from './EmailCaptcha'
 
 interface InputProps {
   className?: string

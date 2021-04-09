@@ -8,7 +8,6 @@ import { Portal } from '@material-ui/core'
 import { RequestSnackBar } from '@/components/RequestSnackBar'
 import NotFoundPage from '@/containers/NotFoundPage'
 import './boot'
-import 'animate.css'
 
 const root = document.querySelector('#root')
 const App = (): JSX.Element => {

@@ -47,6 +47,10 @@ export interface LoggedInUser extends User {
   token: string
 }
 
+export interface RegisterUser extends User {
+  captcha: string
+}
+
 export const Init = async (user: Partial<User>) => {
   return await Request<Restful<User>>({
     method: 'POST',
@@ -86,7 +90,7 @@ export const RetrieveAll = async () => {
   })
 }
 
-export const Register = async (user: Partial<User>) => {
+export const Register = async (user: Partial<RegisterUser>) => {
   return await Request<Restful<User>>({
     method: 'POST',
     url: `${baseUrl}/register`,
@@ -114,4 +118,20 @@ export const Delete = async (user: Partial<User>) => {
   if (!data?.data) return
   store.dispatch.common.SET_USER_INFO(data.data)
   return data.data
+}
+
+export const SendCaptcha = async (
+  userAccount: string,
+  userName: string,
+  email: string,
+) => {
+  return await Request<Restful<string>>({
+    method: 'POST',
+    url: '/api/captcha/get',
+    data: {
+      userAccount,
+      userName,
+      email,
+    },
+  })
 }

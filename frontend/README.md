@@ -1,6 +1,6 @@
-# ByteDance 7 前端代码
+# Pro_design 前端代码
 
-后台管理路由：http://localhost:3000/admin/
+后台管理路由：<http://localhost:3000/admin/>
 
 ## 前置知识
 
@@ -12,7 +12,7 @@
 - Redux
   - 这个也不怎么需要看，主要了解一下 effects 和 reducers 的概念，一个是异步请求，一个是同步 commit 修改 state。
   - redux 的写法和模板有很多种，我们这里选择了一种简洁一点的方法。
-  - 更多参考例子可以看：https://github.com/rematch/rematch/tree/next/examples 。
+  - 更多参考例子可以看：<https://github.com/rematch/rematch/tree/next/examples> 。
 - TS
   - TS 主要功能就是类型提示，可以看一下 [type-challenges](https://github.com/type-challenges/type-challenges)，做一些练习，熟悉了就可以。不需要掌握特别深，不懂的可以随时搜索。
 - Storybook
@@ -20,6 +20,13 @@
   - 所有 `*.stories.tsx` 文件会被自动识别为一个 story 文件，在 storybook 中加以渲染
 - Less
   - 用到的时候现查文档就行，主要是把 CSS 的写法精简了许多
+- React Activation
+  - 用于实现组件缓存
+  - 文档：<https://github.com/CJY0208/react-activation/blob/master/README_CN.md>
+- React Transition Group
+  - 搭配 React Activation，实现路由、组件切换时的动画效果
+  - 文档：<http://reactcommunity.org/react-transition-group/>
+  - 搭配使用例子：<https://codesandbox.io/s/luyouzhuanchangdonghuashili-jdhq1>
 
 ## 组件（story）开发
 
@@ -41,5 +48,5 @@ npm run start
 
 Demo 页面：
 
-- 路由：http://localhost:3000/demo
+- 路由：<http://localhost:3000/demo>
 - 代码：[src/containers/Demo](src/containers/Demo)

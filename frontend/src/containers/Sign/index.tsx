@@ -7,6 +7,7 @@ import { RootState } from '@/store'
 import { Paper, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { isDef } from '@/utils/tools'
+import KeepAlive, { AliveScope } from 'react-activation'
 import './index.less'
 
 const useStyles = makeStyles((theme) => ({
@@ -15,7 +16,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Sign: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
+const Sign: FC<RouteComponentProps & RouteConfig> = ({
+  routes,
+  history,
+  location,
+}) => {
   const classes = useStyles()
   const state = useSelector((state: RootState) => state.common)
 
@@ -37,16 +42,24 @@ const Sign: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
         </Typography>
       </Paper>
       {isDef(routes) && Boolean(routes?.length) && (
-        <Switch>
-          {routes.map(({ path, routeProps, routes, component: Component }) => (
-            <Route
-              key={path}
-              {...routeProps}
-              path={path}
-              render={(props: any) => <Component {...props} routes={routes} />}
-            />
-          ))}
-        </Switch>
+        <AliveScope>
+          <Switch location={location}>
+            {routes.map(
+              ({ path, routeProps, routes, component: Component }) => (
+                <Route
+                  key={path}
+                  {...routeProps}
+                  path={path}
+                  render={(props: any) => (
+                    <KeepAlive name={path}>
+                      <Component {...props} routes={routes} />
+                    </KeepAlive>
+                  )}
+                />
+              ),
+            )}
+          </Switch>
+        </AliveScope>
       )}
     </div>
   )
