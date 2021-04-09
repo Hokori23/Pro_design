@@ -72,5 +72,13 @@ Mail.belongsTo(User, {
   as: 'mail',
   targetKey: 'id',
   foreignKey: 'uid',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
 })
-User.hasOne(Mail, { as: 'mail', sourceKey: 'id', foreignKey: 'uid' })
+User.hasOne(Mail, {
+  as: 'mail',
+  sourceKey: 'id',
+  foreignKey: 'uid',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+})
