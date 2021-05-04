@@ -6,6 +6,7 @@ import User from './User'
 class Mail extends Model {
   id!: number | null
   uid!: number
+  isSubscribed!: boolean
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }

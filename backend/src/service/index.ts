@@ -4,6 +4,7 @@ import PostCommentService from './PostCommentService'
 import PostTagService from './PostTagService'
 import MailCaptchaService from './MailCaptchaService'
 import OptionService from './OptionService'
+import MailService from './MailService'
 
 export {
   UserService,
@@ -12,4 +13,5 @@ export {
   PostTagService,
   MailCaptchaService,
   OptionService,
+  MailService,
 }

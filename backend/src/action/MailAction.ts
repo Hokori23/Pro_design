@@ -18,6 +18,18 @@ const Retrieve__All = async (): Promise<Mail[]> => {
 }
 
 /**
+ * 通过uid查询邮箱信息
+ * @param { number } uid
+ */
+const Retrieve__UID = async (uid: number): Promise<Mail | null> => {
+  return await Mail.findOne({
+    where: {
+      uid,
+    },
+  })
+}
+
+/**
  * 更新邮箱信息
  * @param { Mail } oldMail
  * @param { Mail } newMail
@@ -41,6 +53,7 @@ const Delete = async (id: number): Promise<number> => {
 export default {
   Create,
   Retrieve__All,
+  Retrieve__UID,
   Update,
   Delete,
 }
