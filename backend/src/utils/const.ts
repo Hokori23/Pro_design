@@ -1,5 +1,5 @@
-const QUERY_METHODS = ['GET', 'DELETE']
-const BODY_METHODS = ['POST', 'PUT']
+const QUERY_METHODS = ['GET']
+const BODY_METHODS = ['POST', 'PUT', 'DELETE']
 
 // 白名单，不需要JWT
 const ROUTER_WHITE_LIST = [
@@ -20,6 +20,8 @@ const ROUTER_WHITE_LIST = [
   `captcha/get`,
   // template,
   `template`,
+  // option
+  `option/retrieve`,
 ].map((v) => `/api/${v}`)
 
 // 只有管理员和超级管理员可以访问的接口
@@ -50,7 +52,6 @@ const ROUTER_SUPER_ADMIN_ALLOW = [
   `init/force-admin`,
   `init/table-rows-admin`,
   `option/save-admin`,
-  `option/retrieve-admin`,
 ].map((v) => `/api${v}`)
 
 const isDev = process.env.NODE_ENV === 'development'
@@ -95,6 +96,7 @@ enum CodeDictionary {
   // Email
   EMAIL_ERROR__USER_NOT_INIT,
   EMAIL_ERROR__NOT_ACTIVE,
+  EMAIL_ERROR__NON_EXISTED,
   // OTHER
   UPLOAD_TYPE_ERROR,
   PARAMS_ERROR = 98,

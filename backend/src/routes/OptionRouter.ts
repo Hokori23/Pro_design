@@ -33,10 +33,10 @@ optionRouter.post(
 
 /**
  * 保存设置
- * @path /retrieve-admin
+ * @path /retrieve
  */
 optionRouter.get(
-  '/retrieve-admin',
+  '/retrieve',
   asyncWrapper(async (req, res, next) => {
     try {
       res.status(200).json(await Service.Retrieve())

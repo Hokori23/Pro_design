@@ -113,6 +113,7 @@ const Delete__All = async (t?: Transaction): Promise<void> => {
  * @param { string } system_publicPath_$
  * @param { string } system_blogName_$
  * @param { string } email_isActivated_$
+ * @param { string } email_expiredTime_$
  */
 export const Init = async () => {
   const existedOptions = await Retrieve__All()
@@ -141,12 +142,7 @@ export const Init = async () => {
   ]
   await CreateBulk(options as Option[])
 }
-Init()
-  .then(() => {})
-  .catch((e) => {
-    throw new Error(e)
-  })
-
+void Init()
 export interface FormattedOption {
   system: {
     publicPath: string
