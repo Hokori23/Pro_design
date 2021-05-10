@@ -122,7 +122,7 @@ const Retrieve__ID = async (
  * 按页查询
  * @param { string } page
  * @param { string } capacity
- * @param { PostType } postType?
+ * @param { PostType[] } postTypes?
  * @param { boolean } showDrafts = false
  * @param { boolean } showHidden = false
  * @param { string } isASC = '0'
@@ -130,7 +130,7 @@ const Retrieve__ID = async (
 const Retrieve__Page = async (
   page: string,
   capacity: string,
-  postType?: PostType,
+  postTypes?: PostType[],
   showDrafts: boolean = false,
   showHidden: boolean = false,
   isASC: string = '0',
@@ -140,12 +140,12 @@ const Retrieve__Page = async (
       Action.Retrieve__Page(
         (Number(page) - 1) * Number(capacity),
         Number(capacity),
-        postType,
+        postTypes,
         showDrafts,
         showHidden,
         isASC === '1',
       ),
-      Action.Count__Page(postType, showDrafts),
+      Action.Count__Page(postTypes, showDrafts),
     ])
     const result = {
       posts: values[0],
@@ -165,7 +165,7 @@ const Retrieve__Page = async (
  * @param { string } page
  * @param { string } capacity
  * @param { string[] } tids
- * @param { PostType } postType?
+ * @param { PostType[] } postTypes = []
  * @param { boolean } showDrafts = false
  * @param { boolean } showHidden = false
  * @param { string } isASC = '0'
@@ -174,7 +174,7 @@ const Retrieve__Page_Tag = async (
   page: string,
   capacity: string,
   tids: string[],
-  postType?: PostType,
+  postTypes: PostType[] = [],
   showDrafts: boolean = false,
   showHidden: boolean = false,
   isASC: string = '0',
@@ -184,14 +184,14 @@ const Retrieve__Page_Tag = async (
       Action.Retrieve__Page_Tag(
         (Number(page) - 1) * Number(capacity),
         Number(capacity),
-        postType,
+        postTypes,
         tids.map((tid) => Number(tid)),
         showDrafts,
         showHidden,
         isASC === '1',
       ),
       Action.Count__Page_Tag(
-        postType,
+        postTypes,
         showDrafts,
         showHidden,
         tids.map((tid) => Number(tid)),

@@ -1,6 +1,5 @@
 import { Post, PostComment, User } from '@models'
 import { PostType } from '@models/Post'
-import { isUndef } from '@utils'
 // Op: https://www.sequelize.com.cn/core-concepts/model-querying-basics#%E5%BA%94%E7%94%A8-where-%E5%AD%90%E5%8F%A5
 import { Op, Transaction } from 'sequelize'
 
@@ -72,7 +71,7 @@ const Retrieve__ID = async (
  * 分页查询帖子
  * @param { number } offset
  * @param { number } limit
- * @param { PostType } postType?
+ * @param { PostType[] } postTypes = []
  * @param { boolean } showDrafts = false
  * @param { boolean } showHidden = false
  * @param { boolean } isASC = false // 升序
@@ -80,7 +79,7 @@ const Retrieve__ID = async (
 const Retrieve__Page = async (
   offset: number,
   limit: number,
-  postType?: PostType,
+  postTypes: PostType[] = [],
   showDrafts: boolean = false,
   showHidden: boolean = false,
   isASC: boolean = false,
@@ -92,8 +91,10 @@ const Retrieve__Page = async (
   if (!showHidden) {
     where.isHidden = false
   }
-  if (!isUndef(postType)) {
-    where.postType = postType
+  if (postTypes.length) {
+    where[Op.or] = postTypes.map((value) => {
+      return { type: value }
+    })
   }
   return await Post.findAll({
     include: [
@@ -115,8 +116,8 @@ const Retrieve__Page = async (
  * 分页查询帖子（按标签）
  * @param { number } offset
  * @param { number } limit
- * @param { number[] } tid
- * @param { PostType } postType
+ * @param { PostType[] } postTypes = []
+ * @param { number[] } tids = []
  * @param { boolean } showDrafts = false
  * @param { boolean } showHidden = false
  * @param { boolean } isASC = false // 升序
@@ -124,7 +125,7 @@ const Retrieve__Page = async (
 const Retrieve__Page_Tag = async (
   offset: number,
   limit: number,
-  postType?: PostType,
+  postTypes: PostType[] = [],
   tids: number[] = [],
   showDrafts: boolean = false,
   showHidden: boolean = false,
@@ -138,11 +139,18 @@ const Retrieve__Page_Tag = async (
   if (!showHidden) {
     where.isHidden = false
   }
-  if (tids.length)
+  if (tids.length) {
     where[Op.or] = tids.map((value) => {
       return { tid: value }
     })
-  if (!isUndef(postType)) where[postType] = postType
+  }
+  if (postTypes.length) {
+    where[Op.or] = where[Op.or].concat(
+      postTypes.map((value) => {
+        return { type: value }
+      }),
+    )
+  }
   where.isDraft = false
 
   return await Post.findAll({
@@ -162,13 +170,15 @@ const Retrieve__Page_Tag = async (
 }
 
 const Count__Page = async (
-  postType?: PostType,
+  postTypes: PostType[] = [],
   showDrafts: boolean = false,
   showHidden: boolean = false,
 ): Promise<number> => {
   const where: any = {}
-  if (!isUndef(postType)) {
-    where.postType = postType
+  if (postTypes.length) {
+    where[Op.or] = postTypes.map((value) => {
+      return { type: value }
+    })
   }
   if (!showDrafts) {
     where.isDraft = false
@@ -182,7 +192,7 @@ const Count__Page = async (
 }
 
 const Count__Page_Tag = async (
-  postType?: PostType,
+  postTypes: PostType[] = [],
   showDrafts: boolean = false,
   showHidden: boolean = false,
   tids: number[] = [],
@@ -198,8 +208,12 @@ const Count__Page_Tag = async (
   if (!showHidden) {
     where.isHidden = false
   }
-  if (!isUndef(postType)) {
-    where.postType = postType
+  if (postTypes.length) {
+    where[Op.or] = where[Op.or].concat(
+      postTypes.map((value) => {
+        return { type: value }
+      }),
+    )
   }
   return await Post.count({
     where,

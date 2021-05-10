@@ -9,11 +9,13 @@
     "source.fixAll.eslint": true
   },
   "cSpell.words": [
+    "APPBAR",
     "DOMAINNAME",
     "Hiragino",
     "Hokori",
     "Initing",
     "Logining",
+    "Swipeable",
     "TINYINT",
     "TTFB",
     "UPYUN",
@@ -37,6 +39,7 @@
     "precss",
     "prodesign",
     "roboto",
+    "scrypt",
     "svgr",
     "swiper",
     "testname",

@@ -1,3 +1,4 @@
+/* eslint-disable valid-typeof */
 import CRYPTO from 'crypto'
 import fs from 'fs'
 import precss from 'precss'
@@ -15,9 +16,8 @@ const { cryptoConfig } = config
  * @param { object } v
  * @returns { boolean }
  */
-const isDef = (v: any): boolean => {
-  return v !== undefined && v !== null
-}
+const isDef = <T>(v: T | undefined | null): v is T =>
+  v !== undefined && v !== null
 
 /**
  * 判断变量是否未定义
@@ -25,9 +25,8 @@ const isDef = (v: any): boolean => {
  * @param { object } v
  * @returns { boolean }
  */
-const isUndef = (v: any): v is null | undefined => {
-  return v === undefined || v === null
-}
+const isUndef = (v: unknown): v is undefined | null =>
+  v === undefined || v === null
 
 const isEmpty = (v: string): boolean => {
   return v === ''
@@ -48,6 +47,24 @@ const isNaN = (v: any) => {
     return v.some((v) => isNaN(v))
   }
   return Number.isNaN(Number(v))
+}
+
+export enum PrimitiveType {
+  undefined = 'undefined',
+  number = 'number',
+  string = 'string',
+  boolean = 'boolean',
+  function = 'function',
+  symbol = 'symbol',
+  object = 'object',
+  bigint = 'bigint',
+}
+/**
+ * 判断是否为某基本类型数组
+ * @param
+ */
+const isPrimitiveArray = (arr: any[], type: PrimitiveType): boolean => {
+  return arr.every((v) => typeof v === type)
 }
 
 /**
@@ -204,11 +221,16 @@ const findSrcFiles = (filePath: string, filesList: File[], reg: RegExp) => {
   const files = fs.readdirSync(filePath)
   files.forEach((name) => {
     if (ignoreDirectory.includes(name)) return
+
     const childFilePath = path.resolve(filePath, name)
     const stat = fs.statSync(childFilePath)
+
     if (stat.isDirectory()) {
       findSrcFiles(childFilePath, filesList, reg)
-    } else if (reg.test(name)) {
+      return
+    }
+
+    if (reg.test(name)) {
       filesList.push({
         path: childFilePath,
         name,
@@ -260,6 +282,7 @@ export {
   isUndef,
   isEmpty,
   isNaN,
+  isPrimitiveArray,
   mixin,
   toArray,
   checkIntegrity,

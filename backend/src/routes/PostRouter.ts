@@ -3,11 +3,22 @@ import asyncWrapper from 'async-wrapper-express-ts'
 
 import { PostService as Service } from '@service'
 import { Post } from '@models'
-import { Restful, checkIntegrity, isNaN, isDef, isUndef } from '@utils'
+import {
+  Restful,
+  checkIntegrity,
+  isNaN,
+  isUndef,
+  isPrimitiveArray,
+  PrimitiveType,
+} from '@utils'
 import { CodeDictionary } from '@const'
 import { PostType } from '@models/Post'
 
 const postRouter = Router()
+
+const isValidPostType = (postTypes: any): postTypes is string[] => {
+  return isUndef(postTypes) || isPrimitiveArray(postTypes, PrimitiveType.string)
+}
 
 /**
  * 添加帖子
@@ -91,19 +102,19 @@ postRouter.get(
  * @path /retrieve
  * @param { string } page
  * @param { string } capacity
- * @param { PostType } postType
+ * @param { PostType[] } postTypes?
  * @param { string } page
  */
 postRouter.get(
   '/retrieve',
   asyncWrapper(async (req, res, next) => {
-    const { page, capacity, isASC, postType } = req.query
+    const { page, capacity, isASC, postTypes } = req.query
     try {
       if (
         isNaN(page) ||
         isNaN(capacity) ||
         isNaN(isASC) ||
-        (isDef(postType) && isNaN(postType))
+        !isValidPostType(postTypes)
       ) {
         res
           .status(200)
@@ -115,7 +126,7 @@ postRouter.get(
             await Service.Retrieve__Page(
               page as string,
               capacity as string,
-              (postType as unknown) as PostType,
+              (postTypes as unknown) as PostType[],
               false,
               false,
               isASC as string,
@@ -135,19 +146,19 @@ postRouter.get(
  * @path /retrieve-admin
  * @param { string } page
  * @param { string } capacity
- * @param { PostType } postType
+ * @param { PostType[] } postTypes?
  * @param { string } page
  */
 postRouter.get(
   '/retrieve-admin',
   asyncWrapper(async (req, res, next) => {
-    const { page, capacity, isASC, postType } = req.query
+    const { page, capacity, isASC, postTypes } = req.query
     try {
       if (
         isNaN(page) ||
         isNaN(capacity) ||
         isNaN(isASC) ||
-        (isDef(postType) && isNaN(postType))
+        !isValidPostType(postTypes)
       ) {
         res
           .status(200)
@@ -159,7 +170,7 @@ postRouter.get(
             await Service.Retrieve__Page(
               page as string,
               capacity as string,
-              (postType as unknown) as PostType,
+              (postTypes as unknown) as PostType[],
               true,
               true,
               isASC as string,
@@ -180,21 +191,21 @@ postRouter.get(
  * @param { string } page
  * @param { string } capacity
  * @param { number[] } tids
- * @param { PostType } postType
+ * @param { PostType[] } postTypes
  * @param { string } page
  */
 postRouter.get(
   '/retrieve-tag',
   asyncWrapper(async (req, res, next) => {
-    const { page, capacity, tids, isASC, postType } = req.query
+    const { page, capacity, tids, isASC, postTypes } = req.query
     try {
       if (
         isNaN(page) ||
         isNaN(capacity) ||
-        isNaN(postType) ||
         isNaN(tids) ||
         isNaN(isASC) ||
-        !(tids as string[]).length
+        !(tids as string[]).length ||
+        !isValidPostType(postTypes)
       ) {
         res
           .status(200)
@@ -207,7 +218,7 @@ postRouter.get(
               page as string,
               capacity as string,
               tids as string[],
-              (postType as unknown) as PostType,
+              (postTypes as unknown) as PostType[],
               false,
               false,
               isASC as string,
@@ -228,21 +239,21 @@ postRouter.get(
  * @param { string } page
  * @param { string } capacity
  * @param { number[] } tids
- * @param { PostType } postType
+ * @param { PostType[] } postTypes
  * @param { string } page
  */
 postRouter.get(
   '/retrieve-tag-admin',
   asyncWrapper(async (req, res, next) => {
-    const { page, capacity, tids, isASC, postType } = req.query
+    const { page, capacity, tids, isASC, postTypes } = req.query
     try {
       if (
         isNaN(page) ||
         isNaN(capacity) ||
-        isNaN(postType) ||
         isNaN(tids) ||
         isNaN(isASC) ||
-        !(tids as string[]).length
+        !(tids as string[]).length ||
+        !isValidPostType(postTypes)
       ) {
         res
           .status(200)
@@ -255,7 +266,7 @@ postRouter.get(
               page as string,
               capacity as string,
               tids as string[],
-              (postType as unknown) as PostType,
+              (postTypes as unknown) as PostType[],
               true,
               true,
               isASC as string,

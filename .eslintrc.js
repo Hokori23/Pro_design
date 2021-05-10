@@ -31,6 +31,7 @@ module.exports = {
     ],
     '@typescript-eslint/prefer-nullish-coalescing': 0,
     '@typescript-eslint/explicit-function-return-type': 0,
+    requireStringLiterals: 0,
   },
   overrides: [
     // storybook 特定规则
