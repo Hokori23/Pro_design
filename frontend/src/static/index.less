@@ -34,7 +34,18 @@ body,
     align-items: center;
   }
 }
-
+.App {
+  display: flex;
+  flex-direction: column;
+}
+.ka-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.ka-content {
+  flex-grow: 1;
+}
 .hidden {
   visibility: hidden;
 }
@@ -43,4 +54,20 @@ body,
 }
 .non-select {
   user-select: none;
+}
+.plain-a {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  &:-webkit-any-link {
+    color: inherit;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  &:-webkit-any-link:active {
+    color: inherit;
+  }
+  &:active {
+    color: inherit;
+  }
 }
