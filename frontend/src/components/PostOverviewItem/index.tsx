@@ -13,14 +13,13 @@ import {
   useMediaQuery,
 } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
-// import FavoriteIcon from '@material-ui/icons/Favorite'
-// import ThumbDownIcon from '@material-ui/icons/ThumbDown'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import CommentIcon from '@material-ui/icons/Comment'
 
 import { useStyles } from './useStyles'
 import { Link } from 'react-router-dom'
 import { PathName } from '@/routes'
+import { Renderer } from '../Markdown/Renderer'
 
 moment.locale('zh-cn')
 interface PostOverviewItemProps {
@@ -64,7 +63,12 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
             />
           )}
           <CardContent>
-            <Typography component="h2" gutterBottom variant="h5">
+            <Typography
+              className={classes.title}
+              component="h2"
+              gutterBottom
+              variant="h5"
+            >
               {title}
             </Typography>
             <div className="flex-column"></div>
@@ -72,25 +76,16 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
               className={classes.content}
               color="textSecondary"
               component="p"
+              style={{ fontSize: 5 }}
               variant="body2"
             >
-              {content}
+              <Renderer content={content} />
             </Typography>
           </CardContent>
         </CardActionArea>
       </Link>
       <section className={classes.actionsWrapper}>
         <div className={classes.actions}>
-          {/* <IconButton>
-            <Badge badgeContent={likesCount} color="secondary">
-              <FavoriteIcon fontSize={isMobileSize ? 'small' : 'default'} />
-            </Badge>
-          </IconButton>
-          <IconButton>
-            <Badge badgeContent={dislikesCount} color="error">
-              <ThumbDownIcon fontSize={isMobileSize ? 'small' : 'default'} />
-            </Badge>
-          </IconButton> */}
           <IconButton disabled style={{ color: 'rgba(0, 0, 0, 0.54)' }}>
             <Badge badgeContent={pageViews} color="primary">
               <VisibilityIcon fontSize={isMobileSize ? 'small' : 'default'} />
@@ -102,7 +97,7 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
             </Badge>
           </IconButton>
         </div>
-        <div className="flex flex-center non-select">
+        <div className="flex flex-center">
           <Typography
             className={classes.actionsText}
             color="textSecondary"

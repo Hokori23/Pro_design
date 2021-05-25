@@ -60,6 +60,13 @@ export const routes: RouteConfig[] = [
   {
     path: PathName.SIGN,
     component: Sign,
+    routeProps: {
+      exact: true,
+    },
+  },
+  {
+    path: PathName.SIGN,
+    component: Sign,
     routes: [
       {
         path: PathName.LOGIN,

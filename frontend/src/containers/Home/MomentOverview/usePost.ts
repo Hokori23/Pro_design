@@ -1,6 +1,5 @@
 import { Request } from '@/utils'
 import { PostType, Toggle, Post } from '@/utils/Request/Post'
-import { isDef } from '@/utils/tools'
 import { useEffect, useState } from 'react'
 
 const POST_CAPACITY = 10
@@ -25,7 +24,7 @@ export default () => {
     setIsASC(isASC)
     setPostTypes(postTypes)
     const res = await Request.Post.RetrieveAll(page, capacity, isASC, postTypes)
-    if (isDef(res) && res.code === 0 && isDef(res.data)) {
+    if (res?.data && res?.code === 0) {
       const data = res.data
       setTotal(data.total)
       setMaxPage(Math.ceil(total / capacity))

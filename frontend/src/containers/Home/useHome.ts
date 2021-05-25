@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Option } from '@/utils/Request/Option'
-import { isDef } from '@/utils/tools'
 import { useAsync } from 'react-use'
 import useInit from './useInit'
 import * as H from 'history'
@@ -23,13 +22,14 @@ export default (location: H.Location<unknown>) => {
     },
   ]
   const idx = tabs.findIndex((v) => location.pathname.startsWith(v.path))
+
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [blogConfig, setBlogConfig] = useState([] as Option[])
   const [curTabIdx, setCurTabIdx] = useState(idx === -1 ? 0 : idx)
 
   useAsync(async () => {
     const { blogConfig } = await useInit()
-    if (isDef(blogConfig)) {
+    if (blogConfig) {
       setBlogConfig(blogConfig)
     }
   })
@@ -38,6 +38,7 @@ export default (location: H.Location<unknown>) => {
     const idx = tabs.findIndex((v) => location.pathname.startsWith(v.path))
     setCurTabIdx(idx === -1 ? 0 : idx)
   }, [location.pathname])
+
   return {
     drawerOpen,
     setDrawerOpen,

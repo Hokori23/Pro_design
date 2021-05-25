@@ -151,7 +151,7 @@ const Register: FC<RouteComponentProps & RouteConfig> = ({ location }) => {
       email,
       captcha: emailCaptcha,
     })
-    if (isDef(res) && res.code === 0) {
+    if (res?.data && res?.code === 0) {
       enqueueSnackbar(`${res.message}，请在登录页登录`, {
         variant: 'info',
       })

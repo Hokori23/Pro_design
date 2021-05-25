@@ -2,7 +2,6 @@ import React, { FC } from 'react'
 import { PostWithAuthor } from '@/utils/Request/Post'
 import { makeStyles } from '@material-ui/core/styles'
 import { Link, Typography } from '@material-ui/core'
-import { isUndef } from '@/utils/tools'
 import classnames from 'classnames'
 import moment from 'moment'
 
@@ -57,7 +56,6 @@ interface TitleProps {
 }
 export const Title: FC<TitleProps> = ({ post }) => {
   const classes = useStyles()
-  if (isUndef(post)) return null
   const { title, coverUrl, pageViews, postComments, createdAt } = post
   return (
     <header className={classes.titleWrapper}>

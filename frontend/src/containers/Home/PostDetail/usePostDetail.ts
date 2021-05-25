@@ -1,6 +1,5 @@
 import { Request } from '@/utils'
 import { PostWithAuthor } from '@/utils/Request/Post'
-import { isDef } from '@/utils/tools'
 import { useEffect, useState } from 'react'
 import { useActivate } from 'react-activation'
 import * as H from 'history'
@@ -12,7 +11,7 @@ export default (location: H.Location<unknown>, id: string) => {
   const Retrieve = async (id: string) => {
     setLoading(true)
     const res = await Request.Post.Retrieve(Number(id))
-    if (isDef(res) && res.code === 0 && isDef(res.data)) {
+    if (res?.data && res?.code === 0) {
       setPost(res.data)
     }
     setLoading(false)
@@ -30,5 +29,6 @@ export default (location: H.Location<unknown>, id: string) => {
   return {
     loading,
     post,
+    Retrieve,
   }
 }

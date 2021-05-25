@@ -58,13 +58,19 @@ export const Request = async <T>(config: AxiosRequestConfig) => {
         autoHideDuration: 6000,
       })
       dispatch.common.LOGOUT()
-    }
-    if (err?.response?.status === 403) {
+    } else if (err?.response?.status === 403) {
       dispatch.common.SET_AXIOS_SNACK_BAR({
         color: 'primary',
         open: true,
         message: '无权进行此操作',
         autoHideDuration: 6000,
+      })
+    } else {
+      dispatch.common.SET_AXIOS_SNACK_BAR({
+        color: 'primary',
+        open: true,
+        message: err?.response?.data || String(err),
+        autoHideDuration: 5000,
       })
     }
   }

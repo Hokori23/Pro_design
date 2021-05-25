@@ -38,13 +38,16 @@ body,
   display: flex;
   flex-direction: column;
 }
-.ka-wrapper {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-.ka-content {
-  flex-grow: 1;
+.ka {
+  &-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+  }
+  &-content {
+    flex-grow: 1;
+  }
 }
 .hidden {
   visibility: hidden;

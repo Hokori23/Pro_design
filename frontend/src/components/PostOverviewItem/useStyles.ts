@@ -14,6 +14,12 @@ export const useStyles = makeStyles((theme) => ({
   rootLink: {
     marginBottom: 10,
   },
+  title: {
+    display: 'inline-block',
+    padding: '0 0.5em',
+    marginBottom: '0.5em',
+    borderBottom: '1px solid #e7e7e7',
+  },
   actionsWrapper: {
     display: 'flex',
     marginTop: theme.spacing(1),
@@ -39,5 +45,8 @@ export const useStyles = makeStyles((theme) => ({
     'text-overflow': 'ellipsis',
     '-webkit-box-orient': 'vertical',
     '-webkit-line-clamp': 5,
+    [theme.breakpoints.up(700)]: {
+      padding: '0 0.5rem',
+    },
   },
 }))

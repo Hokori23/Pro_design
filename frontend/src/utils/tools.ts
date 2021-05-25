@@ -38,6 +38,22 @@ export const markdownIt = new _markdownIt({
   },
 })
 
+export const scrollIntoTop = (
+  block: 'center' | 'end' | 'nearest' | 'start' | undefined = 'center',
+  behavior: 'smooth' | 'auto' | undefined = 'smooth',
+) => {
+  const anchor = document.querySelector('#back-to-top-anchor')
+  if (anchor) {
+    anchor.scrollIntoView({ behavior, block })
+  }
+}
+export const scrollIntoBottom = () => {
+  const anchor = document.querySelector('#go-to-bottom-anchor')
+  if (anchor) {
+    anchor.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+}
+
 export default {
   isDef,
   isUndef,
@@ -45,4 +61,6 @@ export default {
   stringifyObjToUrl,
   JsonClone,
   markdownIt,
+  scrollIntoTop,
+  scrollIntoBottom,
 }

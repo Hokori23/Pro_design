@@ -15,9 +15,10 @@ import { Link, LinkProps } from 'react-router-dom'
 import { PathName } from '@/routes'
 import { OverridableComponent } from '@material-ui/core/OverridableComponent'
 
+import { drawerWidth } from './useStyles'
 const useStyles = makeStyles({
   list: {
-    width: 250,
+    width: drawerWidth,
   },
 })
 
@@ -45,8 +46,8 @@ const ListItemLink: FC<ListItemLinkProps> = ({ icon, primary, to }) => {
 }
 
 export interface DrawerListProps {
-  onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
-  onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => void
+  onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void
   blogConfig: Option[]
 }
 

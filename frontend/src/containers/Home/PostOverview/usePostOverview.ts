@@ -1,9 +1,9 @@
 import { Request } from '@/utils'
 import { PostType, Toggle, Post } from '@/utils/Request/Post'
-import { isDef } from '@/utils/tools'
 import { useEffect, useState } from 'react'
 import * as H from 'history'
 import { useActivate } from 'react-activation'
+import { scrollIntoTop } from '@/utils/tools'
 
 export default (location: H.Location<unknown>) => {
   const query = new URLSearchParams(location.search)
@@ -29,12 +29,13 @@ export default (location: H.Location<unknown>) => {
     postTypes: PostType[],
   ) => {
     const res = await Request.Post.RetrieveAll(page, capacity, isASC, postTypes)
-    if (isDef(res) && res.code === 0 && isDef(res.data)) {
+    if (res?.data && res?.code === 0) {
       const data = res.data
       const maxPage = Math.ceil(data.total / capacity)
       setTotal(data.total)
       setMaxPage(maxPage)
       setPosts(res.data.posts)
+      scrollIntoTop()
       return maxPage
     }
   }

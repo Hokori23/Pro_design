@@ -16,7 +16,6 @@ import { Input, PasswordInput } from '@/components/Input'
 import { Request } from '@/utils'
 import { formValid } from '@/components/UserFormValid'
 import { AccountCircle } from '@material-ui/icons'
-import { isDef } from '@/utils/tools'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -67,14 +66,14 @@ const Login: FC<RouteComponentProps & RouteConfig> = () => {
     }
 
     setIsLogining(true)
-    const data = await Request.User.Login({
+    const res = await Request.User.Login({
       userAccount,
       password,
     })
     setIsLogining(false)
-    if (isDef(data) && isDef(data.data) && !data.code) {
-      dispatch.SET_USER_INFO(data.data)
-      dispatch.SET_TOKEN(data.data.token)
+    if (res?.data && res?.code === 0) {
+      dispatch.SET_USER_INFO(res.data)
+      dispatch.SET_TOKEN(res.data.token)
       dispatch.LOGIN()
     }
   }

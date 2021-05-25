@@ -17,6 +17,7 @@ module.exports = {
     'react/jsx-boolean-value': 'error',
     'no-void': 0,
     '@typescript-eslint/strict-boolean-expressions': 0,
+    '@typescript-eslint/no-non-null-assertion': 0,
     // https://github.com/typescript-eslint/typescript-eslint/blob/ef88a696a157f617d38ce6d49207a4a4a089a19b/packages/eslint-plugin/docs/rules/naming-convention.md#enforce-that-interface-names-do-not-begin-with-an-i
     '@typescript-eslint/naming-convention': [
       'error',

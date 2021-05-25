@@ -23,7 +23,6 @@ import {
 import { SimpleAlertDialog } from '@/components/SimpleAlertDialog'
 import { Request } from '@/utils'
 import { Gender } from '@/utils/Request/User'
-import { isDef } from '@/utils/tools'
 import { PathName, RouteConfig } from '@/routes'
 import { formValid, checkPassword } from '@/components/UserFormValid'
 import './index.less'
@@ -125,7 +124,7 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
       gender,
       email,
     })
-    if (isDef(user)) {
+    if (user) {
       setIsRegistered(true)
     }
     setIsInitingUser(false)
@@ -134,13 +133,15 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
   // 初始化数据库
   useAsync(async () => {
     setIsIniting(true)
-    const data = await Request.Init.Init()
-    if (data?.code) {
-      setInitErrorMessage(data?.message)
-    } else {
-      enqueueSnackbar(data?.message, {
-        variant: 'success',
-      })
+    const res = await Request.Init.Init()
+    if (res) {
+      if (res?.code !== 0) {
+        setInitErrorMessage(res?.message)
+      } else {
+        enqueueSnackbar(res?.message, {
+          variant: 'success',
+        })
+      }
     }
     setIsIniting(false)
   }, [])

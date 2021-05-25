@@ -7,37 +7,37 @@ import {
   InputLabel,
   StandardTextFieldProps,
 } from '@material-ui/core'
-import { Email } from '@material-ui/icons'
+import WebIcon from '@material-ui/icons/Web'
 import classNames from 'classnames'
 import React, { FC, ChangeEvent } from 'react'
 
-interface EmailInputProps {
+interface UrlInputProps {
   className?: string
   color?: 'primary' | 'secondary'
   disabled?: boolean
-  email?: string
+  url?: string
   error?: boolean
   label?: string
   required?: boolean
   helperText?: string
+  placeholder?: string
   onChange?: (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => void
   onBlur?: StandardTextFieldProps['onBlur']
-  placeholder?: string
 }
-export const EmailInput: FC<EmailInputProps> = ({
+export const UrlInput: FC<UrlInputProps> = ({
   className,
   color = 'primary',
   disabled = false,
-  email,
+  url,
   helperText,
   error = false,
-  label = '邮箱',
+  label = '个人网站',
   required = false,
   onChange,
   onBlur,
-  placeholder,
+  placeholder = 'http(s)://',
 }) => {
   return (
     <FormControl
@@ -60,12 +60,11 @@ export const EmailInput: FC<EmailInputProps> = ({
         startAdornment={
           <InputAdornment className="non-select" position="start">
             <Icon style={{ marginRight: '5px' }}>
-              <Email color="action" />
+              <WebIcon color="action" />
             </Icon>
           </InputAdornment>
         }
-        type="email"
-        value={email}
+        value={url}
       />
       {helperText && error && (
         <FormHelperText error>{helperText}</FormHelperText>

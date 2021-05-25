@@ -36,6 +36,28 @@ postCommentRouter.post(
 )
 
 /**
+ * 查询评论
+ * @path /retrieve-pid
+ */
+postCommentRouter.get(
+  '/retrieve-pid',
+  asyncWrapper(async (req, res, next) => {
+    const { pid } = req.body
+    if (isUndef(pid)) {
+      res.status(200).json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+      return next()
+    }
+    try {
+      res.status(200).json(await Service.Retrieve__PID(pid))
+    } catch (e) {
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
  * 删除评论
  * @path /delete-admin
  */

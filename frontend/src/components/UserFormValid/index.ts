@@ -69,6 +69,18 @@ export const validators: {
       text: '邮箱验证码为8位小写字母和数字组成，请检查格式',
     },
   ],
+  comment: [
+    {
+      handler: /^.+$/,
+      text: '评论不能为空',
+    },
+  ],
+  url: [
+    {
+      handler: /(https?:)\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g,
+      text: '网站格式有误, http(s)://...',
+    },
+  ],
 }
 
 export const formValid = (props: FormValidProps): boolean => {
