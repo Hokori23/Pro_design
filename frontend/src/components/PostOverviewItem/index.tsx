@@ -6,7 +6,6 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  CardMedia,
   IconButton,
   Typography,
   Badge,
@@ -15,11 +14,13 @@ import {
 import { useTheme } from '@material-ui/core/styles'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import CommentIcon from '@material-ui/icons/Comment'
-
 import { useStyles } from './useStyles'
 import { Link } from 'react-router-dom'
 import { PathName } from '@/routes'
-import { Renderer } from '../Markdown/Renderer'
+
+// components
+import { CardMedia } from '@/components/CardMedia'
+import { Renderer } from '@/components/Markdown/Renderer'
 
 moment.locale('zh-cn')
 interface PostOverviewItemProps {
@@ -59,6 +60,7 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
               className={classes.media}
               component="img"
               image={coverUrl}
+              innerClassName={classes.mediaInner}
               title={title}
             />
           )}

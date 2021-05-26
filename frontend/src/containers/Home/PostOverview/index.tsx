@@ -11,6 +11,7 @@ import usePostOverview from './usePostOverview'
 import { PostOverviewItem } from 'components/PostOverviewItem'
 import { ScrollTop } from '@/components/ScrollTop'
 import { Pagination, PaginationItem } from '@material-ui/lab'
+import { CircularLoading } from '@/components/CircularLoading'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +41,7 @@ const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
   const classes = useStyles()
   const ref = createRef()
   const {
+    loading,
     page,
     total,
     capacity,
@@ -67,10 +69,16 @@ const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
   return (
     <div className={classes.root}>
       <section className={classes.posts}>
-        {posts.length ? (
+        {loading ? (
+          <CircularLoading />
+        ) : posts.length ? (
           posts.map((post) => <PostOverviewItem key={post.id} post={post} />)
         ) : (
-          <div>查无文章</div>
+          <div className="spread-box flex flex-center">
+            <Typography align="center" color="primary" variant="h3">
+              查无文章
+            </Typography>
+          </div>
         )}
       </section>
       <Pagination

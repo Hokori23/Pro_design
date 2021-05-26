@@ -14,6 +14,7 @@ export default (location: H.Location<unknown>) => {
   const POST_TYPES: PostType[] =
     ((query.getAll('postTypes') as unknown) as PostType[]) || []
 
+  const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(PAGE)
   const [capacity, setCapacity] = useState(CAPACITY)
   const [total, setTotal] = useState(1)
@@ -28,7 +29,9 @@ export default (location: H.Location<unknown>) => {
     isASC: Toggle,
     postTypes: PostType[],
   ) => {
+    setLoading(true)
     const res = await Request.Post.RetrieveAll(page, capacity, isASC, postTypes)
+    setLoading(false)
     if (res?.data && res?.code === 0) {
       const data = res.data
       const maxPage = Math.ceil(data.total / capacity)
@@ -52,6 +55,7 @@ export default (location: H.Location<unknown>) => {
   })
 
   return {
+    loading,
     page,
     total,
     capacity,

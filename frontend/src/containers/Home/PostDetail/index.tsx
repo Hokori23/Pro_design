@@ -9,6 +9,7 @@ import usePostDetail from './usePostDetail'
 
 import { PostDetailItem } from '@/components/PostDetailItem'
 import { ScrollTop } from '@/components/ScrollTop'
+import { CircularLoading } from '@/components/CircularLoading'
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -32,7 +33,7 @@ const PostDetail: FC<RouteComponentProps & RouteConfig> = (props) => {
     <div className={classes.wrapper}>
       <div className={classes.postWrapper}>
         {loading && !state.loadingComment ? (
-          <div>loading</div>
+          <CircularLoading />
         ) : (
           <PostDetailItem post={post} />
         )}
