@@ -43,9 +43,7 @@ class Post extends Model {
   public readonly updatedAt!: Date
 
   getUrl(publicPath: string) {
-    return `${publicPath}/${PostType[
-      this.type as PostType
-    ].toLowerCase()}/${String(this.id)}`
+    return `${publicPath}/post/detail/${String(this.id)}`
   }
 }
 
