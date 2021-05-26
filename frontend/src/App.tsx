@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import { routes } from './routes'
@@ -8,10 +8,32 @@ import { Portal } from '@material-ui/core'
 import { RequestSnackBar } from '@/components/RequestSnackBar'
 import NotFoundPage from '@/containers/NotFoundPage'
 import './boot'
+import KeepAlive, { AliveScope } from 'react-activation'
 
 const root = document.querySelector('#root')
+
+const Routes: FC = () => {
+  return (
+    <Switch>
+      {routes.map(({ path, routeProps, routes, component: Component }) => (
+        <Route
+          key={path}
+          {...routeProps}
+          path={path}
+          render={(props: any) => (
+            <KeepAlive when={[false, true]}>
+              <Component {...props} routes={routes} />
+            </KeepAlive>
+          )}
+        />
+      ))}
+    </Switch>
+  )
+}
+
 const App = (): JSX.Element => {
   const state = useSelector((state: RootState) => state.common)
+
   return (
     <div className="App">
       <ConnectedRouter history={history}>
@@ -19,28 +41,13 @@ const App = (): JSX.Element => {
          * 404页面兜底
          * <https://blog.csdn.net/grepets/article/details/96393575>}
          */}
-        <Route
-          render={({ location }) =>
-            (location as any)?.state?.is404 ? (
-              <NotFoundPage />
-            ) : (
-              <Switch>
-                {routes.map(
-                  ({ path, routeProps, routes, component: Component }) => (
-                    <Route
-                      key={path}
-                      {...routeProps}
-                      path={path}
-                      render={(props: any) => (
-                        <Component {...props} routes={routes} />
-                      )}
-                    />
-                  ),
-                )}
-              </Switch>
-            )
-          }
-        />
+        <AliveScope>
+          <Route
+            render={({ location }) =>
+              (location as any)?.state?.is404 ? <NotFoundPage /> : <Routes />
+            }
+          />
+        </AliveScope>
         <Portal container={root}>
           <RequestSnackBar {...state.axiosSnackBar} />
         </Portal>

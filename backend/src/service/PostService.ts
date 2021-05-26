@@ -149,7 +149,7 @@ const Retrieve__Page = async (
     ])
     const result = {
       posts: values[0],
-      count: values[1],
+      total: values[1],
     }
     return new Restful(CodeDictionary.SUCCESS, '查询成功', result)
   } catch (e) {
@@ -199,7 +199,7 @@ const Retrieve__Page_Tag = async (
     ])
     const result = {
       posts: values[0],
-      count: values[1],
+      total: values[1],
     }
     return new Restful(CodeDictionary.SUCCESS, '查询成功', result)
   } catch (e) {

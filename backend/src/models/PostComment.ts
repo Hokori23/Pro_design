@@ -1,9 +1,11 @@
 import { DataTypes, Model } from 'sequelize'
 import sequelize from 'database'
 import Post from './Post'
+import User from './User'
 
 class PostComment extends Model {
   id!: number
+  rootId?: number
   parentId?: number
   pid!: number
   uid!: number
@@ -18,6 +20,10 @@ class PostComment extends Model {
   public readonly updatedAt!: Date
 }
 
+export interface PostCommentWithAuthor extends PostComment {
+  author?: User
+}
+
 PostComment.init(
   {
     id: {
@@ -25,6 +31,10 @@ PostComment.init(
       type: DataTypes.INTEGER.UNSIGNED,
       primaryKey: true,
       autoIncrement: true,
+    },
+    rootId: {
+      comment: '根评论id',
+      type: DataTypes.INTEGER.UNSIGNED,
     },
     parentId: {
       comment: '父评论id',

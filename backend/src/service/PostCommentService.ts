@@ -1,6 +1,7 @@
 import { PostCommentAction as Action, PostAction, UserAction } from 'action'
-import { PostComment, User } from 'models'
-import { Restful, isUndef } from 'utils'
+import { User } from 'models'
+import { PostCommentWithAuthor } from 'models/PostComment'
+import { Restful, isUndef, isDef } from 'utils'
 import { CodeDictionary } from '@const'
 import { broadcastMails, BroadcastMailsAttribute, template } from '@mailer'
 import { getBlogConfig } from '@mailer/template/utils'
@@ -10,7 +11,7 @@ import sequelize from '@database'
  * 发表评论
  * @param { PostComment } comment
  */
-const Create = async (comment: PostComment): Promise<Restful> => {
+const Create = async (comment: PostCommentWithAuthor): Promise<Restful> => {
   const t = await sequelize.transaction()
   try {
     const existedPost = await PostAction.Retrieve__ID(comment.pid)
@@ -26,8 +27,8 @@ const Create = async (comment: PostComment): Promise<Restful> => {
         '该贴评论区已封锁',
       )
     }
-    const isRegistered = !isUndef(comment.uid) && comment.uid !== -1
-    let existedUser
+    const isRegistered = isDef(comment.uid) && comment.uid !== -1
+    let existedUser: User | null
     if (isRegistered) {
       existedUser = await UserAction.Retrieve('id', comment.uid)
       if (isUndef(existedUser)) {
@@ -51,37 +52,40 @@ const Create = async (comment: PostComment): Promise<Restful> => {
     comment = await Action.Create(comment, t)
 
     // 判断是否有父评论
-    const hasParentComment = !isUndef(comment.parentId)
-    if (hasParentComment) {
+    if (isDef(comment.parentId) && isDef(comment.rootId)) {
       const parentComment = existedPost.postComments?.find(
         (v) => v.id === comment.parentId,
       )
+      const rootComment = existedPost.postComments?.find(
+        (v) => v.id === comment.rootId,
+      )
+
       if (
-        // 父评论不存在
-        isUndef(parentComment)
+        // 父评论或根评论不存在
+        isUndef(parentComment) ||
+        isUndef(rootComment)
       ) {
         return new Restful(
           CodeDictionary.SERVICE_ERROR__COMMENT_PARENT_COMMENT_NON_EXISTED,
           '回复评论不存在',
         )
       }
-      const siblingComments = existedPost.postComments?.filter(
-        (v) => v.parentId === comment.parentId && v.email !== comment.email,
-      )
+      // const siblingComments = existedPost.postComments?.filter(
+      //   (v) => v.parentId === comment.parentId && v.email !== comment.email,
+      // )
       const blogConfig = await getBlogConfig()
       const title = `你在 [${blogConfig.blogName}] 的评论有了新的回复！`
-      const replyCommentSet = new Set()
+
+      // 设置评论名称，未注册则为邮箱
+      const senderName =
+        comment.uid === -1 ? comment.email : existedUser!.userName
+
+      // const replyCommentSet = new Set()
       const replyComments =
         parentComment.email === comment.email // 判断回复的评论是不是自己的
-          ? siblingComments
-          : [parentComment, ...(siblingComments || [])].filter((v) => {
-              // 去重过滤，防止一个人接收到多个回复
-              if (replyCommentSet.has(v.email)) return false
-              replyCommentSet.add(v.email)
-              return true
-            })
-      const senderName =
-        comment.uid === -1 ? comment.email : existedUser.userName
+          ? []
+          : [parentComment]
+
       // 如果有需要发送回复邮件的评论
       if (replyComments?.length) {
         const attributes: BroadcastMailsAttribute[] = await Promise.all(
@@ -123,6 +127,18 @@ const Create = async (comment: PostComment): Promise<Restful> => {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `发表评论失败, ${String(e.message)}`,
+    )
+  }
+}
+
+const Retrieve__PID = async (pid: number): Promise<Restful> => {
+  try {
+    const comments = await Action.Retrieve__PID(pid)
+    return new Restful(CodeDictionary.SUCCESS, '查询成功', comments)
+  } catch (e) {
+    return new Restful(
+      CodeDictionary.COMMON_ERROR,
+      `查询评论失败, ${String(e.message)}`,
     )
   }
 }
@@ -200,6 +216,7 @@ const Dislike = async (id: number): Promise<Restful> => {
 
 export default {
   Create,
+  Retrieve__PID,
   Delete,
   Like,
   Dislike,

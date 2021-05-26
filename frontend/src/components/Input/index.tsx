@@ -6,6 +6,8 @@ export { GenderSelect } from './GenderSelect'
 export { PasswordInput } from './PasswordInput'
 export { EmailInput } from './EmailInput'
 export { EmailCaptcha } from './EmailCaptcha'
+export { UrlInput } from './UrlInput'
+export { NewCommentInput } from './NewCommentInput'
 
 interface InputProps {
   className?: string

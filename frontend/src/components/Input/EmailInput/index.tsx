@@ -24,6 +24,7 @@ interface EmailInputProps {
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => void
   onBlur?: StandardTextFieldProps['onBlur']
+  placeholder?: string
 }
 export const EmailInput: FC<EmailInputProps> = ({
   className,
@@ -36,6 +37,7 @@ export const EmailInput: FC<EmailInputProps> = ({
   required = false,
   onChange,
   onBlur,
+  placeholder,
 }) => {
   return (
     <FormControl
@@ -53,6 +55,7 @@ export const EmailInput: FC<EmailInputProps> = ({
         error={error}
         onBlur={onBlur}
         onChange={onChange}
+        placeholder={placeholder}
         required={required}
         startAdornment={
           <InputAdornment className="non-select" position="start">

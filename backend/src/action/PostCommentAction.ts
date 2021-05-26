@@ -1,4 +1,4 @@
-import { PostComment } from '@models'
+import { PostComment, User } from '@models'
 import { Op, Transaction } from 'sequelize'
 
 /**
@@ -26,6 +26,29 @@ const Retrieve__ID = async (id: number): Promise<PostComment | null> => {
 }
 
 /**
+ * 通过PID查询评论
+ * @param pid
+ */
+const Retrieve__PID = async (pid: number): Promise<PostComment[]> => {
+  return await PostComment.findAll({
+    where: {
+      pid,
+    },
+    include: [
+      {
+        model: User,
+        as: 'author',
+        attributes: {
+          exclude: ['password'],
+        },
+        required: false,
+      },
+    ],
+    order: [['createdAt', 'ASC']],
+  })
+}
+
+/**
  * 删除评论
  * @param { number } id
  * @param { number } pid?
@@ -37,7 +60,10 @@ const Delete = async (id: number, pid?: number): Promise<number> => {
         id,
         [Op.and]: {
           pid,
-          parentId: id,
+          [Op.or]: {
+            parentId: id,
+            rootId: id,
+          },
         },
       },
     },
@@ -47,5 +73,6 @@ const Delete = async (id: number, pid?: number): Promise<number> => {
 export default {
   Create,
   Retrieve__ID,
+  Retrieve__PID,
   Delete,
 }

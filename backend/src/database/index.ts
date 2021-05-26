@@ -11,7 +11,6 @@ const sequelize = new Sequelize(database, user, password, {
   // eslint-disable-next-line no-console
   logging: isDev ? console.log : false, // 是否输出数据库日志
 })
-
 export const init = async () => {
   await sequelize.sync({ force: true })
 }

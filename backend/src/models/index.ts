@@ -45,6 +45,21 @@ Post.hasMany(PostComment, {
 })
 
 /**
+ * PostComment : User
+ * N : 1
+ */
+PostComment.belongsTo(User, {
+  as: 'author',
+  targetKey: 'id',
+  foreignKey: 'uid',
+})
+User.hasMany(PostComment, {
+  as: 'postComments',
+  sourceKey: 'id',
+  foreignKey: 'uid',
+})
+
+/**
  * Post : PostTag
  * N : N
  * @description 通过中间表建立关系

@@ -16,6 +16,13 @@ const ROUTER_WHITE_LIST = [
   `post/retrieve-id`,
   `post/retrieve`,
   `post/retrieve-tag`,
+  `post/like`,
+  `post/dislike`,
+  // post-comment
+  `post-comment/create`,
+  `post-comment/retrieve-pid`,
+  `post-comment/like`,
+  `post-comment/dislike`,
   // captcha,
   `captcha/get`,
   // template,

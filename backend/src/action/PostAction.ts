@@ -54,6 +54,18 @@ const Retrieve__ID = async (
       {
         model: PostComment,
         as: 'postComments',
+        include: [
+          {
+            model: User,
+            as: 'author',
+            attributes: {
+              exclude: ['password'],
+            },
+            required: false,
+          },
+        ],
+        separate: true,
+        order: [['createdAt', 'ASC']],
       },
       {
         model: User,
@@ -100,6 +112,10 @@ const Retrieve__Page = async (
     include: [
       {
         association: 'tags',
+      },
+      {
+        model: PostComment,
+        as: 'postComments',
       },
     ],
     where,
@@ -157,6 +173,10 @@ const Retrieve__Page_Tag = async (
     include: [
       {
         association: 'tags',
+      },
+      {
+        model: PostComment,
+        as: 'postComments',
       },
     ],
     where: where,

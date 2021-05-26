@@ -1,13 +1,14 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom'
+import { Route, RouteComponentProps, Switch } from 'react-router-dom'
 import classNames from 'classnames'
 import { PathName, RouteConfig } from '@/routes'
 import { RootState } from '@/store'
 import { Paper, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { isDef } from '@/utils/tools'
-import KeepAlive, { AliveScope } from 'react-activation'
+import KeepAlive, { useAliveController } from 'react-activation'
+import { useAsync } from 'react-use'
 import './index.less'
 
 const useStyles = makeStyles((theme) => ({
@@ -23,16 +24,22 @@ const Sign: FC<RouteComponentProps & RouteConfig> = ({
 }) => {
   const classes = useStyles()
   const state = useSelector((state: RootState) => state.common)
+  const { dropScope } = useAliveController()
 
-  // 已登录
-  if (state.isLogin) {
-    return <Redirect to={PathName.HOME} />
-  }
+  useAsync(async () => {
+    // 已登录
+    if (state.isLogin) {
+      await dropScope('Sign')
+      history.replace(PathName.HOME)
+    }
+  }, [state.isLogin])
 
-  // 直接跳转子路由LOGIN
-  if (history.location.pathname === PathName.SIGN) {
-    return <Redirect to={PathName.LOGIN} />
-  }
+  useEffect(() => {
+    // 直接跳转子路由LOGIN
+    if (location.pathname === PathName.SIGN) {
+      history.replace(PathName.LOGIN)
+    }
+  }, [])
 
   return (
     <div className="Sign flex flex-column">
@@ -42,7 +49,7 @@ const Sign: FC<RouteComponentProps & RouteConfig> = ({
         </Typography>
       </Paper>
       {isDef(routes) && Boolean(routes?.length) && (
-        <AliveScope>
+        <KeepAlive name="Sign">
           <Switch location={location}>
             {routes.map(
               ({ path, routeProps, routes, component: Component }) => (
@@ -59,7 +66,7 @@ const Sign: FC<RouteComponentProps & RouteConfig> = ({
               ),
             )}
           </Switch>
-        </AliveScope>
+        </KeepAlive>
       )}
     </div>
   )
