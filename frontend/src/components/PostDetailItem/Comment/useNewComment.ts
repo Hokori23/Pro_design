@@ -1,4 +1,4 @@
-import { RootState } from '@/store'
+import { RootState, store } from '@/store'
 import { Post } from '@/utils/Request/Post'
 import { useState } from 'react'
 import { formValid, FormValidProps } from '@/components/UserFormValid'
@@ -7,8 +7,9 @@ import Request from '@/utils/Request'
 import { scrollTo } from '@/utils/tools'
 
 export default (post: Post, Retrieve: Function) => {
-  const state = useSelector((state: RootState) => state.common)
-  const { isLogin, userInfo } = state
+  const commonState = useSelector((state: RootState) => state.common)
+  const dispatch = useSelector(() => store.dispatch.postDetail)
+  const { isLogin, userInfo } = commonState
   const [isLoading, setIsLoading] = useState(false)
   const pid = post.id
   const uid = isLogin ? (userInfo.id as number | undefined) : -1
@@ -50,6 +51,7 @@ export default (post: Post, Retrieve: Function) => {
     }
     if (formValid(validProps)) {
       setIsLoading(true)
+      dispatch.SET_LOADING_Comment(true)
       const res = await Request.PostComment.Create({
         pid,
         uid,
@@ -68,6 +70,7 @@ export default (post: Post, Retrieve: Function) => {
       setComment('')
       scrollTo('#post-detail-footer', 'end')
       setIsLoading(false)
+      dispatch.SET_LOADING_Comment(false)
     }
   }
   return {

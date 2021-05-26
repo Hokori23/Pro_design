@@ -2,6 +2,8 @@ import React, { createRef, FC } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { RouteComponentProps, useParams } from 'react-router-dom'
 import { RouteConfig } from '@/routes'
+import { RootState } from '@/store'
+import { useSelector } from 'react-redux'
 
 import usePostDetail from './usePostDetail'
 
@@ -22,13 +24,18 @@ const useStyles = makeStyles((theme) => ({
 
 const PostDetail: FC<RouteComponentProps & RouteConfig> = (props) => {
   const { id } = useParams<{ id: string }>()
+  const state = useSelector((state: RootState) => state.postDetail)
   const classes = useStyles()
   const ref = createRef()
   const { loading, post } = usePostDetail(id)
   return (
     <div className={classes.wrapper}>
       <div className={classes.postWrapper}>
-        {loading ? <div>loading</div> : <PostDetailItem post={post} />}
+        {loading && !state.loadingComment ? (
+          <div>loading</div>
+        ) : (
+          <PostDetailItem post={post} />
+        )}
       </div>
       <ScrollTop {...props} ref={ref} />
     </div>

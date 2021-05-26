@@ -4,11 +4,13 @@ import { Request } from '@/utils'
 import { PostWithAuthor } from '@/utils/Request/Post'
 export interface PostDetailState {
   loadingPost: boolean
+  loadingComment: boolean
   post: PostWithAuthor
 }
 
 export const defaultPostDetailState: PostDetailState = {
   loadingPost: true,
+  loadingComment: false,
   post: (null as any) as PostWithAuthor,
 }
 
@@ -22,6 +24,10 @@ export const postDetail = createModel<RootModel>()({
     },
     SET_LOADING_POST: (state: PostDetailState, newLoading: boolean) => {
       state.loadingPost = newLoading
+      return state
+    },
+    SET_LOADING_Comment: (state: PostDetailState, newLoading: boolean) => {
+      state.loadingComment = newLoading
       return state
     },
   },
