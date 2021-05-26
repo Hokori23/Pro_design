@@ -6,14 +6,6 @@ import _ from 'lodash'
 // components
 import { NewComment } from './NewComment'
 import { RootComment } from './RootComment'
-import { Post } from '@/utils/Request/Post'
-
-interface CommentProps {
-  postComments?: PostComment[]
-  post: Post
-  Retrieve: (id: string) => Promise<void>
-  isMobileSize: boolean
-}
 
 const useFormatComment = (
   _postComments?: PostComment[],
@@ -56,16 +48,16 @@ const useFormatComment = (
   return rootComments
 }
 
-export const Comment: FC<CommentProps> = ({
-  postComments,
-  post,
-  Retrieve,
-  isMobileSize,
-}) => {
+interface CommentProps {
+  postComments?: PostComment[]
+  isMobileSize: boolean
+}
+
+export const Comment: FC<CommentProps> = ({ postComments, isMobileSize }) => {
   const formattedPostComment = useFormatComment(postComments)
   return (
     <Fragment>
-      <NewComment Retrieve={Retrieve} post={post} />
+      <NewComment />
       {formattedPostComment?.map((comment) => (
         <RootComment
           comment={comment}

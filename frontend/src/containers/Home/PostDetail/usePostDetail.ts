@@ -1,34 +1,23 @@
-import { Request } from '@/utils'
-import { PostWithAuthor } from '@/utils/Request/Post'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useActivate } from 'react-activation'
-import * as H from 'history'
+import { RootState, store } from '@/store'
+import { useSelector } from 'react-redux'
 
-export default (location: H.Location<unknown>, id: string) => {
-  const [loading, setLoading] = useState(true)
-  const [post, setPost] = useState((null as any) as PostWithAuthor)
-
-  const Retrieve = async (id: string) => {
-    setLoading(true)
-    const res = await Request.Post.Retrieve(Number(id))
-    if (res?.data && res?.code === 0) {
-      setPost(res.data)
-    }
-    setLoading(false)
-  }
+export default (id: string) => {
+  const state = useSelector((state: RootState) => state.postDetail)
+  const dispatch = useSelector(() => store.dispatch.postDetail)
 
   useEffect(() => {
     // 初始化
-    void Retrieve(id)
+    void dispatch.RetrievePost(id)
   }, [])
 
   useActivate(() => {
     // 更新
-    void Retrieve(id)
+    void dispatch.RetrievePost(id)
   })
   return {
-    loading,
-    post,
-    Retrieve,
+    loading: state.loadingPost,
+    post: state.post,
   }
 }

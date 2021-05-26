@@ -21,21 +21,14 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const PostDetail: FC<RouteComponentProps & RouteConfig> = (props) => {
-  const { location } = props
   const { id } = useParams<{ id: string }>()
   const classes = useStyles()
   const ref = createRef()
-  const { loading, post, Retrieve } = usePostDetail(location, id)
+  const { loading, post } = usePostDetail(id)
   return (
     <div className={classes.wrapper}>
       <div className={classes.postWrapper}>
-        {!post && loading ? (
-          <div>loading</div>
-        ) : !post ? (
-          <div>nothing</div>
-        ) : (
-          <PostDetailItem Retrieve={Retrieve} post={post} />
-        )}
+        {loading ? <div>loading</div> : <PostDetailItem post={post} />}
       </div>
       <ScrollTop {...props} ref={ref} />
     </div>

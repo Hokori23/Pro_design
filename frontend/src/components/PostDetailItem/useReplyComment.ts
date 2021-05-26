@@ -1,16 +1,23 @@
-import { RootState } from '@/store'
-import { Post } from '@/utils/Request/Post'
-import { useState } from 'react'
+import { RootState, store } from '@/store'
+import { useEffect, useState } from 'react'
 import { formValid, FormValidProps } from '@/components/UserFormValid'
 import { useSelector } from 'react-redux'
 import Request from '@/utils/Request'
+import { FormattedPostComment } from '@/utils/Request/PostComment'
 import { scrollTo } from '@/utils/tools'
 
-export default (post: Post, Retrieve: Function) => {
+export default (
+  id: string,
+  postId: number,
+  root: FormattedPostComment,
+  parent?: FormattedPostComment,
+) => {
   const state = useSelector((state: RootState) => state.common)
+  const dispatch = useSelector(() => store.dispatch.postDetail)
+  const Retrieve = dispatch.RetrievePost
   const { isLogin, userInfo } = state
   const [isLoading, setIsLoading] = useState(false)
-  const pid = post.id
+  const pid = postId
   const uid = isLogin ? (userInfo.id as number | undefined) : -1
   const [comment, setComment] = useState('')
   const [email, setEmail] = useState(isLogin ? userInfo.email : '')
@@ -50,29 +57,38 @@ export default (post: Post, Retrieve: Function) => {
     }
     if (formValid(validProps)) {
       setIsLoading(true)
-      const res = await Request.PostComment.Create({
+      const payload: { [key: string]: any } = {
         pid,
         uid,
+        rootId: root.id,
         content: comment,
         email,
         url,
         userAgent,
-      })
+      }
+      if (parent) {
+        payload.parentId = parent.id
+      }
+      const res = await Request.PostComment.Create(payload)
       if (res?.data && res?.code === 0) {
-        await Retrieve(String(post.id as number))
+        await Retrieve(String(postId))
         setSubmitSnackBar({
           ...submitSnackBar,
           open: true,
         })
+        setComment('')
+        scrollTo(id)
       }
-      setComment('')
-      scrollTo('#post-detail-footer', 'end')
       setIsLoading(false)
     }
   }
+
+  useEffect(() => {
+    setComment('')
+  }, [parent])
+
   return {
     isLogin,
-    userInfo,
     isLoading,
     comment,
     setComment,

@@ -7,7 +7,9 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import ThumbDownOutlinedIcon from '@material-ui/icons/ThumbDownOutlined'
 import ThumbDownIcon from '@material-ui/icons/ThumbDown'
 import VisibilityIcon from '@material-ui/icons/Visibility'
-import { Post } from '@/utils/Request/Post'
+import { PostWithAuthor } from '@/utils/Request/Post'
+import { store } from '@/store'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   postAction: {
@@ -32,10 +34,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 interface ActionProps {
-  post: Post
+  post: PostWithAuthor
   isMobileSize: boolean
 }
 export const Action: FC<ActionProps> = ({ post, isMobileSize }) => {
+  const dispatch = useSelector(() => store.dispatch.postDetail)
+
   const [liked, setLiked] = useState(false)
   const [disliked, setDisliked] = useState(false)
   const classes = useStyles()
@@ -43,14 +47,20 @@ export const Action: FC<ActionProps> = ({ post, isMobileSize }) => {
   const Like = async () => {
     const res = await Request.Post.Like(post.id as number)
     if (res && res?.code === 0) {
-      post.likesCount++
+      dispatch.SET_POST({
+        ...post,
+        likesCount: post.likesCount + 1,
+      })
       setLiked(true)
     }
   }
   const Dislike = async () => {
     const res = await Request.Post.Dislike(post.id as number)
     if (res && res?.code === 0) {
-      post.dislikesCount++
+      dispatch.SET_POST({
+        ...post,
+        dislikesCount: post.dislikesCount + 1,
+      })
       setDisliked(true)
     }
   }

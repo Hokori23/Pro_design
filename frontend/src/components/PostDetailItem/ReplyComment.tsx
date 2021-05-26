@@ -4,26 +4,26 @@ import {
   makeStyles,
   Link,
   Snackbar,
-  Avatar,
+  IconButton,
 } from '@material-ui/core'
+import { RootState } from '@/store'
+import { FormattedPostComment } from '@/utils/Request/PostComment'
 import { formValid } from '@/components/UserFormValid'
-import { grey } from '@material-ui/core/colors'
 import { Link as RouterLink } from 'react-router-dom'
 import MuiAlert from '@material-ui/lab/Alert'
+import CloseIcon from '@material-ui/icons/Close'
 
 // components
 import { EmailInput, UrlInput, NewCommentInput } from '@/components/Input'
 
 // hooks
-import useNewComment from './useNewComment'
-import { classnames } from '@material-ui/data-grid'
-import { PathName } from '@/routes'
-import { RootState, store } from '@/store'
+import useReplyComment from './useReplyComment'
 import { useSelector } from 'react-redux'
+import { PathName } from '@/routes'
+import { classnames } from '@material-ui/data-grid'
 
 const useStyles = makeStyles((theme) => ({
   commentBox: {
-    backgroundColor: grey[200],
     borderRadius: 5,
     padding: '1rem',
     marginBottom: '1rem',
@@ -31,20 +31,6 @@ const useStyles = makeStyles((theme) => ({
   commentForm: {
     display: 'flex',
     flexDirection: 'column',
-  },
-  commentForm__isLogin: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  commentLoginUser: {
-    alignSelf: 'flex-start',
-    marginRight: 22,
-    '& .MuiAvatar-root': {
-      width: 48,
-      height: 48,
-      padding: 0,
-      marginBottom: 5,
-    },
   },
   commentHeader: {
     marginBottom: '1rem',
@@ -60,8 +46,10 @@ const useStyles = makeStyles((theme) => ({
       marginRight: 0,
     },
   },
-  commentInput: {
-    flexGrow: 1,
+  Icon: {
+    fontSize: 20,
+    padding: 5,
+    marginLeft: 10,
   },
   emailInput: {
     flex: '2 1 200px',
@@ -71,17 +59,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const NewComment: FC = () => {
+interface ReplyCommentProps {
+  id: string
+  root: FormattedPostComment
+  parent?: FormattedPostComment
+  setDisplayReplyBox: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const ReplyComment: FC<ReplyCommentProps> = ({
+  id,
+  root,
+  parent,
+  setDisplayReplyBox,
+}) => {
   const state = useSelector((state: RootState) => state.postDetail)
-  const dispatch = useSelector(() => store.dispatch.postDetail)
-
-  const post = state.post
-  const Retrieve = dispatch.RetrievePost
-
   const classes = useStyles()
   const {
     isLogin,
-    userInfo,
     isLoading,
     comment,
     setComment,
@@ -98,11 +92,9 @@ export const NewComment: FC = () => {
     onSubmit,
     submitSnackBar,
     onSubmitSnackBarClose,
-  } = useNewComment(post, Retrieve)
-  // 已登录：直接填comment
-  // 未登录：uid = -1、comment、email
+  } = useReplyComment(id, state.post.id as number, root, parent)
   return (
-    <section className={classes.commentBox}>
+    <section className={classes.commentBox} id={id}>
       <Typography
         className="flex flex-row"
         style={{ justifyContent: 'space-between' }}
@@ -113,9 +105,9 @@ export const NewComment: FC = () => {
           component="span"
           variant="subtitle1"
         >
-          添加新评论
+          回复评论
         </Typography>
-        {!isLogin && (
+        {!isLogin ? (
           <Typography
             className={classes.commentHeader}
             color="primary"
@@ -129,33 +121,29 @@ export const NewComment: FC = () => {
             >
               前往登录账号评论 &gt;&gt;
             </Link>
+            <IconButton
+              className={classes.Icon}
+              onClick={() => {
+                setDisplayReplyBox(false)
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
           </Typography>
+        ) : (
+          <IconButton
+            className={classes.Icon}
+            onClick={() => {
+              setDisplayReplyBox(false)
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
         )}
       </Typography>
-      <form
-        className={classnames(
-          classes.commentForm,
-          { [classes.commentForm__isLogin]: isLogin },
-          'flex flex-column',
-        )}
-      >
-        {isLogin ? (
-          <div
-            className={classnames(classes.commentLoginUser, 'flex flex-column')}
-          >
-            <Avatar alt={userInfo.userName} src={userInfo.avatarUrl} />
-            <Typography
-              align="center"
-              color="primary"
-              component="span"
-              style={{ fontWeight: 600 }}
-              variant="body2"
-            >
-              {userInfo.userName}
-            </Typography>
-          </div>
-        ) : (
-          <section className={classes.commentCommenter}>
+      <form className={classes.commentForm}>
+        <section className={classes.commentCommenter}>
+          {!isLogin && (
             <Fragment>
               <EmailInput
                 className={classnames(
@@ -202,11 +190,10 @@ export const NewComment: FC = () => {
                 url={url}
               />
             </Fragment>
-          </section>
-        )}
+          )}
+        </section>
 
         <NewCommentInput
-          className={classes.commentInput}
           comment={comment}
           disabled={isLoading}
           error={commentError.error}
@@ -223,7 +210,11 @@ export const NewComment: FC = () => {
           }
           onChange={(e) => setComment(e.target.value)}
           onSubmit={onSubmit}
-          placeholder="输入评论内容"
+          placeholder={`回复 @${
+            parent
+              ? parent.author?.userName || parent.email
+              : root.author?.userName || root.email
+          }：`}
           required
         />
       </form>

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { FormattedPostComment } from '@/utils/Request/PostComment'
 import {
   IconButton,
@@ -86,6 +86,7 @@ const useStyles = makeStyles((theme) => ({
 interface ChildCommentsProps {
   rootComment: FormattedPostComment
   isMobileSize: boolean
+  handleDisplayReplyBox: (parent?: FormattedPostComment) => void
 }
 interface PostCommentWithStatus extends FormattedPostComment {
   liked: boolean
@@ -95,6 +96,7 @@ interface PostCommentWithStatus extends FormattedPostComment {
 export const ChildComments: FC<ChildCommentsProps> = ({
   rootComment,
   isMobileSize,
+  handleDisplayReplyBox,
 }) => {
   const rawChildComments = (rootComment.children as PostCommentWithStatus[])!.map(
     (comment) => {
@@ -124,6 +126,15 @@ export const ChildComments: FC<ChildCommentsProps> = ({
       setChildComments(cloneChildComments)
     }
   }
+  useEffect(() => {
+    const rawChildComments = (rootComment.children as PostCommentWithStatus[])!.map(
+      (comment) => {
+        comment.liked = comment.disliked = false
+        return comment
+      },
+    )
+    setChildComments(rawChildComments)
+  }, [rootComment])
 
   return (
     <section>
@@ -132,6 +143,7 @@ export const ChildComments: FC<ChildCommentsProps> = ({
           id,
           author,
           parent,
+          email,
           content,
           likesCount,
           dislikesCount,
@@ -142,10 +154,7 @@ export const ChildComments: FC<ChildCommentsProps> = ({
         return (
           <div className={classes.childComment} key={id}>
             <IconButton className={classes.childCommentAvatar} color="primary">
-              <Avatar
-                alt={author?.userName || '游客'}
-                src={author?.avatarUrl}
-              />
+              <Avatar alt={author?.userName || email} src={author?.avatarUrl} />
             </IconButton>
             <div className={classes.childCommentBox}>
               <Typography component="div">
@@ -154,7 +163,7 @@ export const ChildComments: FC<ChildCommentsProps> = ({
                   color="primary"
                   variant="caption"
                 >
-                  {author?.userName || '游客'}
+                  {author?.userName || email}
                 </Typography>
                 <Typography
                   className={classes.childCommentText}
@@ -179,7 +188,7 @@ export const ChildComments: FC<ChildCommentsProps> = ({
                       >
                         @{parent?.author?.userName}
                       </Typography>
-                      :
+                      ：
                     </Typography>
                   )}
                   {content}
@@ -235,6 +244,9 @@ export const ChildComments: FC<ChildCommentsProps> = ({
                 <Button
                   className={classes.replyButton}
                   color="primary"
+                  onClick={() => {
+                    handleDisplayReplyBox(comment)
+                  }}
                   size="small"
                   variant="text"
                 >

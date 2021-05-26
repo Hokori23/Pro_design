@@ -75,7 +75,7 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
             <Typography
               className={classes.content}
               color="textSecondary"
-              component="p"
+              component="div"
               style={{ fontSize: 5 }}
               variant="body2"
             >
