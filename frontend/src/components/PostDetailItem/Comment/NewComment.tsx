@@ -10,6 +10,7 @@ import { formValid } from '@/components/UserFormValid'
 import { grey } from '@material-ui/core/colors'
 import { Link as RouterLink } from 'react-router-dom'
 import MuiAlert from '@material-ui/lab/Alert'
+import { RootState, store } from '@/store'
 
 // components
 import { EmailInput, UrlInput, NewCommentInput } from '@/components/Input'
@@ -18,7 +19,6 @@ import { EmailInput, UrlInput, NewCommentInput } from '@/components/Input'
 import useNewComment from './useNewComment'
 import { classnames } from '@material-ui/data-grid'
 import { PathName } from '@/routes'
-import { RootState, store } from '@/store'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
