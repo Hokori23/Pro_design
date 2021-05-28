@@ -38,6 +38,8 @@ export enum RouteName {
   LOGIN = '登录',
   REGISTER = '注册',
   HOME = '首页',
+  POST = '文章',
+  MOMENT = '说说',
   NOT_FOUND_PAGE = '找不到页面',
 }
 

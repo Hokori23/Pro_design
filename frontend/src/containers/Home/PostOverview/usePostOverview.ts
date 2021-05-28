@@ -4,16 +4,21 @@ import { useEffect, useState } from 'react'
 import * as H from 'history'
 import { useActivate } from 'react-activation'
 import { scrollIntoTop } from '@/utils/tools'
+import { store } from '@/store'
+import { useSelector } from 'react-redux'
+import { RouteName } from '@/routes'
 
 export default (location: H.Location<unknown>) => {
+  const dispatch = useSelector(() => store.dispatch.common)
   const query = new URLSearchParams(location.search)
 
   const PAGE = Number(query.get('page')) || 1
   const CAPACITY = Number(query.get('capacity')) || 5
   const IS_ASC = (Number(query.get('isASC')) as unknown) as Toggle
-  const POST_TYPES: PostType[] =
-    ((query.getAll('postTypes') as unknown) as PostType[]) || []
-
+  const _POST_TYPES = (query.getAll('postTypes') as unknown) as PostType[]
+  const POST_TYPES: PostType[] = _POST_TYPES.length
+    ? _POST_TYPES
+    : [PostType.POST, PostType.LANDSCAPE]
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(PAGE)
   const [capacity, setCapacity] = useState(CAPACITY)
@@ -42,6 +47,10 @@ export default (location: H.Location<unknown>) => {
       return maxPage
     }
   }
+
+  useEffect(() => {
+    dispatch.SET_APPBAR_TITLE(RouteName.POST)
+  }, [])
 
   useEffect(() => {
     setPage(PAGE)
