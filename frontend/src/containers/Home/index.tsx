@@ -75,13 +75,13 @@ const Home: FC<RouteComponentProps & RouteConfig> = (props) => {
 
       {isDef(routes) && Boolean(routes?.length) && (
         <main
-          className={classnames(classes.content, {
+          className={classnames(classes.content, 'relative', {
             [classes.contentShift]: drawerOpen && isDeskTopSize,
           })}
         >
           <Switch location={location}>
             {routes.map(
-              ({ path, routeProps, routes, component: Component }, idx) => (
+              ({ path, routeProps, routes, component: Component }) => (
                 <Route
                   {...routeProps}
                   key={path}
