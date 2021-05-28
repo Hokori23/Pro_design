@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import classNames from 'classnames'
 import { Link, RouteComponentProps } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
@@ -10,12 +10,12 @@ import {
   Typography,
 } from '@material-ui/core'
 import { PathName, RouteConfig } from '@/routes'
-import { RootState, store } from '@/store'
-import { useSelector } from 'react-redux'
 import { Input, PasswordInput } from '@/components/Input'
-import { Request } from '@/utils'
 import { formValid } from '@/components/UserFormValid'
 import { AccountCircle } from '@material-ui/icons'
+
+// hooks
+import useLogin from './useLogin'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -33,52 +33,18 @@ const useStyles = makeStyles((theme) => ({
 
 const Login: FC<RouteComponentProps & RouteConfig> = () => {
   const classes = useStyles()
-  const state = useSelector((state: RootState) => state.common)
-  const dispatch = useSelector(() => store.dispatch.common)
-
-  // 登录表单
-  const [userAccount, setUserAccount] = useState('')
-  const [userAccountError, setUserAccountError] = useState({
-    text: '',
-    error: false,
-  })
-  const [password, setPassword] = useState('')
-  const [passwordError, setPasswordError] = useState({ text: '', error: false })
-
-  const [isLogining, setIsLogining] = useState(false)
-
-  // 登录
-  const handlerLogin = async (): Promise<void> => {
-    // 验证表单
-    if (
-      !formValid({
-        userAccount: {
-          value: userAccount,
-          errorSetter: setUserAccountError,
-        },
-        password: {
-          value: password,
-          errorSetter: setPasswordError,
-        },
-      })
-    ) {
-      return
-    }
-
-    setIsLogining(true)
-    const res = await Request.User.Login({
-      userAccount,
-      password,
-    })
-    setIsLogining(false)
-    if (res?.data && res?.code === 0) {
-      dispatch.SET_USER_INFO(res.data)
-      dispatch.SET_TOKEN(res.data.token)
-      dispatch.LOGIN()
-    }
-  }
-
-  if (state.isLogin) return null
+  const {
+    isLogining,
+    userAccount,
+    setUserAccount,
+    userAccountError,
+    setUserAccountError,
+    password,
+    setPassword,
+    passwordError,
+    setPasswordError,
+    handlerLogin,
+  } = useLogin()
 
   return (
     <Paper className={classes.form} elevation={1}>
@@ -142,13 +108,14 @@ const Login: FC<RouteComponentProps & RouteConfig> = () => {
           className="flex flex-column flex-center"
           style={{ marginTop: '0.5rem' }}
         >
-          <Link
-            replace
-            style={{ marginBottom: '0.5rem' }}
-            to={PathName.REGISTER}
-          >
-            <Button variant="text">还没有账号？前往注册</Button>
-          </Link>
+          <div className="flex" style={{ marginBottom: '1rem' }}>
+            <Link replace style={{ marginRight: '0.5rem' }} to={PathName.HOME}>
+              <Button variant="text">返回首页</Button>
+            </Link>
+            <Link replace to={PathName.REGISTER}>
+              <Button variant="text">还没有账号？前往注册</Button>
+            </Link>
+          </div>
           <div style={{ position: 'relative' }}>
             <Button
               color="primary"

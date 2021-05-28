@@ -1,9 +1,7 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { Link, Redirect, RouteComponentProps } from 'react-router-dom'
 import { useAliveController } from 'react-activation'
 import { PathName, RouteConfig } from '@/routes'
-import { Gender } from '@/utils/Request/User'
-import { isDef } from '@/utils/tools'
 import {
   Button,
   CircularProgress,
@@ -12,7 +10,6 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core'
-import { Request } from '@/utils'
 import { checkPassword, formValid } from '@/components/UserFormValid'
 import classNames from 'classnames'
 import {
@@ -23,7 +20,9 @@ import {
   PasswordInput,
 } from '@/components/Input'
 import { AccountCircle, Person } from '@material-ui/icons'
-import { useSnackbar } from 'notistack'
+
+// hooks
+import useRegister from './useRegister'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -47,117 +46,44 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Register: FC<RouteComponentProps & RouteConfig> = ({ location }) => {
-  const { enqueueSnackbar } = useSnackbar()
   const classes = useStyles()
   const { dropScope } = useAliveController()
-  // 注册表单
-  const [userAccount, setUserAccount] = useState('')
-  const [userAccountError, setUserAccountError] = useState({
-    text: '',
-    error: false,
-  })
-  const [userName, setUserName] = useState('')
-  const [userNameError, setUserNameError] = useState({ text: '', error: false })
-  const [password, setPassword] = useState('')
-  const [passwordError, setPasswordError] = useState({ text: '', error: false })
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [confirmPasswordError, setConfirmPasswordError] = useState({
-    text: '',
-    error: false,
-  })
-  const [gender, setGender] = useState(Gender.UNKNOWN)
-  const [email, setEmail] = useState('')
-  const [emailError, setEmailError] = useState({ text: '', error: false })
-  const [emailCaptcha, setEmailCaptcha] = useState('')
-  const [emailCaptchaError, setEmailCaptchaError] = useState({
-    text: '',
-    error: false,
-  })
-
-  // status
-  const [isRegistering, setIsRegistering] = useState(false)
-  const [isRegistered, setIsRegistered] = useState(false)
+  const {
+    userAccount,
+    setUserAccount,
+    userAccountError,
+    setUserAccountError,
+    userName,
+    setUserName,
+    userNameError,
+    setUserNameError,
+    password,
+    setPassword,
+    passwordError,
+    setPasswordError,
+    confirmPassword,
+    setConfirmPassword,
+    confirmPasswordError,
+    setConfirmPasswordError,
+    email,
+    setEmail,
+    emailError,
+    setEmailError,
+    emailCaptcha,
+    setEmailCaptcha,
+    emailCaptchaError,
+    setEmailCaptchaError,
+    gender,
+    setGender,
+    isRegistering,
+    isRegistered,
+    handleRegisterUser,
+    handleSendCaptcha,
+  } = useRegister()
   if (isRegistered) {
     // 清除缓存
     void dropScope(location.pathname)
     return <Redirect to={PathName.LOGIN} />
-  }
-
-  // 发送邮箱验证码逻辑
-  const handleSendCaptcha = async (): Promise<boolean> => {
-    if (
-      !formValid({
-        userAccount: {
-          value: userAccount,
-          errorSetter: setUserAccountError,
-        },
-        userName: {
-          value: userName,
-          errorSetter: setUserNameError,
-        },
-        email: {
-          value: email,
-          errorSetter: setEmailError,
-        },
-      })
-    ) {
-      return false
-    }
-    const res = await Request.User.SendCaptcha(userAccount, userName, email)
-    if (isDef(res) && res.code === 0) {
-      enqueueSnackbar(res.message, {
-        variant: 'success',
-      })
-      return true
-    }
-    return false
-  }
-  // 注册逻辑
-  const handleRegisterUser = async (): Promise<void> => {
-    // 验证表单
-    if (
-      !formValid({
-        userAccount: {
-          value: userAccount,
-          errorSetter: setUserAccountError,
-        },
-        userName: {
-          value: userName,
-          errorSetter: setUserNameError,
-        },
-        password: {
-          value: password,
-          errorSetter: setPasswordError,
-        },
-        email: {
-          value: email,
-          errorSetter: setEmailError,
-        },
-        emailCaptcha: {
-          value: emailCaptcha,
-          errorSetter: setEmailCaptchaError,
-        },
-      })
-    ) {
-      return
-    }
-
-    setIsRegistering(true)
-    const res = await Request.User.Register({
-      userAccount,
-      userName,
-      password,
-      gender,
-      email,
-      captcha: emailCaptcha,
-    })
-    if (res?.data && res?.code === 0) {
-      enqueueSnackbar(`${res.message}，请在登录页登录`, {
-        variant: 'info',
-      })
-      setIsRegistered(true)
-    }
-    setIsRegistering(false)
   }
 
   return (
