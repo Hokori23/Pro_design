@@ -49,7 +49,7 @@ const Sign: FC<RouteComponentProps & RouteConfig> = ({
         </Typography>
       </Paper>
       {isDef(routes) && Boolean(routes?.length) && (
-        <KeepAlive name="Sign">
+        <KeepAlive id="Sign" name="Sign">
           <Switch location={location}>
             {routes.map(
               ({ path, routeProps, routes, component: Component }) => (
@@ -58,7 +58,7 @@ const Sign: FC<RouteComponentProps & RouteConfig> = ({
                   {...routeProps}
                   path={path}
                   render={(props: any) => (
-                    <KeepAlive name={path}>
+                    <KeepAlive id={path} name={path}>
                       <Component {...props} routes={routes} />
                     </KeepAlive>
                   )}

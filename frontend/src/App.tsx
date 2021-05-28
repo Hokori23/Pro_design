@@ -8,7 +8,7 @@ import { Portal } from '@material-ui/core'
 import { RequestSnackBar } from '@/components/RequestSnackBar'
 import NotFoundPage from '@/containers/NotFoundPage'
 import './boot'
-import KeepAlive, { AliveScope } from 'react-activation'
+import { AliveScope } from 'react-activation'
 
 const root = document.querySelector('#root')
 
@@ -20,11 +20,7 @@ const Routes: FC = () => {
           key={path}
           {...routeProps}
           path={path}
-          render={(props: any) => (
-            <KeepAlive when={[false, true]}>
-              <Component {...props} routes={routes} />
-            </KeepAlive>
-          )}
+          render={(props: any) => <Component {...props} routes={routes} />}
         />
       ))}
     </Switch>
