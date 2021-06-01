@@ -117,6 +117,10 @@ const Retrieve__Page = async (
         model: PostComment,
         as: 'postComments',
       },
+      {
+        model: User,
+        as: 'author',
+      },
     ],
     where,
     offset,
@@ -177,6 +181,10 @@ const Retrieve__Page_Tag = async (
       {
         model: PostComment,
         as: 'postComments',
+      },
+      {
+        model: User,
+        as: 'author',
       },
     ],
     where: where,

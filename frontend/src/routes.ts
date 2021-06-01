@@ -10,7 +10,6 @@ import HomeOverview from './containers/Home/HomeOverview'
 import PostOverview from './containers/Home/PostOverview'
 import PostDetail from './containers/Home/PostDetail'
 import MomentOverview from './containers/Home/MomentOverview'
-import MomentDetail from './containers/Home/MomentDetail'
 import NotFoundPage from './containers/NotFoundPage'
 import Redirect404 from './containers/Redirect404'
 
@@ -27,7 +26,6 @@ export enum PathName {
   POST_DETAIL = '/post/detail/:id',
   MOMENT_OVERVIEW = '/moment',
   _MOMENT_DETAIL = '/moment/detail',
-  MOMENT_DETAIL = '/moment/detail/:id',
   _NOT_FOUND_PAGE = '*',
   NOT_FOUND_PAGE = '/404',
 }
@@ -119,10 +117,6 @@ export const routes: RouteConfig[] = [
         routeProps: {
           exact: true,
         },
-      },
-      {
-        path: PathName.MOMENT_DETAIL,
-        component: MomentDetail,
       },
       {
         path: PathName._NOT_FOUND_PAGE,

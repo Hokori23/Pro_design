@@ -41,7 +41,7 @@ export interface PostWithAuthor extends Post {
 }
 
 export interface Posts {
-  posts: Post[]
+  posts: PostWithAuthor[]
   total: number
 }
 
