@@ -1,5 +1,5 @@
-import { PathName, RouteConfig, RouteName } from '@/routes'
-import { store, RootState } from '@/store'
+import { PathName, RouteConfig } from '@/routes'
+import { RootState } from '@/store'
 import { CssBaseline, useMediaQuery } from '@material-ui/core'
 import React, { FC, Fragment, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -8,25 +8,25 @@ import { isDef } from '@/utils/tools'
 import classnames from 'classnames'
 import { useTheme } from '@material-ui/core/styles'
 
+// hooks
 import useHome from './useHome'
 import useStyles from './useStyles'
 
 // components
 import { AppBar } from '@/components/AppBar'
 import { Drawer } from '@/components/Drawer'
-import UserStatus from '@/containers/Home/UserStatus'
+import UserStatus from '@/components/UserStatus'
+import Footer from './Footer'
 // import { Navigation } from '@/containers/Home/Navigation'
 
 const Home: FC<RouteComponentProps & RouteConfig> = (props) => {
   const { routes, location, history } = props
   const state = useSelector((state: RootState) => state.common)
-  const dispatch = useSelector(() => store.dispatch.common)
   const classes = useStyles()
   const theme = useTheme()
   const isDeskTopSize = useMediaQuery(theme.breakpoints.up('sm'))
 
   useEffect(() => {
-    dispatch.SET_APPBAR_TITLE(RouteName.HOME)
     if (location.pathname === PathName._HOME) {
       history.replace(PathName.HOME)
     }
@@ -97,6 +97,11 @@ const Home: FC<RouteComponentProps & RouteConfig> = (props) => {
           </Switch>
         </main>
       )}
+      <Footer
+        className={classnames(classes.appBar, {
+          [classes.appBarShift]: drawerOpen && isDeskTopSize,
+        })}
+      />
     </Fragment>
   )
 }
