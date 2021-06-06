@@ -47,7 +47,7 @@ export default (location: H.Location<unknown>) => {
   }
 
   useEffect(() => {
-    dispatch.SET_APPBAR_TITLE(RouteName.POST)
+    dispatch.SET_APPBAR_TITLE(RouteName.HOME)
   }, [])
 
   useEffect(() => {

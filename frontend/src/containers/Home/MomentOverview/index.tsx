@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     backgroundColor: '#f5f5f5',
     paddingTop: 5,
+    paddingBottom: '1rem',
     height: '100%',
   },
   moments: {

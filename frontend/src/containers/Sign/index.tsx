@@ -7,8 +7,7 @@ import { RootState } from '@/store'
 import { Paper, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { isDef } from '@/utils/tools'
-import KeepAlive, { useAliveController } from 'react-activation'
-import { useAsync } from 'react-use'
+import KeepAlive from 'react-activation'
 import './index.less'
 
 const useStyles = makeStyles((theme) => ({
@@ -24,12 +23,10 @@ const Sign: FC<RouteComponentProps & RouteConfig> = ({
 }) => {
   const classes = useStyles()
   const state = useSelector((state: RootState) => state.common)
-  const { dropScope } = useAliveController()
 
-  useAsync(async () => {
+  useEffect(() => {
     // 已登录
     if (state.isLogin) {
-      await dropScope('Sign')
       history.replace(PathName.HOME)
     }
   }, [state.isLogin])
@@ -49,24 +46,20 @@ const Sign: FC<RouteComponentProps & RouteConfig> = ({
         </Typography>
       </Paper>
       {isDef(routes) && Boolean(routes?.length) && (
-        <KeepAlive id="Sign" name="Sign">
-          <Switch location={location}>
-            {routes.map(
-              ({ path, routeProps, routes, component: Component }) => (
-                <Route
-                  key={path}
-                  {...routeProps}
-                  path={path}
-                  render={(props: any) => (
-                    <KeepAlive id={path} name={path}>
-                      <Component {...props} routes={routes} />
-                    </KeepAlive>
-                  )}
-                />
-              ),
-            )}
-          </Switch>
-        </KeepAlive>
+        <Switch location={location}>
+          {routes.map(({ path, routeProps, routes, component: Component }) => (
+            <Route
+              key={path}
+              {...routeProps}
+              path={path}
+              render={(props: any) => (
+                <KeepAlive id={path} name={path}>
+                  <Component {...props} routes={routes} />
+                </KeepAlive>
+              )}
+            />
+          ))}
+        </Switch>
       )}
     </div>
   )
