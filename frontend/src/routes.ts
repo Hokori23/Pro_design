@@ -10,8 +10,10 @@ import HomeOverview from './containers/Home/HomeOverview'
 import PostOverview from './containers/Home/PostOverview'
 import PostDetail from './containers/Home/PostDetail'
 import MomentOverview from './containers/Home/MomentOverview'
+import User from './containers/Home/User'
 import NotFoundPage from './containers/NotFoundPage'
 import Redirect404 from './containers/Redirect404'
+import Admin from './containers/Admin'
 
 export enum PathName {
   DEMO = '/demo',
@@ -26,6 +28,8 @@ export enum PathName {
   POST_DETAIL = '/post/detail/:id',
   MOMENT_OVERVIEW = '/moment',
   _MOMENT_DETAIL = '/moment/detail',
+  USER = '/user',
+  ADMIN = '/admin',
   _NOT_FOUND_PAGE = '*',
   NOT_FOUND_PAGE = '/404',
 }
@@ -38,7 +42,9 @@ export enum RouteName {
   HOME = '首页',
   POST = '文章',
   MOMENT = '说说',
+  USER = '用户中心',
   NOT_FOUND_PAGE = '找不到页面',
+  ADMIN = '后台管理中心',
 }
 
 /* 集中存放所有路由配置 */
@@ -89,6 +95,18 @@ export const routes: RouteConfig[] = [
     ],
   },
   {
+    path: PathName.ADMIN,
+    component: Admin,
+    routeProps: {
+      exact: true,
+    },
+  },
+  {
+    path: PathName.ADMIN,
+    component: Admin,
+    routes: [],
+  },
+  {
     path: PathName._HOME,
     component: Home,
     routeProps: {
@@ -114,9 +132,10 @@ export const routes: RouteConfig[] = [
       {
         path: PathName.MOMENT_OVERVIEW,
         component: MomentOverview,
-        routeProps: {
-          exact: true,
-        },
+      },
+      {
+        path: PathName.USER,
+        component: User,
       },
       {
         path: PathName._NOT_FOUND_PAGE,
