@@ -14,6 +14,7 @@ import useStyles from './useStyles'
 // components
 import { AppBar } from '@/components/AppBar'
 import { Drawer } from '@/components/Drawer'
+import UserStatus from '@/containers/Home/UserStatus'
 // import { Navigation } from '@/containers/Home/Navigation'
 
 const Home: FC<RouteComponentProps & RouteConfig> = (props) => {
@@ -65,6 +66,7 @@ const Home: FC<RouteComponentProps & RouteConfig> = (props) => {
         onClick={() => {
           setDrawerOpen(!drawerOpen)
         }}
+        suffix={<UserStatus />}
         title={state.appBarTitle}
       />
       {/* <Navigation

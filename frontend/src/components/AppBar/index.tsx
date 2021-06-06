@@ -41,9 +41,10 @@ export interface AppBarProps {
   title: string
   className?: string
   onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  suffix?: JSX.Element
 }
 export const AppBar: FC<AppBarProps> = (props) => {
-  const { id, title, onClick, className } = props
+  const { id, title, onClick, className, suffix } = props
   const classes = useStyles()
   const ref = createRef()
   return (
@@ -62,6 +63,7 @@ export const AppBar: FC<AppBarProps> = (props) => {
           <Typography className={classes.title} variant="h6">
             {title}
           </Typography>
+          {suffix}
         </Toolbar>
       </_AppBar>
     </HideOnScroll>

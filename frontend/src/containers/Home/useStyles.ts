@@ -31,6 +31,13 @@ export default makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: 0,
+    [theme.breakpoints.down('sm')]: {
+      '& .MuiPaper-root.MuiCard-root': {
+        borderRadius: 'unset',
+        boxShadow: 'unset',
+      },
+      '-webkit-tap-highlight-color': 'transparent',
+    },
   },
   contentShift: {
     transition: theme.transitions.create('margin', {

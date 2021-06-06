@@ -73,7 +73,6 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
             >
               {title}
             </Typography>
-            <div className="flex-column"></div>
             <Typography
               className={classes.content}
               color="textSecondary"
