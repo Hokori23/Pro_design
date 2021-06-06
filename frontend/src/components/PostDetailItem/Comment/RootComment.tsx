@@ -145,7 +145,7 @@ export const RootComment: FC<RootCommentProps> = ({
         <footer className={classes.rootCommentFooter}>
           {/* CREATED_AT TIME */}
           <Typography color="textSecondary" variant="caption">
-            {moment(comment.createdAt).format('lll')}
+            {moment(comment.createdAt).calendar()}
           </Typography>
           {/* ACTION */}
           {!isMobileSize && (

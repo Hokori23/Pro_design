@@ -197,7 +197,7 @@ export const ChildComments: FC<ChildCommentsProps> = ({
               <footer className={classes.childCommentFooter}>
                 {/* CREATED_AT TIME */}
                 <Typography color="textSecondary" variant="caption">
-                  {moment(createdAt).format('lll')}
+                  {moment(createdAt).calendar()}
                 </Typography>
                 {/* ACTION */}
                 {!isMobileSize && (

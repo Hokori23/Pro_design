@@ -100,7 +100,7 @@ export const Title: FC<TitleProps> = ({ post }) => {
           </Typography>
           &nbsp;&nbsp;•&nbsp;&nbsp;
           <Typography component="span" variant="caption">
-            发布时间: {moment(createdAt).format('ll')}
+            发布时间: {moment(createdAt).calendar()}
           </Typography>
         </Typography>
       </figure>

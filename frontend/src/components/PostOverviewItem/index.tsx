@@ -117,10 +117,12 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
             component="div"
           >
             <Typography component="p" variant="caption">
-              {moment(createdAt).format(isMobileSize ? 'l' : 'lll')}
+              {/* {moment(createdAt).format(isMobileSize ? 'l' : 'lll')} */}
+              {moment(createdAt).calendar()}
             </Typography>
             <Typography component="p" variant="caption">
-              {moment(updatedAt).format(isMobileSize ? 'l' : 'lll')}
+              {/* {moment(updatedAt).format(isMobileSize ? 'l' : 'lll')} */}
+              {moment(updatedAt).calendar()}
             </Typography>
           </Typography>
         </div>
