@@ -5,7 +5,6 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Link,
   makeStyles,
   useMediaQuery,
   useTheme,
@@ -18,7 +17,11 @@ import {
 } from '@material-ui/core'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import { useSelector } from 'react-redux'
-import { PathName } from '@/routes'
+import { PathName, RouteName } from '@/routes'
+import { useLocation } from 'react-router-dom'
+
+import InnerLink from '@/components/InnerLink'
+import { Group } from '@/utils/Request/User'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -42,6 +45,9 @@ const UserStatus: FC = () => {
   const state = useSelector((state: RootState) => state.common)
   const dispatch = useSelector(() => store.dispatch.common)
   const { isLogin, userInfo } = state
+  const location = useLocation()
+  const isAdminPage = location.pathname.startsWith(PathName.ADMIN)
+  const isAdmin = userInfo.group && userInfo.group > Group.SUBSCRIBER
   const classes = useStyles()
   const theme = useTheme()
   const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
@@ -107,9 +113,24 @@ const UserStatus: FC = () => {
       open={isMenuOpen}
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
     >
-      <MenuItem dense={isMobileSize} onClick={handleMenuClose}>
-        用户中心
-      </MenuItem>
+      {isAdminPage && isAdmin ? (
+        <InnerLink className="plain-a" to={PathName.HOME}>
+          <MenuItem dense={isMobileSize} onClick={handleMenuClose}>
+            {RouteName.HOME}
+          </MenuItem>
+        </InnerLink>
+      ) : (
+        <InnerLink className="plain-a" to={PathName.ADMIN}>
+          <MenuItem dense={isMobileSize} onClick={handleMenuClose}>
+            {RouteName.ADMIN}
+          </MenuItem>
+        </InnerLink>
+      )}
+      <InnerLink className="plain-a" to={PathName.USER}>
+        <MenuItem dense={isMobileSize} onClick={handleMenuClose}>
+          用户中心
+        </MenuItem>
+      </InnerLink>
       <MenuItem
         dense={isMobileSize}
         onClick={() => {
@@ -125,25 +146,25 @@ const UserStatus: FC = () => {
   if (!isLogin) {
     return (
       <Fragment>
-        <Button
-          className={classes.button}
-          color="inherit"
-          size={isMobileSize ? 'small' : 'medium'}
-          variant="outlined"
-        >
-          <Link className="plain-a" href={PathName.LOGIN}>
+        <InnerLink className="plain-a" to={PathName.LOGIN}>
+          <Button
+            className={classes.button}
+            color="inherit"
+            size={isMobileSize ? 'small' : 'medium'}
+            variant="outlined"
+          >
             登录
-          </Link>
-        </Button>
-        <Button
-          color="inherit"
-          size={isMobileSize ? 'small' : 'medium'}
-          variant="text"
-        >
-          <Link className="plain-a" href={PathName.REGISTER}>
+          </Button>
+        </InnerLink>
+        <InnerLink className="plain-a" to={PathName.REGISTER}>
+          <Button
+            color="inherit"
+            size={isMobileSize ? 'small' : 'medium'}
+            variant="text"
+          >
             注册
-          </Link>
-        </Button>
+          </Button>
+        </InnerLink>
       </Fragment>
     )
   }
