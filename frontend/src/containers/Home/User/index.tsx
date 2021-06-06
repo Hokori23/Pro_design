@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
   const classes = useStyles()
-  const { userInfo, isLogin, avatarLoading } = useUser()
+  const { userInfo, isLogin, avatarLoading, handleImgUpload } = useUser()
 
   useEffect(() => {
     if (!isLogin) {
@@ -94,6 +94,7 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
                   accept="image/png, image/jpeg, image/jpg"
                   className={classes.avatarInput}
                   id="avatar__upload"
+                  onChange={handleImgUpload}
                   type="file"
                 />
               </ListItemIcon>

@@ -16,5 +16,9 @@ export interface _Restful {
 }
 
 export interface Restful<T> extends _Restful {
-  data?: T
+  data: T
+}
+
+export interface UploadRestful extends _Restful {
+  url: string
 }
