@@ -130,6 +130,11 @@ export const Init = async () => {
       value: blogName,
     },
     {
+      module: 'system',
+      key: 'createdAt', // 博客创建时间
+      value: String(Date.now()),
+    },
+    {
       module: 'email',
       key: 'isActivated', // 是否开启邮箱系统（但不关闭邮箱注册验证功能）
       value: '1',
