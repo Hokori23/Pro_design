@@ -61,7 +61,7 @@ export default (blogCreatedAt?: number, blogName?: string) => {
   useEffect(() => {
     refreshDate()
     return () => {
-      timer !== -1 && clearTimeout()
+      timer !== -1 && clearTimeout(timer as NodeJS.Timeout)
     }
   }, [])
   useEffect(() => {

@@ -77,7 +77,7 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
               className={classes.content}
               color="textSecondary"
               component="div"
-              style={{ fontSize: 5 }}
+              style={{ fontSize: 12 }}
               variant="body2"
             >
               <Renderer content={content} />

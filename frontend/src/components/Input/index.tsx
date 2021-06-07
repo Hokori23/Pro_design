@@ -21,6 +21,8 @@ interface InputProps {
   InputProps?: {
     startAdornment: JSX.Element
   }
+  fullWidth?: boolean
+  multiline?: boolean
   onChange?: (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => void
@@ -36,6 +38,8 @@ export const Input: FC<InputProps> = ({
   value,
   helperText,
   InputProps,
+  fullWidth,
+  multiline,
   onChange,
   onBlur,
 }) => {
@@ -49,8 +53,10 @@ export const Input: FC<InputProps> = ({
       color={color}
       disabled={disabled}
       error={error}
+      fullWidth={fullWidth}
       helperText={helperText}
       label={label}
+      multiline={multiline}
       onBlur={onBlur}
       onChange={onChange}
       required={required}

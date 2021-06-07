@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@material-ui/core'
 import { checkPassword, formValid } from '@/components/UserFormValid'
-import classNames from 'classnames'
+import classnames from 'classnames'
 import {
   EmailInput,
   EmailCaptcha,
@@ -90,7 +90,7 @@ const Register: FC<RouteComponentProps & RouteConfig> = ({ location }) => {
     <Paper className={classes.form} elevation={1}>
       <form className="flex flex-column">
         <Typography
-          className={classNames('non-select', classes.formTitle)}
+          className={classnames('non-select', classes.formTitle)}
           color="primary"
           variant="h4"
         >
@@ -220,7 +220,7 @@ const Register: FC<RouteComponentProps & RouteConfig> = ({ location }) => {
           sendCaptcha={handleSendCaptcha}
         />
         <GenderSelect
-          className={classNames(classes.formItem, classes.genderRadio)}
+          className={classnames(classes.formItem, classes.genderRadio)}
           disabled={isRegistering}
           label="性别"
           onChange={(e) => setGender(Number(e.target.value))}
@@ -228,7 +228,7 @@ const Register: FC<RouteComponentProps & RouteConfig> = ({ location }) => {
         />
         {/* ACTION */}
         <div
-          className={classNames('flex', classes.action)}
+          className={classnames('flex', classes.action)}
           style={{ marginTop: '0.5rem' }}
         >
           <Link replace style={{ marginBottom: '0.5rem' }} to={PathName.LOGIN}>

@@ -18,7 +18,7 @@ import {
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import { useSelector } from 'react-redux'
 import { PathName, RouteName } from '@/routes'
-import { useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import InnerLink from '@/components/InnerLink'
 import { Group } from '@/utils/Request/User'
@@ -32,11 +32,12 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     '& .MuiAvatar-root': {
-      width: 32,
-      height: 32,
+      width: 40,
+      height: 40,
+      border: '2px solid #ffffff',
     },
-    padding: 5,
-    margin: 2,
+    padding: 0,
+    margin: 0,
   },
 }))
 
@@ -46,6 +47,7 @@ const UserStatus: FC = () => {
   const dispatch = useSelector(() => store.dispatch.common)
   const { isLogin, userInfo } = state
   const location = useLocation()
+  const history = useHistory()
   const isAdminPage = location.pathname.startsWith(PathName.ADMIN)
   const isAdmin = userInfo.group && userInfo.group > Group.SUBSCRIBER
   const classes = useStyles()
@@ -94,6 +96,7 @@ const UserStatus: FC = () => {
           onClick={() => {
             dispatch.LOGOUT()
             handleDialogClose()
+            history.push(PathName.HOME)
           }}
           size={isMobileSize ? 'small' : 'medium'}
           variant="outlined"

@@ -10,10 +10,6 @@ export interface FormValidPropItem {
 }
 export interface FormValidProps {
   [key: string]: FormValidPropItem | undefined
-  userAccount?: FormValidPropItem
-  userName?: FormValidPropItem
-  password?: FormValidPropItem
-  email?: FormValidPropItem
 }
 
 export const validators: {
@@ -77,8 +73,8 @@ export const validators: {
   ],
   url: [
     {
-      handler: /(https?:)\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g,
-      text: '网站格式有误, http(s)://...',
+      handler: /(https?:)\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/,
+      text: '网站格式不合法',
     },
   ],
 }

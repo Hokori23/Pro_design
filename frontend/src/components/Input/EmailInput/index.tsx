@@ -20,6 +20,7 @@ interface EmailInputProps {
   label?: string
   required?: boolean
   helperText?: string
+  fullWidth?: boolean
   onChange?: (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => void
@@ -32,6 +33,7 @@ export const EmailInput: FC<EmailInputProps> = ({
   disabled = false,
   email,
   helperText,
+  fullWidth,
   error = false,
   label = '邮箱',
   required = false,
@@ -44,6 +46,7 @@ export const EmailInput: FC<EmailInputProps> = ({
       className={classNames(
         error ? 'animate__animated animate__headShake' : '',
         className,
+        fullWidth ? 'spread-box__x' : '',
       )}
     >
       <InputLabel disabled={disabled} required={required}>
@@ -53,6 +56,7 @@ export const EmailInput: FC<EmailInputProps> = ({
         color={color}
         disabled={disabled}
         error={error}
+        fullWidth={fullWidth}
         onBlur={onBlur}
         onChange={onChange}
         placeholder={placeholder}

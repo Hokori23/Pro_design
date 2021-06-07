@@ -4,6 +4,8 @@ import { store } from '@/store'
 
 const baseUrl = '/api/user'
 
+export const GenderArr = ['UNKNOWN', 'MALE', 'FEMALE']
+export const GenderCNArr = ['未知', '男', '女']
 export enum Gender {
   UNKNOWN = 0,
   MALE = 1,

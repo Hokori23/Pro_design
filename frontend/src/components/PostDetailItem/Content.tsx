@@ -5,11 +5,10 @@ import { Renderer } from '../Markdown/Renderer'
 
 const useStyles = makeStyles((theme) => ({
   post: {
-    padding: '1rem 0.5rem',
+    padding: '1rem 2rem',
     borderBottom: '1px solid #e7e7e7',
     marginBottom: '1rem',
     [theme.breakpoints.up(700)]: {
-      padding: '1rem 2rem',
       marginBottom: '2rem',
       width: 700,
       alignSelf: 'center',

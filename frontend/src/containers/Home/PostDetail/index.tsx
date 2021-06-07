@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     backgroundColor: '#f5f5f5',
     height: '100%',
+    flexGrow: 1,
   },
   postWrapper: {
     flexGrow: 1,

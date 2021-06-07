@@ -21,6 +21,7 @@ interface UrlInputProps {
   required?: boolean
   helperText?: string
   placeholder?: string
+  fullWidth?: boolean
   onChange?: (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => void
@@ -35,6 +36,7 @@ export const UrlInput: FC<UrlInputProps> = ({
   error = false,
   label = '个人网站',
   required = false,
+  fullWidth,
   onChange,
   onBlur,
   placeholder = 'http(s)://',
@@ -44,6 +46,7 @@ export const UrlInput: FC<UrlInputProps> = ({
       className={classNames(
         error ? 'animate__animated animate__headShake' : '',
         className,
+        fullWidth ? 'spread-box__x' : '',
       )}
     >
       <InputLabel disabled={disabled} required={required}>
@@ -53,6 +56,7 @@ export const UrlInput: FC<UrlInputProps> = ({
         color={color}
         disabled={disabled}
         error={error}
+        fullWidth={fullWidth}
         onBlur={onBlur}
         onChange={onChange}
         placeholder={placeholder}
