@@ -5,20 +5,20 @@ import { PostWithAuthor } from '@/utils/Request/Post'
 export interface PostDetailState {
   loadingPost: boolean
   loadingComment: boolean
-  post: PostWithAuthor
+  post: PostWithAuthor | null
 }
 
 export const defaultPostDetailState: PostDetailState = {
   loadingPost: true,
   loadingComment: false,
-  post: (null as any) as PostWithAuthor,
+  post: null,
 }
 
 export const postDetail = createModel<RootModel>()({
   state: defaultPostDetailState,
   reducers: {
     // 直接修改 state
-    SET_POST: (state: PostDetailState, newPost: PostWithAuthor) => {
+    SET_POST: (state: PostDetailState, newPost: PostWithAuthor | null) => {
       state.post = newPost
       return state
     },
@@ -36,9 +36,10 @@ export const postDetail = createModel<RootModel>()({
     return {
       // 异步请求 demo
       async RetrievePost(id: string): Promise<void> {
+        postDetail.SET_POST(null)
         postDetail.SET_LOADING_POST(true)
         const res = await Request.Post.Retrieve(Number(id))
-        if (res?.data && res?.code === 0) {
+        if (res?.data) {
           postDetail.SET_POST(res.data)
         }
         postDetail.SET_LOADING_POST(false)

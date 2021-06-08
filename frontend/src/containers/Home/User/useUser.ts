@@ -114,7 +114,7 @@ export default () => {
   useAsync(async () => {
     if (!isLogin) return
     const res = await User.Retrieve(Number(userInfo.id))
-    if (res) dispatch.SET_USER_INFO(res.data)
+    if (res?.data) dispatch.SET_USER_INFO(res.data)
   })
   return {
     userInfo,

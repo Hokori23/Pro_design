@@ -93,14 +93,14 @@ export const RootComment: FC<RootCommentProps> = ({
 
   const Like = async () => {
     const res = await Request.PostComment.Like(comment.id)
-    if (res && res?.code === 0) {
+    if (res?.code === 0) {
       comment.likesCount++
       setLiked(true)
     }
   }
   const Dislike = async () => {
     const res = await Request.PostComment.Dislike(comment.id)
-    if (res && res?.code === 0) {
+    if (res?.code === 0) {
       comment.dislikesCount++
       setDisliked(true)
     }

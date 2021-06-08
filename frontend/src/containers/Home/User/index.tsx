@@ -40,6 +40,7 @@ interface ListItemValueProps {
   innerClassName?: string
   value?: string
   onClick?: () => void
+  disabled?: boolean
 }
 const ListItemValue: FC<ListItemValueProps> = ({
   primary,
@@ -47,9 +48,10 @@ const ListItemValue: FC<ListItemValueProps> = ({
   innerClassName,
   value,
   onClick,
+  disabled,
 }) => (
   <Fragment>
-    <ListItem button onClick={onClick}>
+    <ListItem button disabled={disabled} onClick={onClick}>
       <ListItemText primary={primary} />
       <ListItemText className={className} disableTypography>
         <Typography className={innerClassName} color="textSecondary">
@@ -112,6 +114,7 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
           <Divider light />
           <ListItemValue
             className={classes.ValueWrapper}
+            disabled
             innerClassName={classes.ValueInner}
             primary="账号"
             value={userInfo.userAccount}

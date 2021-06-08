@@ -92,7 +92,7 @@ export const ReplyComment: FC<ReplyCommentProps> = ({
     onSubmit,
     submitSnackBar,
     onSubmitSnackBarClose,
-  } = useReplyComment(id, state.post.id as number, root, parent)
+  } = useReplyComment(id, state.post?.id as number, root, parent)
   return (
     <section className={classes.commentBox} id={id}>
       <Typography

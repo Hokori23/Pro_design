@@ -17,12 +17,12 @@ import { Drawer } from '@/components/Drawer/index_admin'
 import UserStatus from '@/components/UserStatus'
 
 const Admin: FC<RouteComponentProps & RouteConfig> = (props) => {
-  const { drawerOpen, setDrawerOpen, blogConfig } = useAdmin()
   const { routes, location, history } = props
   const state = useSelector((state: RootState) => state.common)
   const classes = useStyles()
   const theme = useTheme()
   const isDeskTopSize = useMediaQuery(theme.breakpoints.up('sm'))
+  const { drawerOpen, setDrawerOpen, blogConfig } = useAdmin(isDeskTopSize)
 
   useEffect(() => {
     if (!state.isLogin) {

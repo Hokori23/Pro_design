@@ -6,7 +6,7 @@ import * as H from 'history'
 import { TabProps } from '@/containers/Home/Navigation'
 import { PathName } from '@/routes'
 
-export default (location: H.Location<unknown>) => {
+export default (location: H.Location<unknown>, isDeskTopSize: boolean) => {
   const tabs: TabProps[] = [
     {
       text: '首页',
@@ -38,6 +38,10 @@ export default (location: H.Location<unknown>) => {
     const idx = tabs.findIndex((v) => location.pathname.startsWith(v.path))
     setCurTabIdx(idx === -1 ? 0 : idx)
   }, [location.pathname])
+
+  useEffect(() => {
+    setDrawerOpen(isDeskTopSize)
+  }, [isDeskTopSize])
 
   return {
     drawerOpen,

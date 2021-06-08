@@ -1,9 +1,11 @@
 import React, { FC } from 'react'
 import { PostWithAuthor } from '@/utils/Request/Post'
 import { makeStyles } from '@material-ui/core/styles'
-import { Link, Typography } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 import classnames from 'classnames'
 import moment from 'moment'
+import InnerLink from '../InnerLink'
+import { PathName } from '@/routes'
 
 const useStyles = makeStyles((theme) => ({
   titleWrapper: {
@@ -85,10 +87,10 @@ export const Title: FC<TitleProps> = ({ post }) => {
         </Typography>
         <Typography align="center" component="p">
           <Typography component="span" variant="caption">
-            {/* TODO: 跳转到用户主页 */}
-            <Link color="inherit" href="#">
+            {/* TODO: 跳转到用户主页+id */}
+            <InnerLink color="inherit" to={PathName.USER}>
               {post.author.userName}
-            </Link>
+            </InnerLink>
           </Typography>
           &nbsp;&nbsp;•&nbsp;&nbsp;
           <Typography component="span" variant="caption">

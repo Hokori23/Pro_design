@@ -2,7 +2,7 @@ import { Request } from '@/utils'
 import { PostType, Toggle, Post } from '@/utils/Request/Post'
 import { useEffect, useState } from 'react'
 import * as H from 'history'
-import { useActivate } from 'react-activation'
+// import { useActivate } from 'react-activation'
 import { scrollIntoTop } from '@/utils/tools'
 import { store } from '@/store'
 import { useSelector } from 'react-redux'
@@ -34,16 +34,16 @@ export default (location: H.Location<unknown>) => {
     isASC: Toggle,
     postTypes: PostType[],
   ) => {
+    scrollIntoTop()
     setLoading(true)
     const res = await Request.Post.RetrieveAll(page, capacity, isASC, postTypes)
     setLoading(false)
-    if (res?.data && res?.code === 0) {
+    if (res?.data) {
       const data = res.data
       const maxPage = Math.ceil(data.total / capacity)
       setTotal(data.total)
       setMaxPage(maxPage)
       setPosts(res.data.posts)
-      scrollIntoTop()
       return maxPage
     }
   }
@@ -59,9 +59,9 @@ export default (location: H.Location<unknown>) => {
     setPostTypes(POST_TYPES)
   }, [location.search])
 
-  useActivate(() => {
-    void RetrieveAll(page, capacity, isASC, postTypes)
-  })
+  // useActivate(() => {
+  //   void RetrieveAll(page, capacity, isASC, postTypes)
+  // })
 
   return {
     loading,

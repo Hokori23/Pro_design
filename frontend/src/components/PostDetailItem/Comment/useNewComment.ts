@@ -6,13 +6,11 @@ import { useSelector } from 'react-redux'
 import Request from '@/utils/Request'
 import { scrollTo } from '@/utils/tools'
 
-export default (post: Post, Retrieve: Function) => {
+export default (post: Post | null, Retrieve: Function) => {
   const commonState = useSelector((state: RootState) => state.common)
   const dispatch = useSelector(() => store.dispatch.postDetail)
   const { isLogin, userInfo } = commonState
   const [isLoading, setIsLoading] = useState(false)
-  const pid = post.id
-  const uid = isLogin ? (userInfo.id as number | undefined) : -1
   const [comment, setComment] = useState('')
   const [email, setEmail] = useState(isLogin ? userInfo.email : '')
   const [url, setUrl] = useState(isLogin ? userInfo.url : '')
@@ -25,6 +23,8 @@ export default (post: Post, Retrieve: Function) => {
     message: '发表评论成功',
     autoHideDuration: 2000,
   })
+  const pid = post?.id
+  const uid = isLogin ? (userInfo.id as number | undefined) : -1
   const onSubmitSnackBarClose = () => {
     setSubmitSnackBar({
       ...submitSnackBar,
@@ -60,8 +60,8 @@ export default (post: Post, Retrieve: Function) => {
         url,
         userAgent,
       })
-      if (res?.data && res?.code === 0) {
-        await Retrieve(String(post.id as number))
+      if (res?.data) {
+        await Retrieve(String(post?.id as number))
         setSubmitSnackBar({
           ...submitSnackBar,
           open: true,

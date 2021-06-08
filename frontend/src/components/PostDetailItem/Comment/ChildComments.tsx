@@ -110,7 +110,7 @@ export const ChildComments: FC<ChildCommentsProps> = ({
 
   const Like = async (comment: PostCommentWithStatus, idx: number) => {
     const res = await Request.PostComment.Like(comment.id)
-    if (res && res?.code === 0) {
+    if (res?.code === 0) {
       const cloneChildComments = _.cloneDeep(childComments)
       cloneChildComments[idx].likesCount++
       cloneChildComments[idx].liked = true
@@ -119,7 +119,7 @@ export const ChildComments: FC<ChildCommentsProps> = ({
   }
   const Dislike = async (comment: PostCommentWithStatus, idx: number) => {
     const res = await Request.PostComment.Dislike(comment.id)
-    if (res && res?.code === 0) {
+    if (res?.code === 0) {
       const cloneChildComments = _.cloneDeep(childComments)
       cloneChildComments[idx].dislikesCount++
       cloneChildComments[idx].disliked = true

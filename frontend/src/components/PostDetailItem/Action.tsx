@@ -46,7 +46,7 @@ export const Action: FC<ActionProps> = ({ post, isMobileSize }) => {
 
   const Like = async () => {
     const res = await Request.Post.Like(post.id as number)
-    if (res && res?.code === 0) {
+    if (res?.code === 0) {
       dispatch.SET_POST({
         ...post,
         likesCount: post.likesCount + 1,
@@ -56,7 +56,7 @@ export const Action: FC<ActionProps> = ({ post, isMobileSize }) => {
   }
   const Dislike = async () => {
     const res = await Request.Post.Dislike(post.id as number)
-    if (res && res?.code === 0) {
+    if (res?.code === 0) {
       dispatch.SET_POST({
         ...post,
         dislikesCount: post.dislikesCount + 1,

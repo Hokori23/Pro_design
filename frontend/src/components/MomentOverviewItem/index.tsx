@@ -65,7 +65,7 @@ export const MomentOverviewItem: FC<MomentOverviewItemProps> = ({ moment }) => {
 
   const Like = async () => {
     const res = await Request.Post.Like(id as number)
-    if (res && res?.code === 0) {
+    if (res?.code === 0) {
       setMoment(
         Object.assign(_.cloneDeep(clonedMoment), {
           likesCount: clonedMoment.likesCount + 1,
@@ -76,7 +76,7 @@ export const MomentOverviewItem: FC<MomentOverviewItemProps> = ({ moment }) => {
   }
   const Dislike = async () => {
     const res = await Request.Post.Dislike(id as number)
-    if (res && res?.code === 0) {
+    if (res?.code === 0) {
       setMoment(
         Object.assign(_.cloneDeep(clonedMoment), {
           dislikesCount: clonedMoment.dislikesCount + 1,

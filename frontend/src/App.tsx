@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import { routes } from './routes'
@@ -29,9 +29,15 @@ const Routes: FC = () => {
 
 const App = (): JSX.Element => {
   const state = useSelector((state: RootState) => state.common)
-
+  const [appStyle, setAppStyle] = useState<React.CSSProperties>({})
+  useEffect(() => {
+    // 初始化页面高度
+    setAppStyle({
+      minHeight: window.screen.availHeight,
+    })
+  }, [])
   return (
-    <div className="App">
+    <div className="App" style={appStyle}>
       <ConnectedRouter history={history}>
         {/**
          * 404页面兜底

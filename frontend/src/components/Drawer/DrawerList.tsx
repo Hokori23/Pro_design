@@ -38,7 +38,7 @@ const ListItemLink: FC<ListItemLinkProps> = ({ icon, primary, to }) => {
   )
 
   return (
-    <ListItem button component={renderLink}>
+    <ListItem button component={renderLink} selected={to === location.pathname}>
       {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
       <ListItemText primary={primary} />
     </ListItem>

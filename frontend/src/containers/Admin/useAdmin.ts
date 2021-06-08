@@ -6,7 +6,7 @@ import { RouteName } from '@/routes'
 import { store } from '@/store'
 import { useSelector } from 'react-redux'
 
-export default () => {
+export default (isDeskTopSize: boolean) => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [blogConfig, setBlogConfig] = useState([] as Option[])
 
@@ -20,6 +20,11 @@ export default () => {
   useEffect(() => {
     dispatch.SET_APPBAR_TITLE(RouteName.ADMIN)
   }, [])
+
+  useEffect(() => {
+    setDrawerOpen(isDeskTopSize)
+  }, [isDeskTopSize])
+
   return {
     drawerOpen,
     setDrawerOpen,

@@ -39,7 +39,7 @@ const Home: FC<RouteComponentProps & RouteConfig> = (props) => {
     // tabs,
     // curTabIdx,
     // setCurTabIdx,
-  } = useHome(location)
+  } = useHome(location, isDeskTopSize)
 
   // const onCurTabIdxChange = (event: React.ChangeEvent<{}>, newVal: number) => {
   //   setCurTabIdx(newVal)

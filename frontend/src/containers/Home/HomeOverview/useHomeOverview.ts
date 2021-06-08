@@ -35,7 +35,7 @@ export default (location: H.Location<unknown>) => {
     setLoading(true)
     const res = await Request.Post.RetrieveAll(page, capacity, isASC, postTypes)
     setLoading(false)
-    if (res?.data && res?.code === 0) {
+    if (res?.data) {
       const data = res.data
       const maxPage = Math.ceil(data.total / capacity)
       setTotal(data.total)

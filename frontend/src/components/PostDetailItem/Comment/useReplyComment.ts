@@ -71,7 +71,7 @@ export default (
         payload.parentId = parent.id
       }
       const res = await Request.PostComment.Create(payload)
-      if (res?.data && res?.code === 0) {
+      if (res?.data) {
         await Retrieve(String(postId))
         setSubmitSnackBar({
           ...submitSnackBar,
