@@ -15,6 +15,7 @@ import useStyles from './useStyles'
 import { AppBar } from '@/components/AppBar'
 import { Drawer } from '@/components/Drawer/index_admin'
 import UserStatus from '@/components/UserStatus'
+import Footer from '@/components/Footer'
 
 const Admin: FC<RouteComponentProps & RouteConfig> = (props) => {
   const { routes, location, history } = props
@@ -48,6 +49,7 @@ const Admin: FC<RouteComponentProps & RouteConfig> = (props) => {
           [classes.appBarShift]: drawerOpen && isDeskTopSize,
         })}
         color="default"
+        id="App-Bar"
         onClick={() => {
           setDrawerOpen(!drawerOpen)
         }}
@@ -65,6 +67,7 @@ const Admin: FC<RouteComponentProps & RouteConfig> = (props) => {
           className={classnames(classes.content, 'relative', {
             [classes.contentShift]: drawerOpen && isDeskTopSize,
           })}
+          id="App-Home"
         >
           <Switch location={location}>
             {routes.map(
@@ -80,6 +83,7 @@ const Admin: FC<RouteComponentProps & RouteConfig> = (props) => {
               ),
             )}
           </Switch>
+          <Footer id="App-Footer" />
         </main>
       )}
     </Fragment>

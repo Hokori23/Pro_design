@@ -193,6 +193,7 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
           content={editDialog.content}
           handleClose={handleEditDialogClose}
           handleSubmit={handleEditDialogSubmit}
+          loading={userLoading}
           open={editDialog.open}
           title={editDialog.title}
           valid={editDialog.valid}

@@ -9,6 +9,7 @@ import {
   useMediaQuery,
   useTheme,
   makeStyles,
+  CircularProgress,
 } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
@@ -24,14 +25,16 @@ interface EditDialogProps {
   content?: string
   open: boolean
   valid: boolean
+  loading: boolean
   handleClose: () => void
-  handleSubmit: () => void
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
 }
 const EditDialog: FC<EditDialogProps> = ({
   title,
   content,
   open,
   valid,
+  loading,
   handleClose,
   handleSubmit,
   children,
@@ -48,30 +51,47 @@ const EditDialog: FC<EditDialogProps> = ({
       onClose={handleClose}
       open={open}
     >
-      <DialogTitle>{title}</DialogTitle>
-      <DialogContent>
-        {content && <DialogContentText>{content}</DialogContentText>}
-        {children}
-      </DialogContent>
-      <DialogActions className={isMobileSize ? classes.actions : ''}>
-        <Button
-          color="primary"
-          onClick={handleClose}
-          size={isMobileSize ? 'large' : 'medium'}
-          variant={isMobileSize ? 'outlined' : 'text'}
-        >
-          取消
-        </Button>
-        <Button
-          color="primary"
-          disabled={!valid}
-          onClick={handleSubmit}
-          size={isMobileSize ? 'large' : 'medium'}
-          variant={isMobileSize ? 'contained' : 'outlined'}
-        >
-          确定
-        </Button>
-      </DialogActions>
+      <form onSubmit={handleSubmit}>
+        <DialogTitle>{title}</DialogTitle>
+        <DialogContent>
+          {content && <DialogContentText>{content}</DialogContentText>}
+          {children}
+        </DialogContent>
+        <DialogActions className={isMobileSize ? classes.actions : ''}>
+          <Button
+            color="primary"
+            disabled={loading}
+            onClick={handleClose}
+            size={isMobileSize ? 'large' : 'medium'}
+            variant={isMobileSize ? 'outlined' : 'text'}
+          >
+            取消
+          </Button>
+          <div style={{ position: 'relative' }}>
+            <Button
+              color="primary"
+              disabled={!valid || loading}
+              size={isMobileSize ? 'large' : 'medium'}
+              type="submit"
+              variant={isMobileSize ? 'contained' : 'outlined'}
+            >
+              确定
+            </Button>
+            {loading && (
+              <CircularProgress
+                size={20}
+                style={{
+                  position: 'absolute',
+                  left: '50%',
+                  top: '50%',
+                  marginTop: -10,
+                  marginLeft: -10,
+                }}
+              />
+            )}
+          </div>
+        </DialogActions>
+      </form>
     </Dialog>
   )
 }

@@ -77,6 +77,18 @@ export const validators: {
       text: '网站格式不合法',
     },
   ],
+  tagName: [
+    {
+      handler: /^.+$/,
+      text: '标签名不能为空',
+    },
+  ],
+  tagSlug: [
+    {
+      handler: /^.+$/,
+      text: '标签slug不能为空',
+    },
+  ],
 }
 
 export const formValid = (props: FormValidProps): boolean => {

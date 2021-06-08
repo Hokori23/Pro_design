@@ -50,7 +50,7 @@ export const handleUpload = async (
 ) => {
   // 请求Authorization和Policy
   const res = await GetAuthorizationAndPolicy(fileName, type)
-  if (!res) return
+  if (!res?.data) return
   const { url, payload } = res.data
 
   // 上传又拍云

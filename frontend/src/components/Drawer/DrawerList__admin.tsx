@@ -1,6 +1,7 @@
 /* eslint-disable react/display-name */
-import React, { FC, forwardRef, useMemo } from 'react'
+import React, { FC, forwardRef, Fragment, useMemo, useState } from 'react'
 import {
+  Collapse,
   List,
   ListItem,
   ListItemIcon,
@@ -9,26 +10,40 @@ import {
   makeStyles,
   SvgIconTypeMap,
 } from '@material-ui/core'
-import { Home as HomeIcon } from '@material-ui/icons'
+import {
+  ExpandLess,
+  ExpandMore,
+  Build,
+  Home as HomeIcon,
+} from '@material-ui/icons'
 import { Option } from '@/utils/Request/Option'
 import { Link, LinkProps, useLocation } from 'react-router-dom'
 import { PathName, RouteName } from '@/routes'
 import { OverridableComponent } from '@material-ui/core/OverridableComponent'
 
 import { drawerWidth } from './useStyles'
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   list: {
     width: drawerWidth,
   },
-})
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
+}))
 
 interface ListItemLinkProps {
   icon?: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>
   primary: ListItemTextProps<'span', 'p'>['primary']
   to: LinkProps<unknown>['to']
+  className?: string
 }
 
-const ListItemLink: FC<ListItemLinkProps> = ({ icon, primary, to }) => {
+const ListItemLink: FC<ListItemLinkProps> = ({
+  className,
+  icon,
+  primary,
+  to,
+}) => {
   const location = useLocation()
   const renderLink = useMemo(
     () =>
@@ -39,7 +54,12 @@ const ListItemLink: FC<ListItemLinkProps> = ({ icon, primary, to }) => {
   )
 
   return (
-    <ListItem button component={renderLink} selected={to === location.pathname}>
+    <ListItem
+      button
+      className={className}
+      component={renderLink}
+      selected={to === location.pathname}
+    >
       {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
       <ListItemText primary={primary} />
     </ListItem>
@@ -50,6 +70,42 @@ export interface DrawerListProps {
   onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
   onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void
   blogConfig: Option[]
+}
+
+const DrawerListCollapse: FC = () => {
+  const lists: ListItemLinkProps[] = [
+    { primary: RouteName.POST_TAG_ADMIN, to: PathName.POST_TAG_ADMIN },
+  ]
+  const classes = useStyles()
+  const [open, setOpen] = useState(false)
+  const handleToggle = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation()
+    setOpen(!open)
+  }
+  return (
+    <Fragment>
+      <ListItem button onClick={handleToggle}>
+        <ListItemIcon>
+          <Build />
+        </ListItemIcon>
+        <ListItemText primary="管理" />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          {lists.map(({ icon, primary, to }) => (
+            <ListItemLink
+              className={classes.nested}
+              icon={icon}
+              key={String(to)}
+              primary={primary}
+              to={to}
+            />
+          ))}
+        </List>
+      </Collapse>
+    </Fragment>
+  )
 }
 
 export const DrawerList: FC<DrawerListProps> = ({
@@ -65,9 +121,6 @@ export const DrawerList: FC<DrawerListProps> = ({
       primary: RouteName.ADMIN,
       to: PathName.ADMIN,
     },
-    // TODO:
-    { primary: RouteName.POST, to: PathName.POST_OVERVIEW },
-    { primary: RouteName.MOMENT, to: PathName.MOMENT_OVERVIEW },
   ]
   return (
     <nav>
@@ -87,6 +140,7 @@ export const DrawerList: FC<DrawerListProps> = ({
             />
           ))}
         </List>
+        <DrawerListCollapse />
       </div>
     </nav>
   )

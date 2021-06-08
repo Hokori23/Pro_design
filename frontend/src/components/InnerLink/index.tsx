@@ -7,12 +7,13 @@ import {
 import { Link } from '@material-ui/core'
 
 const InnerLink: FC<RouterLinkProps> = forwardRef(
-  ({ className, to, replace, children }, ref) => {
+  ({ className, style, to, replace, children }, ref) => {
     return (
       <Link
         className={className}
         component={RouterLink}
         replace={replace}
+        style={style}
         to={to}
       >
         {children}

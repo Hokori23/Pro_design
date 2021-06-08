@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Link, Redirect, RouteComponentProps } from 'react-router-dom'
+import { Redirect, RouteComponentProps } from 'react-router-dom'
 import { useAliveController } from 'react-activation'
 import { PathName, RouteConfig } from '@/routes'
 import {
@@ -23,6 +23,7 @@ import { AccountCircle, Person } from '@material-ui/icons'
 
 // hooks
 import useRegister from './useRegister'
+import InnerLink from '@/components/InnerLink'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -231,9 +232,13 @@ const Register: FC<RouteComponentProps & RouteConfig> = ({ location }) => {
           className={classnames('flex', classes.action)}
           style={{ marginTop: '0.5rem' }}
         >
-          <Link replace style={{ marginBottom: '0.5rem' }} to={PathName.LOGIN}>
+          <InnerLink
+            replace
+            style={{ marginBottom: '0.5rem' }}
+            to={PathName.LOGIN}
+          >
             <Button variant="text">返回登陆</Button>
-          </Link>
+          </InnerLink>
           <div style={{ position: 'relative' }}>
             <Button
               color="primary"

@@ -14,6 +14,7 @@ import User from './containers/Home/User'
 import NotFoundPage from './containers/NotFoundPage'
 import Redirect404 from './containers/Redirect404'
 import Admin from './containers/Admin'
+import PostTagAdmin from './containers/Admin/PostTagAdmin'
 
 export enum PathName {
   DEMO = '/demo',
@@ -30,6 +31,7 @@ export enum PathName {
   _MOMENT_DETAIL = '/moment/detail',
   USER = '/user',
   ADMIN = '/admin',
+  POST_TAG_ADMIN = '/admin/post-tag',
   _NOT_FOUND_PAGE = '*',
   NOT_FOUND_PAGE = '/404',
 }
@@ -45,6 +47,7 @@ export enum RouteName {
   USER = '用户中心',
   NOT_FOUND_PAGE = '找不到页面',
   ADMIN = '后台管理中心',
+  POST_TAG_ADMIN = '管理标签',
 }
 
 /* 集中存放所有路由配置 */
@@ -104,7 +107,15 @@ export const routes: RouteConfig[] = [
   {
     path: PathName.ADMIN,
     component: Admin,
-    routes: [],
+    routes: [
+      {
+        path: PathName.POST_TAG_ADMIN,
+        component: PostTagAdmin,
+        routeProps: {
+          exact: true,
+        },
+      },
+    ],
   },
   {
     path: PathName._HOME,

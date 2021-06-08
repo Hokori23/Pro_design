@@ -20,8 +20,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#f5f5f5',
-    paddingTop: 5,
-    paddingBottom: '1rem',
+    paddingBottom: '0.5rem',
     height: '100%',
   },
   moments: {

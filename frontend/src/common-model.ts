@@ -4,6 +4,7 @@ import { RootModel } from './models'
 import { ACCESS_TOKEN_NAME, USER_INFO_NAME, BLOG_CONFIG } from './utils/const'
 import { Option } from './utils/Request/Option'
 import { User } from './utils/Request/User'
+import { computeDOMHeight } from './utils/tools'
 
 export interface CommonState {
   userInfo: Partial<User>
@@ -12,6 +13,7 @@ export interface CommonState {
   isLogin: boolean
   appBarTitle: string
   blogConfig: Option[]
+  mainHeight: string
 }
 
 export const defaultCommonState: CommonState = {
@@ -26,6 +28,7 @@ export const defaultCommonState: CommonState = {
   isLogin: false,
   appBarTitle: '',
   blogConfig: [],
+  mainHeight: '0px',
 }
 export const common = createModel<RootModel>()({
   state: defaultCommonState,
@@ -70,6 +73,15 @@ export const common = createModel<RootModel>()({
     SET_BLOG_CONFIG: (state: CommonState, newBlogConfig: Option[]) => {
       state.blogConfig = newBlogConfig
       localStorage.setItem(BLOG_CONFIG, JSON.stringify(newBlogConfig))
+      return state
+    },
+    SET_MAIN_HEIGHT: (state: CommonState, newHeight?: string) => {
+      if (!newHeight) {
+        newHeight = `${
+          window.innerHeight - (computeDOMHeight('#App-Bar', true) as number)
+        }px`
+      }
+      state.mainHeight = newHeight
       return state
     },
   },

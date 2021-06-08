@@ -54,10 +54,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface FooterProps {
+  id?: string
   className?: string
 }
 
-const Footer: FC<FooterProps> = ({ className }) => {
+const Footer: FC<FooterProps> = ({ id, className }) => {
   const state = useSelector((state: RootState) => state.common)
   const classes = useStyles()
   const theme = useTheme()
@@ -73,7 +74,7 @@ const Footer: FC<FooterProps> = ({ className }) => {
 
   const { dateText, yearText } = useTimer(Number(blogCreatedAt), blogName)
   return (
-    <Box className={classnames(className, classes.rootWrapper)}>
+    <Box className={classnames(className, classes.rootWrapper)} id={id}>
       <Box className={classes.root}>
         {/* LEFT */}
         <Typography className={classnames(classes.left, classes.footerBox)}>

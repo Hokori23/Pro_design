@@ -91,7 +91,10 @@ export default () => {
     setEditDialog({ ...editDialog, valid })
   }
 
-  const handleEditDialogSubmit = async () => {
+  const handleEditDialogSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+  ) => {
+    e.preventDefault()
     const newUser = _.cloneDeep(clonedUserInfo)
     setUserLoading(true)
     const res = await User.Edit(newUser)

@@ -2,13 +2,13 @@ import React, { FC, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import { routes } from './routes'
-import { RootState, history /*, store */ } from '@/store'
+import { RootState, history, store } from '@/store'
 import { ConnectedRouter } from 'connected-react-router'
 import { Portal } from '@material-ui/core'
 import { RequestSnackBar } from '@/components/RequestSnackBar'
 import NotFoundPage from '@/containers/NotFoundPage'
-import './boot'
 import { AliveScope } from 'react-activation'
+import './boot'
 
 const root = document.querySelector('#root')
 
@@ -29,12 +29,22 @@ const Routes: FC = () => {
 
 const App = (): JSX.Element => {
   const state = useSelector((state: RootState) => state.common)
+  const dispatch = useSelector(() => store.dispatch.common)
   const [appStyle, setAppStyle] = useState<React.CSSProperties>({})
+
   useEffect(() => {
     // 初始化页面高度
-    setAppStyle({
-      minHeight: window.screen.availHeight,
-    })
+    const listener = () => {
+      setAppStyle({
+        minHeight: window.innerHeight,
+      })
+      dispatch.SET_MAIN_HEIGHT()
+    }
+    listener()
+    document.addEventListener('resize', listener)
+    return () => {
+      document.removeEventListener('resize', listener)
+    }
   }, [])
   return (
     <div className="App" style={appStyle}>

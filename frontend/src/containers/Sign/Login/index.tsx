@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import classNames from 'classnames'
-import { Link, RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Button,
@@ -16,6 +16,7 @@ import { AccountCircle } from '@material-ui/icons'
 
 // hooks
 import useLogin from './useLogin'
+import InnerLink from '@/components/InnerLink'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -109,19 +110,25 @@ const Login: FC<RouteComponentProps & RouteConfig> = () => {
           style={{ marginTop: '0.5rem' }}
         >
           <div className="flex" style={{ marginBottom: '1rem' }}>
-            <Link replace style={{ marginRight: '0.5rem' }} to={PathName.HOME}>
-              <Button variant="text">返回首页</Button>
-            </Link>
-            <Link replace to={PathName.REGISTER}>
-              <Button variant="text">还没有账号？前往注册</Button>
-            </Link>
+            <InnerLink
+              className="plain-a"
+              replace
+              style={{ marginRight: '0.5rem' }}
+              to={PathName.HOME}
+            >
+              <Button>返回首页</Button>
+            </InnerLink>
+            <InnerLink className="plain-a" replace to={PathName.REGISTER}>
+              <Button color="primary" variant="outlined">
+                还没有账号？前往注册
+              </Button>
+            </InnerLink>
           </div>
           <div style={{ position: 'relative' }}>
             <Button
               color="primary"
               disabled={isLogining}
               onClick={() => void handlerLogin()}
-              style={{ position: 'relative' }}
               variant="contained"
             >
               登录

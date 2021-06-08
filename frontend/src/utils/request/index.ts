@@ -8,6 +8,7 @@ import * as Init from './Init'
 import * as Option from './Option'
 import * as Post from './Post'
 import * as PostComment from './PostComment'
+import * as PostTag from './PostTag'
 
 const isWhiteUrl = (url: string) => {
   return !REQUEST_WHITE_LIST.every((reg) => !reg.test(url))
@@ -75,5 +76,5 @@ export const Request = async <T>(config: AxiosRequestConfig) => {
     }
   }
 }
-export { User, Post, PostComment, Upload, Init, Option }
-export default { User, Post, PostComment, Upload, Init, Option }
+export { User, Post, PostComment, PostTag, Upload, Init, Option }
+export default { User, Post, PostComment, PostTag, Upload, Init, Option }
