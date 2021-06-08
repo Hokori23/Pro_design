@@ -34,8 +34,8 @@ const handleWatchDate = (
 
   setDateText(text)
 }
+let _timer: NodeJS.Timeout = -1 as any
 export default (blogCreatedAt?: number, blogName?: string) => {
-  const [timer, setTimer] = useState(-1 as number | NodeJS.Timeout)
   const [dateText, setDateText] = useState('')
   const [date, setDate] = useState(Date.now())
   let yearText = `${String(new Date().getFullYear())}`
@@ -50,18 +50,17 @@ export default (blogCreatedAt?: number, blogName?: string) => {
   }
 
   const refreshDate = () => {
-    setTimer(
-      setTimeout(() => {
-        setDate(Date.now())
-        refreshDate()
-      }, 1000),
-    )
+    _timer = setTimeout(() => {
+      setDate(Date.now())
+      refreshDate()
+    }, 1000)
   }
 
   useEffect(() => {
     refreshDate()
     return () => {
-      timer !== -1 && clearTimeout(timer as NodeJS.Timeout)
+      // useEffect中声明的函数在组件re-render时不会重新声明，只会引用最初的state，故在函数族组件外声明_timer
+      clearTimeout(_timer)
     }
   }, [])
   useEffect(() => {
