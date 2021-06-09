@@ -1,12 +1,12 @@
-import React, { createRef, FC } from 'react'
+import React, { FC } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { RouteComponentProps, useParams } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 import { RouteConfig } from '@/routes'
-import { RootState } from '@/store'
-import { useSelector } from 'react-redux'
 
+// hooks
 import usePostDetail from './usePostDetail'
 
+// components
 import { PostDetailItem } from '@/components/PostDetailItem'
 import { ScrollTop } from '@/components/ScrollTop'
 import { CircularLoading } from '@/components/CircularLoading'
@@ -25,11 +25,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const PostDetail: FC<RouteComponentProps & RouteConfig> = (props) => {
-  const { id } = useParams<{ id: string }>()
-  const state = useSelector((state: RootState) => state.postDetail)
   const classes = useStyles()
-  const ref = createRef()
-  const { loading, post } = usePostDetail(id)
+  const { loading, post, ref, state } = usePostDetail()
   return (
     <div className={classes.wrapper}>
       <div className={classes.postWrapper}>
