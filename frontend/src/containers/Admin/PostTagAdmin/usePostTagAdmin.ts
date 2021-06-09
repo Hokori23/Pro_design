@@ -2,6 +2,9 @@ import { PostTag } from '@/utils/Request/PostTag'
 import { useEffect, useState } from 'react'
 import Request from '@/utils/Request'
 import _ from 'lodash'
+import { useSelector } from 'react-redux'
+import { store } from '@/store'
+import { RouteName } from '@/routes'
 
 export default () => {
   const [isNew, setIsNew] = useState(false)
@@ -12,6 +15,8 @@ export default () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [deleteTag, setDeleteTag] = useState<PostTag | null>(null)
   const [deleteLoading, setDeleteLoading] = useState(false)
+
+  const dispatch = useSelector(() => store.dispatch.common)
 
   const RetrieveAll = async () => {
     setTagsLoading(true)
@@ -86,6 +91,7 @@ export default () => {
 
   useEffect(() => {
     void RetrieveAll()
+    dispatch.SET_APPBAR_TITLE(`管理${RouteName.POST_TAG_ADMIN}`)
   }, [])
 
   return {

@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 export default (isDeskTopSize: boolean) => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [blogConfig, setBlogConfig] = useState([] as Option[])
+  const dispatch = useSelector(() => store.dispatch.common)
 
   useAsync(async () => {
     const { blogConfig } = await useInit()
@@ -16,7 +17,6 @@ export default (isDeskTopSize: boolean) => {
       setBlogConfig(blogConfig)
     }
   })
-  const dispatch = useSelector(() => store.dispatch.common)
   useEffect(() => {
     dispatch.SET_APPBAR_TITLE(RouteName.ADMIN)
   }, [])

@@ -51,7 +51,7 @@ export default (post: Post | null, Retrieve: Function) => {
     }
     if (formValid(validProps)) {
       setIsLoading(true)
-      dispatch.SET_LOADING_Comment(true)
+      dispatch.SET_LOADING_COMMENT(true)
       const res = await Request.PostComment.Create({
         pid,
         uid,
@@ -70,7 +70,7 @@ export default (post: Post | null, Retrieve: Function) => {
       setComment('')
       scrollTo('#post-detail-footer', 'end')
       setIsLoading(false)
-      dispatch.SET_LOADING_Comment(false)
+      dispatch.SET_LOADING_COMMENT(false)
     }
   }
   return {

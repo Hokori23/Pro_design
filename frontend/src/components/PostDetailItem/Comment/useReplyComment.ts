@@ -57,7 +57,7 @@ export default (
     }
     if (formValid(validProps)) {
       setIsLoading(true)
-      dispatch.SET_LOADING_Comment(true)
+      dispatch.SET_LOADING_COMMENT(true)
       const payload: { [key: string]: any } = {
         pid,
         uid,
@@ -81,7 +81,7 @@ export default (
         scrollTo(id)
       }
       setIsLoading(false)
-      dispatch.SET_LOADING_Comment(false)
+      dispatch.SET_LOADING_COMMENT(false)
     }
   }
 

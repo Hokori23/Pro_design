@@ -26,7 +26,7 @@ export const postDetail = createModel<RootModel>()({
       state.loadingPost = newLoading
       return state
     },
-    SET_LOADING_Comment: (state: PostDetailState, newLoading: boolean) => {
+    SET_LOADING_COMMENT: (state: PostDetailState, newLoading: boolean) => {
       state.loadingComment = newLoading
       return state
     },

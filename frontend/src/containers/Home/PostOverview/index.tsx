@@ -10,7 +10,7 @@ import { isDef } from '@/utils/tools'
 import usePostOverview from './usePostOverview'
 
 // components
-import { PostOverviewItem } from 'components/PostOverviewItem'
+import { PostOverviewItem } from '@/components/PostOverviewItem'
 import { ScrollTop } from '@/components/ScrollTop'
 import { Pagination, PaginationItem } from '@material-ui/lab'
 import { CircularLoading } from '@/components/CircularLoading'
