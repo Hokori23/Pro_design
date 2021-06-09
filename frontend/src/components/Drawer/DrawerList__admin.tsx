@@ -74,6 +74,7 @@ export interface DrawerListProps {
 
 const DrawerListCollapse: FC = () => {
   const lists: ListItemLinkProps[] = [
+    { primary: RouteName.POST_ADMIN, to: PathName.POST_ADMIN },
     { primary: RouteName.POST_TAG_ADMIN, to: PathName.POST_TAG_ADMIN },
   ]
   const classes = useStyles()
