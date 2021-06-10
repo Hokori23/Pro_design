@@ -35,7 +35,7 @@ export const postDetail = createModel<RootModel>()({
     const { postDetail } = dispatch
     return {
       // 异步请求 demo
-      async RetrievePost(id: string): Promise<void> {
+      async RetrievePost(id: string): Promise<PostWithAuthor | undefined> {
         postDetail.SET_POST(null)
         postDetail.SET_LOADING_POST(true)
         const res = await Request.Post.Retrieve(Number(id))
@@ -43,6 +43,7 @@ export const postDetail = createModel<RootModel>()({
           postDetail.SET_POST(res.data)
         }
         postDetail.SET_LOADING_POST(false)
+        return res?.data
       },
     }
   },

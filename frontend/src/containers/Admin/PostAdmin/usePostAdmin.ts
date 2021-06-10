@@ -51,7 +51,7 @@ export default (location: H.Location<unknown>) => {
   }
 
   useEffect(() => {
-    dispatch.SET_APPBAR_TITLE(RouteName.POST)
+    dispatch.SET_APPBAR_TITLE(`管理${RouteName.POST_ADMIN}`)
   }, [])
 
   useEffect(() => {

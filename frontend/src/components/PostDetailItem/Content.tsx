@@ -1,7 +1,7 @@
 import { Post } from '@/utils/Request/Post'
 import React, { FC } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Renderer } from '../Markdown/Renderer'
+import { Renderer } from '@/components/Markdown/Renderer'
 
 const useStyles = makeStyles((theme) => ({
   post: {

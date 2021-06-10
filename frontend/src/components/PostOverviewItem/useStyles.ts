@@ -45,7 +45,7 @@ export const useStyles = makeStyles((theme) => ({
   content: {
     display: '-webkit-box',
     overflow: 'hidden',
-    'text-overflow': 'ellipsis',
+    textOverflow: 'ellipsis',
     '-webkit-box-orient': 'vertical',
     '-webkit-line-clamp': 5,
     [theme.breakpoints.up(700)]: {

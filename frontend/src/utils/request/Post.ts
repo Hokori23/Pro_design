@@ -175,7 +175,7 @@ export const Delete = async (id: number) => {
 }
 
 export const Delete__Admin = async (id: number) => {
-  return await Request<Restful<Post>>({
+  return await Request<_Restful>({
     method: 'POST',
     data: {
       id,
