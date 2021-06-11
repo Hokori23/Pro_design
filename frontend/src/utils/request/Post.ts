@@ -34,13 +34,20 @@ export interface Post {
   pageViews: number
 
   postComments?: PostComment[]
-  tags: PostTag[]
 
   readonly createdAt: Date
   readonly updatedAt: Date
 }
 
-export interface PostWithAuthor extends Post {
+export interface PostWithTags extends Post {
+  tags: PostTag[]
+}
+
+export interface EditedPost extends Post {
+  tags: Array<number | undefined>
+}
+
+export interface PostWithAuthor extends PostWithTags {
   author: User
 }
 
@@ -153,10 +160,16 @@ export const RetrieveTag__Admin = async (
   })
 }
 
-export const Edit = async (post: Partial<Post>) => {
-  return await Request<Restful<Post>>({
+export const Edit = async ({
+  post,
+  tids,
+}: {
+  post: Partial<EditedPost>
+  tids: Array<number | undefined>
+}) => {
+  return await Request<Restful<PostWithTags>>({
     method: 'POST',
-    data: post,
+    data: { post, tids },
     url: `${baseUrl}/edit`,
   })
 }

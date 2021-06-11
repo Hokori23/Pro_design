@@ -5,9 +5,13 @@ import {
   FormControlLabel,
   FormGroup,
   FormLabel,
+  Typography,
 } from '@material-ui/core'
 import { PostTagWithCheck } from '@/containers/Admin/PostDetailAdmin/model'
 import { CircularLoading } from '@/components/CircularLoading'
+import InnerLink from '@/components/InnerLink'
+import { PathName } from '@/routes'
+import classnames from 'classnames'
 
 interface TagSelectProps {
   className?: string
@@ -24,10 +28,17 @@ export const TagSelect: FC<TagSelectProps> = ({
   return (
     <FormControl component="fieldset" style={{ width: '100%' }}>
       <FormLabel component="legend">标签</FormLabel>
-      <FormGroup className={className} row style={{ position: 'relative' }}>
+      <FormGroup
+        className={classnames(
+          options.length ? '' : 'flex flex-center',
+          className,
+        )}
+        row
+        style={{ position: 'relative' }}
+      >
         {loading ? (
           <CircularLoading size={20} />
-        ) : (
+        ) : options.length ? (
           options.map((tag, idx) => (
             <FormControlLabel
               control={
@@ -44,6 +55,11 @@ export const TagSelect: FC<TagSelectProps> = ({
               label={tag.name}
             />
           ))
+        ) : (
+          <Typography align="center" color="primary" variant="h6">
+            查无标签，
+            <InnerLink to={PathName.POST_TAG_ADMIN}>前往创建</InnerLink>
+          </Typography>
         )}
       </FormGroup>
     </FormControl>

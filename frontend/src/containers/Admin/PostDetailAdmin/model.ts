@@ -1,9 +1,16 @@
 import { createModel } from '@rematch/core'
 import { RootModel } from '@/models'
 import { Request } from '@/utils'
-import { Post, PostType, PostWithAuthor, Toggle } from '@/utils/Request/Post'
+import {
+  EditedPost,
+  PostType,
+  PostWithAuthor,
+  PostWithTags,
+  Toggle,
+} from '@/utils/Request/Post'
 import { PostTag } from '@/utils/Request/PostTag'
 import _ from 'lodash'
+import { CodeDictionary } from '@/utils/Request/type'
 
 export interface PostTagWithCheck extends PostTag {
   checked: boolean
@@ -12,10 +19,10 @@ export interface PostDetailAdminState {
   loadingPost: boolean
   deletingPost: boolean
   loadingTags: boolean
-  post: Post
+  post: PostWithTags
   tags: PostTagWithCheck[]
   isNew: boolean // 标志编辑或新建Post
-  uploadingImg: boolean
+  backdropLoading: boolean
 }
 
 export const defaultPostDetailAdminState: PostDetailAdminState = {
@@ -41,14 +48,14 @@ export const defaultPostDetailAdminState: PostDetailAdminState = {
   tags: [],
   loadingTags: true,
   isNew: true,
-  uploadingImg: false,
+  backdropLoading: false,
 }
 
 export const postDetailAdmin = createModel<RootModel>()({
   state: _.cloneDeep(defaultPostDetailAdminState),
   reducers: {
     // 直接修改 state
-    SET_POST: (state: PostDetailAdminState, newPost: Post) => {
+    SET_POST: (state: PostDetailAdminState, newPost: PostWithTags) => {
       state.post = newPost
       return state
     },
@@ -82,13 +89,13 @@ export const postDetailAdmin = createModel<RootModel>()({
       state.isNew = status
       return state
     },
-    SET_UPLOADING_IMG: (state: PostDetailAdminState, status: boolean) => {
-      state.uploadingImg = status
+    SET_BACKDROP_LOADING: (state: PostDetailAdminState, status: boolean) => {
+      state.backdropLoading = status
       return state
     },
   },
   effects: (dispatch) => {
-    const { postDetailAdmin, common } = dispatch
+    const { postDetailAdmin } = dispatch
     return {
       // 异步请求 demo
       async RetrievePost(id: string): Promise<PostWithAuthor | undefined> {
@@ -101,17 +108,18 @@ export const postDetailAdmin = createModel<RootModel>()({
         postDetailAdmin.SET_LOADING_POST(false)
         return res?.data
       },
-      async DeletePost(id: number): Promise<void> {
+      async DeletePost(id: number): Promise<CodeDictionary | undefined> {
         postDetailAdmin.SET_DELETING_POST(true)
         // 先粗暴地使用超级管理员权限
         const res = await Request.Post.Delete__Admin(id)
-        postDetailAdmin.SET_LOADING_POST(false)
-        if (res?.code === 0) {
-          common.SET_AXIOS_SNACK_BAR({
+        postDetailAdmin.SET_DELETING_POST(false)
+        if (res) {
+          dispatch.common.SET_AXIOS_SNACK_BAR({
             message: res?.message,
             open: true,
           })
         }
+        return res?.code
       },
       async RetrieveTagAll() {
         postDetailAdmin.SET_LOADING_TAGS(true)
@@ -119,6 +127,24 @@ export const postDetailAdmin = createModel<RootModel>()({
         postDetailAdmin.SET_LOADING_TAGS(false)
         if (res?.data) {
           postDetailAdmin.SET_TAGS(res?.data)
+        }
+      },
+      async SavePost(payload, state): Promise<void> {
+        postDetailAdmin.SET_BACKDROP_LOADING(true)
+        const tids = state.postDetailAdmin.tags
+          .filter((tag) => tag.checked)
+          .map((tag) => tag.id)
+        const res = await Request.Post.Edit({
+          post: (state.postDetailAdmin.post as unknown) as EditedPost,
+          tids,
+        })
+        postDetailAdmin.SET_BACKDROP_LOADING(false)
+        if (res) {
+          dispatch.common.SET_AXIOS_SNACK_BAR({
+            message: res?.message,
+            open: true,
+          })
+          res?.data && postDetailAdmin.SET_POST(res?.data)
         }
       },
     }

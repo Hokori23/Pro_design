@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { createRef } from 'react'
+import { createRef, useEffect } from 'react'
 import { RootState, store } from '@/store'
 import { useSelector } from 'react-redux'
 import { scrollIntoTop } from '@/utils/tools'
@@ -29,10 +29,23 @@ export default () => {
       }
     } else {
       dispatch.SET_POST({ ..._.cloneDeep(defaultPostDetailAdminState.post) })
-      dispatch.SET_TAGS([])
       dispatch.SET_IS_NEW(true)
+      dispatch.SET_LOADING_POST(false)
+      dispatch.SET_LOADING_TAGS(false)
+      void dispatch.RetrieveTagAll()
     }
   }
+
+  useEffect(() => {
+    if (id) {
+      commonDispatch.SET_APPBAR_TITLE(`编辑 - ${state.post.title as string}`)
+    } else if (state.post.title) {
+      commonDispatch.SET_APPBAR_TITLE(`撰写 - ${state.post.title}`)
+    } else {
+      commonDispatch.SET_APPBAR_TITLE(`撰写${RouteName.POST_DETAIL_ADMIN}`)
+    }
+  }, [state.post.title])
+
   useAsync(Init, [id])
 
   return {

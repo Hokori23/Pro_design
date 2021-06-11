@@ -7,13 +7,14 @@ import {
   ListItemText,
   makeStyles,
 } from '@material-ui/core'
-import { ExpandLess, ExpandMore, Edit as EditIcon } from '@material-ui/icons'
+import { ExpandLess, ExpandMore, Settings } from '@material-ui/icons'
 
 // hooks
 import useAdvancedOptions from './useAdvancedOptions'
 
 // components
 import CheckOptions from './CheckOptions'
+import SelectOptions from './SelectOptions'
 
 const useStyles = makeStyles((theme) => ({
   parentListItem: {
@@ -54,7 +55,7 @@ const Action: FC = () => {
         onClick={handleOpenAction}
       >
         <ListItemIcon className={classes.parentIcon}>
-          <EditIcon />
+          <Settings />
         </ListItemIcon>
         <ListItemText primary="更多设置" />
         {openAction ? <ExpandLess /> : <ExpandMore />}
@@ -63,6 +64,9 @@ const Action: FC = () => {
         <List component="div" disablePadding>
           <ListItem className={classes.listItem}>
             <CheckOptions onChange={setPost} post={state.post} />
+          </ListItem>
+          <ListItem className={classes.listItem}>
+            <SelectOptions onChange={setPost} post={state.post} />
           </ListItem>
         </List>
       </Collapse>

@@ -50,9 +50,9 @@ const PostDetailAdmin: FC<RouteComponentProps & RouteConfig> = (props) => {
         ) : (
           <Fragment>
             <Action />
-            <Editor />
             <AdvancedOptions />
-            <Backdrop className={classes.backdrop} open={state.uploadingImg}>
+            <Editor />
+            <Backdrop className={classes.backdrop} open={state.backdropLoading}>
               <CircularProgress color="inherit" />
             </Backdrop>
           </Fragment>

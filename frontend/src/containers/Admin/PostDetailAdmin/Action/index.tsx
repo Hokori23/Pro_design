@@ -19,6 +19,7 @@ import {
 import { formValid } from '@/components/UserFormValid'
 import _ from 'lodash'
 import { $ } from '@/utils/tools'
+import classnames from 'classnames'
 
 // hooks
 import useAction from './useAction'
@@ -26,6 +27,7 @@ import useAction from './useAction'
 // components
 import { Input } from '@/components/Input'
 import TagSelect from './TagSelect'
+import PostAction from './PostAction'
 
 const useStyles = makeStyles((theme) => ({
   parentListItem: {
@@ -48,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
       margin: '0 auto',
       maxWidth: 500,
     },
+  },
+  postAction: {
+    justifyContent: 'flex-end',
+    paddingBottom: 0,
   },
   tags: {
     minHeight: 50,
@@ -84,6 +90,11 @@ const Action: FC = () => {
       </ListItem>
       <Collapse in={openAction} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
+          <ListItem
+            className={classnames(classes.listItem, classes.postAction)}
+          >
+            <PostAction />
+          </ListItem>
           <ListItem className={classes.listItem}>
             <Input
               error={titleError.error}

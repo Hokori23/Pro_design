@@ -1,23 +1,25 @@
 import { useState } from 'react'
 import { RootState, store } from '@/store'
 import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 export default () => {
   const state = useSelector((state: RootState) => state.postDetailAdmin)
   const dispatch = useSelector(() => store.dispatch.postDetailAdmin)
-  const [openAction, setOpenAction] = useState(false)
+  const history = useHistory()
 
-  const setPost = dispatch.SET_POST
+  const [deleteDialog, setDeleteDialog] = useState(false)
 
-  const handleOpenAction = () => {
-    setOpenAction(!openAction)
+  const handleDialogClose = () => {
+    setDeleteDialog(false)
   }
 
   return {
     state,
     dispatch,
-    openAction,
-    setPost,
-    handleOpenAction,
+    history,
+    deleteDialog,
+    setDeleteDialog,
+    handleDialogClose,
   }
 }

@@ -43,12 +43,12 @@ export default () => {
     }
     const formData = new FormData()
     formData.append('file', file)
-    dispatch.SET_UPLOADING_IMG(true)
+    dispatch.SET_BACKDROP_LOADING(true)
     const uploadRes = await Upload.handleUpload(
       { fileName: name, formData },
       FileType.IMAGE,
     )
-    dispatch.SET_UPLOADING_IMG(false)
+    dispatch.SET_BACKDROP_LOADING(false)
     if (!uploadRes || uploadRes.code !== 200) {
       commonDispatch.SET_AXIOS_SNACK_BAR({
         message: '上传文章主图失败',
