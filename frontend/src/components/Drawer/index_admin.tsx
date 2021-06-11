@@ -52,14 +52,7 @@ export const Drawer: FC<DrawerProps> = ({
           />
         </SwipeableDrawer>
       ) : (
-        <_Drawer
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          className={classes.drawer}
-          open={open}
-          variant="persistent"
-        >
+        <_Drawer className={classes.drawer} open={open} variant="persistent">
           <DrawerList blogConfig={blogConfig} />
         </_Drawer>
       )}

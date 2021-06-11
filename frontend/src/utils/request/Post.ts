@@ -1,5 +1,6 @@
 import { Request } from '.'
 import { PostComment } from './PostComment'
+import { PostTag } from './PostTag'
 import { Restful, _Restful } from './type'
 import { User } from './User'
 
@@ -31,7 +32,10 @@ export interface Post {
   likesCount: number
   dislikesCount: number
   pageViews: number
+
   postComments?: PostComment[]
+  tags: PostTag[]
+
   readonly createdAt: Date
   readonly updatedAt: Date
 }

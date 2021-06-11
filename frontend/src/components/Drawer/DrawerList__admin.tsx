@@ -13,8 +13,9 @@ import {
 import {
   ExpandLess,
   ExpandMore,
-  Build,
+  Build as BuildIcon,
   Home as HomeIcon,
+  Edit as EditIcon,
 } from '@material-ui/icons'
 import { Option } from '@/utils/Request/Option'
 import { Link, LinkProps, useLocation } from 'react-router-dom'
@@ -73,38 +74,80 @@ export interface DrawerListProps {
 }
 
 const DrawerListCollapse: FC = () => {
-  const lists: ListItemLinkProps[] = [
-    { primary: RouteName.POST_ADMIN, to: PathName.POST_ADMIN },
-    { primary: RouteName.POST_TAG_ADMIN, to: PathName.POST_TAG_ADMIN },
+  const lists: Array<{
+    label: string
+    list: ListItemLinkProps[]
+    icon?: JSX.Element
+  }> = [
+    {
+      label: '撰写',
+      list: [
+        {
+          primary: RouteName.POST_DETAIL_ADMIN,
+          to: PathName._POST_DETAIL_ADMIN,
+        },
+      ],
+      icon: (
+        <ListItemIcon>
+          <EditIcon />
+        </ListItemIcon>
+      ),
+    },
+    {
+      label: '管理',
+      list: [
+        { primary: RouteName.POST_ADMIN, to: PathName.POST_ADMIN },
+        { primary: RouteName.POST_TAG_ADMIN, to: PathName.POST_TAG_ADMIN },
+      ],
+      icon: (
+        <ListItemIcon>
+          <BuildIcon />
+        </ListItemIcon>
+      ),
+    },
   ]
   const classes = useStyles()
-  const [open, setOpen] = useState(false)
-  const handleToggle = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const [open, setOpen] = useState(-1)
+  const handleToggle = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    idx: number,
+  ) => {
     e.stopPropagation()
-    setOpen(!open)
+    if (idx === -1 || idx === open) {
+      setOpen(-1)
+    } else {
+      setOpen(idx)
+    }
   }
   return (
     <Fragment>
-      <ListItem button onClick={handleToggle}>
-        <ListItemIcon>
-          <Build />
-        </ListItemIcon>
-        <ListItemText primary="管理" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          {lists.map(({ icon, primary, to }) => (
-            <ListItemLink
-              className={classes.nested}
-              icon={icon}
-              key={String(to)}
-              primary={primary}
-              to={to}
-            />
-          ))}
-        </List>
-      </Collapse>
+      {lists.map(({ label, list, icon }, idx) => (
+        <Fragment key={idx}>
+          <ListItem
+            button
+            onClick={(e) => {
+              handleToggle(e, idx)
+            }}
+          >
+            {icon}
+            <ListItemText primary={label} />
+            {open === idx ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={open === idx} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {list.map(({ icon, primary, to }) => (
+                <ListItemLink
+                  className={classes.nested}
+                  icon={icon}
+                  key={String(to)}
+                  primary={primary}
+                  to={to}
+                />
+              ))}
+            </List>
+          </Collapse>
+        </Fragment>
+      ))}
     </Fragment>
   )
 }

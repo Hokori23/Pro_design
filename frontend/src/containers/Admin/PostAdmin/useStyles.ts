@@ -9,11 +9,12 @@ export default makeStyles((theme) => ({
     height: '100%',
   },
   posts: {
+    width: '100%',
+    flexGrow: 1,
     [theme.breakpoints.up(700)]: {
-      width: 700,
+      maxWidth: 1024,
       alignSelf: 'center',
     },
-    flexGrow: 1,
   },
   footer: {
     marginTop: '1rem',

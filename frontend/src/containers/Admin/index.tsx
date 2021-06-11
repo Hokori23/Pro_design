@@ -40,7 +40,7 @@ const Admin: FC<RouteComponentProps & RouteConfig> = (props) => {
           setDrawerOpen(false)
         }}
         onOpen={() => {
-          setDrawerOpen(false)
+          setDrawerOpen(true)
         }}
         open={drawerOpen}
       />

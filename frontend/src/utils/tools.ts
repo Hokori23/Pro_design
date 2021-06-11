@@ -59,11 +59,12 @@ export const scrollIntoBottom = (
 ) => {
   scrollTo('#go-to-bottom-anchor', block, behavior)
 }
-export const $ = (selector: string) => document.querySelector(selector)
+export const $ = (selector: string): HTMLElement | null =>
+  document.querySelector(selector)
 export const $$ = (selector: string) => document.querySelectorAll(selector)
 export const removePX = (str: string) => Number(str.slice(0, str.length - 2))
 export const computeDOMHeight = (selector: string, noPX?: boolean) => {
-  const dom = $(selector) as HTMLElement | null
+  const dom = $(selector)
   if (!dom) return '0px'
   const height = getComputedStyle(dom).height
   return noPX ? removePX(height) : height

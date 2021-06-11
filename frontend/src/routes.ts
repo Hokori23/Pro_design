@@ -16,6 +16,7 @@ import Redirect404 from './containers/Redirect404'
 import Admin from './containers/Admin'
 import PostTagAdmin from './containers/Admin/PostTagAdmin'
 import PostAdmin from './containers/Admin/PostAdmin'
+import PostDetailAdmin from './containers/Admin/PostDetailAdmin'
 
 export enum PathName {
   DEMO = '/demo',
@@ -53,7 +54,7 @@ export enum RouteName {
   ADMIN = '后台管理中心',
   POST_TAG_ADMIN = '标签',
   POST_ADMIN = '文章',
-  POST_DETAIL_ADMIN = '编辑文章',
+  POST_DETAIL_ADMIN = '文章',
 }
 
 /* 集中存放所有路由配置 */
@@ -120,6 +121,14 @@ export const routes: RouteConfig[] = [
         routeProps: {
           exact: true,
         },
+      },
+      {
+        path: PathName.POST_DETAIL_ADMIN,
+        component: PostDetailAdmin,
+      },
+      {
+        path: PathName._POST_DETAIL_ADMIN,
+        component: PostDetailAdmin,
       },
       {
         path: PathName.POST_ADMIN,

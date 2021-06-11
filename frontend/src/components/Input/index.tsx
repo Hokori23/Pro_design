@@ -18,8 +18,10 @@ interface InputProps {
   required?: boolean
   value?: string
   helperText?: string
+  placeholder?: string
   InputProps?: {
-    startAdornment: JSX.Element
+    startAdornment?: JSX.Element
+    endAdornment?: JSX.Element
   }
   fullWidth?: boolean
   multiline?: boolean
@@ -37,6 +39,7 @@ export const Input: FC<InputProps> = ({
   required = false,
   value,
   helperText,
+  placeholder,
   InputProps,
   fullWidth,
   multiline,
@@ -59,6 +62,7 @@ export const Input: FC<InputProps> = ({
       multiline={multiline}
       onBlur={onBlur}
       onChange={onChange}
+      placeholder={placeholder}
       required={required}
       value={value}
     />

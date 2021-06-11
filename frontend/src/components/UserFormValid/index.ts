@@ -89,6 +89,28 @@ export const validators: {
       text: '标签slug不能为空',
     },
   ],
+  postTitle: [
+    {
+      handler: /^.+$/,
+      text: '标题不能为空',
+    },
+    {
+      handler: /^.{1,50}$/,
+      text: '标题长度应为1至50字符',
+    },
+  ],
+  postContent: [
+    {
+      handler: /^.+$/,
+      text: '内容不能为空',
+    },
+  ],
+  postCoverUrl: [
+    {
+      handler: /(https?:)\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/,
+      text: '图片链接格式不合法',
+    },
+  ],
 }
 
 export const formValid = (props: FormValidProps): boolean => {
