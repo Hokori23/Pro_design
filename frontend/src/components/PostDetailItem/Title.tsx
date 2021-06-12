@@ -6,6 +6,9 @@ import classnames from 'classnames'
 import moment from 'moment'
 import InnerLink from '../InnerLink'
 import { PathName } from '@/routes'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
+import { Group } from '@/utils/Request/User'
 
 const useStyles = makeStyles((theme) => ({
   titleWrapper: {
@@ -51,6 +54,11 @@ const useStyles = makeStyles((theme) => ({
   titleText: {
     wordBreak: 'break-word',
   },
+  link: {
+    color: theme.palette.background.paper,
+    fontWeight: 600,
+    letterSpacing: 1,
+  },
 }))
 
 interface TitleProps {
@@ -58,6 +66,8 @@ interface TitleProps {
 }
 export const Title: FC<TitleProps> = ({ post }) => {
   const classes = useStyles()
+  const state = useSelector((state: RootState) => state.common)
+
   const { title, coverUrl, pageViews, postComments, createdAt } = post
   return (
     <header className={classes.titleWrapper}>
@@ -85,10 +95,14 @@ export const Title: FC<TitleProps> = ({ post }) => {
         >
           {title}
         </Typography>
-        <Typography align="center" component="p">
+        <Typography
+          align="center"
+          component="p"
+          gutterBottom={(state.userInfo.group || 0) > Group.SUBSCRIBER}
+        >
           <Typography component="span" variant="caption">
             {/* TODO: 跳转到用户主页+id */}
-            <InnerLink color="inherit" to={PathName.USER}>
+            <InnerLink className={classes.link} to={PathName.USER}>
               {post.author.userName}
             </InnerLink>
           </Typography>
@@ -105,6 +119,16 @@ export const Title: FC<TitleProps> = ({ post }) => {
             发布时间: {moment(createdAt).calendar()}
           </Typography>
         </Typography>
+        {(state.userInfo.group || 0) > Group.SUBSCRIBER && (
+          <Typography component="span" variant="caption">
+            <InnerLink
+              className={classes.link}
+              to={`${PathName._POST_DETAIL_ADMIN}/${String(post.id)}`}
+            >
+              编辑
+            </InnerLink>
+          </Typography>
+        )}
       </figure>
     </header>
   )

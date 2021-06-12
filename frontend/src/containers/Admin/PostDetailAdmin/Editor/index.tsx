@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react'
+import React, { FC } from 'react'
 import {
   Collapse,
   List,
@@ -12,6 +12,7 @@ import {
   ExpandMore,
   Subject as SubjectIcon,
 } from '@material-ui/icons'
+import classnames from 'classnames'
 
 // hooks
 import useEditor from './useEditor'
@@ -41,7 +42,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Editor: FC = () => {
+interface EditorProps {
+  className?: string
+}
+const Editor: FC<EditorProps> = ({ className }) => {
   const classes = useStyles()
   const {
     title,
@@ -52,7 +56,7 @@ const Editor: FC = () => {
     handleMdContentChange,
   } = useEditor()
   return (
-    <Fragment>
+    <section>
       <ListItem
         button
         className={classes.parentListItem}
@@ -65,7 +69,11 @@ const Editor: FC = () => {
         {openEditor ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={openEditor} timeout="auto" unmountOnExit>
-        <List className={classes.editor} component="div" disablePadding>
+        <List
+          className={classnames(className, classes.editor)}
+          component="div"
+          disablePadding
+        >
           <_Editor
             content={content}
             coverUrl={coverUrl}
@@ -74,7 +82,7 @@ const Editor: FC = () => {
           />
         </List>
       </Collapse>
-    </Fragment>
+    </section>
   )
 }
 

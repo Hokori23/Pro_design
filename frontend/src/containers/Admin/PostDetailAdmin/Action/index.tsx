@@ -61,7 +61,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Action: FC = () => {
+interface ActionProps {
+  className?: string
+}
+const Action: FC<ActionProps> = ({ className }) => {
   const classes = useStyles()
   const {
     state,
@@ -89,7 +92,7 @@ const Action: FC = () => {
         {openAction ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={openAction} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
+        <List className={className} component="div" disablePadding>
           <ListItem
             className={classnames(classes.listItem, classes.postAction)}
           >

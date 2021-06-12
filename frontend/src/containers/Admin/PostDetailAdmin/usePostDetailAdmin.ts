@@ -19,6 +19,7 @@ export default () => {
     scrollIntoTop()
     // 初始化
     commonDispatch.SET_APPBAR_TITLE(`撰写${RouteName.POST_DETAIL_ADMIN}`)
+    void dispatch.RetrieveTagAll()
     if (id) {
       const post = await dispatch.RetrievePost(id)
       if (post) {
@@ -32,7 +33,6 @@ export default () => {
       dispatch.SET_IS_NEW(true)
       dispatch.SET_LOADING_POST(false)
       dispatch.SET_LOADING_TAGS(false)
-      void dispatch.RetrieveTagAll()
     }
   }
 

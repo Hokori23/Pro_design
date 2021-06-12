@@ -66,9 +66,9 @@ export default (post: Post | null, Retrieve: Function) => {
           ...submitSnackBar,
           open: true,
         })
+        scrollTo('#post-detail-footer', 'end')
       }
       setComment('')
-      scrollTo('#post-detail-footer', 'end')
       setIsLoading(false)
       dispatch.SET_LOADING_COMMENT(false)
     }

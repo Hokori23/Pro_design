@@ -1,8 +1,9 @@
 import React, { FC, Fragment, useEffect, useRef } from 'react'
 import MdEditor from 'react-markdown-editor-lite'
 import { Renderer } from '../Renderer'
-import { makeStyles } from '@material-ui/core/styles'
-import 'react-markdown-editor-lite/lib/index.css'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import '@/static/react-markdown-editor-lite.less'
 
 // components
 import { Title } from './Title'
@@ -12,9 +13,12 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     width: '100%',
     '& .rc-md-editor.full': {
-      zIndex: 9999,
+      zIndex: theme.zIndex.drawer + 1,
     },
     [theme.breakpoints.down('sm')]: {
+      '& .rc-md-editor': {
+        border: 'unset',
+      },
       '& .rc-md-editor .editor-container': {
         flexDirection: 'column',
       },
@@ -31,9 +35,6 @@ const useStyles = makeStyles((theme) => ({
       alignSelf: 'center',
     },
     flexGrow: 1,
-    '& .MuiTypography-root': {
-      margin: '0 !important',
-    },
   },
 }))
 
@@ -61,10 +62,22 @@ export const Editor: FC<EditorProps> = ({
 }) => {
   const mdEditor = useRef(null)
   const classes = useStyles()
+  const theme = useTheme()
+  const isDeskTopSize = useMediaQuery(theme.breakpoints.up('sm'))
 
   useEffect(() => {
     MdEditor.useLocale('zhCN')
   }, [])
+
+  // 移动端自动关闭预览区
+  useEffect(() => {
+    if (mdEditor.current) {
+      const mdDom = (mdEditor.current as unknown) as MdEditor
+      mdDom.setView({
+        html: isDeskTopSize,
+      })
+    }
+  }, [isDeskTopSize])
 
   return (
     <div className={classes.editor}>

@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: theme.palette.background.paper,
   },
+  postItem: {
+    paddingBottom: theme.spacing(4),
+  },
 }))
 
 const PostDetailAdmin: FC<RouteComponentProps & RouteConfig> = (props) => {
@@ -49,9 +52,9 @@ const PostDetailAdmin: FC<RouteComponentProps & RouteConfig> = (props) => {
           <CircularLoading />
         ) : (
           <Fragment>
-            <Action />
-            <AdvancedOptions />
-            <Editor />
+            <Action className={classes.postItem} />
+            <AdvancedOptions className={classes.postItem} />
+            <Editor className={classes.postItem} />
             <Backdrop className={classes.backdrop} open={state.backdropLoading}>
               <CircularProgress color="inherit" />
             </Backdrop>

@@ -80,7 +80,7 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
               style={{ fontSize: 12 }}
               variant="body2"
             >
-              <Renderer content={content} />
+              <Renderer content={content.slice(0, 512)} outline />
             </Typography>
           </CardContent>
         </CardActionArea>
