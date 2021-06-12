@@ -1,5 +1,5 @@
 import { Request } from '.'
-import { Restful } from './type'
+import { Restful, _Restful } from './type'
 import { store } from '@/store'
 
 const baseUrl = '/api/user'
@@ -136,4 +136,17 @@ export const SendCaptcha = async (
       email,
     },
   })
+}
+
+/**
+ * 检查登陆状态
+ */
+export const Check = async () => {
+  const data = await Request<_Restful>({
+    method: 'POST',
+    url: `${baseUrl}/check`,
+  })
+  if (data?.code !== 0) {
+    store.dispatch.common.LOGOUT()
+  }
 }

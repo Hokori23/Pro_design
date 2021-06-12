@@ -1,6 +1,7 @@
 import { store } from '@/store'
 import { ACCESS_TOKEN_NAME, BLOG_CONFIG, USER_INFO_NAME } from '@/utils/const'
 import { Option } from 'utils/Request/Option'
+import Request from './utils/Request'
 
 // 初始化store
 const { dispatch } = store
@@ -17,3 +18,6 @@ if (!token || !userInfo) {
   dispatch.common.LOGIN()
 }
 dispatch.common.SET_BLOG_CONFIG(JSON.parse(blogConfig || '[]') as Option[])
+
+// 检查登陆状态
+void Request.User.Check()

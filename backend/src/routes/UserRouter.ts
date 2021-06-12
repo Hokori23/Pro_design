@@ -171,7 +171,7 @@ userRouter.post(
  */
 userRouter.post(
   '/edit-admin',
-  asyncWrapper(async (req: any, res, next) => {
+  asyncWrapper(async (req, res, next) => {
     try {
       if (
         !checkIntegrity(req.body, ['id', 'userAccount', 'userName', 'email'])
@@ -233,6 +233,23 @@ userRouter.post(
       } else {
         res.status(200).json(await Service.Delete(id))
       }
+    } catch (e) {
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
+ * 检查登陆状态
+ * @path /check
+ */
+userRouter.post(
+  '/check',
+  asyncWrapper(async (req, res, next) => {
+    try {
+      res.status(200).json(new Restful(CodeDictionary.SUCCESS, '已登录'))
     } catch (e) {
       // TODO: 进行邮件提醒
       res.status(500).end()
