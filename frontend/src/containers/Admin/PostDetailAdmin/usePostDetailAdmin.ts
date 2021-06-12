@@ -26,7 +26,6 @@ export default () => {
         commonDispatch.SET_APPBAR_TITLE(`编辑 - ${post.title as string}`)
         dispatch.SET_POST(post)
         dispatch.SET_IS_NEW(false)
-        void dispatch.RetrieveTagAll()
       }
     } else {
       dispatch.SET_POST({ ..._.cloneDeep(defaultPostDetailAdminState.post) })
