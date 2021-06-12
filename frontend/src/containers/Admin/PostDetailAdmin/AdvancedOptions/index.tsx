@@ -15,6 +15,7 @@ import useAdvancedOptions from './useAdvancedOptions'
 // components
 import CheckOptions from './CheckOptions'
 import SelectOptions from './SelectOptions'
+import InputOptions from './InputOptions'
 
 const useStyles = makeStyles((theme) => ({
   parentListItem: {
@@ -44,7 +45,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Action: FC = () => {
+interface AdvancedOptionsProps {
+  className?: string
+}
+const AdvancedOptions: FC<AdvancedOptionsProps> = ({ className }) => {
   const classes = useStyles()
   const { state, openAction, setPost, handleOpenAction } = useAdvancedOptions()
   return (
@@ -61,12 +65,15 @@ const Action: FC = () => {
         {openAction ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={openAction} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
+        <List className={className} component="div" disablePadding>
           <ListItem className={classes.listItem}>
             <CheckOptions onChange={setPost} post={state.post} />
           </ListItem>
           <ListItem className={classes.listItem}>
             <SelectOptions onChange={setPost} post={state.post} />
+          </ListItem>
+          <ListItem className={classes.listItem}>
+            <InputOptions onChange={setPost} post={state.post} />
           </ListItem>
         </List>
       </Collapse>
@@ -74,4 +81,4 @@ const Action: FC = () => {
   )
 }
 
-export default Action
+export default AdvancedOptions
