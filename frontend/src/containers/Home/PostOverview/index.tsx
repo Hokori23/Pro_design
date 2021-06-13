@@ -3,8 +3,6 @@ import { Link, RouteComponentProps } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { PathName, RouteConfig } from '@/routes'
 import { Typography } from '@material-ui/core'
-import { useAsync } from 'react-use'
-import { isDef } from '@/utils/tools'
 
 // hooks
 import usePostOverview from './usePostOverview'
@@ -39,34 +37,17 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
-  const { location, history } = props
+  const { location } = props
   const classes = useStyles()
   const ref = createRef()
   const {
     loading,
     page,
     total,
-    capacity,
     maxPage,
-    isASC,
-    postTypes,
     posts,
-    RetrieveAll,
+    paginationQuery,
   } = usePostOverview(location)
-
-  useAsync(async () => {
-    const maxPage = await RetrieveAll(page, capacity, isASC, postTypes)
-    if (isDef(maxPage) && page > maxPage) {
-      // 无效路由参数
-      history.replace(PathName.NOT_FOUND_PAGE)
-    }
-  }, [page, capacity, isASC, postTypes])
-
-  // 生成query-params
-  const query = new URLSearchParams()
-  query.set('capacity', String(capacity))
-  query.set('isASC', String(isASC))
-  postTypes.forEach((postType) => query.set('postType', String(postType)))
 
   return (
     <div className={classes.root}>
@@ -89,12 +70,12 @@ const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
         defaultPage={1}
         page={page}
         renderItem={(item) => {
-          query.delete('page')
-          query.set('page', String(item.page))
+          paginationQuery.delete('page')
+          paginationQuery.set('page', String(item.page))
           return (
             <PaginationItem
               component={Link}
-              to={`${PathName.POST_OVERVIEW}?${query.toString()}`}
+              to={`${PathName.POST_OVERVIEW}?${paginationQuery.toString()}`}
               {...item}
             />
           )
