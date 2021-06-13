@@ -6,24 +6,24 @@ import {
   FormLabel,
   Switch,
 } from '@material-ui/core'
-import { PostWithTags, Toggle } from '@/utils/Request/Post'
+import { Post, Toggle } from '@/utils/Request/Post'
 import _ from 'lodash'
 import { Action } from '@rematch/core'
 
 interface CheckOptionsProps {
   className?: string
-  post: PostWithTags
-  onChange: ((payload: PostWithTags) => Action<PostWithTags, void>) & {
+  moment: Post
+  onChange: ((payload: Post) => Action<Post, void>) & {
     isEffect: false
   }
 }
 export const CheckOptions: FC<CheckOptionsProps> = ({
   className,
-  post,
+  moment,
   onChange,
 }) => {
   const checkOptionsKeys: Array<{
-    key: keyof PostWithTags
+    key: keyof Post
     label: string
   }> = [
     {
@@ -39,12 +39,12 @@ export const CheckOptions: FC<CheckOptionsProps> = ({
           <FormControlLabel
             control={
               <Switch
-                checked={!!post[key]}
+                checked={!!moment[key]}
                 color="primary"
                 name={key}
                 onChange={({ target: { name, checked } }) => {
                   onChange({
-                    ..._.cloneDeep(post),
+                    ..._.cloneDeep(moment),
                     [name]: Number(checked) as Toggle,
                   })
                 }}

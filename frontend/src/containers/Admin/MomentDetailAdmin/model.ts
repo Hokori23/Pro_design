@@ -108,7 +108,22 @@ export const momentDetailAdmin = createModel<RootModel>()({
         }
         return res?.code
       },
-      async SaveMoment(payload, state): Promise<void> {
+      async CreateMoment(payload, state): Promise<void> {
+        momentDetailAdmin.SET_BACKDROP_LOADING(true)
+        const res = await Request.Post.Create({
+          post: (state.momentDetailAdmin.moment as unknown) as EditedPost,
+          tids: [],
+        })
+        momentDetailAdmin.SET_BACKDROP_LOADING(false)
+        if (res) {
+          dispatch.common.SET_AXIOS_SNACK_BAR({
+            message: res?.message,
+            open: true,
+          })
+          res?.data && momentDetailAdmin.SET_MOMENT(res?.data)
+        }
+      },
+      async EditMoment(payload, state): Promise<void> {
         momentDetailAdmin.SET_BACKDROP_LOADING(true)
         const res = await Request.Post.Edit({
           post: (state.momentDetailAdmin.moment as unknown) as EditedPost,

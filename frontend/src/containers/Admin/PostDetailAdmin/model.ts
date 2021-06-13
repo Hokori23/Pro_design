@@ -137,7 +137,28 @@ export const postDetailAdmin = createModel<RootModel>()({
           postDetailAdmin.SET_TAGS(res?.data)
         }
       },
-      async SavePost(payload, state): Promise<void> {
+      async CreatePost(payload, state): Promise<void> {
+        postDetailAdmin.SET_BACKDROP_LOADING(true)
+        const tids = state.postDetailAdmin.tags
+          .filter((tag) => tag.checked)
+          .map((tag) => tag.id)
+        const res = await Request.Post.Create({
+          post: ({
+            ...state.postDetailAdmin.post,
+            content: state.postDetailAdmin.renderPost.content,
+          } as unknown) as EditedPost,
+          tids,
+        })
+        postDetailAdmin.SET_BACKDROP_LOADING(false)
+        if (res) {
+          dispatch.common.SET_AXIOS_SNACK_BAR({
+            message: res?.message,
+            open: true,
+          })
+          res?.data && postDetailAdmin.SET_POST(res?.data)
+        }
+      },
+      async EditPost(payload, state): Promise<void> {
         postDetailAdmin.SET_BACKDROP_LOADING(true)
         const tids = state.postDetailAdmin.tags
           .filter((tag) => tag.checked)

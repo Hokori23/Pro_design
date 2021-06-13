@@ -108,7 +108,13 @@ const MomentAction: FC = () => {
       <Button
         className={classes.button}
         color="primary"
-        onClick={dispatch.SaveMoment}
+        onClick={() => {
+          if (state.isNew) {
+            void dispatch.CreateMoment()
+          } else {
+            void dispatch.EditMoment()
+          }
+        }}
         size={isMobileSize ? 'small' : 'medium'}
         startIcon={<SaveIcon />}
         variant="contained"

@@ -10,21 +10,25 @@ import { Post } from '@/utils/Request/Post'
 
 export default () => {
   const state = useSelector((state: RootState) => state.momentDetailAdmin)
-  const commonDispatch = useSelector(() => store.dispatch.common)
+  const commonState = useSelector((state: RootState) => state.common)
   const dispatch = useSelector(() => store.dispatch.momentDetailAdmin)
+  const commonDispatch = useSelector(() => store.dispatch.common)
   const { id } = useParams<{ id: string }>()
 
   const Init = async () => {
     scrollIntoTop()
     // 初始化
-    commonDispatch.SET_APPBAR_TITLE(`撰写${RouteName.MOMENT_DETAIL_ADMIN}`)
     if (id) {
+      commonDispatch.SET_APPBAR_TITLE(`编辑${RouteName.MOMENT_DETAIL_ADMIN}`)
       const moment = await dispatch.RetrieveMoment(id)
       if (moment) {
+        moment.uid = commonState.userInfo.id as number
         dispatch.SET_MOMENT(moment)
         dispatch.SET_IS_NEW(false)
       }
     } else {
+      commonDispatch.SET_APPBAR_TITLE(`撰写${RouteName.MOMENT_DETAIL_ADMIN}`)
+      defaultMoment.uid = commonState.userInfo.id as number
       dispatch.SET_MOMENT({ ..._.cloneDeep(defaultMoment) })
       dispatch.SET_IS_NEW(true)
       dispatch.SET_LOADING_MOMENT(false)

@@ -3,11 +3,11 @@ import { RootState, store } from '@/store'
 import { useSelector } from 'react-redux'
 
 export default () => {
-  const state = useSelector((state: RootState) => state.postDetailAdmin)
-  const dispatch = useSelector(() => store.dispatch.postDetailAdmin)
+  const state = useSelector((state: RootState) => state.momentDetailAdmin)
+  const dispatch = useSelector(() => store.dispatch.momentDetailAdmin)
   const [openAction, setOpenAction] = useState(true)
 
-  const setPost = dispatch.SET_POST
+  const setMoment = dispatch.SET_MOMENT
 
   const handleOpenAction = () => {
     setOpenAction(!openAction)
@@ -17,7 +17,7 @@ export default () => {
     state,
     dispatch,
     openAction,
-    setPost,
+    setMoment,
     handleOpenAction,
   }
 }

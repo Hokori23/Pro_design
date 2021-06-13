@@ -49,7 +49,12 @@ interface AdvancedOptionsProps {
 }
 const AdvancedOptions: FC<AdvancedOptionsProps> = ({ className }) => {
   const classes = useStyles()
-  const { state, openAction, setPost, handleOpenAction } = useAdvancedOptions()
+  const {
+    state,
+    openAction,
+    setMoment,
+    handleOpenAction,
+  } = useAdvancedOptions()
   return (
     <header>
       <ListItem
@@ -66,10 +71,10 @@ const AdvancedOptions: FC<AdvancedOptionsProps> = ({ className }) => {
       <Collapse in={openAction} timeout="auto" unmountOnExit>
         <List className={className} component="div" disablePadding>
           <ListItem className={classes.listItem}>
-            <CheckOptions onChange={setPost} post={state.post} />
+            <CheckOptions moment={state.moment} onChange={setMoment} />
           </ListItem>
           <ListItem className={classes.listItem}>
-            <InputOptions onChange={setPost} post={state.post} />
+            <InputOptions moment={state.moment} onChange={setMoment} />
           </ListItem>
         </List>
       </Collapse>

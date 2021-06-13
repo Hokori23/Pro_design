@@ -106,7 +106,13 @@ const PostAction: FC = () => {
       <Button
         className={classes.button}
         color="primary"
-        onClick={dispatch.SavePost}
+        onClick={() => {
+          if (state.isNew) {
+            void dispatch.CreatePost()
+          } else {
+            void dispatch.EditPost()
+          }
+        }}
         size={isMobileSize ? 'small' : 'medium'}
         startIcon={<SaveIcon />}
         variant="contained"

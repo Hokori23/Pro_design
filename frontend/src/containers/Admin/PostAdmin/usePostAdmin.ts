@@ -38,7 +38,12 @@ export default (location: H.Location<unknown>) => {
     postTypes: PostType[],
   ) => {
     setLoading(true)
-    const res = await Request.Post.RetrieveAll(page, capacity, isASC, postTypes)
+    const res = await Request.Post.RetrieveAll__Admin(
+      page,
+      capacity,
+      isASC,
+      postTypes,
+    )
     setLoading(false)
     if (res?.data) {
       scrollIntoTop()

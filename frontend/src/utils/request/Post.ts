@@ -56,10 +56,16 @@ export interface Posts {
   total: number
 }
 
-export const Create = async (post: Partial<Post>) => {
-  return await Request<Restful<Post>>({
+export const Create = async ({
+  post,
+  tids,
+}: {
+  post: Partial<EditedPost>
+  tids: Array<number | undefined>
+}) => {
+  return await Request<Restful<PostWithTags>>({
     method: 'POST',
-    data: post,
+    data: { post, tids },
     url: `${baseUrl}/create`,
   })
 }
