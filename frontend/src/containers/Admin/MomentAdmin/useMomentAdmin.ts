@@ -48,6 +48,7 @@ export default (location: H.Location<unknown>) => {
     if (res?.data) {
       scrollIntoTop()
       const data = res.data
+      if (!data.total) return undefined // 如果不存在说说，则不跳转
       const maxPage = Math.ceil(data.total / capacity)
       setTotal(data.total)
       setPosts(res.data.posts)

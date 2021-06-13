@@ -48,6 +48,7 @@ export default (location: H.Location<unknown>) => {
     if (res?.data) {
       scrollIntoTop()
       const data = res.data
+      if (!data.total) return undefined // 如果不存在文章，则不跳转
       const maxPage = Math.ceil(data.total / capacity)
       setTotal(data.total)
       setPosts(res.data.posts)
@@ -73,9 +74,6 @@ export default (location: H.Location<unknown>) => {
       history.replace(PathName.NOT_FOUND_PAGE)
     }
   }, [page, capacity, isASC, postTypes])
-  // useActivate(() => {
-  //   void RetrieveAll(page, capacity, isASC, postTypes)
-  // })
 
   const handlePageChange = (params: PageChangeParams) => {
     setPage(params.page + 1)
