@@ -21,9 +21,12 @@ export default () => {
     if (id) {
       commonDispatch.SET_APPBAR_TITLE(`编辑${RouteName.MOMENT_DETAIL_ADMIN}`)
       const moment = await dispatch.RetrieveMoment(id)
+      scrollIntoTop()
       if (moment) {
-        moment.uid = commonState.userInfo.id as number
-        dispatch.SET_MOMENT(moment)
+        dispatch.SET_MOMENT({
+          ..._.cloneDeep(moment),
+          uid: commonState.userInfo.id as number,
+        })
         dispatch.SET_IS_NEW(false)
       }
     } else {

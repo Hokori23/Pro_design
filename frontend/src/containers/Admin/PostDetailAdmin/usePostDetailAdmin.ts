@@ -21,11 +21,17 @@ export default () => {
     // 初始化
     if (id) {
       const post = await dispatch.RetrievePost(id)
+      scrollIntoTop()
       if (post) {
         void dispatch.RetrieveTagAll()
-        post.uid = commonState.userInfo.id as number
-        dispatch.SET_POST(post)
-        dispatch.SET_RENDER_POST(post)
+        dispatch.SET_POST({
+          ..._.cloneDeep(post),
+          uid: commonState.userInfo.id as number,
+        })
+        dispatch.SET_RENDER_POST({
+          ..._.cloneDeep(post),
+          uid: commonState.userInfo.id as number,
+        })
         dispatch.SET_IS_NEW(false)
       }
     } else {
