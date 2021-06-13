@@ -86,6 +86,10 @@ const DrawerListCollapse: FC = () => {
           primary: RouteName.POST_DETAIL_ADMIN,
           to: PathName._POST_DETAIL_ADMIN,
         },
+        {
+          primary: RouteName.MOMENT_DETAIL_ADMIN,
+          to: PathName._MOMENT_DETAIL_ADMIN,
+        },
       ],
       icon: (
         <ListItemIcon>
@@ -97,6 +101,7 @@ const DrawerListCollapse: FC = () => {
       label: '管理',
       list: [
         { primary: RouteName.POST_ADMIN, to: PathName.POST_ADMIN },
+        { primary: RouteName.MOMENT_ADMIN, to: PathName.MOMENT_ADMIN },
         { primary: RouteName.POST_TAG_ADMIN, to: PathName.POST_TAG_ADMIN },
       ],
       icon: (

@@ -17,6 +17,7 @@ import Admin from './containers/Admin'
 import PostTagAdmin from './containers/Admin/PostTagAdmin'
 import PostAdmin from './containers/Admin/PostAdmin'
 import PostDetailAdmin from './containers/Admin/PostDetailAdmin'
+import MomentDetailAdmin from './containers/Admin/MomentDetailAdmin'
 
 export enum PathName {
   DEMO = '/demo',
@@ -35,8 +36,11 @@ export enum PathName {
   ADMIN = '/admin',
   POST_TAG_ADMIN = '/admin/post-tag',
   POST_ADMIN = '/admin/post',
+  MOMENT_ADMIN = '/admin/moment',
   _POST_DETAIL_ADMIN = '/admin/post/detail',
   POST_DETAIL_ADMIN = '/admin/post/detail/:id',
+  _MOMENT_DETAIL_ADMIN = '/admin/moment/detail',
+  MOMENT_DETAIL_ADMIN = '/admin/moment/detail/:id',
   _NOT_FOUND_PAGE = '*',
   NOT_FOUND_PAGE = '/404',
 }
@@ -55,6 +59,8 @@ export enum RouteName {
   POST_TAG_ADMIN = '标签',
   POST_ADMIN = '文章',
   POST_DETAIL_ADMIN = '文章',
+  MOMENT_ADMIN = '说说',
+  MOMENT_DETAIL_ADMIN = '说说',
 }
 
 /* 集中存放所有路由配置 */
@@ -121,6 +127,14 @@ export const routes: RouteConfig[] = [
         routeProps: {
           exact: true,
         },
+      },
+      {
+        path: PathName.MOMENT_DETAIL_ADMIN,
+        component: MomentDetailAdmin,
+      },
+      {
+        path: PathName._MOMENT_DETAIL_ADMIN,
+        component: MomentDetailAdmin,
       },
       {
         path: PathName.POST_DETAIL_ADMIN,
