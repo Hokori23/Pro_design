@@ -17,22 +17,29 @@ export default () => {
     },
     event?: React.ChangeEvent<HTMLTextAreaElement> | undefined,
   ) => void = ({ text }) => {
-    dispatch.SET_POST({ ..._.cloneDeep(state.post), content: text })
+    dispatch.SET_RENDER_POST({
+      ..._.cloneDeep(state.renderPost),
+      content: text,
+    })
   }
   const { title, coverUrl, content } = state.post
 
   useEffect(() => {
     // 曲线解决Editor只依赖于value触发更新的问题
-    dispatch.SET_POST({ ..._.cloneDeep(state.post), content: content + ' ' })
+    if (state.loadingPost) return
+    dispatch.SET_RENDER_POST({
+      ..._.cloneDeep(state.post),
+      content: content + ' ',
+    })
     void Promise.resolve().then(() => {
-      dispatch.SET_POST({ ..._.cloneDeep(state.post), content })
+      dispatch.SET_RENDER_POST({ ..._.cloneDeep(state.post), content })
     })
   }, [title, coverUrl])
 
   return {
-    title,
-    coverUrl,
-    content,
+    title: state.renderPost.title,
+    coverUrl: state.renderPost.coverUrl,
+    content: state.renderPost.content,
     openEditor,
     handleOpenEditor,
     handleMdContentChange,

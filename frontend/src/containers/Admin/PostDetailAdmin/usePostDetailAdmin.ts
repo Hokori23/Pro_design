@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { scrollIntoTop } from '@/utils/tools'
 import { RouteName } from '@/routes'
 import { useAsync } from 'react-use'
-import { defaultPostDetailAdminState } from './model'
+import { defaultPost } from './model'
 import _ from 'lodash'
 
 export default () => {
@@ -18,28 +18,30 @@ export default () => {
   const Init = async () => {
     scrollIntoTop()
     // 初始化
-    commonDispatch.SET_APPBAR_TITLE(`撰写${RouteName.POST_DETAIL_ADMIN}`)
-    void dispatch.RetrieveTagAll()
+    // commonDispatch.SET_APPBAR_TITLE(`撰写${RouteName.POST_DETAIL_ADMIN}`)
     if (id) {
       const post = await dispatch.RetrievePost(id)
       if (post) {
-        commonDispatch.SET_APPBAR_TITLE(`编辑 - ${post.title as string}`)
+        // commonDispatch.SET_APPBAR_TITLE(`编辑 - ${post.title as string}`)
+        void dispatch.RetrieveTagAll()
         dispatch.SET_POST(post)
+        dispatch.SET_RENDER_POST(post)
         dispatch.SET_IS_NEW(false)
       }
     } else {
-      dispatch.SET_POST({ ..._.cloneDeep(defaultPostDetailAdminState.post) })
+      void dispatch.RetrieveTagAll()
+      dispatch.SET_POST({ ..._.cloneDeep(defaultPost) })
+      dispatch.SET_RENDER_POST({
+        ..._.cloneDeep(defaultPost),
+      })
       dispatch.SET_IS_NEW(true)
       dispatch.SET_LOADING_POST(false)
-      dispatch.SET_LOADING_TAGS(false)
     }
   }
 
   useEffect(() => {
     if (id) {
       commonDispatch.SET_APPBAR_TITLE(`编辑 - ${state.post.title as string}`)
-    } else if (state.post.title) {
-      commonDispatch.SET_APPBAR_TITLE(`撰写 - ${state.post.title}`)
     } else {
       commonDispatch.SET_APPBAR_TITLE(`撰写${RouteName.POST_DETAIL_ADMIN}`)
     }
