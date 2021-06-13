@@ -16,6 +16,7 @@ import Redirect404 from './containers/Redirect404'
 import Admin from './containers/Admin'
 import PostTagAdmin from './containers/Admin/PostTagAdmin'
 import PostAdmin from './containers/Admin/PostAdmin'
+import MomentAdmin from './containers/Admin/MomentAdmin'
 import PostDetailAdmin from './containers/Admin/PostDetailAdmin'
 import MomentDetailAdmin from './containers/Admin/MomentDetailAdmin'
 
@@ -147,6 +148,14 @@ export const routes: RouteConfig[] = [
       {
         path: PathName.POST_ADMIN,
         component: PostAdmin,
+      },
+      {
+        path: PathName.MOMENT_ADMIN,
+        component: MomentAdmin,
+      },
+      {
+        path: PathName._NOT_FOUND_PAGE,
+        component: NotFoundPage,
       },
     ],
   },

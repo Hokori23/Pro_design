@@ -145,7 +145,7 @@ const Retrieve__Page = async (
         showHidden,
         isASC === '1',
       ),
-      Action.Count__Page(postTypes, showDrafts),
+      Action.Count__Page(postTypes, showDrafts, showHidden),
     ])
     const result = {
       posts: values[0],
