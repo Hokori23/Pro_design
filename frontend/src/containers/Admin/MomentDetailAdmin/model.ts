@@ -88,7 +88,7 @@ export const momentDetailAdmin = createModel<RootModel>()({
           _.cloneDeep(defaultMomentDetailAdminState.moment),
         )
         momentDetailAdmin.SET_LOADING_MOMENT(true)
-        const res = await Request.Post.Retrieve(Number(id))
+        const res = await Request.Post.Retrieve__Admin(Number(id))
         if (res?.data) {
           momentDetailAdmin.SET_MOMENT(res.data)
         }

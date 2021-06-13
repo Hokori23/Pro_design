@@ -108,7 +108,7 @@ export const postDetailAdmin = createModel<RootModel>()({
       async RetrievePost(id: string): Promise<PostWithAuthor | undefined> {
         postDetailAdmin.SET_POST(_.cloneDeep(defaultPostDetailAdminState.post))
         postDetailAdmin.SET_LOADING_POST(true)
-        const res = await Request.Post.Retrieve(Number(id))
+        const res = await Request.Post.Retrieve__Admin(Number(id))
         if (res?.data) {
           postDetailAdmin.SET_POST(res.data)
           postDetailAdmin.SET_RENDER_POST(_.cloneDeep(res.data))
