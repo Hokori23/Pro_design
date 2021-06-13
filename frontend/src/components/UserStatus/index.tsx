@@ -9,19 +9,16 @@ import {
   useMediaQuery,
   useTheme,
   Avatar,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
 } from '@material-ui/core'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import { useSelector } from 'react-redux'
 import { PathName, RouteName } from '@/routes'
 import { useHistory, useLocation } from 'react-router-dom'
-
-import InnerLink from '@/components/InnerLink'
 import { Group } from '@/utils/Request/User'
+
+// components
+import { SimpleConfirmDialog } from '@/components/SimpleConfirmDialog'
+import InnerLink from '@/components/InnerLink'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -72,41 +69,7 @@ const UserStatus: FC = () => {
     setLogDialog(false)
   }
 
-  const LogOutDialog = (
-    <Dialog
-      onBackdropClick={handleDialogClose}
-      onClose={handleDialogClose}
-      open={logOutDialog}
-    >
-      <DialogTitle>提示</DialogTitle>
-      <DialogContent>
-        <DialogContentText>确定要退出登录？</DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          color="primary"
-          onClick={handleDialogClose}
-          size={isMobileSize ? 'small' : 'medium'}
-        >
-          取消
-        </Button>
-        <Button
-          autoFocus
-          color="primary"
-          onClick={() => {
-            dispatch.LOGOUT()
-            handleDialogClose()
-            history.push(PathName.HOME)
-          }}
-          size={isMobileSize ? 'small' : 'medium'}
-          variant="outlined"
-        >
-          确定
-        </Button>
-      </DialogActions>
-    </Dialog>
-  )
-  const renderMenu = (
+  const RenderMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -184,8 +147,21 @@ const UserStatus: FC = () => {
           <AccountCircle />
         )}
       </IconButton>
-      {renderMenu}
-      {LogOutDialog}
+      {RenderMenu}
+      <SimpleConfirmDialog
+        content="确定要退出登录？"
+        handleClose={handleDialogClose}
+        isMobileSize={isMobileSize}
+        onBackdropClick={handleDialogClose}
+        onClose={handleDialogClose}
+        onConfirm={() => {
+          dispatch.LOGOUT()
+          handleDialogClose()
+          history.push(PathName.HOME)
+        }}
+        open={logOutDialog}
+        title="提示"
+      />
     </Fragment>
   )
 }
