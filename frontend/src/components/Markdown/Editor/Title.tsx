@@ -58,7 +58,10 @@ export const Title: FC<TitleProps> = ({ title, coverUrl }) => {
   const classes = useStyles()
 
   return (
-    <header className={classes.titleWrapper}>
+    <header
+      className={classes.titleWrapper}
+      style={{ marginBottom: coverUrl ? '1rem' : 0 }}
+    >
       {coverUrl && (
         <figure className={classes.titleBanner}>
           <img src={coverUrl} />

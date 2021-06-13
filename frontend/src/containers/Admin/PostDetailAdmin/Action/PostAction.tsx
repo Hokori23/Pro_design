@@ -90,17 +90,19 @@ const PostAction: FC = () => {
   )
   return (
     <Fragment>
-      <Button
-        className={(classes.button, classes.deleteButton)}
-        onClick={() => {
-          setDeleteDialog(true)
-        }}
-        size={isMobileSize ? 'small' : 'medium'}
-        startIcon={<DeleteIcon className={classes.deleteButtonIcon} />}
-        variant="contained"
-      >
-        删除
-      </Button>
+      {!state.isNew && (
+        <Button
+          className={(classes.button, classes.deleteButton)}
+          onClick={() => {
+            setDeleteDialog(true)
+          }}
+          size={isMobileSize ? 'small' : 'medium'}
+          startIcon={<DeleteIcon className={classes.deleteButtonIcon} />}
+          variant="contained"
+        >
+          删除
+        </Button>
+      )}
       <Button
         className={classes.button}
         color="primary"
@@ -111,7 +113,7 @@ const PostAction: FC = () => {
       >
         保存
       </Button>
-      {DeleteDialog}
+      {!state.isNew && DeleteDialog}
     </Fragment>
   )
 }

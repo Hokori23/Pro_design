@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   editor: {
     '& .rc-md-editor .editor-container .sec-md .input, & .rc-md-editor .editor-container .sec-html': {
-      minHeight: '50vh',
+      height: '60vh',
     },
   },
 }))

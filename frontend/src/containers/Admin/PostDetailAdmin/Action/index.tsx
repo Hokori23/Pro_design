@@ -78,6 +78,7 @@ const Action: FC<ActionProps> = ({ className }) => {
     onTagChange,
     handleImgUpload,
   } = useAction()
+
   return (
     <header>
       <ListItem

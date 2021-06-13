@@ -46,7 +46,7 @@ const PostDetailAdmin: FC<RouteComponentProps & RouteConfig> = (props) => {
   const { ref, state } = usePostDetailAdmin()
 
   return (
-    <div className={classes.wrapper}>
+    <section className={classes.wrapper}>
       <Paper className={classes.postWrapper}>
         {state.loadingPost ? (
           <CircularLoading />
@@ -62,7 +62,7 @@ const PostDetailAdmin: FC<RouteComponentProps & RouteConfig> = (props) => {
         )}
       </Paper>
       <ScrollTop {...props} ref={ref} />
-    </div>
+    </section>
   )
 }
 export default PostDetailAdmin

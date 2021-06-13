@@ -26,13 +26,8 @@ export const SimpleAlertDialog: FC<SimpleAlertDialogProps> = ({
   onClose,
 }) => {
   return (
-    <Dialog
-      aria-labelledby="simple-alert-dialog-title"
-      className="non-select"
-      onClose={onClose}
-      open={open}
-    >
-      <DialogTitle id="simple-alert-dialog-title">
+    <Dialog className="non-select" onClose={onClose} open={open}>
+      <DialogTitle>
         <Typography color="primary" component="div" variant="h6">
           {title}
         </Typography>

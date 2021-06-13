@@ -68,6 +68,7 @@ const ListTagItem: FC<ListTagItemProps> = ({
       {iconClass ? (
         <ListItemIcon>
           <Chip
+            className="cursor-pointer"
             color={iconColor}
             icon={iconClass ? <Icon>{iconClass}</Icon> : undefined}
             label={name}

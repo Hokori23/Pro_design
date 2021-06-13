@@ -86,7 +86,6 @@ export const Editor: FC<EditorProps> = ({
         ref={mdEditor}
         renderHTML={(text) => (
           <Fragment>
-            {/* TODO: title不能立即更新，只能随着content更新而更新 */}
             <Title coverUrl={coverUrl} title={title} />
             <Renderer className={classes.post} content={text} />
           </Fragment>
