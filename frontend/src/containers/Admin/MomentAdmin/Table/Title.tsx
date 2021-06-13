@@ -10,6 +10,7 @@ import {
   useTheme,
 } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit'
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -36,11 +37,22 @@ export const Title = (props: CellParams): ReactElement => {
       >
         {row.content.slice(0, 30)}
       </InnerLink>
-      <InnerLink to={`${PathName._MOMENT_DETAIL_ADMIN}/${Number(row.id)}`}>
-        <IconButton color="inherit" size={isMobileSize ? 'small' : 'medium'}>
-          <EditIcon />
-        </IconButton>
-      </InnerLink>
+      <div>
+        {!!row.isHidden && (
+          <IconButton
+            color="inherit"
+            disabled
+            size={isMobileSize ? 'small' : 'medium'}
+          >
+            <VisibilityOffIcon />
+          </IconButton>
+        )}
+        <InnerLink to={`${PathName._MOMENT_DETAIL_ADMIN}/${Number(row.id)}`}>
+          <IconButton color="inherit" size={isMobileSize ? 'small' : 'medium'}>
+            <EditIcon />
+          </IconButton>
+        </InnerLink>
+      </div>
     </div>
   )
 }

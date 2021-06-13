@@ -10,6 +10,8 @@ import {
   useTheme,
 } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit'
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
+import LockIcon from '@material-ui/icons/Lock'
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -36,11 +38,31 @@ export const Title = (props: CellParams): ReactElement => {
       >
         {row.title}
       </InnerLink>
-      <InnerLink to={`${PathName._POST_DETAIL_ADMIN}/${Number(row.id)}`}>
-        <IconButton color="inherit" size={isMobileSize ? 'small' : 'medium'}>
-          <EditIcon />
-        </IconButton>
-      </InnerLink>
+      <div>
+        {!!row.isHidden && (
+          <IconButton
+            color="inherit"
+            disabled
+            size={isMobileSize ? 'small' : 'medium'}
+          >
+            <VisibilityOffIcon />
+          </IconButton>
+        )}
+        {!!row.isLocked && (
+          <IconButton
+            color="inherit"
+            disabled
+            size={isMobileSize ? 'small' : 'medium'}
+          >
+            <LockIcon />
+          </IconButton>
+        )}
+        <InnerLink to={`${PathName._POST_DETAIL_ADMIN}/${Number(row.id)}`}>
+          <IconButton color="inherit" size={isMobileSize ? 'small' : 'medium'}>
+            <EditIcon />
+          </IconButton>
+        </InnerLink>
+      </div>
     </div>
   )
 }
