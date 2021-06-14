@@ -13,6 +13,7 @@ import {
   Divider,
   ListItemSecondaryAction,
   Switch,
+  useTheme,
 } from '@material-ui/core'
 import { GenderCNArr } from '@/utils/Request/User'
 import EmailIcon from '@material-ui/icons/Email'
@@ -25,6 +26,7 @@ import useStyles from './useStyles'
 import EditDialog from './EditDialog'
 import EditDialogInput from './EditDialogInput'
 import { CircularLoading } from '@/components/CircularLoading'
+import { SimpleConfirmDialog } from '@/components/SimpleConfirmDialog'
 
 const CircularProgress: FC = () => (
   <_CircularProgress
@@ -69,6 +71,7 @@ const ListItemValue: FC<ListItemValueProps> = ({
 
 const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
   const classes = useStyles()
+  const theme = useTheme()
   const {
     userInfo,
     clonedUserInfo,
@@ -79,7 +82,12 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
     editDialog,
     mailLoading,
     mail,
+    deleteDialog,
+    deletingUser,
     handleEditMail,
+    setDeleteDialog,
+    handleDeleteDialogClose,
+    handleDeleteUser,
     handleEditDialogClose,
     handleEditDialogOpen,
     handleEditDialogValid,
@@ -195,8 +203,8 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
             primary="个人简介"
             value={userInfo.profile}
           />
+          <ListSubheader>更多</ListSubheader>
           {/* 邮箱订阅 */}
-          <ListSubheader>邮箱设置</ListSubheader>
           <label htmlFor="user-email-setting">
             <ListItem button>
               <ListItemIcon>
@@ -216,6 +224,24 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
             </ListItem>
           </label>
           <Divider light />
+          <ListItem
+            button
+            onClick={() => {
+              setDeleteDialog(true)
+            }}
+            style={{ backgroundColor: theme.palette.error.dark }}
+          >
+            <ListItemText
+              primary="注销账号"
+              primaryTypographyProps={{
+                align: 'center',
+                style: {
+                  color: theme.palette.background.paper,
+                  fontWeight: 600,
+                },
+              }}
+            />
+          </ListItem>
         </List>
 
         <EditDialog
@@ -235,6 +261,32 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
             userInfo={clonedUserInfo}
           />
         </EditDialog>
+
+        <SimpleConfirmDialog
+          contentNode={
+            <Fragment>
+              <Typography
+                style={{ color: theme.palette.error.main }}
+                variant="subtitle1"
+              >
+                确定要注销账号吗？
+              </Typography>
+              <Typography
+                style={{ color: theme.palette.error.main }}
+                variant="body2"
+              >
+                一经注销，账号无法找回！
+              </Typography>
+            </Fragment>
+          }
+          handleClose={handleDeleteDialogClose}
+          loading={deletingUser}
+          onBackdropClick={handleDeleteDialogClose}
+          onClose={handleDeleteDialogClose}
+          onConfirm={handleDeleteUser}
+          open={deleteDialog}
+          title="警告"
+        />
       </section>
     </div>
   )

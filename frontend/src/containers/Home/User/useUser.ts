@@ -1,4 +1,4 @@
-import { RouteName } from '@/routes'
+import { PathName, RouteName } from '@/routes'
 import { RootState, store } from '@/store'
 import { UPYUN_URL } from '@/utils/const'
 import Request, { Upload, User } from '@/utils/Request'
@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import _ from 'lodash'
 import { useAsync } from 'react-use'
 import { Mail } from '@/utils/Request/Mail'
+import { useHistory } from 'react-router-dom'
 
 interface EditDialogProps {
   open: boolean
@@ -28,6 +29,7 @@ const defaultEditDialogProps: EditDialogProps = {
 export default () => {
   const state = useSelector((state: RootState) => state.common)
   const dispatch = useSelector(() => store.dispatch.common)
+  const history = useHistory()
   const { userInfo, isLogin } = state
 
   const [avatarLoading, setAvatarLoading] = useState(false)
@@ -40,6 +42,8 @@ export default () => {
     uid: userInfo.id as number,
     isSubscribed: false,
   })
+  const [deleteDialog, setDeleteDialog] = useState(false)
+  const [deletingUser, setDeletingUser] = useState(false)
 
   const handleImgUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -128,7 +132,7 @@ export default () => {
     if (mail.id === -1) return
     const newMail = { ...mail, isSubscribed: !mail.isSubscribed }
     setMailLoading(true)
-    const res = await Request.Mail.Edit(mail)
+    const res = await Request.Mail.Edit(newMail)
     if (res?.data) {
       setMail(newMail)
       dispatch.SET_AXIOS_SNACK_BAR({
@@ -137,6 +141,23 @@ export default () => {
       })
     }
     setMailLoading(false)
+  }
+
+  const handleDeleteDialogClose = () => {
+    setDeleteDialog(false)
+  }
+  const handleDeleteUser = async () => {
+    setDeletingUser(true)
+    const res = await User.Delete()
+    setDeletingUser(false)
+    if (res?.code === 0) {
+      dispatch.SET_AXIOS_SNACK_BAR({
+        message: res.message,
+        open: true,
+      })
+      dispatch.LOGOUT()
+      history.push(PathName.HOME)
+    }
   }
 
   useEffect(() => {
@@ -161,7 +182,12 @@ export default () => {
     editDialog,
     mailLoading,
     mail,
+    deleteDialog,
+    deletingUser,
     handleEditMail,
+    setDeleteDialog,
+    handleDeleteDialogClose,
+    handleDeleteUser,
     handleEditDialogClose,
     handleEditDialogOpen,
     handleEditDialogValid,

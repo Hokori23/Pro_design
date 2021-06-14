@@ -111,15 +111,19 @@ export const Edit = async (user: Partial<User>) => {
   return data.data
 }
 
-export const Delete = async (user: Partial<User>) => {
-  const data = await Request<Restful<User>>({
+export const Delete = async () => {
+  return await Request<_Restful>({
     method: 'POST',
-    url: `${baseUrl}/edit`,
-    data: user,
+    url: `${baseUrl}/delete`,
   })
-  if (!data?.data) return
-  store.dispatch.common.SET_USER_INFO(data.data)
-  return data.data
+}
+
+export const Delete__Admin = async (id: number) => {
+  return await Request<_Restful>({
+    method: 'POST',
+    params: { id },
+    url: `${baseUrl}/delete-admin`,
+  })
 }
 
 export const SendCaptcha = async (
