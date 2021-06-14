@@ -10,3 +10,4 @@ build
 storybook-static
 .vercel
 .env
+tree.txt
