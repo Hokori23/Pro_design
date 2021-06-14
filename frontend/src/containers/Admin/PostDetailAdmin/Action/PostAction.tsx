@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
 import SaveIcon from '@material-ui/icons/Save'
+import SendIcon from '@material-ui/icons/Send'
 
 // hooks
 import usePostAction from './usePostAction'
@@ -103,22 +104,29 @@ const PostAction: FC = () => {
           删除
         </Button>
       )}
-      <Button
-        className={classes.button}
-        color="primary"
-        onClick={() => {
-          if (state.isNew) {
-            void dispatch.CreatePost()
-          } else {
-            void dispatch.EditPost()
-          }
-        }}
-        size={isMobileSize ? 'small' : 'medium'}
-        startIcon={<SaveIcon />}
-        variant="contained"
-      >
-        保存
-      </Button>
+      {state.isNew ? (
+        <Button
+          className={classes.button}
+          color="primary"
+          onClick={dispatch.CreatePost}
+          size={isMobileSize ? 'small' : 'medium'}
+          startIcon={<SendIcon />}
+          variant="contained"
+        >
+          发布
+        </Button>
+      ) : (
+        <Button
+          className={classes.button}
+          color="primary"
+          onClick={dispatch.EditPost}
+          size={isMobileSize ? 'small' : 'medium'}
+          startIcon={<SaveIcon />}
+          variant="contained"
+        >
+          保存
+        </Button>
+      )}
       {!state.isNew && DeleteDialog}
     </Fragment>
   )
