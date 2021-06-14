@@ -180,13 +180,20 @@ export const Edit = async ({
   })
 }
 
-export const Edit__Admin = async (post: Partial<Post>) => {
-  return await Request<Restful<Post>>({
+export const Edit__Admin = async ({
+  post,
+  tids,
+}: {
+  post: Partial<EditedPost>
+  tids: Array<number | undefined>
+}) => {
+  return await Request<Restful<PostWithTags>>({
     method: 'POST',
-    data: post,
+    data: { post, tids },
     url: `${baseUrl}/edit-admin`,
   })
 }
+
 export const Delete = async (id: number) => {
   return await Request<Restful<Post>>({
     method: 'POST',

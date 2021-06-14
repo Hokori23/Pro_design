@@ -163,7 +163,7 @@ export const postDetailAdmin = createModel<RootModel>()({
         const tids = state.postDetailAdmin.tags
           .filter((tag) => tag.checked)
           .map((tag) => tag.id)
-        const res = await Request.Post.Edit({
+        const res = await Request.Post.Edit__Admin({
           post: ({
             ...state.postDetailAdmin.post,
             content: state.postDetailAdmin.renderPost.content,
