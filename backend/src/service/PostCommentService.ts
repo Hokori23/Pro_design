@@ -27,7 +27,7 @@ const Create = async (comment: PostCommentWithAuthor): Promise<Restful> => {
         '该贴评论区已封锁',
       )
     }
-    const isRegistered = isDef(comment.uid) && comment.uid !== -1
+    const isRegistered = isDef(comment.uid) && comment.uid !== 0
     let existedUser: User | null
     if (isRegistered) {
       existedUser = await UserAction.Retrieve('id', comment.uid)
@@ -45,7 +45,7 @@ const Create = async (comment: PostCommentWithAuthor): Promise<Restful> => {
         '评论需要email',
       )
     } else {
-      comment.uid = -1
+      comment.uid = 0
     }
 
     // 添加帖子评论
@@ -78,7 +78,7 @@ const Create = async (comment: PostCommentWithAuthor): Promise<Restful> => {
 
       // 设置评论名称，未注册则为邮箱
       const senderName =
-        comment.uid === -1 ? comment.email : existedUser!.userName
+        comment.uid === 0 ? comment.email : existedUser!.userName
 
       // const replyCommentSet = new Set()
       const replyComments =
@@ -92,7 +92,7 @@ const Create = async (comment: PostCommentWithAuthor): Promise<Restful> => {
           replyComments.map(async (v) => {
             // 接受邮件人的userName
             const userName =
-              v.uid === -1
+              v.uid === 0
                 ? v.email
                 : ((await UserAction.Retrieve('id', v.uid)) as User).userName
             return {

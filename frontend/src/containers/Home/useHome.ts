@@ -5,8 +5,12 @@ import useInit from './useInit'
 import * as H from 'history'
 import { TabProps } from '@/containers/Home/Navigation'
 import { PathName } from '@/routes'
+import { useSelector } from 'react-redux'
+import { RootState, store } from '@/store'
 
-export default (location: H.Location<unknown>) => {
+export default (location: H.Location<unknown>, isDeskTopSize: boolean) => {
+  const state = useSelector((state: RootState) => state.common)
+  const dispatch = useSelector(() => store.dispatch.common)
   const tabs: TabProps[] = [
     {
       text: '首页',
@@ -39,7 +43,16 @@ export default (location: H.Location<unknown>) => {
     setCurTabIdx(idx === -1 ? 0 : idx)
   }, [location.pathname])
 
+  useEffect(() => {
+    setDrawerOpen(isDeskTopSize)
+  }, [isDeskTopSize])
+
+  useEffect(() => {
+    void dispatch.checkLogin()
+  }, [])
+
   return {
+    state,
     drawerOpen,
     setDrawerOpen,
     blogConfig,

@@ -17,6 +17,21 @@ export enum PostType {
   MOMENT = 2,
   PAGE = 3, // TODO: 自定义页面
 }
+
+export enum PostTypeCN {
+  POST = '帖子',
+  LANDSCAPE = '沉浸式背景',
+  MOMENT = '说说',
+  PAGE = '自定义页面',
+}
+
+export enum PostTypeResponseCN {
+  POST = '帖子',
+  LANDSCAPE = '帖子',
+  MOMENT = '说说',
+  PAGE = '自定义页面',
+}
+
 export enum Toggle {
   N = 0,
   Y = 1,

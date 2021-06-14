@@ -1,6 +1,5 @@
-import _markdownIt from 'markdown-it'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/atom-one-dark.css'
+// import _markdownIt from 'markdown-it'
+// import hljs from 'highlight.js'
 
 export const isDef = <T>(v: T | undefined | null): v is T =>
   v !== undefined && v !== null
@@ -23,20 +22,20 @@ export const JsonClone = <T>(v: T): T => {
   return JSON.parse(JSON.stringify(v))
 }
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-export const markdownIt = new _markdownIt({
-  html: true, // 在源码中启用 HTML 标签
-  typographer: true, // 启用一些语言中立的替换 + 引号美化
-  breaks: true, // 转换段落里的 '\n' 到 <br>。
-  highlight: function (str: string, lang: string) {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return hljs.highlight(lang, str).value
-      } catch (__) {}
-    }
+// export const markdownIt = new _markdownIt({
+//   html: true, // 在源码中启用 HTML 标签
+//   typographer: true, // 启用一些语言中立的替换 + 引号美化
+//   breaks: true, // 转换段落里的 '\n' 到 <br>。
+//   highlight: function (str: string, lang: string) {
+//     if (lang && hljs.getLanguage(lang)) {
+//       try {
+//         return hljs.highlight(lang, str).value
+//       } catch (__) {}
+//     }
 
-    return '' // 使用额外的默认转义
-  },
-})
+//     return '' // 使用额外的默认转义
+//   },
+// })
 
 export const scrollTo = (
   id: string,
@@ -60,6 +59,16 @@ export const scrollIntoBottom = (
 ) => {
   scrollTo('#go-to-bottom-anchor', block, behavior)
 }
+export const $ = (selector: string): HTMLElement | null =>
+  document.querySelector(selector)
+export const $$ = (selector: string) => document.querySelectorAll(selector)
+export const removePX = (str: string) => Number(str.slice(0, str.length - 2))
+export const computeDOMHeight = (selector: string, noPX?: boolean) => {
+  const dom = $(selector)
+  if (!dom) return '0px'
+  const height = getComputedStyle(dom).height
+  return noPX ? removePX(height) : height
+}
 
 export default {
   isDef,
@@ -67,8 +76,11 @@ export default {
   isEmail,
   stringifyObjToUrl,
   JsonClone,
-  markdownIt,
   scrollTo,
   scrollIntoTop,
   scrollIntoBottom,
+  $,
+  $$,
+  removePX,
+  computeDOMHeight,
 }

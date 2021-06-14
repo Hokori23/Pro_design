@@ -10,8 +10,17 @@ import HomeOverview from './containers/Home/HomeOverview'
 import PostOverview from './containers/Home/PostOverview'
 import PostDetail from './containers/Home/PostDetail'
 import MomentOverview from './containers/Home/MomentOverview'
+import User from './containers/Home/User'
+import UserDetail from './containers/Home/UserDetail'
 import NotFoundPage from './containers/NotFoundPage'
 import Redirect404 from './containers/Redirect404'
+import Admin from './containers/Admin'
+import PostTagAdmin from './containers/Admin/PostTagAdmin'
+import PostAdmin from './containers/Admin/PostAdmin'
+import MomentAdmin from './containers/Admin/MomentAdmin'
+import UserAdmin from './containers/Admin/UserAdmin'
+import PostDetailAdmin from './containers/Admin/PostDetailAdmin'
+import MomentDetailAdmin from './containers/Admin/MomentDetailAdmin'
 
 export enum PathName {
   DEMO = '/demo',
@@ -26,6 +35,18 @@ export enum PathName {
   POST_DETAIL = '/post/detail/:id',
   MOMENT_OVERVIEW = '/moment',
   _MOMENT_DETAIL = '/moment/detail',
+  USER = '/user',
+  _USER_DETAIL = '/user/detail',
+  USER_DETAIL = '/user/detail/:id',
+  ADMIN = '/admin',
+  POST_TAG_ADMIN = '/admin/post-tag',
+  POST_ADMIN = '/admin/post',
+  MOMENT_ADMIN = '/admin/moment',
+  USER_ADMIN = '/admin/user',
+  _POST_DETAIL_ADMIN = '/admin/post/detail',
+  POST_DETAIL_ADMIN = '/admin/post/detail/:id',
+  _MOMENT_DETAIL_ADMIN = '/admin/moment/detail',
+  MOMENT_DETAIL_ADMIN = '/admin/moment/detail/:id',
   _NOT_FOUND_PAGE = '*',
   NOT_FOUND_PAGE = '/404',
 }
@@ -38,7 +59,15 @@ export enum RouteName {
   HOME = '首页',
   POST = '文章',
   MOMENT = '说说',
+  USER = '用户中心',
   NOT_FOUND_PAGE = '找不到页面',
+  ADMIN = '后台管理中心',
+  POST_TAG_ADMIN = '标签',
+  POST_ADMIN = '文章',
+  POST_DETAIL_ADMIN = '文章',
+  MOMENT_ADMIN = '说说',
+  MOMENT_DETAIL_ADMIN = '说说',
+  USER_ADMIN = '用户',
 }
 
 /* 集中存放所有路由配置 */
@@ -89,6 +118,58 @@ export const routes: RouteConfig[] = [
     ],
   },
   {
+    path: PathName.ADMIN,
+    component: Admin,
+    routeProps: {
+      exact: true,
+    },
+  },
+  {
+    path: PathName.ADMIN,
+    component: Admin,
+    routes: [
+      {
+        path: PathName.POST_TAG_ADMIN,
+        component: PostTagAdmin,
+        routeProps: {
+          exact: true,
+        },
+      },
+      {
+        path: PathName.MOMENT_DETAIL_ADMIN,
+        component: MomentDetailAdmin,
+      },
+      {
+        path: PathName._MOMENT_DETAIL_ADMIN,
+        component: MomentDetailAdmin,
+      },
+      {
+        path: PathName.POST_DETAIL_ADMIN,
+        component: PostDetailAdmin,
+      },
+      {
+        path: PathName._POST_DETAIL_ADMIN,
+        component: PostDetailAdmin,
+      },
+      {
+        path: PathName.POST_ADMIN,
+        component: PostAdmin,
+      },
+      {
+        path: PathName.MOMENT_ADMIN,
+        component: MomentAdmin,
+      },
+      {
+        path: PathName.USER_ADMIN,
+        component: UserAdmin,
+      },
+      {
+        path: PathName._NOT_FOUND_PAGE,
+        component: NotFoundPage,
+      },
+    ],
+  },
+  {
     path: PathName._HOME,
     component: Home,
     routeProps: {
@@ -114,9 +195,14 @@ export const routes: RouteConfig[] = [
       {
         path: PathName.MOMENT_OVERVIEW,
         component: MomentOverview,
-        routeProps: {
-          exact: true,
-        },
+      },
+      {
+        path: PathName.USER_DETAIL,
+        component: UserDetail,
+      },
+      {
+        path: PathName.USER,
+        component: User,
       },
       {
         path: PathName._NOT_FOUND_PAGE,

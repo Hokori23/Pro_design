@@ -7,6 +7,7 @@ import PostTagRouter from './PostTagRouter'
 import MailCaptchaRouter from './MailCaptchaRouter'
 import OptionRouter from './OptionRouter'
 import MailRouter from './MailRouter'
+import UploadRouter from './UploadRouter'
 import TemplateRouter from './TemplateRouter'
 
 export {
@@ -19,5 +20,6 @@ export {
   MailCaptchaRouter,
   OptionRouter,
   MailRouter,
+  UploadRouter,
   TemplateRouter,
 }

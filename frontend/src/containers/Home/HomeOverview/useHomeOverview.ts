@@ -20,7 +20,7 @@ export default (location: H.Location<unknown>) => {
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(PAGE)
   const [capacity, setCapacity] = useState(CAPACITY)
-  const [total, setTotal] = useState(1)
+  const [total, setTotal] = useState(0)
   const [maxPage, setMaxPage] = useState(1)
   const [isASC, setIsASC] = useState(IS_ASC)
   const [postTypes, setPostTypes] = useState(POST_TYPES)
@@ -35,8 +35,9 @@ export default (location: H.Location<unknown>) => {
     setLoading(true)
     const res = await Request.Post.RetrieveAll(page, capacity, isASC, postTypes)
     setLoading(false)
-    if (res?.data && res?.code === 0) {
+    if (res?.data) {
       const data = res.data
+      if (!data.total) return undefined // 如果不存在文章或说说，则不跳转
       const maxPage = Math.ceil(data.total / capacity)
       setTotal(data.total)
       setMaxPage(maxPage)
@@ -47,7 +48,7 @@ export default (location: H.Location<unknown>) => {
   }
 
   useEffect(() => {
-    dispatch.SET_APPBAR_TITLE(RouteName.POST)
+    dispatch.SET_APPBAR_TITLE(RouteName.HOME)
   }, [])
 
   useEffect(() => {

@@ -25,13 +25,25 @@ npm i
 lerna bootstrap
 # 同时 build 前后端
 lerna run build
+# 生成文件目录
+npm run tree
 ```
 
 目前已经将 `lerna bootstrap` 加入了 `postinstall` 脚本中，会在 `npm i` 的时候自动运行。同时在 pull 的时候如果远程仓库的依赖发生改变会自动运行 `npm i`，参考脚本 [.scripts/update_dependencies.sh](./.scripts/update_dependencies.sh)。因此只需要第一次 clone 仓库的时候手动在根目录 `npm i`，一下，后续都是自动安装依赖的了。
 
 ### 前端
 
-Writing...
+```bash
+cd frontend
+npm start # 运行
+```
+
+#### 前端主要技术栈
+
+- TypeScript
+- React
+- Rematch
+- Axios
 
 ### 后端
 
@@ -39,14 +51,22 @@ Writing...
 cd backend
 npm run dev # 开发模式运行
 npm run serve # 生产模式运行
+
+# 构建
+npm run build # 构建运行文件
+npm run build:force # 清空build文件夹并构建运行文件
+npm run build:sass w # 监听sass/scss文件改动并构建css文件，用于邮件模板开发
 ```
 
 存放于文件夹 [backend](backend)。
 
-#### 主要技术栈
+#### 后端主要技术栈
 
+- TypeScript
 - Express
+- Express-JWT
 - Sequelize
+- JsonWebToken
 
 #### 接口文档
 

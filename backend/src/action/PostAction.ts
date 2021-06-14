@@ -187,7 +187,7 @@ const Retrieve__Page_Tag = async (
         as: 'author',
       },
     ],
-    where: where,
+    where,
     offset,
     limit,
     order: [

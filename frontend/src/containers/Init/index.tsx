@@ -144,7 +144,7 @@ const Init: FC<RouteComponentProps & RouteConfig> = ({ routes, history }) => {
       }
     }
     setIsIniting(false)
-  }, [])
+  })
 
   return (
     <div className="Init flex flex-column">

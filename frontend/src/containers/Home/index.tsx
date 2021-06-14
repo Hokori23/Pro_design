@@ -1,45 +1,43 @@
-import { PathName, RouteConfig, RouteName } from '@/routes'
-import { store, RootState } from '@/store'
+import { PathName, RouteConfig } from '@/routes'
 import { CssBaseline, useMediaQuery } from '@material-ui/core'
 import React, { FC, Fragment, useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { Route, RouteComponentProps, Switch } from 'react-router-dom'
 import { isDef } from '@/utils/tools'
 import classnames from 'classnames'
 import { useTheme } from '@material-ui/core/styles'
 
+// hooks
 import useHome from './useHome'
 import useStyles from './useStyles'
 
 // components
 import { AppBar } from '@/components/AppBar'
 import { Drawer } from '@/components/Drawer'
-import UserStatus from '@/containers/Home/UserStatus'
+import UserStatus from '@/components/UserStatus'
+import Footer from '@/components/Footer'
 // import { Navigation } from '@/containers/Home/Navigation'
 
 const Home: FC<RouteComponentProps & RouteConfig> = (props) => {
   const { routes, location, history } = props
-  const state = useSelector((state: RootState) => state.common)
-  const dispatch = useSelector(() => store.dispatch.common)
   const classes = useStyles()
   const theme = useTheme()
   const isDeskTopSize = useMediaQuery(theme.breakpoints.up('sm'))
 
   useEffect(() => {
-    dispatch.SET_APPBAR_TITLE(RouteName.HOME)
     if (location.pathname === PathName._HOME) {
       history.replace(PathName.HOME)
     }
   }, [])
 
   const {
+    state,
     drawerOpen,
     setDrawerOpen,
     blogConfig,
     // tabs,
     // curTabIdx,
     // setCurTabIdx,
-  } = useHome(location)
+  } = useHome(location, isDeskTopSize)
 
   // const onCurTabIdxChange = (event: React.ChangeEvent<{}>, newVal: number) => {
   //   setCurTabIdx(newVal)
@@ -55,7 +53,7 @@ const Home: FC<RouteComponentProps & RouteConfig> = (props) => {
           setDrawerOpen(false)
         }}
         onOpen={() => {
-          setDrawerOpen(false)
+          setDrawerOpen(true)
         }}
         open={drawerOpen}
       />
@@ -63,6 +61,7 @@ const Home: FC<RouteComponentProps & RouteConfig> = (props) => {
         className={classnames(classes.appBar, {
           [classes.appBarShift]: drawerOpen && isDeskTopSize,
         })}
+        id="App-Bar"
         onClick={() => {
           setDrawerOpen(!drawerOpen)
         }}
@@ -80,6 +79,7 @@ const Home: FC<RouteComponentProps & RouteConfig> = (props) => {
           className={classnames(classes.content, 'relative', {
             [classes.contentShift]: drawerOpen && isDeskTopSize,
           })}
+          id="App-Home"
         >
           <Switch location={location}>
             {routes.map(
@@ -95,6 +95,7 @@ const Home: FC<RouteComponentProps & RouteConfig> = (props) => {
               ),
             )}
           </Switch>
+          <Footer id="App-Footer" />
         </main>
       )}
     </Fragment>

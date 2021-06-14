@@ -77,10 +77,10 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
               className={classes.content}
               color="textSecondary"
               component="div"
-              style={{ fontSize: 5 }}
+              style={{ fontSize: 12 }}
               variant="body2"
             >
-              <Renderer content={content} />
+              <Renderer content={content.slice(0, 512)} outline />
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -117,10 +117,12 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
             component="div"
           >
             <Typography component="p" variant="caption">
-              {moment(createdAt).format(isMobileSize ? 'l' : 'lll')}
+              {/* {moment(createdAt).format(isMobileSize ? 'l' : 'lll')} */}
+              {moment(createdAt).calendar()}
             </Typography>
             <Typography component="p" variant="caption">
-              {moment(updatedAt).format(isMobileSize ? 'l' : 'lll')}
+              {/* {moment(updatedAt).format(isMobileSize ? 'l' : 'lll')} */}
+              {moment(updatedAt).calendar()}
             </Typography>
           </Typography>
         </div>

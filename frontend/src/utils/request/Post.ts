@@ -1,5 +1,6 @@
 import { Request } from '.'
 import { PostComment } from './PostComment'
+import { PostTag } from './PostTag'
 import { Restful, _Restful } from './type'
 import { User } from './User'
 
@@ -31,12 +32,22 @@ export interface Post {
   likesCount: number
   dislikesCount: number
   pageViews: number
+
   postComments?: PostComment[]
+
   readonly createdAt: Date
   readonly updatedAt: Date
 }
 
-export interface PostWithAuthor extends Post {
+export interface PostWithTags extends Post {
+  tags: PostTag[]
+}
+
+export interface EditedPost extends Post {
+  tags: Array<number | undefined>
+}
+
+export interface PostWithAuthor extends PostWithTags {
   author: User
 }
 
@@ -45,10 +56,16 @@ export interface Posts {
   total: number
 }
 
-export const Create = async (post: Partial<Post>) => {
-  return await Request<Restful<Post>>({
+export const Create = async ({
+  post,
+  tids,
+}: {
+  post: Partial<EditedPost>
+  tids: Array<number | undefined>
+}) => {
+  return await Request<Restful<PostWithTags>>({
     method: 'POST',
-    data: post,
+    data: { post, tids },
     url: `${baseUrl}/create`,
   })
 }
@@ -149,21 +166,34 @@ export const RetrieveTag__Admin = async (
   })
 }
 
-export const Edit = async (post: Partial<Post>) => {
-  return await Request<Restful<Post>>({
+export const Edit = async ({
+  post,
+  tids,
+}: {
+  post: Partial<EditedPost>
+  tids: Array<number | undefined>
+}) => {
+  return await Request<Restful<PostWithTags>>({
     method: 'POST',
-    data: post,
+    data: { post, tids },
     url: `${baseUrl}/edit`,
   })
 }
 
-export const Edit__Admin = async (post: Partial<Post>) => {
-  return await Request<Restful<Post>>({
+export const Edit__Admin = async ({
+  post,
+  tids,
+}: {
+  post: Partial<EditedPost>
+  tids: Array<number | undefined>
+}) => {
+  return await Request<Restful<PostWithTags>>({
     method: 'POST',
-    data: post,
+    data: { post, tids },
     url: `${baseUrl}/edit-admin`,
   })
 }
+
 export const Delete = async (id: number) => {
   return await Request<Restful<Post>>({
     method: 'POST',
@@ -175,7 +205,7 @@ export const Delete = async (id: number) => {
 }
 
 export const Delete__Admin = async (id: number) => {
-  return await Request<Restful<Post>>({
+  return await Request<_Restful>({
     method: 'POST',
     data: {
       id,

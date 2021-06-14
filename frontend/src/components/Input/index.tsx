@@ -1,4 +1,8 @@
-import { StandardTextFieldProps, TextField } from '@material-ui/core'
+import {
+  InputLabelProps,
+  StandardTextFieldProps,
+  TextField,
+} from '@material-ui/core'
 import classNames from 'classnames'
 import React, { ChangeEvent, FC } from 'react'
 export { GenderRadio } from './GenderRadio'
@@ -17,10 +21,16 @@ interface InputProps {
   label?: string
   required?: boolean
   value?: string
+  type?: string
   helperText?: string
+  placeholder?: string
   InputProps?: {
-    startAdornment: JSX.Element
+    startAdornment?: JSX.Element
+    endAdornment?: JSX.Element
   }
+  InputLabelProps?: Partial<InputLabelProps>
+  fullWidth?: boolean
+  multiline?: boolean
   onChange?: (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => void
@@ -34,13 +44,19 @@ export const Input: FC<InputProps> = ({
   label = '密码',
   required = false,
   value,
+  type,
   helperText,
+  placeholder,
   InputProps,
+  InputLabelProps,
+  fullWidth,
+  multiline,
   onChange,
   onBlur,
 }) => {
   return (
     <TextField
+      InputLabelProps={InputLabelProps}
       InputProps={InputProps}
       className={classNames(
         error ? 'animate__animated animate__headShake' : '',
@@ -49,11 +65,15 @@ export const Input: FC<InputProps> = ({
       color={color}
       disabled={disabled}
       error={error}
+      fullWidth={fullWidth}
       helperText={helperText}
       label={label}
+      multiline={multiline}
       onBlur={onBlur}
       onChange={onChange}
+      placeholder={placeholder}
       required={required}
+      type={type}
       value={value}
     />
   )

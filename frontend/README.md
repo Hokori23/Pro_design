@@ -27,6 +27,12 @@
   - 搭配 React Activation，实现路由、组件切换时的动画效果
   - 文档：<http://reactcommunity.org/react-transition-group/>
   - 搭配使用例子：<https://codesandbox.io/s/luyouzhuanchangdonghuashili-jdhq1>
+- react-markdown
+  - 渲染 markdown 文档
+  - 文档：<https://github.com/remarkjs/react-markdown>
+- react-markdown-editor-lite
+  - markdown 文本编辑器
+  - 文档：<https://github.com/HarryChen0506/react-markdown-editor-lite/blob/master/README_CN.md>
 
 ## 组件（story）开发
 

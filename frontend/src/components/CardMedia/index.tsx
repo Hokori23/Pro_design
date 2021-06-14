@@ -31,6 +31,8 @@ interface CardMediaProps {
   innerClassName?: string
   component?: React.ElementType<any>
   image?: string
+  src?: string
+  alt?: string
   onError?: Function
   onLoad?: Function
   title?: string
@@ -40,6 +42,8 @@ export const CardMedia: FC<CardMediaProps> = ({
   innerClassName,
   component = 'img',
   image,
+  src,
+  alt,
   onError,
   onLoad,
   title,
@@ -61,11 +65,13 @@ export const CardMedia: FC<CardMediaProps> = ({
 
   return (
     <Fragment>
-      <div className={classnames(classes.className, className)}>
+      <section className={classnames(classes.className, className)}>
         {loading && <CircularLoading></CircularLoading>}
         {failed ? (
-          <div className={classnames(classes.failImgBox, 'flex flex-center')}>
-            <div className="flex flex-column flex-center">
+          <figure
+            className={classnames(classes.failImgBox, 'flex flex-center')}
+          >
+            <figcaption className="flex flex-column flex-center">
               <Typography
                 align="center"
                 color="primary"
@@ -75,8 +81,8 @@ export const CardMedia: FC<CardMediaProps> = ({
                 找不到图片...
               </Typography>
               <BrokenImageIcon color="action" fontSize="large" />
-            </div>
-          </div>
+            </figcaption>
+          </figure>
         ) : (
           <_CardMedia
             className={classnames(
@@ -85,13 +91,13 @@ export const CardMedia: FC<CardMediaProps> = ({
               loading ? 'hidden' : '',
             )}
             component={component}
-            image={image}
+            image={image || src}
             onError={handleOnError}
             onLoad={handleOnLoad}
-            title={title}
+            title={title || alt}
           />
         )}
-      </div>
+      </section>
       {/* <_CardMedia
         className={className}
         component={component}

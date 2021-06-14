@@ -12,7 +12,7 @@ import {
 import { Home as HomeIcon } from '@material-ui/icons'
 import { Option } from '@/utils/Request/Option'
 import { Link, LinkProps } from 'react-router-dom'
-import { PathName } from '@/routes'
+import { PathName, RouteName } from '@/routes'
 import { OverridableComponent } from '@material-ui/core/OverridableComponent'
 
 import { drawerWidth } from './useStyles'
@@ -38,7 +38,7 @@ const ListItemLink: FC<ListItemLinkProps> = ({ icon, primary, to }) => {
   )
 
   return (
-    <ListItem button component={renderLink}>
+    <ListItem button component={renderLink} selected={to === location.pathname}>
       {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
       <ListItemText primary={primary} />
     </ListItem>
@@ -63,9 +63,13 @@ export const DrawerList: FC<DrawerListProps> = ({
   )?.value
 
   const lists: ListItemLinkProps[] = [
-    { icon: (<HomeIcon />) as any, primary: blogName, to: PathName.HOME },
-    { primary: '文章', to: PathName.POST_OVERVIEW },
-    { primary: '说说', to: PathName.MOMENT_OVERVIEW },
+    {
+      icon: (<HomeIcon />) as any,
+      primary: blogName || '...',
+      to: PathName.HOME,
+    },
+    { primary: RouteName.POST, to: PathName.POST_OVERVIEW },
+    { primary: RouteName.MOMENT, to: PathName.MOMENT_OVERVIEW },
   ]
   return (
     <nav>

@@ -28,7 +28,7 @@ export const useStyles = makeStyles((theme) => ({
   content: {
     display: '-webkit-box',
     overflow: 'hidden',
-    'text-overflow': 'ellipsis',
+    textOverflow: 'ellipsis',
     '-webkit-box-orient': 'vertical',
     '-webkit-line-clamp': 5,
     padding: '0 32px',

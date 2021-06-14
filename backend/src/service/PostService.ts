@@ -6,7 +6,7 @@ import {
 import { Post } from 'models'
 import { Restful, isUndef, isDef } from 'utils'
 import { CodeDictionary } from '@const'
-import { PostType } from '@models/Post'
+import { PostType, PostTypeResponseCN } from '@models/Post'
 import database from '@database'
 import { broadcastMails, BroadcastMailsAttribute, template } from '@mailer'
 import { getBlogConfig } from '@mailer/template/utils'
@@ -80,7 +80,13 @@ const Create = async (post: Post, tids: number[]): Promise<Restful> => {
     // 提交事务
     await t.commit()
     await post.reload()
-    return new Restful(CodeDictionary.SUCCESS, '添加帖子成功', post.toJSON())
+    return new Restful(
+      CodeDictionary.SUCCESS,
+      `添加${
+        PostTypeResponseCN[PostType[post.type as PostType]] as string
+      }成功`,
+      post.toJSON(),
+    )
   } catch (e) {
     // 回退事务
     await t.rollback()
@@ -109,6 +115,7 @@ const Retrieve__ID = async (
       )
     }
     await post.increment('pageViews')
+    ;(post.pageViews as number)++
     return new Restful(CodeDictionary.SUCCESS, '查询成功', post.toJSON())
   } catch (e) {
     return new Restful(
@@ -145,7 +152,7 @@ const Retrieve__Page = async (
         showHidden,
         isASC === '1',
       ),
-      Action.Count__Page(postTypes, showDrafts),
+      Action.Count__Page(postTypes, showDrafts, showHidden),
     ])
     const result = {
       posts: values[0],
@@ -218,7 +225,7 @@ const Retrieve__Page_Tag = async (
 const Edit = async (post: any, tids: number[]): Promise<Restful> => {
   const t = await database.transaction()
   try {
-    const existedPost = await Action.Retrieve__ID(post.id as number)
+    const existedPost = await Action.Retrieve__ID(post.id as number, true, true)
     if (isUndef(existedPost)) {
       return new Restful(
         CodeDictionary.RETRIEVE_ERROR__POST_NON_EXISTED,

@@ -19,6 +19,9 @@ export const useStyles = makeStyles((theme) => ({
     padding: '0 0.5em',
     marginBottom: '0.5em',
     borderBottom: '1px solid #e7e7e7',
+    [theme.breakpoints.down('sm')]: {
+      padding: '0 0.5em 0 0',
+    },
   },
   actionsWrapper: {
     display: 'flex',
@@ -42,7 +45,7 @@ export const useStyles = makeStyles((theme) => ({
   content: {
     display: '-webkit-box',
     overflow: 'hidden',
-    'text-overflow': 'ellipsis',
+    textOverflow: 'ellipsis',
     '-webkit-box-orient': 'vertical',
     '-webkit-line-clamp': 5,
     [theme.breakpoints.up(700)]: {

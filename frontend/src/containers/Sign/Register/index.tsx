@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Link, Redirect, RouteComponentProps } from 'react-router-dom'
+import { Redirect, RouteComponentProps } from 'react-router-dom'
 import { useAliveController } from 'react-activation'
 import { PathName, RouteConfig } from '@/routes'
 import {
@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@material-ui/core'
 import { checkPassword, formValid } from '@/components/UserFormValid'
-import classNames from 'classnames'
+import classnames from 'classnames'
 import {
   EmailInput,
   EmailCaptcha,
@@ -23,6 +23,7 @@ import { AccountCircle, Person } from '@material-ui/icons'
 
 // hooks
 import useRegister from './useRegister'
+import InnerLink from '@/components/InnerLink'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -90,7 +91,7 @@ const Register: FC<RouteComponentProps & RouteConfig> = ({ location }) => {
     <Paper className={classes.form} elevation={1}>
       <form className="flex flex-column">
         <Typography
-          className={classNames('non-select', classes.formTitle)}
+          className={classnames('non-select', classes.formTitle)}
           color="primary"
           variant="h4"
         >
@@ -220,7 +221,7 @@ const Register: FC<RouteComponentProps & RouteConfig> = ({ location }) => {
           sendCaptcha={handleSendCaptcha}
         />
         <GenderSelect
-          className={classNames(classes.formItem, classes.genderRadio)}
+          className={classnames(classes.formItem, classes.genderRadio)}
           disabled={isRegistering}
           label="性别"
           onChange={(e) => setGender(Number(e.target.value))}
@@ -228,12 +229,16 @@ const Register: FC<RouteComponentProps & RouteConfig> = ({ location }) => {
         />
         {/* ACTION */}
         <div
-          className={classNames('flex', classes.action)}
+          className={classnames('flex', classes.action)}
           style={{ marginTop: '0.5rem' }}
         >
-          <Link replace style={{ marginBottom: '0.5rem' }} to={PathName.LOGIN}>
+          <InnerLink
+            replace
+            style={{ marginBottom: '0.5rem' }}
+            to={PathName.LOGIN}
+          >
             <Button variant="text">返回登陆</Button>
-          </Link>
+          </InnerLink>
           <div style={{ position: 'relative' }}>
             <Button
               color="primary"

@@ -67,9 +67,13 @@ body,
   color: inherit;
   cursor: pointer;
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
   &:-webkit-any-link {
     color: inherit;
     cursor: pointer;
+    text-decoration: none;
+  }
+  &.MuiLink-underlineHover:hover {
     text-decoration: none;
   }
   &:-webkit-any-link:active {
@@ -82,10 +86,24 @@ body,
 .spread-box {
   height: 100%;
   width: 100%;
+  &__x {
+    width: 100%;
+  }
+  &__y {
+    height: 100%;
+  }
 }
 .relative {
   position: relative;
 }
 .absolute {
   position: absolute;
+}
+.cursor-pointer {
+  cursor: pointer !important;
+}
+.disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
 }

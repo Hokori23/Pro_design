@@ -41,7 +41,7 @@ export default () => {
       password,
     })
     setIsLogining(false)
-    if (res?.data && res?.code === 0) {
+    if (res?.data) {
       dispatch.SET_USER_INFO(res.data)
       dispatch.SET_TOKEN(res.data.token)
       dispatch.LOGIN()

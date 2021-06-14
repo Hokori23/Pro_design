@@ -103,7 +103,7 @@ export default () => {
       email,
       captcha: emailCaptcha,
     })
-    if (res?.data && res?.code === 0) {
+    if (res?.data) {
       enqueueSnackbar(`${res.message}，请在登录页登录`, {
         variant: 'info',
       })

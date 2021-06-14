@@ -68,8 +68,8 @@ const devConfig = {
     secret: process.env.UPYUN_SECRET as string,
     bucket: process.env.UPYUN_BUCKET as string,
     domainName: process.env.UPYUN_DOMAINNAME as string,
-    imgPath: 'pro_design/image/',
-    videoPath: 'pro_design/video/',
+    imgPath: 'geekblog/image/',
+    videoPath: 'geekblog/video/',
   },
   // 邮箱设置
   emailConfig: {

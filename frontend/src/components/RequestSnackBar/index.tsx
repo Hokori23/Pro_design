@@ -1,28 +1,23 @@
+import { store } from '@/store'
 import {
-  IconButton,
   PropTypes,
   Snackbar,
   SnackbarCloseReason,
   SnackbarContentProps,
   SnackbarProps,
 } from '@material-ui/core'
-import { CloseIcon } from '@material-ui/data-grid'
-import React, { FC, Fragment, MouseEvent, SyntheticEvent } from 'react'
-import { store } from '@/store'
+import MuiAlert, { AlertProps, Color } from '@material-ui/lab/Alert'
+import React, { FC } from 'react'
+import { useSelector } from 'react-redux'
 
 export interface RequestSnackBarProps extends Partial<SnackbarProps> {
   message: SnackbarContentProps['message']
   color?: PropTypes.Color
   autoHideDuration?: number | null
   open?: boolean
-  onClose?:
-    | ((
-        event:
-          | MouseEvent<HTMLButtonElement, MouseEvent>
-          | SyntheticEvent<any, Event>,
-        reason?: SnackbarCloseReason,
-      ) => void)
-    | undefined
+  type?: Color
+  variant?: AlertProps['variant']
+  onClose?: (...params: any) => void
 }
 
 export const RequestSnackBar: FC<RequestSnackBarProps> = ({
@@ -30,42 +25,37 @@ export const RequestSnackBar: FC<RequestSnackBarProps> = ({
   color = 'primary',
   autoHideDuration = 3000,
   open = false,
+  type = 'success',
+  variant = 'filled',
   onClose,
 }) => {
-  const handlerClose = (
-    e: SyntheticEvent<any, Event>,
+  const dispatch = useSelector(() => store.dispatch.common)
+  const handleClose = (
+    event: React.SyntheticEvent<any, Event>,
     reason: SnackbarCloseReason,
   ) => {
-    store.dispatch.common.CLOSE_AXIOS_SNACK_BAR()
-    onClose?.(e, reason)
+    if (reason === 'clickaway') return
+    dispatch.CLOSE_AXIOS_SNACK_BAR()
+    onClose?.()
   }
-  const handlerClick = (e: MouseEvent<HTMLButtonElement>) => {
-    store.dispatch.common.CLOSE_AXIOS_SNACK_BAR()
-    onClose?.(e)
+  const handleAlertClose = () => {
+    dispatch.CLOSE_AXIOS_SNACK_BAR()
+    onClose?.()
   }
-
   return (
     <Snackbar
-      action={
-        <Fragment>
-          <IconButton
-            aria-label="close"
-            color={color}
-            onClick={handlerClick}
-            size="small"
-          >
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        </Fragment>
-      }
       anchorOrigin={{
         vertical: 'bottom',
         horizontal: 'left',
       }}
       autoHideDuration={autoHideDuration}
       message={message}
-      onClose={handlerClose}
+      onClose={handleClose}
       open={open}
-    />
+    >
+      <MuiAlert onClose={handleAlertClose} severity={type} variant={variant}>
+        {message}
+      </MuiAlert>
+    </Snackbar>
   )
 }

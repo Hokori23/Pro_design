@@ -9,7 +9,7 @@ npm i
 # 构建
 npm run build # 构建运行文件
 npm run build:force # 清空build文件夹并构建运行文件
-npm run build:sass w # 监听sass/scss文件改动并构建css文件
+npm run build:sass w # 监听sass/scss文件改动并构建css文件，用于邮件模板开发
 
 # 运行
 npm run dev # 开发模式运行

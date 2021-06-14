@@ -5,6 +5,7 @@ import PostTagService from './PostTagService'
 import MailCaptchaService from './MailCaptchaService'
 import OptionService from './OptionService'
 import MailService from './MailService'
+import UploadService from './UploadService'
 
 export {
   UserService,
@@ -14,4 +15,5 @@ export {
   MailCaptchaService,
   OptionService,
   MailService,
+  UploadService,
 }

@@ -1,8 +1,5 @@
-enum CodeDictionary {
+export enum CodeDictionary {
   SUCCESS = 0,
-  REGISTER_ERROR__USER_EXISTED = 1,
-  LOGIN_ERROR = 2,
-  RETRIEVE_ERROR__USER_NON_EXISTED = 3,
   PARAMS_ERROR = 98,
   COMMON_ERROR = 99,
   JWT_ERROR__REQUIRED = 100,
@@ -17,4 +14,8 @@ export interface _Restful {
 
 export interface Restful<T> extends _Restful {
   data?: T
+}
+
+export interface UploadRestful extends _Restful {
+  url: string
 }

@@ -11,6 +11,7 @@ import Omit from 'omit.js'
 import { Group } from '@models/User'
 import sequelize from '@database'
 import moment from 'moment'
+import { _Create } from '@action/UserAction'
 
 enum CheckCaptchaResult {
   SUCCESS = 0,
@@ -45,6 +46,7 @@ const checkCaptcha = (
  * @param { User } user
  */
 const Init = async (user: User): Promise<Restful> => {
+  const t = await sequelize.transaction()
   try {
     const existedUser = await Action.Retrieve__All__Safely()
     if (existedUser.length) {
@@ -60,13 +62,19 @@ const Init = async (user: User): Promise<Restful> => {
     user.id = null
     // 强制超级管理员
     user.group = Group.SUPER_ADMIN
-    const registeredUser = await Action.Create(user)
+    const registeredUser = await Action.Create(user, t)
+    await Promise.all([
+      MailAction.Create(Mail.build({ uid: registeredUser.id }), t),
+      _Create(t),
+    ])
+    await t.commit()
     return new Restful(
       CodeDictionary.SUCCESS,
       '注册成功',
       Omit(registeredUser.toJSON() as any, ['password']),
     )
   } catch (e) {
+    await t.rollback()
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `注册失败, ${String(e.message)}`,

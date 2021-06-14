@@ -2,8 +2,10 @@ import { createModel } from '@rematch/core'
 import { RequestSnackBarProps } from './components/RequestSnackBar'
 import { RootModel } from './models'
 import { ACCESS_TOKEN_NAME, USER_INFO_NAME, BLOG_CONFIG } from './utils/const'
+import Request from './utils/Request'
 import { Option } from './utils/Request/Option'
 import { User } from './utils/Request/User'
+import { computeDOMHeight } from './utils/tools'
 
 export interface CommonState {
   userInfo: Partial<User>
@@ -12,20 +14,25 @@ export interface CommonState {
   isLogin: boolean
   appBarTitle: string
   blogConfig: Option[]
+  mainHeight: string
 }
 
+const defaultAxiosSnackBar: RequestSnackBarProps = {
+  color: 'primary',
+  message: '',
+  open: false,
+  autoHideDuration: 3000,
+  type: 'info',
+  variant: 'filled',
+}
 export const defaultCommonState: CommonState = {
   userInfo: {},
-  axiosSnackBar: {
-    color: 'primary',
-    message: '',
-    open: false,
-    autoHideDuration: 3000,
-  },
+  axiosSnackBar: { ...defaultAxiosSnackBar },
   token: '',
   isLogin: false,
   appBarTitle: '',
   blogConfig: [],
+  mainHeight: '0px',
 }
 export const common = createModel<RootModel>()({
   state: defaultCommonState,
@@ -34,7 +41,14 @@ export const common = createModel<RootModel>()({
       state: CommonState,
       newAxiosSnackBar: RequestSnackBarProps,
     ) => {
-      state.axiosSnackBar = newAxiosSnackBar
+      const clonedNewAxiosSnackBar = {
+        ...defaultAxiosSnackBar,
+        ...newAxiosSnackBar,
+      }
+      if (!newAxiosSnackBar.onClick) {
+        clonedNewAxiosSnackBar.onClick = undefined
+      }
+      state.axiosSnackBar = clonedNewAxiosSnackBar
       return state
     },
     CLOSE_AXIOS_SNACK_BAR: (state: CommonState) => {
@@ -72,5 +86,27 @@ export const common = createModel<RootModel>()({
       localStorage.setItem(BLOG_CONFIG, JSON.stringify(newBlogConfig))
       return state
     },
+    SET_MAIN_HEIGHT: (state: CommonState, newHeight?: string) => {
+      if (!newHeight) {
+        newHeight = `${
+          window.innerHeight - (computeDOMHeight('#App-Bar', true) as number)
+        }px`
+      }
+      state.mainHeight = newHeight
+      return state
+    },
+  },
+  effects: (dispatch) => {
+    const { common } = dispatch
+    return {
+      async checkLogin(payload, state) {
+        if (state.common.isLogin) {
+          const res = await Request.User.Check()
+          if (res?.code !== 0) {
+            common.LOGOUT()
+          }
+        }
+      },
+    }
   },
 })

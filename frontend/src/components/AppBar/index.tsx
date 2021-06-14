@@ -8,6 +8,7 @@ import {
   useScrollTrigger,
   Slide,
   SlideProps,
+  AppBarProps as _AppBarProps,
 } from '@material-ui/core'
 import { Menu as MenuIcon } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
@@ -42,14 +43,16 @@ export interface AppBarProps {
   className?: string
   onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
   suffix?: JSX.Element
+  color?: _AppBarProps['color']
 }
 export const AppBar: FC<AppBarProps> = (props) => {
-  const { id, title, onClick, className, suffix } = props
+  const { id, title, onClick, className, suffix, color } = props
   const classes = useStyles()
   const ref = createRef()
+
   return (
     <HideOnScroll ref={ref}>
-      <_AppBar className={className} position="sticky">
+      <_AppBar className={className} color={color} position="sticky">
         <Toolbar id={id} variant="dense">
           <IconButton
             aria-label="menu"

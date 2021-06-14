@@ -5,20 +5,20 @@ import { PostWithAuthor } from '@/utils/Request/Post'
 export interface PostDetailState {
   loadingPost: boolean
   loadingComment: boolean
-  post: PostWithAuthor
+  post: PostWithAuthor | null
 }
 
 export const defaultPostDetailState: PostDetailState = {
   loadingPost: true,
   loadingComment: false,
-  post: (null as any) as PostWithAuthor,
+  post: null,
 }
 
 export const postDetail = createModel<RootModel>()({
   state: defaultPostDetailState,
   reducers: {
     // 直接修改 state
-    SET_POST: (state: PostDetailState, newPost: PostWithAuthor) => {
+    SET_POST: (state: PostDetailState, newPost: PostWithAuthor | null) => {
       state.post = newPost
       return state
     },
@@ -26,7 +26,7 @@ export const postDetail = createModel<RootModel>()({
       state.loadingPost = newLoading
       return state
     },
-    SET_LOADING_Comment: (state: PostDetailState, newLoading: boolean) => {
+    SET_LOADING_COMMENT: (state: PostDetailState, newLoading: boolean) => {
       state.loadingComment = newLoading
       return state
     },
@@ -35,13 +35,16 @@ export const postDetail = createModel<RootModel>()({
     const { postDetail } = dispatch
     return {
       // 异步请求 demo
-      async RetrievePost(id: string): Promise<void> {
+      async RetrievePost(id: string): Promise<PostWithAuthor | undefined> {
         postDetail.SET_LOADING_POST(true)
         const res = await Request.Post.Retrieve(Number(id))
-        if (res?.data && res?.code === 0) {
+        if (res?.data) {
           postDetail.SET_POST(res.data)
+        } else {
+          postDetail.SET_POST(null)
         }
         postDetail.SET_LOADING_POST(false)
+        return res?.data
       },
     }
   },

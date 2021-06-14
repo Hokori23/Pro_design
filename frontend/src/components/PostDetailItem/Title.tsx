@@ -1,10 +1,15 @@
 import React, { FC } from 'react'
 import { PostWithAuthor } from '@/utils/Request/Post'
 import { makeStyles } from '@material-ui/core/styles'
-import { Link, Typography } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 import classnames from 'classnames'
 import moment from 'moment'
+import { PathName } from '@/routes'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
+import { Group } from '@/utils/Request/User'
 
+import InnerLink from '@/components/InnerLink'
 const useStyles = makeStyles((theme) => ({
   titleWrapper: {
     position: 'relative',
@@ -49,6 +54,13 @@ const useStyles = makeStyles((theme) => ({
   titleText: {
     wordBreak: 'break-word',
   },
+  link: {
+    fontWeight: 600,
+    letterSpacing: 1,
+  },
+  linkWithCover: {
+    color: theme.palette.background.paper,
+  },
 }))
 
 interface TitleProps {
@@ -56,7 +68,9 @@ interface TitleProps {
 }
 export const Title: FC<TitleProps> = ({ post }) => {
   const classes = useStyles()
-  const { title, coverUrl, pageViews, postComments, createdAt } = post
+  const state = useSelector((state: RootState) => state.common)
+
+  const { title, coverUrl, author, pageViews, postComments, createdAt } = post
   return (
     <header className={classes.titleWrapper}>
       {coverUrl && (
@@ -83,12 +97,21 @@ export const Title: FC<TitleProps> = ({ post }) => {
         >
           {title}
         </Typography>
-        <Typography align="center" component="p">
+        <Typography
+          align="center"
+          component="p"
+          gutterBottom={(state.userInfo.group || 0) > Group.SUBSCRIBER}
+        >
           <Typography component="span" variant="caption">
-            {/* TODO: 跳转到用户主页 */}
-            <Link color="inherit" href="#">
+            <InnerLink
+              className={classnames(
+                classes.link,
+                coverUrl ? classes.linkWithCover : '',
+              )}
+              to={`${PathName._USER_DETAIL}/${String(author.id)}`}
+            >
               {post.author.userName}
-            </Link>
+            </InnerLink>
           </Typography>
           &nbsp;&nbsp;•&nbsp;&nbsp;
           <Typography component="span" variant="caption">
@@ -100,9 +123,22 @@ export const Title: FC<TitleProps> = ({ post }) => {
           </Typography>
           &nbsp;&nbsp;•&nbsp;&nbsp;
           <Typography component="span" variant="caption">
-            发布时间: {moment(createdAt).format('ll')}
+            发布时间: {moment(createdAt).calendar()}
           </Typography>
         </Typography>
+        {(state.userInfo.group || 0) > Group.SUBSCRIBER && (
+          <Typography component="span" variant="caption">
+            <InnerLink
+              className={classnames(
+                classes.link,
+                coverUrl ? classes.linkWithCover : '',
+              )}
+              to={`${PathName._POST_DETAIL_ADMIN}/${String(post.id)}`}
+            >
+              编辑
+            </InnerLink>
+          </Typography>
+        )}
       </figure>
     </header>
   )
