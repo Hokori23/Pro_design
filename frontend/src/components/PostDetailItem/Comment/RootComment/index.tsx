@@ -9,10 +9,12 @@ import { red } from '@material-ui/core/colors'
 import { FormattedPostComment } from '@/utils/Request/PostComment'
 import { ChildComments } from '../ChildComment'
 import { ReplyComment } from '../ReplyComment'
+import classnames from 'classnames'
 
 // hooks
 import useRootComment from './useRootComment'
 import useStyles from './useStyles'
+import { SimpleConfirmDialog } from '@/components/SimpleConfirmDialog'
 
 interface RootCommentProps {
   comment: FormattedPostComment
@@ -28,13 +30,25 @@ export const RootComment: FC<RootCommentProps> = ({
     disliked,
     displayReplyBox,
     replyParent,
+    deleteDialog,
+    deleting,
+    isAdmin,
+    handleDialogClose,
+    handleDeleteComment,
+    setDeleteDialog,
     setDisplayReplyBox,
     Like,
     Dislike,
     handleDisplayReplyBox,
   } = useRootComment(comment)
   return (
-    <section className={classes.rootComment}>
+    <section
+      className={classnames(
+        classes.rootComment,
+        deleteDialog ? classes.rootCommentSelected : '',
+        deleteDialog ? 'disabled' : '',
+      )}
+    >
       {/* AVATAR */}
       <IconButton className={classes.rootCommentAvatar} color="primary">
         <Avatar
@@ -98,7 +112,7 @@ export const RootComment: FC<RootCommentProps> = ({
               </div>
               <div className={classes.rootCommentActionItem}>
                 <Button
-                  className={classes.replyButton}
+                  className={classes.button}
                   color="primary"
                   onClick={() => {
                     handleDisplayReplyBox()
@@ -108,6 +122,18 @@ export const RootComment: FC<RootCommentProps> = ({
                 >
                   回复
                 </Button>
+                {isAdmin && (
+                  <Button
+                    className={classnames(classes.button, classes.deleteButton)}
+                    onClick={() => {
+                      setDeleteDialog(true)
+                    }}
+                    size="small"
+                    variant="text"
+                  >
+                    删除
+                  </Button>
+                )}
               </div>
             </Typography>
           )}
@@ -129,6 +155,21 @@ export const RootComment: FC<RootCommentProps> = ({
             parent={replyParent}
             root={comment}
             setDisplayReplyBox={setDisplayReplyBox}
+          />
+        )}
+
+        {/* DeleteDialog */}
+        {isAdmin && (
+          <SimpleConfirmDialog
+            content="确定要删除此评论？"
+            handleClose={handleDialogClose}
+            isMobileSize={isMobileSize}
+            loading={deleting}
+            onBackdropClick={handleDialogClose}
+            onClose={handleDialogClose}
+            onConfirm={handleDeleteComment}
+            open={deleteDialog}
+            title="提示"
           />
         )}
       </div>

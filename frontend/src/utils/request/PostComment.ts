@@ -48,7 +48,7 @@ export const Retrieve__PID = async (pid: number) => {
 }
 
 export const Delete = async (id: number) => {
-  return await Request<Restful<PostComment>>({
+  return await Request<_Restful>({
     method: 'POST',
     data: { id },
     url: `${baseUrl}/delete-admin`,

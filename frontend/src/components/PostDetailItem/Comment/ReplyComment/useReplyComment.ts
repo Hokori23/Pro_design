@@ -14,6 +14,8 @@ export default (
 ) => {
   const state = useSelector((state: RootState) => state.common)
   const dispatch = useSelector(() => store.dispatch.postDetail)
+  const commonDispatch = useSelector(() => store.dispatch.common)
+
   const Retrieve = dispatch.RetrievePost
   const { isLogin, userInfo } = state
   const [isLoading, setIsLoading] = useState(false)
@@ -26,17 +28,6 @@ export default (
   const [commentError, setCommentError] = useState({ text: '', error: false })
   const [urlError, setUrlError] = useState({ text: '', error: false })
   const userAgent = window.navigator.userAgent
-  const [submitSnackBar, setSubmitSnackBar] = useState({
-    open: false,
-    message: '发表评论成功',
-    autoHideDuration: 2000,
-  })
-  const onSubmitSnackBarClose = () => {
-    setSubmitSnackBar({
-      ...submitSnackBar,
-      open: false,
-    })
-  }
 
   const onSubmit = async () => {
     const validProps: FormValidProps = {
@@ -73,8 +64,9 @@ export default (
       const res = await Request.PostComment.Create(payload)
       if (res?.data) {
         await Retrieve(String(postId))
-        setSubmitSnackBar({
-          ...submitSnackBar,
+        commonDispatch.SET_AXIOS_SNACK_BAR({
+          autoHideDuration: 3000,
+          message: res.message,
           open: true,
         })
         setComment('')
@@ -105,7 +97,5 @@ export default (
     urlError,
     setUrlError,
     onSubmit,
-    submitSnackBar,
-    onSubmitSnackBarClose,
   }
 }

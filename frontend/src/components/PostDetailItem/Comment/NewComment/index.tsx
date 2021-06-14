@@ -1,8 +1,7 @@
 import React, { FC, Fragment } from 'react'
-import { Typography, Link, Snackbar, Avatar } from '@material-ui/core'
+import { Typography, Link, Avatar } from '@material-ui/core'
 import { formValid } from '@/components/UserFormValid'
 import { Link as RouterLink } from 'react-router-dom'
-import MuiAlert from '@material-ui/lab/Alert'
 import { RootState, store } from '@/store'
 import classnames from 'classnames'
 import { PathName } from '@/routes'
@@ -40,8 +39,6 @@ export const NewComment: FC = () => {
     urlError,
     setUrlError,
     onSubmit,
-    submitSnackBar,
-    onSubmitSnackBarClose,
   } = useNewComment(post, Retrieve)
   // 已登录：直接填comment
   // 未登录：uid = -1、comment、email
@@ -171,18 +168,6 @@ export const NewComment: FC = () => {
           required
         />
       </form>
-
-      <Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        autoHideDuration={submitSnackBar.autoHideDuration}
-        key={submitSnackBar.message}
-        onClose={onSubmitSnackBarClose}
-        open={submitSnackBar.open}
-      >
-        <MuiAlert onClose={onSubmitSnackBarClose} severity="success">
-          {submitSnackBar.message}
-        </MuiAlert>
-      </Snackbar>
     </section>
   )
 }

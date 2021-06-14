@@ -3,10 +3,14 @@ import { makeStyles } from '@material-ui/core'
 export default makeStyles((theme) => ({
   childComment: {
     display: 'flex',
-    paddingBottom: 10,
+    paddingLeft: 10,
+    marginBottom: 10,
     '&:first-child': {
       paddingTop: 10,
     },
+  },
+  childCommentSelected: {
+    backgroundColor: theme.palette.error.light,
   },
   childCommentBox: {
     display: 'flex',
@@ -57,11 +61,14 @@ export default makeStyles((theme) => ({
   Icon: {
     fontSize: 18,
   },
-  replyButton: {
+  button: {
     marginLeft: 5,
     minWidth: 40,
     [theme.breakpoints.up(700)]: {
       minWidth: 50,
     },
+  },
+  deleteButton: {
+    color: theme.palette.error.main,
   },
 }))

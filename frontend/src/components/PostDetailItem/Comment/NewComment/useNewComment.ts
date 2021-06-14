@@ -9,6 +9,8 @@ import { scrollTo } from '@/utils/tools'
 export default (post: Post | null, Retrieve: Function) => {
   const commonState = useSelector((state: RootState) => state.common)
   const dispatch = useSelector(() => store.dispatch.postDetail)
+  const commonDispatch = useSelector(() => store.dispatch.common)
+
   const { isLogin, userInfo } = commonState
   const [isLoading, setIsLoading] = useState(false)
   const [comment, setComment] = useState('')
@@ -18,19 +20,8 @@ export default (post: Post | null, Retrieve: Function) => {
   const [commentError, setCommentError] = useState({ text: '', error: false })
   const [urlError, setUrlError] = useState({ text: '', error: false })
   const userAgent = window.navigator.userAgent
-  const [submitSnackBar, setSubmitSnackBar] = useState({
-    open: false,
-    message: '发表评论成功',
-    autoHideDuration: 2000,
-  })
   const pid = post?.id
   const uid = isLogin ? (userInfo.id as number | undefined) : -1
-  const onSubmitSnackBarClose = () => {
-    setSubmitSnackBar({
-      ...submitSnackBar,
-      open: false,
-    })
-  }
 
   const onSubmit = async () => {
     const validProps: FormValidProps = {
@@ -62,8 +53,9 @@ export default (post: Post | null, Retrieve: Function) => {
       })
       if (res?.data) {
         await Retrieve(String(post?.id as number))
-        setSubmitSnackBar({
-          ...submitSnackBar,
+        commonDispatch.SET_AXIOS_SNACK_BAR({
+          autoHideDuration: 3000,
+          message: res.message,
           open: true,
         })
         scrollTo('#post-detail-footer', 'end')
@@ -90,7 +82,5 @@ export default (post: Post | null, Retrieve: Function) => {
     urlError,
     setUrlError,
     onSubmit,
-    submitSnackBar,
-    onSubmitSnackBarClose,
   }
 }

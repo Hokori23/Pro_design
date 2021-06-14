@@ -1,10 +1,9 @@
 import React, { FC, Fragment } from 'react'
-import { Typography, Link, Snackbar, IconButton } from '@material-ui/core'
+import { Typography, Link, IconButton } from '@material-ui/core'
 import { RootState } from '@/store'
 import { FormattedPostComment } from '@/utils/Request/PostComment'
 import { formValid } from '@/components/UserFormValid'
 import { Link as RouterLink } from 'react-router-dom'
-import MuiAlert from '@material-ui/lab/Alert'
 import CloseIcon from '@material-ui/icons/Close'
 import classnames from 'classnames'
 import { useSelector } from 'react-redux'
@@ -48,8 +47,6 @@ export const ReplyComment: FC<ReplyCommentProps> = ({
     urlError,
     setUrlError,
     onSubmit,
-    submitSnackBar,
-    onSubmitSnackBarClose,
   } = useReplyComment(id, state.post?.id as number, root, parent)
   return (
     <section className={classes.commentBox} id={id}>
@@ -176,18 +173,6 @@ export const ReplyComment: FC<ReplyCommentProps> = ({
           required
         />
       </form>
-
-      <Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        autoHideDuration={submitSnackBar.autoHideDuration}
-        key={submitSnackBar.message}
-        onClose={onSubmitSnackBarClose}
-        open={submitSnackBar.open}
-      >
-        <MuiAlert onClose={onSubmitSnackBarClose} severity="success">
-          {submitSnackBar.message}
-        </MuiAlert>
-      </Snackbar>
     </section>
   )
 }

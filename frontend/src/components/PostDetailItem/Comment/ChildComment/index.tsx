@@ -12,6 +12,7 @@ import { red } from '@material-ui/core/colors'
 // hooks
 import useStyles from './useStyles'
 import useChildComment from './useChildComment'
+import { SimpleConfirmDialog } from '@/components/SimpleConfirmDialog'
 
 interface ChildCommentsProps {
   rootComment: FormattedPostComment
@@ -24,7 +25,19 @@ export const ChildComments: FC<ChildCommentsProps> = ({
   handleDisplayReplyBox,
 }) => {
   const classes = useStyles()
-  const { childComments, Like, Dislike } = useChildComment(rootComment)
+  const {
+    childComments,
+    deleteDialog,
+    deleteComment,
+    deleting,
+    isAdmin,
+    handleDialogClose,
+    handleDialogOpen,
+    handleDeleteComment,
+    Like,
+    Dislike,
+  } = useChildComment(rootComment)
+
   return (
     <section>
       {childComments?.map((comment, idx) => {
@@ -40,8 +53,16 @@ export const ChildComments: FC<ChildCommentsProps> = ({
           disliked,
           createdAt,
         } = comment
+        const isSelected = deleteDialog && deleteComment.id === id
         return (
-          <div className={classes.childComment} key={id}>
+          <div
+            className={classnames(
+              classes.childComment,
+              isSelected ? classes.childCommentSelected : '',
+              isSelected ? 'disabled' : '',
+            )}
+            key={id}
+          >
             <IconButton className={classes.childCommentAvatar} color="primary">
               <Avatar alt={author?.userName || email} src={author?.avatarUrl} />
             </IconButton>
@@ -131,7 +152,7 @@ export const ChildComments: FC<ChildCommentsProps> = ({
                   </Typography>
                 )}
                 <Button
-                  className={classes.replyButton}
+                  className={classes.button}
                   color="primary"
                   onClick={() => {
                     handleDisplayReplyBox(comment)
@@ -141,11 +162,37 @@ export const ChildComments: FC<ChildCommentsProps> = ({
                 >
                   回复
                 </Button>
+                {isAdmin && (
+                  <Button
+                    className={classnames(classes.button, classes.deleteButton)}
+                    onClick={() => {
+                      handleDialogOpen(comment)
+                    }}
+                    size="small"
+                    variant="text"
+                  >
+                    删除
+                  </Button>
+                )}
               </footer>
             </div>
           </div>
         )
       })}
+      {/* DeleteDialog */}
+      {isAdmin && (
+        <SimpleConfirmDialog
+          content="确定要删除此评论？"
+          handleClose={handleDialogClose}
+          isMobileSize={isMobileSize}
+          loading={deleting}
+          onBackdropClick={handleDialogClose}
+          onClose={handleDialogClose}
+          onConfirm={handleDeleteComment}
+          open={deleteDialog}
+          title="提示"
+        />
+      )}
     </section>
   )
 }

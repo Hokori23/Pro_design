@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@material-ui/core'
 import React, { FC } from 'react'
+import { CircularLoading } from '../CircularLoading'
 
 interface SimpleConfirmDialogProps {
   open: boolean
@@ -15,6 +16,7 @@ interface SimpleConfirmDialogProps {
   content?: string
   contentNode?: JSX.Element
   isMobileSize?: boolean
+  loading?: boolean
   handleClose: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
   onClose?: (event?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => void
   onConfirm?: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
@@ -27,6 +29,7 @@ export const SimpleConfirmDialog: FC<SimpleConfirmDialogProps> = ({
   content,
   contentNode: ContentNode,
   isMobileSize,
+  loading,
   handleClose,
   onClose,
   onConfirm,
@@ -52,20 +55,25 @@ export const SimpleConfirmDialog: FC<SimpleConfirmDialogProps> = ({
       <DialogActions>
         <Button
           color="primary"
+          disabled={loading}
           onClick={handleClose}
           size={isMobileSize ? 'small' : 'medium'}
         >
           取消
         </Button>
-        <Button
-          autoFocus
-          color="primary"
-          onClick={onConfirm}
-          size={isMobileSize ? 'small' : 'medium'}
-          variant="outlined"
-        >
-          确定
-        </Button>
+        <div className="relative">
+          <Button
+            autoFocus
+            color="primary"
+            disabled={loading}
+            onClick={onConfirm}
+            size={isMobileSize ? 'small' : 'medium'}
+            variant="outlined"
+          >
+            确定
+          </Button>
+          {loading && <CircularLoading size={20} />}
+        </div>
       </DialogActions>
     </Dialog>
   )

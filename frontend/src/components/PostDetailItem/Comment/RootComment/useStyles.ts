@@ -4,8 +4,10 @@ export default makeStyles((theme) => ({
   rootComment: {
     display: 'flex',
     borderBottom: '1px solid #e7e7e7',
-    padding: '0 1rem',
-    marginBottom: '1rem',
+    padding: '1rem',
+  },
+  rootCommentSelected: {
+    backgroundColor: theme.palette.error.light,
   },
   rootCommentAvatar: {
     '& .MuiAvatar-root': {
@@ -48,11 +50,14 @@ export default makeStyles((theme) => ({
   Icon: {
     fontSize: 20,
   },
-  replyButton: {
+  button: {
     marginLeft: 5,
     minWidth: 40,
     [theme.breakpoints.up(700)]: {
       minWidth: 50,
     },
+  },
+  deleteButton: {
+    color: theme.palette.error.main,
   },
 }))
