@@ -102,7 +102,8 @@ export const momentDetailAdmin = createModel<RootModel>()({
         momentDetailAdmin.SET_DELETING_MOMENT(false)
         if (res) {
           dispatch.common.SET_AXIOS_SNACK_BAR({
-            message: res?.message,
+            message: res.message,
+            type: res.code === 0 ? 'info' : 'error',
             open: true,
           })
         }
@@ -117,7 +118,8 @@ export const momentDetailAdmin = createModel<RootModel>()({
         momentDetailAdmin.SET_BACKDROP_LOADING(false)
         if (res) {
           dispatch.common.SET_AXIOS_SNACK_BAR({
-            message: res?.message,
+            message: res.message,
+            type: res.code === 0 ? 'info' : 'error',
             open: true,
           })
           res?.data && momentDetailAdmin.SET_MOMENT(res?.data)
@@ -132,7 +134,8 @@ export const momentDetailAdmin = createModel<RootModel>()({
         momentDetailAdmin.SET_BACKDROP_LOADING(false)
         if (res) {
           dispatch.common.SET_AXIOS_SNACK_BAR({
-            message: res?.message,
+            message: res.message,
+            type: res.code === 0 ? 'info' : 'error',
             open: true,
           })
           res?.data && momentDetailAdmin.SET_MOMENT(res?.data)

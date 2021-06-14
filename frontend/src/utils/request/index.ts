@@ -29,19 +29,19 @@ export const Request = async <T>(config: AxiosRequestConfig) => {
     })
     if (res.status !== 200) {
       dispatch.common.SET_AXIOS_SNACK_BAR({
-        color: 'primary',
         open: true,
         message: `请求失败，状态码：${String(res.status)}`,
         autoHideDuration: 3000,
+        type: 'error',
       })
     } else if (
       (isWhiteUrlFlag && res.data.code !== 200) ||
       (!isWhiteUrlFlag && res.data.code !== 0) // TODO: code非零都弹提示框？
     ) {
       dispatch.common.SET_AXIOS_SNACK_BAR({
-        color: 'primary',
         open: true,
         message: res.data.message,
+        type: 'warning',
         autoHideDuration: 5000,
       })
     }
@@ -53,25 +53,25 @@ export const Request = async <T>(config: AxiosRequestConfig) => {
     console.error('网络错误', err)
     if (err?.response?.status === 401 && !isWhiteUrlFlag) {
       dispatch.common.SET_AXIOS_SNACK_BAR({
-        color: 'primary',
         open: true,
         message: '登陆失效，请重新登陆',
         autoHideDuration: 6000,
+        type: 'error',
       })
       dispatch.common.LOGOUT()
     } else if (err?.response?.status === 403) {
       dispatch.common.SET_AXIOS_SNACK_BAR({
-        color: 'primary',
         open: true,
         message: '无权进行此操作',
         autoHideDuration: 6000,
+        type: 'error',
       })
     } else {
       dispatch.common.SET_AXIOS_SNACK_BAR({
-        color: 'primary',
         open: true,
         message: err?.response?.data || String(err),
         autoHideDuration: 5000,
+        type: 'error',
       })
     }
   }

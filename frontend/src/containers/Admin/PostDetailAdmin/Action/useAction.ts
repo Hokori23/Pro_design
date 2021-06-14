@@ -37,6 +37,7 @@ export default () => {
     if (size > 1024 * 1024) {
       commonDispatch.SET_AXIOS_SNACK_BAR({
         message: '请选择小于1MB的图片',
+        type: 'warning',
         open: true,
       })
       return
@@ -52,6 +53,7 @@ export default () => {
     if (!uploadRes || uploadRes.code !== 200) {
       commonDispatch.SET_AXIOS_SNACK_BAR({
         message: '上传文章主图失败',
+        type: 'error',
         open: true,
       })
     } else {

@@ -124,6 +124,7 @@ export const postDetailAdmin = createModel<RootModel>()({
         if (res) {
           dispatch.common.SET_AXIOS_SNACK_BAR({
             message: res?.message,
+            type: res.code === 0 ? 'info' : 'error',
             open: true,
           })
         }
@@ -153,6 +154,7 @@ export const postDetailAdmin = createModel<RootModel>()({
         if (res) {
           dispatch.common.SET_AXIOS_SNACK_BAR({
             message: res?.message,
+            type: res.code === 0 ? 'info' : 'error',
             open: true,
           })
           res?.data && postDetailAdmin.SET_POST(res?.data)
@@ -174,6 +176,7 @@ export const postDetailAdmin = createModel<RootModel>()({
         if (res) {
           dispatch.common.SET_AXIOS_SNACK_BAR({
             message: res?.message,
+            type: res.code === 0 ? 'info' : 'error',
             open: true,
           })
           res?.data && postDetailAdmin.SET_POST(res?.data)

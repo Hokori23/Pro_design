@@ -41,6 +41,7 @@ export default () => {
     if (size > 1024 * 1024) {
       dispatch.SET_AXIOS_SNACK_BAR({
         message: '请选择小于1MB的图片',
+        type: 'warning',
         open: true,
       })
       return
@@ -56,6 +57,7 @@ export default () => {
       setAvatarLoading(false)
       dispatch.SET_AXIOS_SNACK_BAR({
         message: '上传头像失败',
+        type: 'error',
         open: true,
       })
       return
@@ -69,6 +71,7 @@ export default () => {
     if (!editUserRes) {
       dispatch.SET_AXIOS_SNACK_BAR({
         message: '上传头像失败',
+        type: 'error',
         open: true,
       })
     }
@@ -99,12 +102,7 @@ export default () => {
     setUserLoading(true)
     const res = await User.Edit(newUser)
     setUserLoading(false)
-    if (!res) {
-      dispatch.SET_AXIOS_SNACK_BAR({
-        message: '修改用户信息失败',
-        open: true,
-      })
-    } else {
+    if (res) {
       setClonedUserInfo(res)
       handleEditDialogClose()
     }

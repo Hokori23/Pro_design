@@ -16,14 +16,17 @@ export interface CommonState {
   mainHeight: string
 }
 
+const defaultAxiosSnackBar: RequestSnackBarProps = {
+  color: 'primary',
+  message: '',
+  open: false,
+  autoHideDuration: 3000,
+  type: 'info',
+  variant: 'filled',
+}
 export const defaultCommonState: CommonState = {
   userInfo: {},
-  axiosSnackBar: {
-    color: 'primary',
-    message: '',
-    open: false,
-    autoHideDuration: 3000,
-  },
+  axiosSnackBar: { ...defaultAxiosSnackBar },
   token: '',
   isLogin: false,
   appBarTitle: '',
@@ -37,7 +40,14 @@ export const common = createModel<RootModel>()({
       state: CommonState,
       newAxiosSnackBar: RequestSnackBarProps,
     ) => {
-      state.axiosSnackBar = newAxiosSnackBar
+      const clonedNewAxiosSnackBar = {
+        ...defaultAxiosSnackBar,
+        ...newAxiosSnackBar,
+      }
+      if (!newAxiosSnackBar.onClick) {
+        clonedNewAxiosSnackBar.onClick = undefined
+      }
+      state.axiosSnackBar = clonedNewAxiosSnackBar
       return state
     },
     CLOSE_AXIOS_SNACK_BAR: (state: CommonState) => {
