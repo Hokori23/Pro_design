@@ -20,7 +20,7 @@ export default (
   const { isLogin, userInfo } = state
   const [isLoading, setIsLoading] = useState(false)
   const pid = postId
-  const uid = isLogin ? (userInfo.id as number | undefined) : -1
+  const uid = isLogin ? (userInfo.id as number | undefined) : 0
   const [comment, setComment] = useState('')
   const [email, setEmail] = useState(isLogin ? userInfo.email : '')
   const [url, setUrl] = useState(isLogin ? userInfo.url : '')
@@ -58,9 +58,7 @@ export default (
         url,
         userAgent,
       }
-      if (parent) {
-        payload.parentId = parent.id
-      }
+      payload.parentId = parent ? parent.id : root.id
       const res = await Request.PostComment.Create(payload)
       if (res?.data) {
         await Retrieve(String(postId))

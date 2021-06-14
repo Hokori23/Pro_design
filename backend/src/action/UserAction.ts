@@ -1,6 +1,25 @@
 import { Group } from '@models/User'
+import { md5Crypto } from '@utils'
 import { Mail, User } from 'models'
 import { Transaction } from 'sequelize/types'
+
+/**
+ * 添加游客用户
+ * @param { User } user
+ * @param { Transaction } t?
+ */
+export const _Create = async (t?: Transaction) => {
+  const _user: User = User.build({
+    id: 0,
+    userAccount: 'visitor',
+    userName: 'visitor',
+    password: md5Crypto('visitor'),
+    email: 'visitor@example.com',
+  })
+  return await User.create(_user.toJSON(), {
+    transaction: t,
+  })
+}
 
 /**
  * 添加用户

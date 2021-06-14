@@ -48,17 +48,16 @@ Post.hasMany(PostComment, {
  * PostComment : User
  * N : 1
  */
-// TODO: uid === -1导致无法建立外键，需在Service中手动删除
-// PostComment.belongsTo(User, {
-//   as: 'author',
-//   targetKey: 'id',
-//   foreignKey: 'uid',
-// })
-// User.hasMany(PostComment, {
-//   as: 'postComments',
-//   sourceKey: 'id',
-//   foreignKey: 'uid',
-// })
+PostComment.belongsTo(User, {
+  as: 'author',
+  targetKey: 'id',
+  foreignKey: 'uid',
+})
+User.hasMany(PostComment, {
+  as: 'postComments',
+  sourceKey: 'id',
+  foreignKey: 'uid',
+})
 
 /**
  * Post : PostTag

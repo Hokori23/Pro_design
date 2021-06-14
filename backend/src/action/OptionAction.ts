@@ -147,7 +147,7 @@ export const Init = async () => {
   ]
   await CreateBulk(options as Option[])
 }
-void Init()
+
 export interface FormattedOption {
   system: {
     publicPath: string

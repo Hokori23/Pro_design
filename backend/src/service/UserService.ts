@@ -11,6 +11,7 @@ import Omit from 'omit.js'
 import { Group } from '@models/User'
 import sequelize from '@database'
 import moment from 'moment'
+import { _Create } from '@action/UserAction'
 
 enum CheckCaptchaResult {
   SUCCESS = 0,
@@ -62,7 +63,10 @@ const Init = async (user: User): Promise<Restful> => {
     // 强制超级管理员
     user.group = Group.SUPER_ADMIN
     const registeredUser = await Action.Create(user, t)
-    await MailAction.Create(Mail.build({ uid: registeredUser.id }), t)
+    await Promise.all([
+      MailAction.Create(Mail.build({ uid: registeredUser.id }), t),
+      _Create(t),
+    ])
     await t.commit()
     return new Restful(
       CodeDictionary.SUCCESS,
