@@ -146,11 +146,8 @@ export const SendCaptcha = async (
  * 检查登陆状态
  */
 export const Check = async () => {
-  const data = await Request<_Restful>({
+  return await Request<_Restful>({
     method: 'POST',
     url: `${baseUrl}/check`,
   })
-  if (data?.code !== 0) {
-    store.dispatch.common.LOGOUT()
-  }
 }

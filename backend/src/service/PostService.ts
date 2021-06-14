@@ -115,6 +115,7 @@ const Retrieve__ID = async (
       )
     }
     await post.increment('pageViews')
+    ;(post.pageViews as number)++
     return new Restful(CodeDictionary.SUCCESS, '查询成功', post.toJSON())
   } catch (e) {
     return new Restful(

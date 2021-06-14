@@ -2,6 +2,7 @@ import { createModel } from '@rematch/core'
 import { RequestSnackBarProps } from './components/RequestSnackBar'
 import { RootModel } from './models'
 import { ACCESS_TOKEN_NAME, USER_INFO_NAME, BLOG_CONFIG } from './utils/const'
+import Request from './utils/Request'
 import { Option } from './utils/Request/Option'
 import { User } from './utils/Request/User'
 import { computeDOMHeight } from './utils/tools'
@@ -94,5 +95,18 @@ export const common = createModel<RootModel>()({
       state.mainHeight = newHeight
       return state
     },
+  },
+  effects: (dispatch) => {
+    const { common } = dispatch
+    return {
+      async checkLogin(payload, state) {
+        if (state.common.isLogin) {
+          const res = await Request.User.Check()
+          if (res?.code !== 0) {
+            common.LOGOUT()
+          }
+        }
+      },
+    }
   },
 })

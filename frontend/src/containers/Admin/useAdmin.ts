@@ -19,6 +19,7 @@ export default (isDeskTopSize: boolean) => {
       setBlogConfig(blogConfig)
     }
   })
+
   useEffect(() => {
     location.pathname === PathName.ADMIN &&
       dispatch.SET_APPBAR_TITLE(RouteName.ADMIN)
@@ -27,6 +28,10 @@ export default (isDeskTopSize: boolean) => {
   useEffect(() => {
     setDrawerOpen(isDeskTopSize)
   }, [isDeskTopSize])
+
+  useEffect(() => {
+    void dispatch.checkLogin()
+  }, [])
 
   return {
     drawerOpen,

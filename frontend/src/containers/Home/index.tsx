@@ -1,8 +1,6 @@
 import { PathName, RouteConfig } from '@/routes'
-import { RootState } from '@/store'
 import { CssBaseline, useMediaQuery } from '@material-ui/core'
 import React, { FC, Fragment, useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { Route, RouteComponentProps, Switch } from 'react-router-dom'
 import { isDef } from '@/utils/tools'
 import classnames from 'classnames'
@@ -21,7 +19,6 @@ import Footer from '@/components/Footer'
 
 const Home: FC<RouteComponentProps & RouteConfig> = (props) => {
   const { routes, location, history } = props
-  const state = useSelector((state: RootState) => state.common)
   const classes = useStyles()
   const theme = useTheme()
   const isDeskTopSize = useMediaQuery(theme.breakpoints.up('sm'))
@@ -33,6 +30,7 @@ const Home: FC<RouteComponentProps & RouteConfig> = (props) => {
   }, [])
 
   const {
+    state,
     drawerOpen,
     setDrawerOpen,
     blogConfig,
