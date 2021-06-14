@@ -70,7 +70,7 @@ export const Title: FC<TitleProps> = ({ post }) => {
   const classes = useStyles()
   const state = useSelector((state: RootState) => state.common)
 
-  const { title, coverUrl, pageViews, postComments, createdAt } = post
+  const { title, coverUrl, author, pageViews, postComments, createdAt } = post
   return (
     <header className={classes.titleWrapper}>
       {coverUrl && (
@@ -103,13 +103,12 @@ export const Title: FC<TitleProps> = ({ post }) => {
           gutterBottom={(state.userInfo.group || 0) > Group.SUBSCRIBER}
         >
           <Typography component="span" variant="caption">
-            {/* TODO: 跳转到用户主页+id */}
             <InnerLink
               className={classnames(
                 classes.link,
                 coverUrl ? classes.linkWithCover : '',
               )}
-              to={PathName.USER}
+              to={`${PathName._USER_DETAIL}/${String(author.id)}`}
             >
               {post.author.userName}
             </InnerLink>

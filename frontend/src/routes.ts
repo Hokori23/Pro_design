@@ -11,12 +11,14 @@ import PostOverview from './containers/Home/PostOverview'
 import PostDetail from './containers/Home/PostDetail'
 import MomentOverview from './containers/Home/MomentOverview'
 import User from './containers/Home/User'
+import UserDetail from './containers/Home/UserDetail'
 import NotFoundPage from './containers/NotFoundPage'
 import Redirect404 from './containers/Redirect404'
 import Admin from './containers/Admin'
 import PostTagAdmin from './containers/Admin/PostTagAdmin'
 import PostAdmin from './containers/Admin/PostAdmin'
 import MomentAdmin from './containers/Admin/MomentAdmin'
+import UserAdmin from './containers/Admin/UserAdmin'
 import PostDetailAdmin from './containers/Admin/PostDetailAdmin'
 import MomentDetailAdmin from './containers/Admin/MomentDetailAdmin'
 
@@ -34,10 +36,13 @@ export enum PathName {
   MOMENT_OVERVIEW = '/moment',
   _MOMENT_DETAIL = '/moment/detail',
   USER = '/user',
+  _USER_DETAIL = '/user/detail',
+  USER_DETAIL = '/user/detail/:id',
   ADMIN = '/admin',
   POST_TAG_ADMIN = '/admin/post-tag',
   POST_ADMIN = '/admin/post',
   MOMENT_ADMIN = '/admin/moment',
+  USER_ADMIN = '/admin/user',
   _POST_DETAIL_ADMIN = '/admin/post/detail',
   POST_DETAIL_ADMIN = '/admin/post/detail/:id',
   _MOMENT_DETAIL_ADMIN = '/admin/moment/detail',
@@ -62,6 +67,7 @@ export enum RouteName {
   POST_DETAIL_ADMIN = '文章',
   MOMENT_ADMIN = '说说',
   MOMENT_DETAIL_ADMIN = '说说',
+  USER_ADMIN = '用户',
 }
 
 /* 集中存放所有路由配置 */
@@ -154,6 +160,10 @@ export const routes: RouteConfig[] = [
         component: MomentAdmin,
       },
       {
+        path: PathName.USER_ADMIN,
+        component: UserAdmin,
+      },
+      {
         path: PathName._NOT_FOUND_PAGE,
         component: NotFoundPage,
       },
@@ -185,6 +195,10 @@ export const routes: RouteConfig[] = [
       {
         path: PathName.MOMENT_OVERVIEW,
         component: MomentOverview,
+      },
+      {
+        path: PathName.USER_DETAIL,
+        component: UserDetail,
       },
       {
         path: PathName.USER,

@@ -103,6 +103,7 @@ const DrawerListCollapse: FC = () => {
         { primary: RouteName.POST_ADMIN, to: PathName.POST_ADMIN },
         { primary: RouteName.MOMENT_ADMIN, to: PathName.MOMENT_ADMIN },
         { primary: RouteName.POST_TAG_ADMIN, to: PathName.POST_TAG_ADMIN },
+        { primary: RouteName.USER_ADMIN, to: PathName.USER_ADMIN },
       ],
       icon: (
         <ListItemIcon>

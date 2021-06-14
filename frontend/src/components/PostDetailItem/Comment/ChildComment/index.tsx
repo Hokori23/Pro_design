@@ -13,6 +13,8 @@ import { red } from '@material-ui/core/colors'
 import useStyles from './useStyles'
 import useChildComment from './useChildComment'
 import { SimpleConfirmDialog } from '@/components/SimpleConfirmDialog'
+import InnerLink from '@/components/InnerLink'
+import { PathName } from '@/routes'
 
 interface ChildCommentsProps {
   rootComment: FormattedPostComment
@@ -63,17 +65,34 @@ export const ChildComments: FC<ChildCommentsProps> = ({
             )}
             key={id}
           >
-            <IconButton className={classes.childCommentAvatar} color="primary">
-              <Avatar alt={author?.userName || email} src={author?.avatarUrl} />
+            <IconButton
+              className={classes.childCommentAvatar}
+              color="primary"
+              disabled={!author}
+            >
+              <InnerLink to={`${PathName._USER_DETAIL}/${String(author?.id)}`}>
+                <Avatar
+                  alt={author?.userName || email}
+                  src={author?.avatarUrl}
+                />
+              </InnerLink>
             </IconButton>
             <div className={classes.childCommentBox}>
               <Typography component="div">
                 <Typography
                   className={classes.childCommentAuthorName}
-                  color="primary"
+                  color={author ? 'primary' : 'textPrimary'}
                   variant="caption"
                 >
-                  {author?.userName || email}
+                  {author ? (
+                    <InnerLink
+                      to={`${PathName._USER_DETAIL}/${String(author.id)}`}
+                    >
+                      {author.userName}
+                    </InnerLink>
+                  ) : (
+                    email
+                  )}
                 </Typography>
                 <Typography
                   className={classes.childCommentText}

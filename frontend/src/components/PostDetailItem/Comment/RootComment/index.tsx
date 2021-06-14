@@ -15,6 +15,8 @@ import classnames from 'classnames'
 import useRootComment from './useRootComment'
 import useStyles from './useStyles'
 import { SimpleConfirmDialog } from '@/components/SimpleConfirmDialog'
+import InnerLink from '@/components/InnerLink'
+import { PathName } from '@/routes'
 
 interface RootCommentProps {
   comment: FormattedPostComment
@@ -50,21 +52,37 @@ export const RootComment: FC<RootCommentProps> = ({
       )}
     >
       {/* AVATAR */}
-      <IconButton className={classes.rootCommentAvatar} color="primary">
-        <Avatar
-          alt={comment.author?.userName || comment.email}
-          src={comment.author?.avatarUrl}
-        />
+      <IconButton
+        className={classes.rootCommentAvatar}
+        color="primary"
+        disabled={!comment?.author}
+      >
+        <InnerLink
+          to={`${PathName._USER_DETAIL}/${String(comment?.author?.id)}`}
+        >
+          <Avatar
+            alt={comment.author?.userName || comment.email}
+            src={comment.author?.avatarUrl}
+          />
+        </InnerLink>
       </IconButton>
       <div className={classes.rootCommentBox}>
         {/* AUTHOR */}
         <Typography
           className={classes.rootCommentAuthorName}
-          color="primary"
+          color={comment?.author ? 'primary' : 'textPrimary'}
           gutterBottom
           variant="subtitle2"
         >
-          {comment.author?.userName || comment.email}
+          {comment?.author ? (
+            <InnerLink
+              to={`${PathName._USER_DETAIL}/${String(comment.author.id)}`}
+            >
+              {comment.author?.userName}
+            </InnerLink>
+          ) : (
+            comment.email
+          )}
         </Typography>
         {/* CONTENT */}
         <Typography

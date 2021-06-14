@@ -3,11 +3,9 @@ import { makeStyles } from '@material-ui/core'
 export default makeStyles((theme) => ({
   childComment: {
     display: 'flex',
+    paddingTop: 5,
     paddingLeft: 10,
-    marginBottom: 10,
-    '&:first-child': {
-      paddingTop: 10,
-    },
+    marginBottom: 5,
   },
   childCommentSelected: {
     backgroundColor: theme.palette.error.light,
