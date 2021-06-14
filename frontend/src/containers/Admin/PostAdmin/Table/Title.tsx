@@ -6,6 +6,7 @@ import { CellParams } from '@material-ui/data-grid'
 import {
   IconButton,
   makeStyles,
+  Tooltip,
   useMediaQuery,
   useTheme,
 } from '@material-ui/core'
@@ -31,38 +32,54 @@ export const Title = (props: CellParams): ReactElement => {
   const theme = useTheme()
   const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
   return (
-    <div className={classes.title}>
-      <InnerLink
-        className={classes.titleText}
-        to={`${PathName._POST_DETAIL}/${Number(row.id)}`}
-      >
-        {row.title}
-      </InnerLink>
-      <div>
-        {!!row.isHidden && (
-          <IconButton
-            color="inherit"
-            disabled
-            size={isMobileSize ? 'small' : 'medium'}
-          >
-            <VisibilityOffIcon />
-          </IconButton>
-        )}
-        {!!row.isLocked && (
-          <IconButton
-            color="inherit"
-            disabled
-            size={isMobileSize ? 'small' : 'medium'}
-          >
-            <LockIcon />
-          </IconButton>
-        )}
-        <InnerLink to={`${PathName._POST_DETAIL_ADMIN}/${Number(row.id)}`}>
-          <IconButton color="inherit" size={isMobileSize ? 'small' : 'medium'}>
-            <EditIcon />
-          </IconButton>
+    <Tooltip arrow placement="bottom" title={row.title || ''}>
+      <div className={classes.title}>
+        <InnerLink
+          className={classes.titleText}
+          to={`${PathName._POST_DETAIL}/${Number(row.id)}`}
+        >
+          {row.title}
         </InnerLink>
+        <div>
+          {!!row.isHidden && (
+            <IconButton
+              color="inherit"
+              disabled
+              size={isMobileSize ? 'small' : 'medium'}
+            >
+              <VisibilityOffIcon />
+            </IconButton>
+          )}
+          {!!row.isLocked && (
+            <IconButton
+              color="inherit"
+              disabled
+              size={isMobileSize ? 'small' : 'medium'}
+            >
+              <LockIcon />
+            </IconButton>
+          )}
+          <InnerLink to={`${PathName._POST_DETAIL_ADMIN}/${Number(row.id)}`}>
+            <IconButton
+              color="inherit"
+              size={isMobileSize ? 'small' : 'medium'}
+            >
+              <EditIcon />
+            </IconButton>
+          </InnerLink>
+        </div>
       </div>
-    </div>
+    </Tooltip>
+  )
+}
+
+export const Tags = (props: CellParams): ReactElement => {
+  const row = props.row as PostWithAuthor
+  const classes = useStyles()
+  const tags = row.tags.map((tag) => tag.name).join(', ')
+  return (
+    <Tooltip arrow placement="bottom" title={tags}>
+      <div className={classes.titleText}>{tags}</div>
+    </Tooltip>
   )
 }
