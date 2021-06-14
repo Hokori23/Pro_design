@@ -1,12 +1,13 @@
 import { RouteName } from '@/routes'
 import { RootState, store } from '@/store'
 import { UPYUN_URL } from '@/utils/const'
-import { Upload, User } from '@/utils/Request'
+import Request, { Upload, User } from '@/utils/Request'
 import { FileType } from '@/utils/Request/Upload'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import _ from 'lodash'
 import { useAsync } from 'react-use'
+import { Mail } from '@/utils/Request/Mail'
 
 interface EditDialogProps {
   open: boolean
@@ -33,6 +34,12 @@ export default () => {
   const [clonedUserInfo, setClonedUserInfo] = useState(_.cloneDeep(userInfo))
   const [userLoading, setUserLoading] = useState(false)
   const [editDialog, setEditDialog] = useState(defaultEditDialogProps)
+  const [mailLoading, setMailLoading] = useState(true)
+  const [mail, setMail] = useState<Mail>({
+    id: -1,
+    uid: userInfo.id as number,
+    isSubscribed: false,
+  })
 
   const handleImgUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -108,6 +115,30 @@ export default () => {
     }
   }
 
+  const RetrieveMail = async (uid: number) => {
+    setMailLoading(true)
+    const res = await Request.Mail.Retrieve(uid)
+    setMailLoading(false)
+    if (res?.data) {
+      setMail(res.data)
+    }
+  }
+
+  const handleEditMail = async () => {
+    if (mail.id === -1) return
+    const newMail = { ...mail, isSubscribed: !mail.isSubscribed }
+    setMailLoading(true)
+    const res = await Request.Mail.Edit(mail)
+    if (res?.data) {
+      setMail(newMail)
+      dispatch.SET_AXIOS_SNACK_BAR({
+        message: res.message,
+        open: true,
+      })
+    }
+    setMailLoading(false)
+  }
+
   useEffect(() => {
     dispatch.SET_APPBAR_TITLE(RouteName.USER)
   }, [])
@@ -115,7 +146,10 @@ export default () => {
   useAsync(async () => {
     if (!isLogin) return
     const res = await User.Retrieve(Number(userInfo.id))
-    if (res?.data) dispatch.SET_USER_INFO(res.data)
+    if (res?.data) {
+      void RetrieveMail(res.data.id as number)
+      dispatch.SET_USER_INFO(res.data)
+    }
   })
   return {
     userInfo,
@@ -125,6 +159,9 @@ export default () => {
     avatarLoading,
     userLoading,
     editDialog,
+    mailLoading,
+    mail,
+    handleEditMail,
     handleEditDialogClose,
     handleEditDialogOpen,
     handleEditDialogValid,

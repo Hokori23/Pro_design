@@ -11,8 +11,11 @@ import {
   CircularProgress as _CircularProgress,
   Typography,
   Divider,
+  ListItemSecondaryAction,
+  Switch,
 } from '@material-ui/core'
 import { GenderCNArr } from '@/utils/Request/User'
+import EmailIcon from '@material-ui/icons/Email'
 
 // hooks
 import useUser from './useUser'
@@ -21,6 +24,7 @@ import useStyles from './useStyles'
 // components
 import EditDialog from './EditDialog'
 import EditDialogInput from './EditDialogInput'
+import { CircularLoading } from '@/components/CircularLoading'
 
 const CircularProgress: FC = () => (
   <_CircularProgress
@@ -73,6 +77,9 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
     avatarLoading,
     userLoading,
     editDialog,
+    mailLoading,
+    mail,
+    handleEditMail,
     handleEditDialogClose,
     handleEditDialogOpen,
     handleEditDialogValid,
@@ -188,7 +195,29 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
             primary="个人简介"
             value={userInfo.profile}
           />
+          {/* 邮箱订阅 */}
+          <ListSubheader>邮箱设置</ListSubheader>
+          <label htmlFor="user-email-setting">
+            <ListItem button>
+              <ListItemIcon>
+                <EmailIcon />
+              </ListItemIcon>
+              <ListItemText primary="邮箱订阅" />
+              <ListItemSecondaryAction className="relative">
+                <Switch
+                  checked={mail?.isSubscribed}
+                  disabled={mailLoading || mail.id === -1}
+                  edge="end"
+                  id="user-email-setting"
+                  onChange={handleEditMail}
+                />
+                {mailLoading && <CircularLoading size={20} />}
+              </ListItemSecondaryAction>
+            </ListItem>
+          </label>
+          <Divider light />
         </List>
+
         <EditDialog
           content={editDialog.content}
           handleClose={handleEditDialogClose}

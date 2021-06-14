@@ -3,6 +3,7 @@ import { store } from '@/store'
 import { REQUEST_WHITE_LIST } from '../const'
 import { Restful } from './type'
 import * as User from './User'
+import * as Mail from './Mail'
 import * as Upload from './Upload'
 import * as Init from './Init'
 import * as Option from './Option'
@@ -76,5 +77,5 @@ export const Request = async <T>(config: AxiosRequestConfig) => {
     }
   }
 }
-export { User, Post, PostComment, PostTag, Upload, Init, Option }
-export default { User, Post, PostComment, PostTag, Upload, Init, Option }
+export { User, Mail, Post, PostComment, PostTag, Upload, Init, Option }
+export default { User, Mail, Post, PostComment, PostTag, Upload, Init, Option }

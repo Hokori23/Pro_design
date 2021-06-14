@@ -7,6 +7,7 @@ import {
   PostRouter,
   PostCommentRouter,
   PostTagRouter,
+  MailRouter,
   MailCaptchaRouter,
   UploadRouter,
   OptionRouter,
@@ -40,6 +41,7 @@ app.use('/api/user', UserRouter)
 app.use('/api/post', PostRouter)
 app.use('/api/post-comment', PostCommentRouter)
 app.use('/api/post-tag', PostTagRouter)
+app.use('/api/mail', MailRouter)
 app.use('/api/captcha', MailCaptchaRouter)
 app.use('/api/upload', UploadRouter)
 app.use('/api/option', OptionRouter)
