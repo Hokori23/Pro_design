@@ -1,75 +1,19 @@
 import React, { FC, Fragment } from 'react'
-import {
-  Typography,
-  makeStyles,
-  Link,
-  Snackbar,
-  Avatar,
-} from '@material-ui/core'
+import { Typography, Link, Snackbar, Avatar } from '@material-ui/core'
 import { formValid } from '@/components/UserFormValid'
-import { grey } from '@material-ui/core/colors'
 import { Link as RouterLink } from 'react-router-dom'
 import MuiAlert from '@material-ui/lab/Alert'
 import { RootState, store } from '@/store'
+import classnames from 'classnames'
+import { PathName } from '@/routes'
+import { useSelector } from 'react-redux'
 
 // components
 import { EmailInput, UrlInput, NewCommentInput } from '@/components/Input'
 
 // hooks
 import useNewComment from './useNewComment'
-import { classnames } from '@material-ui/data-grid'
-import { PathName } from '@/routes'
-import { useSelector } from 'react-redux'
-
-const useStyles = makeStyles((theme) => ({
-  commentBox: {
-    backgroundColor: grey[200],
-    borderRadius: 5,
-    padding: '1rem',
-    marginBottom: '1rem',
-  },
-  commentForm: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  commentForm__isLogin: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  commentLoginUser: {
-    alignSelf: 'flex-start',
-    marginRight: 22,
-    '& .MuiAvatar-root': {
-      width: 48,
-      height: 48,
-      padding: 0,
-      marginBottom: 5,
-    },
-  },
-  commentHeader: {
-    marginBottom: '1rem',
-    fontWeight: 600,
-  },
-  commentCommenter: {
-    display: 'flex',
-    marginBottom: '1rem',
-  },
-  commentCommenterItem: {
-    marginRight: '1rem',
-    '&:last-child': {
-      marginRight: 0,
-    },
-  },
-  commentInput: {
-    flexGrow: 1,
-  },
-  emailInput: {
-    flex: '2 1 200px',
-  },
-  urlInput: {
-    flex: '1 1 150px',
-  },
-}))
+import useStyles from './useStyles'
 
 export const NewComment: FC = () => {
   const state = useSelector((state: RootState) => state.postDetail)

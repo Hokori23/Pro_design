@@ -1,79 +1,19 @@
-import React, { FC, useState } from 'react'
-import {
-  IconButton,
-  Avatar,
-  Typography,
-  makeStyles,
-  Button,
-} from '@material-ui/core'
+import React, { FC } from 'react'
+import { IconButton, Avatar, Typography, Button } from '@material-ui/core'
 import moment from 'moment'
-import Request from '@/utils/Request'
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ThumbDownOutlinedIcon from '@material-ui/icons/ThumbDownOutlined'
 import ThumbDownIcon from '@material-ui/icons/ThumbDown'
 import { red } from '@material-ui/core/colors'
 import { FormattedPostComment } from '@/utils/Request/PostComment'
-import { ChildComments } from './ChildComments'
-import { ReplyComment } from './ReplyComment'
-import { isDef, scrollTo } from '@/utils/tools'
+import { ChildComments } from '../ChildComment'
+import { ReplyComment } from '../ReplyComment'
 
-const useStyles = makeStyles((theme) => ({
-  rootComment: {
-    display: 'flex',
-    borderBottom: '1px solid #e7e7e7',
-    padding: '0 1rem',
-    marginBottom: '1rem',
-  },
-  rootCommentAvatar: {
-    '& .MuiAvatar-root': {
-      width: 48,
-      height: 48,
-    },
-    width: 48,
-    height: 48,
-    padding: 0,
-    marginRight: 22,
-  },
-  rootCommentBox: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexGrow: 1,
-  },
-  rootCommentAuthorName: {
-    fontWeight: 600,
-    textTransform: 'inherit',
-    letterSpacing: '0.08333em',
-  },
-  rootCommentText: {
-    wordBreak: 'break-word',
-  },
-  rootCommentFooter: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  rootCommentAction: {
-    display: 'flex',
-    justifySelf: 'flex-end',
-    '& .MuiButtonBase-root.MuiIconButton-root': {
-      padding: 5,
-    },
-  },
-  rootCommentActionItem: {
-    marginRight: 10,
-  },
-  Icon: {
-    fontSize: 20,
-  },
-  replyButton: {
-    marginLeft: 5,
-    minWidth: 40,
-    [theme.breakpoints.up(700)]: {
-      minWidth: 50,
-    },
-  },
-}))
+// hooks
+import useRootComment from './useRootComment'
+import useStyles from './useStyles'
+
 interface RootCommentProps {
   comment: FormattedPostComment
   isMobileSize: boolean
@@ -82,39 +22,17 @@ export const RootComment: FC<RootCommentProps> = ({
   comment,
   isMobileSize,
 }) => {
-  const [liked, setLiked] = useState(false)
-  const [disliked, setDisliked] = useState(false)
-  const [displayReplyBox, setDisplayReplyBox] = useState(false)
-  const [replyParent, setReplyParent] = useState<
-    FormattedPostComment | undefined
-  >(undefined)
-
   const classes = useStyles()
-
-  const Like = async () => {
-    const res = await Request.PostComment.Like(comment.id)
-    if (res?.code === 0) {
-      comment.likesCount++
-      setLiked(true)
-    }
-  }
-  const Dislike = async () => {
-    const res = await Request.PostComment.Dislike(comment.id)
-    if (res?.code === 0) {
-      comment.dislikesCount++
-      setDisliked(true)
-    }
-  }
-  const handleDisplayReplyBox = (parent?: FormattedPostComment) => {
-    if (isDef(parent)) {
-      setReplyParent(parent)
-    } else {
-      setReplyParent(undefined)
-    }
-    setDisplayReplyBox(true)
-    setTimeout(() => scrollTo(`#replyComment-${comment.id}`, 'end'))
-  }
-
+  const {
+    liked,
+    disliked,
+    displayReplyBox,
+    replyParent,
+    setDisplayReplyBox,
+    Like,
+    Dislike,
+    handleDisplayReplyBox,
+  } = useRootComment(comment)
   return (
     <section className={classes.rootComment}>
       {/* AVATAR */}

@@ -1,63 +1,21 @@
 import React, { FC, Fragment } from 'react'
-import {
-  Typography,
-  makeStyles,
-  Link,
-  Snackbar,
-  IconButton,
-} from '@material-ui/core'
+import { Typography, Link, Snackbar, IconButton } from '@material-ui/core'
 import { RootState } from '@/store'
 import { FormattedPostComment } from '@/utils/Request/PostComment'
 import { formValid } from '@/components/UserFormValid'
 import { Link as RouterLink } from 'react-router-dom'
 import MuiAlert from '@material-ui/lab/Alert'
 import CloseIcon from '@material-ui/icons/Close'
+import classnames from 'classnames'
+import { useSelector } from 'react-redux'
+import { PathName } from '@/routes'
 
 // components
 import { EmailInput, UrlInput, NewCommentInput } from '@/components/Input'
 
 // hooks
 import useReplyComment from './useReplyComment'
-import { useSelector } from 'react-redux'
-import { PathName } from '@/routes'
-import { classnames } from '@material-ui/data-grid'
-
-const useStyles = makeStyles((theme) => ({
-  commentBox: {
-    borderRadius: 5,
-    padding: '1rem',
-    marginBottom: '1rem',
-  },
-  commentForm: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  commentHeader: {
-    marginBottom: '1rem',
-    fontWeight: 600,
-  },
-  commentCommenter: {
-    display: 'flex',
-    marginBottom: '1rem',
-  },
-  commentCommenterItem: {
-    marginRight: '1rem',
-    '&:last-child': {
-      marginRight: 0,
-    },
-  },
-  Icon: {
-    fontSize: 20,
-    padding: 5,
-    marginLeft: 10,
-  },
-  emailInput: {
-    flex: '2 1 200px',
-  },
-  urlInput: {
-    flex: '1 1 150px',
-  },
-}))
+import useStyles from './useStyles'
 
 interface ReplyCommentProps {
   id: string

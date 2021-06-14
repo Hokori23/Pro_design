@@ -1,141 +1,30 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC } from 'react'
 import { FormattedPostComment } from '@/utils/Request/PostComment'
-import {
-  IconButton,
-  Avatar,
-  Typography,
-  makeStyles,
-  Button,
-} from '@material-ui/core'
+import { IconButton, Avatar, Typography, Button } from '@material-ui/core'
 import classnames from 'classnames'
-import Request from '@/utils/Request'
 import moment from 'moment'
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ThumbDownOutlinedIcon from '@material-ui/icons/ThumbDownOutlined'
 import ThumbDownIcon from '@material-ui/icons/ThumbDown'
 import { red } from '@material-ui/core/colors'
-import _ from 'lodash'
 
-const useStyles = makeStyles((theme) => ({
-  childComment: {
-    display: 'flex',
-    paddingBottom: 10,
-    '&:first-child': {
-      paddingTop: 10,
-    },
-  },
-  childCommentBox: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexGrow: 1,
-    '& > div': {
-      display: 'flex',
-    },
-  },
-  childCommentAvatar: {
-    '& .MuiAvatar-root': {
-      width: 24,
-      height: 24,
-    },
-    width: 24,
-    height: 24,
-    padding: 0,
-    marginRight: 11,
-  },
-  childCommentAuthorName: {
-    fontWeight: 600,
-    textTransform: 'inherit',
-    letterSpacing: '0.08333em',
-    marginRight: 8,
-  },
-  childCommentText: {
-    wordBreak: 'break-word',
-  },
-  childCommentReply: {
-    display: 'inline-block',
-    marginRight: 5,
-  },
-  childCommentFooter: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  childCommentAction: {
-    display: 'flex',
-    justifySelf: 'flex-end',
-    marginLeft: 10,
-    '& .MuiButtonBase-root.MuiIconButton-root': {
-      padding: 3,
-    },
-  },
-  childCommentActionItem: {
-    marginRight: 10,
-  },
-  Icon: {
-    fontSize: 18,
-  },
-  replyButton: {
-    marginLeft: 5,
-    minWidth: 40,
-    [theme.breakpoints.up(700)]: {
-      minWidth: 50,
-    },
-  },
-}))
+// hooks
+import useStyles from './useStyles'
+import useChildComment from './useChildComment'
 
 interface ChildCommentsProps {
   rootComment: FormattedPostComment
   isMobileSize: boolean
   handleDisplayReplyBox: (parent?: FormattedPostComment) => void
 }
-interface PostCommentWithStatus extends FormattedPostComment {
-  liked: boolean
-  disliked: boolean
-}
-
 export const ChildComments: FC<ChildCommentsProps> = ({
   rootComment,
   isMobileSize,
   handleDisplayReplyBox,
 }) => {
-  const rawChildComments = (rootComment.children as PostCommentWithStatus[])!.map(
-    (comment) => {
-      comment.liked = comment.disliked = false
-      return comment
-    },
-  )
-  const [childComments, setChildComments] = useState(rawChildComments)
-
   const classes = useStyles()
-
-  const Like = async (comment: PostCommentWithStatus, idx: number) => {
-    const res = await Request.PostComment.Like(comment.id)
-    if (res?.code === 0) {
-      const cloneChildComments = _.cloneDeep(childComments)
-      cloneChildComments[idx].likesCount++
-      cloneChildComments[idx].liked = true
-      setChildComments(cloneChildComments)
-    }
-  }
-  const Dislike = async (comment: PostCommentWithStatus, idx: number) => {
-    const res = await Request.PostComment.Dislike(comment.id)
-    if (res?.code === 0) {
-      const cloneChildComments = _.cloneDeep(childComments)
-      cloneChildComments[idx].dislikesCount++
-      cloneChildComments[idx].disliked = true
-      setChildComments(cloneChildComments)
-    }
-  }
-  useEffect(() => {
-    const rawChildComments = (rootComment.children as PostCommentWithStatus[])!.map(
-      (comment) => {
-        comment.liked = comment.disliked = false
-        return comment
-      },
-    )
-    setChildComments(rawChildComments)
-  }, [rootComment])
-
+  const { childComments, Like, Dislike } = useChildComment(rootComment)
   return (
     <section>
       {childComments?.map((comment, idx) => {
