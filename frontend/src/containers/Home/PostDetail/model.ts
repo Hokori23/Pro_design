@@ -36,11 +36,12 @@ export const postDetail = createModel<RootModel>()({
     return {
       // 异步请求 demo
       async RetrievePost(id: string): Promise<PostWithAuthor | undefined> {
-        postDetail.SET_POST(null)
         postDetail.SET_LOADING_POST(true)
         const res = await Request.Post.Retrieve(Number(id))
         if (res?.data) {
           postDetail.SET_POST(res.data)
+        } else {
+          postDetail.SET_POST(null)
         }
         postDetail.SET_LOADING_POST(false)
         return res?.data

@@ -4,6 +4,7 @@ import { computeDOMHeight } from '@/utils/tools'
 export default makeStyles((theme) => ({
   root: {
     display: 'flex',
+    height: '100%',
     backgroundColor: '#f5f5f5',
   },
   gap1: {

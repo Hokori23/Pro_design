@@ -33,7 +33,7 @@ export default makeStyles((theme) => ({
   },
   ValueInner: {
     overflow: 'hidden',
-    'text-overflow': 'ellipsis',
+    textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
   },
   TextAreaWrapper: {
@@ -45,7 +45,7 @@ export default makeStyles((theme) => ({
   TextAreaInner: {
     display: '-webkit-box',
     overflow: 'hidden',
-    'text-overflow': 'ellipsis',
+    textOverflow: 'ellipsis',
     '-webkit-box-orient': 'vertical',
     '-webkit-line-clamp': 3,
   },

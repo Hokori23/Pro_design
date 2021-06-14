@@ -1,8 +1,12 @@
 import { formValid } from '@/components/UserFormValid'
 import { PostTag } from '@/utils/Request/PostTag'
+import { useMediaQuery, useTheme } from '@material-ui/core'
 import { useEffect, useState } from 'react'
 
 export default (tag: PostTag | null, isNew: boolean, onSubmit: () => void) => {
+  const theme = useTheme()
+  const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
+
   const [nameError, setNameError] = useState({
     text: '',
     error: false,
@@ -41,6 +45,7 @@ export default (tag: PostTag | null, isNew: boolean, onSubmit: () => void) => {
     nameError,
     slugError,
     valid,
+    isMobileSize,
     setNameError,
     setSlugError,
     setValid,

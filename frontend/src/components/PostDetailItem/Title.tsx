@@ -4,12 +4,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Typography } from '@material-ui/core'
 import classnames from 'classnames'
 import moment from 'moment'
-import InnerLink from '../InnerLink'
 import { PathName } from '@/routes'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import { Group } from '@/utils/Request/User'
 
+import InnerLink from '@/components/InnerLink'
 const useStyles = makeStyles((theme) => ({
   titleWrapper: {
     position: 'relative',
@@ -55,9 +55,11 @@ const useStyles = makeStyles((theme) => ({
     wordBreak: 'break-word',
   },
   link: {
-    color: theme.palette.background.paper,
     fontWeight: 600,
     letterSpacing: 1,
+  },
+  linkWithCover: {
+    color: theme.palette.background.paper,
   },
 }))
 
@@ -102,7 +104,13 @@ export const Title: FC<TitleProps> = ({ post }) => {
         >
           <Typography component="span" variant="caption">
             {/* TODO: 跳转到用户主页+id */}
-            <InnerLink className={classes.link} to={PathName.USER}>
+            <InnerLink
+              className={classnames(
+                classes.link,
+                coverUrl ? classes.linkWithCover : '',
+              )}
+              to={PathName.USER}
+            >
               {post.author.userName}
             </InnerLink>
           </Typography>
@@ -122,7 +130,10 @@ export const Title: FC<TitleProps> = ({ post }) => {
         {(state.userInfo.group || 0) > Group.SUBSCRIBER && (
           <Typography component="span" variant="caption">
             <InnerLink
-              className={classes.link}
+              className={classnames(
+                classes.link,
+                coverUrl ? classes.linkWithCover : '',
+              )}
               to={`${PathName._POST_DETAIL_ADMIN}/${String(post.id)}`}
             >
               编辑

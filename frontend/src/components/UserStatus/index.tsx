@@ -46,7 +46,7 @@ const UserStatus: FC = () => {
   const location = useLocation()
   const history = useHistory()
   const isAdminPage = location.pathname.startsWith(PathName.ADMIN)
-  const isAdmin = userInfo.group && userInfo.group > Group.SUBSCRIBER
+  const isAdmin = (userInfo?.group || 0) > Group.SUBSCRIBER
   const classes = useStyles()
   const theme = useTheme()
   const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))

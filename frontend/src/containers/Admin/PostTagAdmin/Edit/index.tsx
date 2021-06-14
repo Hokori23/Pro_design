@@ -60,6 +60,7 @@ const Edit: FC<EditProps> = ({
     nameError,
     slugError,
     valid,
+    isMobileSize,
     setNameError,
     setSlugError,
     setValid,
@@ -78,7 +79,9 @@ const Edit: FC<EditProps> = ({
             color={tag.iconColor}
             icon={tag.iconClass ? <Icon>{tag.iconClass}</Icon> : undefined}
             label={tag.name}
+            size={isMobileSize ? 'small' : 'medium'}
             style={{ marginBottom: '1rem' }}
+            variant="outlined"
           />
           <Input
             className={classes.formItem}

@@ -1,5 +1,5 @@
 import { Request } from '@/utils'
-import { PostType, Toggle, Post } from '@/utils/Request/Post'
+import { PostType, Toggle, PostWithAuthor } from '@/utils/Request/Post'
 import { useEffect, useState } from 'react'
 import * as H from 'history'
 // import { useActivate } from 'react-activation'
@@ -25,11 +25,11 @@ export default (location: H.Location<unknown>) => {
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(PAGE)
   const [capacity, setCapacity] = useState(CAPACITY)
-  const [total, setTotal] = useState(1)
+  const [total, setTotal] = useState(0)
   const [maxPage, setMaxPage] = useState(1)
   const [isASC, setIsASC] = useState(IS_ASC)
   const [postTypes, setPostTypes] = useState(POST_TYPES)
-  const [posts, setPosts] = useState([] as Post[])
+  const [posts, setPosts] = useState([] as PostWithAuthor[])
 
   const RetrieveAll = async (
     page: number,
