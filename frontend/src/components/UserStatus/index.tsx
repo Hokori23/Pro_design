@@ -79,19 +79,21 @@ const UserStatus: FC = () => {
       open={isMenuOpen}
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
     >
-      {isAdminPage && isAdmin ? (
-        <InnerLink className="plain-a" to={PathName.HOME}>
-          <MenuItem dense={isMobileSize} onClick={handleMenuClose}>
-            {RouteName.HOME}
-          </MenuItem>
-        </InnerLink>
-      ) : (
-        <InnerLink className="plain-a" to={PathName.ADMIN}>
-          <MenuItem dense={isMobileSize} onClick={handleMenuClose}>
-            {RouteName.ADMIN}
-          </MenuItem>
-        </InnerLink>
-      )}
+      {isAdmin ? (
+        isAdminPage ? (
+          <InnerLink className="plain-a" to={PathName.HOME}>
+            <MenuItem dense={isMobileSize} onClick={handleMenuClose}>
+              {RouteName.HOME}
+            </MenuItem>
+          </InnerLink>
+        ) : (
+          <InnerLink className="plain-a" to={PathName.ADMIN}>
+            <MenuItem dense={isMobileSize} onClick={handleMenuClose}>
+              {RouteName.ADMIN}
+            </MenuItem>
+          </InnerLink>
+        )
+      ) : null}
       <InnerLink className="plain-a" to={PathName.USER}>
         <MenuItem dense={isMobileSize} onClick={handleMenuClose}>
           用户中心
