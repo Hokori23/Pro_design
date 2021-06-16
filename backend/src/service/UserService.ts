@@ -239,9 +239,55 @@ const Edit = async (user: any): Promise<Restful> => {
   try {
     const existedUser = await Action.Retrieve('id', user.id as number)
     if (isUndef(existedUser)) {
-      return new Restful(1, '账号不存在')
+      return new Restful(
+        CodeDictionary.REGISTER_ERROR__USER_ACCOUNT_EXISTED,
+        '账号不存在',
+      )
     }
 
+    // TODO: 暂时不给更改密码
+    delete user.password
+    const newUser = await Action.Update(existedUser, user)
+    return new Restful(
+      CodeDictionary.SUCCESS,
+      '编辑成功',
+      Omit(newUser.toJSON() as any, ['password']),
+    )
+  } catch (e) {
+    return new Restful(
+      CodeDictionary.COMMON_ERROR,
+      `编辑失败, ${String(e.message)}`,
+    )
+  }
+}
+
+/**
+ * 编辑用户
+ */
+const Edit__Admin = async (
+  user: User,
+  operatorGroup: Group,
+): Promise<Restful> => {
+  try {
+    const existedUser = await Action.Retrieve('id', user.id as number)
+    if (isUndef(existedUser)) {
+      return new Restful(
+        CodeDictionary.REGISTER_ERROR__USER_ACCOUNT_EXISTED,
+        '账号不存在',
+      )
+    }
+    if (operatorGroup <= (existedUser.group as Group)) {
+      return new Restful(
+        CodeDictionary.EDIT_ERROR__NO_PERMISSION,
+        '你的权限不足以修改该账号信息',
+      )
+    }
+    if (operatorGroup <= (user.group as Group)) {
+      return new Restful(
+        CodeDictionary.EDIT_ERROR__NO_PERMISSION,
+        '你不能给予该用户这样的权限等级',
+      )
+    }
     // TODO: 暂时不给更改密码
     delete user.password
     const newUser = await Action.Update(existedUser, user)
@@ -279,6 +325,36 @@ const Delete = async (id: string): Promise<Restful> => {
   }
 }
 
+/**
+ * 删除用户
+ */
+const Delete__Admin = async (
+  id: string,
+  operatorGroup: Group,
+): Promise<Restful> => {
+  try {
+    const existedUser = await Action.Retrieve('id', Number(id))
+    if (isUndef(existedUser)) {
+      return new Restful(1, '账号不存在')
+    }
+    if (operatorGroup <= (existedUser.group as Group)) {
+      return new Restful(
+        CodeDictionary.EDIT_ERROR__NO_PERMISSION,
+        '你的权限不足以删除该账号',
+      )
+    }
+    const deleteRow = await Action.Delete(Number(id))
+    return deleteRow > 0
+      ? new Restful(CodeDictionary.SUCCESS, `删除账号成功`)
+      : new Restful(CodeDictionary.DELETE_ERROR__USER, `删除账号失败`)
+  } catch (e) {
+    return new Restful(
+      CodeDictionary.COMMON_ERROR,
+      `删除账号失败, ${String(e.message)}`,
+    )
+  }
+}
+
 export default {
   Init,
   Register,
@@ -286,5 +362,7 @@ export default {
   Retrieve__ID,
   Retrieve__All,
   Edit,
+  Edit__Admin,
   Delete,
+  Delete__Admin,
 }

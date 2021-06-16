@@ -13,7 +13,7 @@ import useStyles from './useStyles'
 
 // components
 import { AppBar } from '@/components/AppBar'
-import { Drawer } from '@/components/Drawer/index_admin'
+import { Drawer } from '@/components/Drawer/index__admin'
 import UserStatus from '@/components/UserStatus'
 import Footer from '@/components/Footer'
 

@@ -1,6 +1,7 @@
-import { MailAction as Action } from '@action'
+import { MailAction as Action, UserAction } from '@action'
 import { CodeDictionary } from '@const'
 import { Mail } from '@models'
+import { Group } from '@models/User'
 import { isUndef, Restful } from '@utils'
 
 /**
@@ -56,7 +57,47 @@ const Edit = async (mail: Mail): Promise<Restful> => {
   }
 }
 
+/**
+ * 编辑邮箱信息
+ * @param { Mail } mail
+ */
+const Edit__Admin = async (
+  mail: Mail,
+  operatorGroup: Group,
+): Promise<Restful> => {
+  try {
+    const [existedMail, existedUser] = await Promise.all([
+      Action.Retrieve__UID(mail.uid),
+      UserAction.Retrieve('id', mail.uid),
+    ])
+    if (isUndef(existedMail) || isUndef(existedUser)) {
+      return new Restful(
+        CodeDictionary.EMAIL_ERROR__NON_EXISTED,
+        '邮箱设置信息不存在',
+      )
+    }
+    if (operatorGroup <= (existedUser.group as Group)) {
+      return new Restful(
+        CodeDictionary.EDIT_ERROR__NO_PERMISSION,
+        '你的权限不足以修改该账号信息',
+      )
+    }
+    mail = await Action.Update(existedMail, mail)
+    return new Restful(
+      CodeDictionary.SUCCESS,
+      '编辑邮箱设置信息成功',
+      mail.toJSON(),
+    )
+  } catch (e) {
+    return new Restful(
+      CodeDictionary.COMMON_ERROR,
+      `编辑邮箱设置信息失败, ${String(e.message)}`,
+    )
+  }
+}
+
 export default {
   Retrieve__UID,
   Edit,
+  Edit__Admin,
 }

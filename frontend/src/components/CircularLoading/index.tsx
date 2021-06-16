@@ -24,6 +24,7 @@ interface CircularLoadingProps {
    * Use indeterminate when there is no progress value.
    */
   variant?: 'determinate' | 'indeterminate' | 'static'
+  style?: React.CSSProperties
 }
 export const CircularLoading: FC<CircularLoadingProps> = ({
   color,
@@ -32,10 +33,11 @@ export const CircularLoading: FC<CircularLoadingProps> = ({
   thickness,
   value,
   variant,
+  style,
 }) => {
   const classes = useStyles()
   return (
-    <div className={classes.loading}>
+    <div className={classes.loading} style={style}>
       <CircularProgress
         color={color}
         disableShrink={disableShrink}

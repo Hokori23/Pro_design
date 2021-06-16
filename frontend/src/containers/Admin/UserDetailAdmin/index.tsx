@@ -1,5 +1,5 @@
-import React, { FC, Fragment, useEffect } from 'react'
-import { PathName, RouteConfig } from '@/routes'
+import React, { FC, Fragment } from 'react'
+import { RouteConfig } from '@/routes'
 import { RouteComponentProps } from 'react-router-dom'
 import {
   List,
@@ -16,9 +16,10 @@ import {
 } from '@material-ui/core'
 import { GenderCNArr } from '@/utils/Request/User'
 import EmailIcon from '@material-ui/icons/Email'
+import moment from 'moment'
 
 // hooks
-import useUser from './useUser'
+import useUserDetailAdmin from './useUserDetailAdmin'
 import useStyles from './useStyles'
 
 // components
@@ -55,19 +56,21 @@ export const ListItemValue: FC<ListItemValueProps> = ({
   </Fragment>
 )
 
-const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
+const UserDetailAdmin: FC<RouteComponentProps & RouteConfig> = ({
+  history,
+}) => {
   const classes = useStyles()
   const theme = useTheme()
   const {
-    userInfo,
+    user,
+    userUpdatedAt,
     clonedUserInfo,
     setClonedUserInfo,
-    isLogin,
-    avatarLoading,
     userLoading,
     editDialog,
     mailLoading,
     mail,
+    mailUpdatedAt,
     deleteDialog,
     deletingUser,
     handleEditMail,
@@ -78,15 +81,7 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
     handleEditDialogOpen,
     handleEditDialogValid,
     handleEditDialogSubmit,
-    handleImgUpload,
-  } = useUser()
-
-  useEffect(() => {
-    if (!isLogin) {
-      history.replace(PathName.HOME)
-    }
-  }, [])
-
+  } = useUserDetailAdmin()
   return (
     <div className={classes.root}>
       <section className={classes.user}>
@@ -96,34 +91,19 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
           subheader={<ListSubheader component="div">用户信息</ListSubheader>}
         >
           <Divider light />
-          <label htmlFor="avatar__upload" title="修改头像">
-            <ListItem button>
-              <ListItemText primary="头像" />
-              <ListItemIcon className={classes.AvatarWrapper}>
-                <Avatar alt={userInfo.userName} src={userInfo.avatarUrl} />
-                {avatarLoading && (
-                  <CircularLoading
-                    size={42}
-                    style={{ top: 'calc(50% + 3px)' }}
-                  />
-                )}
-              </ListItemIcon>
-            </ListItem>
-          </label>
-          <input
-            accept="image/png, image/jpeg, image/jpg"
-            className={classes.avatarInput}
-            id="avatar__upload"
-            onChange={handleImgUpload}
-            type="file"
-          />
+          <ListItem button>
+            <ListItemText primary="头像" />
+            <ListItemIcon className={classes.AvatarWrapper}>
+              <Avatar alt={user?.userName} src={user?.avatarUrl} />
+            </ListItemIcon>
+          </ListItem>
           <Divider light />
           <ListItemValue
             className={classes.ValueWrapper}
             disabled
             innerClassName={classes.ValueInner}
             primary="账号"
-            value={userInfo.userAccount}
+            value={user?.userAccount}
           />
           <ListItemValue
             className={classes.ValueWrapper}
@@ -133,24 +113,24 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
                 title: '修改用户名*',
                 content:
                   '用户名长度应为2至20字符且只能由字母、数字、下划线组成',
-                input: clonedUserInfo.userName,
+                input: clonedUserInfo?.userName,
                 attr: 'userName',
               })
             }
             primary="用户名"
-            value={userInfo.userName}
+            value={user?.userName}
           />
           <ListItemValue
             className={classes.ValueWrapper}
             onClick={() =>
               handleEditDialogOpen({
                 title: '修改性别*',
-                input: clonedUserInfo.gender,
+                input: clonedUserInfo?.gender,
                 attr: 'gender',
               })
             }
             primary="性别"
-            value={GenderCNArr[userInfo.gender as number]}
+            value={GenderCNArr[user?.gender as number]}
           />
           <ListItemValue
             className={classes.ValueWrapper}
@@ -159,12 +139,12 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
               handleEditDialogOpen({
                 title: '修改邮箱*',
                 content: '请输入合法邮箱',
-                input: clonedUserInfo.email,
+                input: clonedUserInfo?.email,
                 attr: 'email',
               })
             }
             primary="邮箱"
-            value={userInfo.email}
+            value={user?.email}
           />
           <ListItemValue
             className={classes.ValueWrapper}
@@ -173,12 +153,12 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
               handleEditDialogOpen({
                 title: '修改个人网站',
                 content: '请输入合法链接',
-                input: clonedUserInfo.url,
+                input: clonedUserInfo?.url,
                 attr: 'url',
               })
             }
             primary="个人网站"
-            value={userInfo.url}
+            value={user?.url}
           />
           <ListItemValue
             className={classes.TextAreaWrapper}
@@ -187,12 +167,30 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
               handleEditDialogOpen({
                 title: '修改个人简介',
                 content: '介绍下自己吧！',
-                input: clonedUserInfo.profile,
+                input: clonedUserInfo?.profile,
                 attr: 'profile',
               })
             }
             primary="个人简介"
-            value={userInfo.profile}
+            value={user?.profile}
+          />
+          <ListItemValue
+            className={classes.TextAreaWrapper}
+            disabled
+            innerClassName={classes.TextAreaInner}
+            primary="创建时间"
+            value={moment(user?.createdAt).calendar()}
+          />
+          <ListItemValue
+            className={classes.TextAreaWrapper}
+            disabled
+            innerClassName={classes.TextAreaInner}
+            primary="最后修改时间"
+            value={
+              userUpdatedAt.isBefore(mailUpdatedAt)
+                ? mailUpdatedAt.calendar()
+                : userUpdatedAt.calendar()
+            }
           />
           <ListSubheader>更多</ListSubheader>
           {/* 邮箱订阅 */}
@@ -205,7 +203,7 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
               <ListItemSecondaryAction className="relative">
                 <Switch
                   checked={!!mail?.isSubscribed}
-                  disabled={mailLoading || mail.id === -1}
+                  disabled={mailLoading || mail?.id === -1}
                   edge="end"
                   id="user-email-setting"
                   onChange={handleEditMail}
@@ -223,7 +221,7 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
             style={{ backgroundColor: theme.palette.error.dark }}
           >
             <ListItemText
-              primary="注销账号"
+              primary="删除账号"
               primaryTypographyProps={{
                 align: 'center',
                 style: {
@@ -260,13 +258,13 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
                 style={{ color: theme.palette.error.main }}
                 variant="subtitle1"
               >
-                确定要注销账号吗？
+                确定要删除账号吗？
               </Typography>
               <Typography
                 style={{ color: theme.palette.error.main }}
                 variant="body2"
               >
-                一经注销，账号无法找回！
+                一经删除，账号无法找回！
               </Typography>
             </Fragment>
           }
@@ -283,4 +281,4 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
   )
 }
 
-export default User
+export default UserDetailAdmin

@@ -37,7 +37,7 @@ export const UserName = (props: CellParams): ReactElement => {
         <InnerLink className={classes.titleText} to={``}>
           {row.userAccount}
         </InnerLink>
-        <InnerLink to={`${PathName._MOMENT_DETAIL_ADMIN}/${Number(row.id)}`}>
+        <InnerLink to={`${PathName._USER_DETAIL_ADMIN}/${Number(row.id)}`}>
           <IconButton color="inherit" size={isMobileSize ? 'small' : 'medium'}>
             <EditIcon />
           </IconButton>

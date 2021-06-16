@@ -1,19 +1,19 @@
 import { PathName, RouteName } from '@/routes'
-import { RootState, store } from '@/store'
-import { UPYUN_URL } from '@/utils/const'
-import Request, { Upload, User } from '@/utils/Request'
-import { FileType } from '@/utils/Request/Upload'
+import { store } from '@/store'
+import Request from '@/utils/Request'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import _ from 'lodash'
 import { useAsync } from 'react-use'
 import { Mail } from '@/utils/Request/Mail'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
+import { User } from '@/utils/Request/User'
+import moment from 'moment'
 
 interface EditDialogProps {
   open: boolean
   title: string
-  attr: keyof User.User
+  attr: keyof User
   valid: boolean
   content?: string
   input?: any
@@ -27,66 +27,20 @@ const defaultEditDialogProps: EditDialogProps = {
   input: '',
 }
 export default () => {
-  const state = useSelector((state: RootState) => state.common)
   const dispatch = useSelector(() => store.dispatch.common)
   const history = useHistory()
-  const { userInfo, isLogin } = state
+  const { id } = useParams<{ id: string }>()
 
-  const [avatarLoading, setAvatarLoading] = useState(false)
-  const [clonedUserInfo, setClonedUserInfo] = useState(_.cloneDeep(userInfo))
+  const [user, setUser] = useState<Partial<User> | null>(null)
+  const [clonedUserInfo, setClonedUserInfo] = useState<Partial<User> | null>(
+    null,
+  )
   const [userLoading, setUserLoading] = useState(false)
   const [editDialog, setEditDialog] = useState(defaultEditDialogProps)
   const [mailLoading, setMailLoading] = useState(true)
-  const [mail, setMail] = useState<Mail>({
-    id: -1,
-    uid: userInfo.id as number,
-    isSubscribed: false,
-  })
+  const [mail, setMail] = useState<Mail | null>(null)
   const [deleteDialog, setDeleteDialog] = useState(false)
   const [deletingUser, setDeletingUser] = useState(false)
-
-  const handleImgUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    const { name, size } = file
-    if (size > 1024 * 1024) {
-      dispatch.SET_AXIOS_SNACK_BAR({
-        message: '请选择小于1MB的图片',
-        type: 'warning',
-        open: true,
-      })
-      return
-    }
-    const formData = new FormData()
-    formData.append('file', file)
-    setAvatarLoading(true)
-    const uploadRes = await Upload.handleUpload(
-      { fileName: name, formData },
-      FileType.IMAGE,
-    )
-    if (!uploadRes || uploadRes.code !== 200) {
-      setAvatarLoading(false)
-      dispatch.SET_AXIOS_SNACK_BAR({
-        message: '上传头像失败',
-        type: 'error',
-        open: true,
-      })
-      return
-    }
-
-    // 更改用户信息
-    const user = _.cloneDeep(state.userInfo)
-    user.avatarUrl = `${UPYUN_URL}${uploadRes.url}`
-    const editUserRes = await User.Edit(user)
-    setAvatarLoading(false)
-    if (!editUserRes) {
-      dispatch.SET_AXIOS_SNACK_BAR({
-        message: '上传头像失败',
-        type: 'error',
-        open: true,
-      })
-    }
-  }
 
   const handleEditDialogClose = () => {
     setEditDialog({
@@ -109,19 +63,21 @@ export default () => {
     e: React.FormEvent<HTMLFormElement>,
   ) => {
     e.preventDefault()
+    if (!clonedUserInfo) return
     const newUser = _.cloneDeep(clonedUserInfo)
     setUserLoading(true)
-    const res = await User.Edit(newUser)
+    const res = await Request.User.Edit__Admin(newUser)
     setUserLoading(false)
-    if (res) {
-      setClonedUserInfo(res)
+    if (res?.data) {
+      setUser(res.data)
+      setClonedUserInfo(_.cloneDeep(res.data))
       handleEditDialogClose()
     }
   }
 
   const RetrieveMail = async () => {
     setMailLoading(true)
-    const res = await Request.Mail.Retrieve()
+    const res = await Request.Mail.Retrieve__Admin(Number(id))
     setMailLoading(false)
     if (res?.data) {
       setMail(res.data)
@@ -129,12 +85,12 @@ export default () => {
   }
 
   const handleEditMail = async () => {
-    if (mail.id === -1) return
+    if (!mail) return
     const newMail = { ...mail, isSubscribed: !mail.isSubscribed }
     setMailLoading(true)
-    const res = await Request.Mail.Edit(newMail)
+    const res = await Request.Mail.Edit__Admin(newMail)
     if (res?.data) {
-      setMail(newMail)
+      setMail(res.data)
       dispatch.SET_AXIOS_SNACK_BAR({
         message: res.message,
         open: true,
@@ -148,40 +104,39 @@ export default () => {
   }
   const handleDeleteUser = async () => {
     setDeletingUser(true)
-    const res = await User.Delete()
+    const res = await Request.User.Delete__Admin(Number(user?.id))
     setDeletingUser(false)
     if (res?.code === 0) {
       dispatch.SET_AXIOS_SNACK_BAR({
         message: res.message,
         open: true,
       })
-      dispatch.LOGOUT()
-      history.push(PathName.HOME)
+      history.push(PathName.USER_ADMIN)
     }
   }
 
   useEffect(() => {
-    dispatch.SET_APPBAR_TITLE(RouteName.USER)
+    dispatch.SET_APPBAR_TITLE(`编辑${RouteName.USER_DETAIL_ADMIN}`)
   }, [])
 
   useAsync(async () => {
-    if (!isLogin) return
     void RetrieveMail()
-    const res = await User.Retrieve(Number(userInfo.id))
+    const res = await Request.User.Retrieve(Number(id))
     if (res?.data) {
-      dispatch.SET_USER_INFO(res.data)
+      setUser(res.data)
+      setClonedUserInfo(_.cloneDeep(res.data))
     }
   })
   return {
-    userInfo,
+    user,
+    userUpdatedAt: moment(user?.updatedAt),
     clonedUserInfo,
     setClonedUserInfo,
-    isLogin,
-    avatarLoading,
     userLoading,
     editDialog,
     mailLoading,
     mail,
+    mailUpdatedAt: moment(mail?.updatedAt),
     deleteDialog,
     deletingUser,
     handleEditMail,
@@ -192,6 +147,5 @@ export default () => {
     handleEditDialogOpen,
     handleEditDialogValid,
     handleEditDialogSubmit,
-    handleImgUpload,
   }
 }
