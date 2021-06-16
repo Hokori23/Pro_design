@@ -51,6 +51,8 @@ const ROUTER_ADMIN_ALLOW = [
   `post-tag/create-admin`,
   `post-tag/edit-admin`,
   `post-tag/delete-admin`,
+  // mail
+  `mail/retrieve-admin`,
 ].map((v) => `/api/${v}`)
 
 // 只有超级管理员可以访问的接口
@@ -80,6 +82,7 @@ enum CodeDictionary {
   DELETE_ERROR__USER,
   DELETE_ERROR__USER_ADMIN,
   EXPIRED_LOGIN,
+  EDIT_ERROR__NO_PERMISSION,
   // Post
   SERVICE_ERROR__POST_NEED_TITLE,
   RETRIEVE_ERROR__POST_NON_EXISTED,

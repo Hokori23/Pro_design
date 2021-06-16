@@ -43,7 +43,7 @@ export const Request = async <T>(config: AxiosRequestConfig) => {
         open: true,
         message: res.data.message,
         type: 'warning',
-        autoHideDuration: 5000,
+        autoHideDuration: 3000,
       })
     }
     return (res.data as unknown) as T
@@ -56,7 +56,7 @@ export const Request = async <T>(config: AxiosRequestConfig) => {
       dispatch.common.SET_AXIOS_SNACK_BAR({
         open: true,
         message: '登陆失效，请重新登陆',
-        autoHideDuration: 6000,
+        autoHideDuration: 3000,
         type: 'error',
       })
       dispatch.common.LOGOUT()
@@ -64,14 +64,14 @@ export const Request = async <T>(config: AxiosRequestConfig) => {
       dispatch.common.SET_AXIOS_SNACK_BAR({
         open: true,
         message: '无权进行此操作',
-        autoHideDuration: 6000,
+        autoHideDuration: 3000,
         type: 'error',
       })
     } else {
       dispatch.common.SET_AXIOS_SNACK_BAR({
         open: true,
         message: err?.response?.data || String(err),
-        autoHideDuration: 5000,
+        autoHideDuration: 3000,
         type: 'error',
       })
     }

@@ -38,7 +38,7 @@ Mail.init(
       comment: '是否订阅',
       type: DataTypes.TINYINT.UNSIGNED,
       allowNull: false,
-      defaultValue: Toggle.Y,
+      defaultValue: Toggle.N,
     },
   },
   {

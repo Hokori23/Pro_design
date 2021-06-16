@@ -171,7 +171,7 @@ userRouter.post(
  */
 userRouter.post(
   '/edit-admin',
-  asyncWrapper(async (req, res, next) => {
+  asyncWrapper(async (req: any, res, next) => {
     try {
       if (
         !checkIntegrity(req.body, ['id', 'userAccount', 'userName', 'email'])
@@ -181,7 +181,9 @@ userRouter.post(
           .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
         return next()
       }
-      res.status(200).json(await Service.Edit(req.body))
+      res
+        .status(200)
+        .json(await Service.Edit__Admin(req.body as User, req.auth.group))
     } catch (e) {
       // TODO: 进行邮件提醒
       res.status(500).end()
@@ -227,6 +229,7 @@ userRouter.post(
   '/delete-admin',
   asyncWrapper(async (req: any, res, next) => {
     const { id } = req.body
+    console.log(id)
     try {
       if (isNaN(id)) {
         res
@@ -242,7 +245,7 @@ userRouter.post(
             ),
           )
       } else {
-        res.status(200).json(await Service.Delete(id))
+        res.status(200).json(await Service.Delete__Admin(id, req.auth.group))
       }
     } catch (e) {
       // TODO: 进行邮件提醒

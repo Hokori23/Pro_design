@@ -11,20 +11,35 @@ export interface Mail {
   updatedAt?: Date
 }
 
-export const Retrieve = async (uid: number) => {
+export const Retrieve = async () => {
   return await Request<Restful<Mail>>({
     method: 'GET',
     url: `${baseUrl}/retrieve`,
+  })
+}
+
+export const Retrieve__Admin = async (uid: number) => {
+  return await Request<Restful<Mail>>({
+    method: 'GET',
+    url: `${baseUrl}/retrieve-admin`,
     params: {
       uid,
     },
   })
 }
 
-export const Edit = async (user: Partial<Mail>) => {
+export const Edit = async (mail: Partial<Mail>) => {
   return await Request<Restful<Mail>>({
     method: 'POST',
     url: `${baseUrl}/edit`,
-    data: user,
+    data: mail,
+  })
+}
+
+export const Edit__Admin = async (mail: Partial<Mail>) => {
+  return await Request<Restful<Mail>>({
+    method: 'POST',
+    url: `${baseUrl}/edit-admin`,
+    data: mail,
   })
 }
