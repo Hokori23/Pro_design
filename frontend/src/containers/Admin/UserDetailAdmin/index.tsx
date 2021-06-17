@@ -27,34 +27,7 @@ import EditDialog from './EditDialog'
 import EditDialogInput from './EditDialogInput'
 import { CircularLoading } from '@/components/CircularLoading'
 import { SimpleConfirmDialog } from '@/components/SimpleConfirmDialog'
-interface ListItemValueProps {
-  primary: string
-  className?: string
-  innerClassName?: string
-  value?: string
-  onClick?: () => void
-  disabled?: boolean
-}
-export const ListItemValue: FC<ListItemValueProps> = ({
-  primary,
-  className,
-  innerClassName,
-  value,
-  onClick,
-  disabled,
-}) => (
-  <Fragment>
-    <ListItem button disabled={disabled} onClick={onClick}>
-      <ListItemText primary={primary} />
-      <ListItemText className={className} disableTypography>
-        <Typography className={innerClassName} color="textSecondary">
-          {value}
-        </Typography>
-      </ListItemText>
-    </ListItem>
-    <Divider light />
-  </Fragment>
-)
+import { ListItemValue } from '@/components/ListItemValue'
 
 const UserDetailAdmin: FC<RouteComponentProps & RouteConfig> = ({
   history,
@@ -113,7 +86,6 @@ const UserDetailAdmin: FC<RouteComponentProps & RouteConfig> = ({
                 title: '修改用户名*',
                 content:
                   '用户名长度应为2至20字符且只能由字母、数字、下划线组成',
-                input: clonedUserInfo?.userName,
                 attr: 'userName',
               })
             }
@@ -125,7 +97,6 @@ const UserDetailAdmin: FC<RouteComponentProps & RouteConfig> = ({
             onClick={() =>
               handleEditDialogOpen({
                 title: '修改性别*',
-                input: clonedUserInfo?.gender,
                 attr: 'gender',
               })
             }
@@ -139,7 +110,6 @@ const UserDetailAdmin: FC<RouteComponentProps & RouteConfig> = ({
               handleEditDialogOpen({
                 title: '修改邮箱*',
                 content: '请输入合法邮箱',
-                input: clonedUserInfo?.email,
                 attr: 'email',
               })
             }
@@ -153,7 +123,6 @@ const UserDetailAdmin: FC<RouteComponentProps & RouteConfig> = ({
               handleEditDialogOpen({
                 title: '修改个人网站',
                 content: '请输入合法链接',
-                input: clonedUserInfo?.url,
                 attr: 'url',
               })
             }
@@ -167,7 +136,6 @@ const UserDetailAdmin: FC<RouteComponentProps & RouteConfig> = ({
               handleEditDialogOpen({
                 title: '修改个人简介',
                 content: '介绍下自己吧！',
-                input: clonedUserInfo?.profile,
                 attr: 'profile',
               })
             }

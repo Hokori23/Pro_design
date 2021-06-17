@@ -29,7 +29,7 @@ export default (history: H.History<unknown>) => {
       return
     }
     if (id === '2') {
-      // 跳过游客账号
+      // TODO: 跳过游客账号
       history.replace(PathName.NOT_FOUND_PAGE)
       return
     }

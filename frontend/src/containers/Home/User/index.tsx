@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core'
 import { GenderCNArr } from '@/utils/Request/User'
 import EmailIcon from '@material-ui/icons/Email'
+import moment from 'moment'
 
 // hooks
 import useUser from './useUser'
@@ -26,40 +27,14 @@ import EditDialog from './EditDialog'
 import EditDialogInput from './EditDialogInput'
 import { CircularLoading } from '@/components/CircularLoading'
 import { SimpleConfirmDialog } from '@/components/SimpleConfirmDialog'
-interface ListItemValueProps {
-  primary: string
-  className?: string
-  innerClassName?: string
-  value?: string
-  onClick?: () => void
-  disabled?: boolean
-}
-export const ListItemValue: FC<ListItemValueProps> = ({
-  primary,
-  className,
-  innerClassName,
-  value,
-  onClick,
-  disabled,
-}) => (
-  <Fragment>
-    <ListItem button disabled={disabled} onClick={onClick}>
-      <ListItemText primary={primary} />
-      <ListItemText className={className} disableTypography>
-        <Typography className={innerClassName} color="textSecondary">
-          {value}
-        </Typography>
-      </ListItemText>
-    </ListItem>
-    <Divider light />
-  </Fragment>
-)
+import { ListItemValue } from '@/components/ListItemValue'
 
 const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
   const classes = useStyles()
   const theme = useTheme()
   const {
     userInfo,
+    userUpdatedAt,
     clonedUserInfo,
     setClonedUserInfo,
     isLogin,
@@ -68,6 +43,7 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
     editDialog,
     mailLoading,
     mail,
+    mailUpdatedAt,
     deleteDialog,
     deletingUser,
     handleEditMail,
@@ -193,6 +169,24 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
             }
             primary="个人简介"
             value={userInfo.profile}
+          />
+          <ListItemValue
+            className={classes.TextAreaWrapper}
+            disabled
+            innerClassName={classes.TextAreaInner}
+            primary="创建时间"
+            value={moment(userInfo?.createdAt).calendar()}
+          />
+          <ListItemValue
+            className={classes.TextAreaWrapper}
+            disabled
+            innerClassName={classes.TextAreaInner}
+            primary="最后修改时间"
+            value={
+              userUpdatedAt.isBefore(mailUpdatedAt)
+                ? mailUpdatedAt.calendar()
+                : userUpdatedAt.calendar()
+            }
           />
           <ListSubheader>更多</ListSubheader>
           {/* 邮箱订阅 */}

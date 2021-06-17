@@ -13,7 +13,7 @@ const Save = async (options: Option[]): Promise<Restful> => {
   try {
     options = await Action.CreateBulk__Update(options, t)
     await t.commit()
-    return new Restful(CodeDictionary.SUCCESS, '保存设置成功')
+    return new Restful(CodeDictionary.SUCCESS, '保存设置成功', options)
   } catch (e) {
     await t.rollback()
     return new Restful(

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Option } from '@/utils/Request/Option'
 import { useAsync } from 'react-use'
-import useInit from '@/containers/Home/useInit'
 import { PathName, RouteName } from '@/routes'
 import { store } from '@/store'
 import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
+import Request from '@/utils/Request'
 
 export default (isDeskTopSize: boolean) => {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -14,9 +14,10 @@ export default (isDeskTopSize: boolean) => {
   const location = useLocation()
 
   useAsync(async () => {
-    const { blogConfig } = await useInit()
-    if (blogConfig) {
-      setBlogConfig(blogConfig)
+    const res = await Request.Option.RetrieveAll()
+    if (res?.data) {
+      dispatch.SET_BLOG_CONFIG(res.data)
+      setBlogConfig(res.data)
     }
   })
 

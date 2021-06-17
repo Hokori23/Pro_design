@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Option } from '@/utils/Request/Option'
 import { useAsync } from 'react-use'
-import useInit from './useInit'
 import * as H from 'history'
 import { TabProps } from '@/containers/Home/Navigation'
 import { PathName } from '@/routes'
 import { useSelector } from 'react-redux'
 import { RootState, store } from '@/store'
+import Request from '@/utils/Request'
 
 export default (location: H.Location<unknown>, isDeskTopSize: boolean) => {
   const state = useSelector((state: RootState) => state.common)
@@ -32,9 +32,10 @@ export default (location: H.Location<unknown>, isDeskTopSize: boolean) => {
   const [curTabIdx, setCurTabIdx] = useState(idx === -1 ? 0 : idx)
 
   useAsync(async () => {
-    const { blogConfig } = await useInit()
-    if (blogConfig) {
-      setBlogConfig(blogConfig)
+    const res = await Request.Option.RetrieveAll()
+    if (res?.data) {
+      dispatch.SET_BLOG_CONFIG(res.data)
+      setBlogConfig(res.data)
     }
   })
 

@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react'
+import React, { FC } from 'react'
 import { RouteConfig } from '@/routes'
 import { RouteComponentProps } from 'react-router-dom'
 import {
@@ -18,34 +18,8 @@ import useUser from './useUser'
 import useStyles from './useStyles'
 import { CircularLoading } from '@/components/CircularLoading'
 
-interface ListItemValueProps {
-  primary: string
-  className?: string
-  innerClassName?: string
-  value?: string
-  onClick?: () => void
-  disabled?: boolean
-}
-const ListItemValue: FC<ListItemValueProps> = ({
-  primary,
-  className,
-  innerClassName,
-  value,
-  onClick,
-  disabled,
-}) => (
-  <Fragment>
-    <ListItem button disabled={disabled} onClick={onClick}>
-      <ListItemText primary={primary} />
-      <ListItemText className={className} disableTypography>
-        <Typography className={innerClassName} color="textSecondary">
-          {value}
-        </Typography>
-      </ListItemText>
-    </ListItem>
-    <Divider light />
-  </Fragment>
-)
+// components
+import { ListItemValue } from '@/components/ListItemValue'
 
 const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
   const classes = useStyles()

@@ -9,6 +9,7 @@ import _ from 'lodash'
 import { useAsync } from 'react-use'
 import { Mail } from '@/utils/Request/Mail'
 import { useHistory } from 'react-router-dom'
+import moment from 'moment'
 
 interface EditDialogProps {
   open: boolean
@@ -174,6 +175,7 @@ export default () => {
   })
   return {
     userInfo,
+    userUpdatedAt: moment(userInfo?.updatedAt),
     clonedUserInfo,
     setClonedUserInfo,
     isLogin,
@@ -182,6 +184,7 @@ export default () => {
     editDialog,
     mailLoading,
     mail,
+    mailUpdatedAt: moment(mail?.updatedAt),
     deleteDialog,
     deletingUser,
     handleEditMail,

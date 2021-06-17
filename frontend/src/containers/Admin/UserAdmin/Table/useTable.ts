@@ -1,3 +1,4 @@
+import { Group, GroupCN } from '@/utils/Request/User'
 import { ColDef } from '@material-ui/data-grid'
 import { UserName, Email, createdAt } from './Title'
 
@@ -7,15 +8,28 @@ export default () => {
       field: 'userName',
       headerName: '用户名',
       headerAlign: 'left',
-      flex: 1,
+      flex: 1.5,
       renderCell: UserName,
     },
     {
       field: 'email',
       headerName: '邮箱',
-      headerAlign: 'left',
+      headerAlign: 'center',
       flex: 1,
       renderCell: Email,
+    },
+    {
+      field: 'group',
+      headerName: '权限',
+      headerAlign: 'center',
+      flex: 1,
+      align: 'center',
+      valueFormatter: (params) => {
+        const value = Number(params.value)
+        if (value === Group.SUBSCRIBER) return GroupCN.SUBSCRIBER
+        if (value === Group.ADMIN) return GroupCN.ADMIN
+        if (value === Group.SUPER_ADMIN) return GroupCN.SUPER_ADMIN
+      },
     },
     {
       field: 'createdAt',

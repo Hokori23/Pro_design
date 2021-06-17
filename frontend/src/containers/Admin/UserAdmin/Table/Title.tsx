@@ -34,7 +34,10 @@ export const UserName = (props: CellParams): ReactElement => {
   return (
     <Tooltip arrow placement="bottom" title={row.userAccount}>
       <div className={classes.title}>
-        <InnerLink className={classes.titleText} to={``}>
+        <InnerLink
+          className={classes.titleText}
+          to={`${PathName._USER_DETAIL}/${Number(row.id)}`}
+        >
           {row.userAccount}
         </InnerLink>
         <InnerLink to={`${PathName._USER_DETAIL_ADMIN}/${Number(row.id)}`}>
