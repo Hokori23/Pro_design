@@ -229,7 +229,6 @@ userRouter.post(
   '/delete-admin',
   asyncWrapper(async (req: any, res, next) => {
     const { id } = req.body
-    console.log(id)
     try {
       if (isNaN(id)) {
         res

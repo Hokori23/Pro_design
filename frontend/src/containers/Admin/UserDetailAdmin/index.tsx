@@ -27,34 +27,7 @@ import EditDialog from './EditDialog'
 import EditDialogInput from './EditDialogInput'
 import { CircularLoading } from '@/components/CircularLoading'
 import { SimpleConfirmDialog } from '@/components/SimpleConfirmDialog'
-interface ListItemValueProps {
-  primary: string
-  className?: string
-  innerClassName?: string
-  value?: string
-  onClick?: () => void
-  disabled?: boolean
-}
-export const ListItemValue: FC<ListItemValueProps> = ({
-  primary,
-  className,
-  innerClassName,
-  value,
-  onClick,
-  disabled,
-}) => (
-  <Fragment>
-    <ListItem button disabled={disabled} onClick={onClick}>
-      <ListItemText primary={primary} />
-      <ListItemText className={className} disableTypography>
-        <Typography className={innerClassName} color="textSecondary">
-          {value}
-        </Typography>
-      </ListItemText>
-    </ListItem>
-    <Divider light />
-  </Fragment>
-)
+import { ListItemValue } from '@/components/ListItemValue'
 
 const UserDetailAdmin: FC<RouteComponentProps & RouteConfig> = ({
   history,

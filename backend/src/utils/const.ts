@@ -53,6 +53,7 @@ const ROUTER_ADMIN_ALLOW = [
   `post-tag/delete-admin`,
   // mail
   `mail/retrieve-admin`,
+  `mail/edit-admin`,
 ].map((v) => `/api/${v}`)
 
 // 只有超级管理员可以访问的接口
