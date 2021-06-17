@@ -5,7 +5,6 @@ import { OptionAttribute } from '@models/Option'
 import config from '@config'
 
 import sequelize from '@database'
-import { toArray } from '@utils'
 const { captchaExpiredTime, host, blogName } = config
 
 /**
@@ -45,7 +44,7 @@ const CreateBulk__Update = async (
 ): Promise<Option[]> => {
   return await Option.bulkCreate(arr, {
     validate: true,
-    updateOnDuplicate: toArray(Option.build()),
+    updateOnDuplicate: ['module', 'key'],
     transaction: t,
   })
 }

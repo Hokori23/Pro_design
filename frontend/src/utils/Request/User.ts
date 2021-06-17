@@ -4,7 +4,6 @@ import { store } from '@/store'
 
 const baseUrl = '/api/user'
 
-export const GenderArr = ['UNKNOWN', 'MALE', 'FEMALE']
 export const GenderCNArr = ['未知', '男', '女']
 export enum Gender {
   UNKNOWN = 0,
@@ -25,7 +24,7 @@ export enum Group {
 }
 
 export enum GroupCN {
-  SUBSCRIBER = '普通用户',
+  SUBSCRIBER = '用户',
   ADMIN = '管理员',
   SUPER_ADMIN = '超级管理员',
 }

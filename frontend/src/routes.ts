@@ -22,6 +22,7 @@ import UserAdmin from './containers/Admin/UserAdmin'
 import PostDetailAdmin from './containers/Admin/PostDetailAdmin'
 import MomentDetailAdmin from './containers/Admin/MomentDetailAdmin'
 import UserDetailAdmin from './containers/Admin/UserDetailAdmin'
+import System from './containers/Admin/System'
 
 export enum PathName {
   DEMO = '/demo',
@@ -50,6 +51,7 @@ export enum PathName {
   POST_DETAIL_ADMIN = '/admin/post/detail/:id',
   _MOMENT_DETAIL_ADMIN = '/admin/moment/detail',
   MOMENT_DETAIL_ADMIN = '/admin/moment/detail/:id',
+  SYSTEM = '/admin/system',
   _NOT_FOUND_PAGE = '*',
   NOT_FOUND_PAGE = '/404',
 }
@@ -72,6 +74,7 @@ export enum RouteName {
   MOMENT_DETAIL_ADMIN = '说说',
   USER_ADMIN = '用户',
   USER_DETAIL_ADMIN = '用户',
+  SYSTEM = '博客设置',
 }
 
 /* 集中存放所有路由配置 */
@@ -170,6 +173,10 @@ export const routes: RouteConfig[] = [
       {
         path: PathName.USER_ADMIN,
         component: UserAdmin,
+      },
+      {
+        path: PathName.SYSTEM,
+        component: System,
       },
       {
         path: PathName._NOT_FOUND_PAGE,
