@@ -16,7 +16,6 @@ interface EditDialogProps {
   attr: keyof User
   valid: boolean
   content?: string
-  input?: any
 }
 const defaultEditDialogProps: EditDialogProps = {
   open: false,
@@ -24,7 +23,6 @@ const defaultEditDialogProps: EditDialogProps = {
   attr: 'userName',
   valid: true,
   content: '',
-  input: '',
 }
 export default () => {
   const dispatch = useSelector(() => store.dispatch.common)
