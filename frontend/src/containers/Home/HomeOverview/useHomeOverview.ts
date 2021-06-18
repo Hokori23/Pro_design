@@ -24,7 +24,7 @@ export default (location: H.Location<unknown>) => {
   const [maxPage, setMaxPage] = useState(1)
   const [isASC, setIsASC] = useState(IS_ASC)
   const [postTypes, setPostTypes] = useState(POST_TYPES)
-  const [posts, setPosts] = useState([] as PostWithAuthor[])
+  const [posts, setPosts] = useState<PostWithAuthor[]>([])
 
   const RetrieveAll = async (
     page: number,

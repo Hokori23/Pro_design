@@ -21,6 +21,14 @@ export const Create = async (tag: Partial<PostTag>) => {
   })
 }
 
+export const RetrieveBySlug = async (slug: string) => {
+  return await Request<Restful<PostTag>>({
+    method: 'GET',
+    url: `${baseUrl}/retrieve-slug`,
+    params: { slug },
+  })
+}
+
 export const RetrieveAll = async () => {
   return await Request<Restful<PostTag[]>>({
     method: 'GET',

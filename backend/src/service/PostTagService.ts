@@ -37,6 +37,27 @@ const Create = async (tag: PostTag): Promise<Restful> => {
 }
 
 /**
+ * 通过slug查询标签
+ */
+const Retrieve__Slug = async (slug: string): Promise<Restful> => {
+  try {
+    const tag = await Action.Retrieve('slug', slug)
+    if (isUndef(tag)) {
+      return new Restful(
+        CodeDictionary.RETRIEVE_ERROR__POST_NON_EXISTED,
+        '标签不存在',
+      )
+    }
+    return new Restful(CodeDictionary.SUCCESS, '查询成功', tag)
+  } catch (e) {
+    return new Restful(
+      CodeDictionary.COMMON_ERROR,
+      `查询失败, ${String(e.message)}`,
+    )
+  }
+}
+
+/**
  * 查询所有标签
  */
 const Retrieve__All = async (): Promise<Restful> => {
@@ -118,6 +139,7 @@ const Delete = async (id: number): Promise<Restful> => {
 
 export default {
   Create,
+  Retrieve__Slug,
   Retrieve__All,
   Edit,
   Delete,

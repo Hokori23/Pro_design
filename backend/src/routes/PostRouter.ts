@@ -87,6 +87,7 @@ postRouter.get(
           .status(200)
           .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
       } else {
+        // TODO: showDrafts, showHidden
         res.status(200).json(await Service.Retrieve__ID(Number(id), true, true))
       }
     } catch (e) {
@@ -190,22 +191,20 @@ postRouter.get(
  * @path /retrieve-tag
  * @param { string } page
  * @param { string } capacity
- * @param { number[] } tids
- * @param { PostType[] } postTypes
+ * @param { number[] } tids // TODO
  * @param { string } page
  */
 postRouter.get(
   '/retrieve-tag',
   asyncWrapper(async (req, res, next) => {
-    const { page, capacity, tids, isASC, postTypes } = req.query
+    const { page, capacity, tids, isASC } = req.query
     try {
       if (
         isNaN(page) ||
         isNaN(capacity) ||
         isNaN(tids) ||
         isNaN(isASC) ||
-        !(tids as string[]).length ||
-        !isValidPostType(postTypes)
+        !(tids as string[]).length
       ) {
         res
           .status(200)
@@ -218,7 +217,6 @@ postRouter.get(
               page as string,
               capacity as string,
               tids as string[],
-              (postTypes as unknown) as PostType[],
               false,
               false,
               isASC as string,
@@ -239,21 +237,19 @@ postRouter.get(
  * @param { string } page
  * @param { string } capacity
  * @param { number[] } tids
- * @param { PostType[] } postTypes
  * @param { string } page
  */
 postRouter.get(
   '/retrieve-tag-admin',
   asyncWrapper(async (req, res, next) => {
-    const { page, capacity, tids, isASC, postTypes } = req.query
+    const { page, capacity, tids, isASC } = req.query
     try {
       if (
         isNaN(page) ||
         isNaN(capacity) ||
         isNaN(tids) ||
         isNaN(isASC) ||
-        !(tids as string[]).length ||
-        !isValidPostType(postTypes)
+        !(tids as string[]).length
       ) {
         res
           .status(200)
@@ -266,7 +262,6 @@ postRouter.get(
               page as string,
               capacity as string,
               tids as string[],
-              (postTypes as unknown) as PostType[],
               true,
               true,
               isASC as string,

@@ -23,6 +23,21 @@ export const useStyles = makeStyles((theme) => ({
       padding: '0 0.5em 0 0',
     },
   },
+  tagsWrapper: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: `${theme.spacing(1)}px ${theme.spacing(4)}px`,
+    [theme.breakpoints.down('sm')]: {
+      padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    },
+  },
+  tag: {
+    maxWidth: '5rem',
+    marginLeft: theme.spacing(1),
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
   actionsWrapper: {
     display: 'flex',
     marginTop: theme.spacing(1),

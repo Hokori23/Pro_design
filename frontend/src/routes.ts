@@ -10,6 +10,8 @@ import HomeOverview from './containers/Home/HomeOverview'
 import PostOverview from './containers/Home/PostOverview'
 import PostDetail from './containers/Home/PostDetail'
 import MomentOverview from './containers/Home/MomentOverview'
+import PostTag from './containers/Home/PostTag'
+import PostTagOverview from './containers/Home/PostTagOverview'
 import User from './containers/Home/User'
 import UserDetail from './containers/Home/UserDetail'
 import NotFoundPage from './containers/NotFoundPage'
@@ -37,6 +39,9 @@ export enum PathName {
   POST_DETAIL = '/post/detail/:id',
   MOMENT_OVERVIEW = '/moment',
   _MOMENT_DETAIL = '/moment/detail',
+  POST_TAG = '/tags',
+  _POST_TAG_OVERVIEW = '/tag',
+  POST_TAG_OVERVIEW = '/tag/:slug',
   USER = '/user',
   _USER_DETAIL = '/user/detail',
   USER_DETAIL = '/user/detail/:id',
@@ -64,6 +69,7 @@ export enum RouteName {
   HOME = '首页',
   POST = '文章',
   MOMENT = '说说',
+  POST_TAG = '标签',
   USER = '用户中心',
   NOT_FOUND_PAGE = '找不到页面',
   ADMIN = '后台管理中心',
@@ -210,6 +216,14 @@ export const routes: RouteConfig[] = [
       {
         path: PathName.MOMENT_OVERVIEW,
         component: MomentOverview,
+      },
+      {
+        path: PathName.POST_TAG_OVERVIEW,
+        component: PostTagOverview,
+      },
+      {
+        path: PathName.POST_TAG,
+        component: PostTag,
       },
       {
         path: PathName.USER_DETAIL,
