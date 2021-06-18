@@ -21,6 +21,7 @@ import PostTagAdmin from './containers/Admin/PostTagAdmin'
 import PostAdmin from './containers/Admin/PostAdmin'
 import MomentAdmin from './containers/Admin/MomentAdmin'
 import UserAdmin from './containers/Admin/UserAdmin'
+import PostCommentAdmin from './containers/Admin/PostCommentAdmin'
 import PostDetailAdmin from './containers/Admin/PostDetailAdmin'
 import MomentDetailAdmin from './containers/Admin/MomentDetailAdmin'
 import UserDetailAdmin from './containers/Admin/UserDetailAdmin'
@@ -50,6 +51,7 @@ export enum PathName {
   POST_ADMIN = '/admin/post',
   MOMENT_ADMIN = '/admin/moment',
   USER_ADMIN = '/admin/user',
+  POST_COMMENT_ADMIN = '/admin/post-comment',
   _USER_DETAIL_ADMIN = '/admin/user/detail',
   USER_DETAIL_ADMIN = '/admin/user/detail/:id',
   _POST_DETAIL_ADMIN = '/admin/post/detail',
@@ -80,6 +82,7 @@ export enum RouteName {
   MOMENT_DETAIL_ADMIN = '说说',
   USER_ADMIN = '用户',
   USER_DETAIL_ADMIN = '用户',
+  POST_COMMENT_ADMIN = '评论',
   SYSTEM = '博客设置',
 }
 
@@ -179,6 +182,10 @@ export const routes: RouteConfig[] = [
       {
         path: PathName.USER_ADMIN,
         component: UserAdmin,
+      },
+      {
+        path: PathName.POST_COMMENT_ADMIN,
+        component: PostCommentAdmin,
       },
       {
         path: PathName.SYSTEM,

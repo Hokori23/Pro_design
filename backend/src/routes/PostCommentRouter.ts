@@ -1,4 +1,4 @@
-import { checkIntegrity, isUndef, Restful } from 'utils'
+import { checkIntegrity, isUndef, Restful, isNaN } from 'utils'
 import EXPRESS from 'express'
 import { PostCommentService as Service } from '@service'
 import asyncWrapper from 'async-wrapper-express-ts'
@@ -49,6 +49,38 @@ postCommentRouter.get(
     }
     try {
       res.status(200).json(await Service.Retrieve__PID(pid))
+    } catch (e) {
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
+ * 分页查询评论
+ * @path /retrieve
+ */
+postCommentRouter.get(
+  '/retrieve',
+  asyncWrapper(async (req, res, next) => {
+    const { page, capacity, isASC } = req.query
+    try {
+      if (isNaN(page) || isNaN(capacity) || isNaN(isASC)) {
+        res
+          .status(200)
+          .json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+      } else {
+        res
+          .status(200)
+          .json(
+            await Service.Retrieve__Page(
+              page as string,
+              capacity as string,
+              isASC as string,
+            ),
+          )
+      }
     } catch (e) {
       // TODO: 进行邮件提醒
       res.status(500).end()

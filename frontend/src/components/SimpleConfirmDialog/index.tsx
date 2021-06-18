@@ -10,7 +10,7 @@ import {
 import React, { FC } from 'react'
 import { CircularLoading } from '../CircularLoading'
 
-interface SimpleConfirmDialogProps {
+export interface SimpleConfirmDialogProps {
   open: boolean
   title?: string
   content?: string

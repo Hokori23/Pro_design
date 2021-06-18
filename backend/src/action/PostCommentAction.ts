@@ -1,4 +1,4 @@
-import { PostComment, User } from '@models'
+import { Post, PostComment, User } from '@models'
 import { Op, Transaction } from 'sequelize'
 
 /**
@@ -26,6 +26,38 @@ const Retrieve__ID = async (id: number): Promise<PostComment | null> => {
 }
 
 /**
+ * 分页查询帖子
+ * @param { number } offset
+ * @param { number } limit
+ * @param { boolean } isASC = false // 升序
+ */
+const Retrieve__Page = async (
+  offset: number,
+  limit: number,
+  isASC: boolean = false,
+): Promise<PostComment[]> => {
+  return await PostComment.findAll({
+    include: [
+      {
+        model: User,
+        as: 'author',
+        attributes: {
+          exclude: ['password'],
+        },
+        required: false,
+      },
+      {
+        model: Post,
+        as: 'post',
+      },
+    ],
+    offset,
+    limit,
+    order: [['createdAt', isASC ? 'ASC' : 'DESC']],
+  })
+}
+
+/**
  * 通过PID查询评论
  * @param pid
  */
@@ -46,6 +78,10 @@ const Retrieve__PID = async (pid: number): Promise<PostComment[]> => {
     ],
     order: [['createdAt', 'ASC']],
   })
+}
+
+const Count__Page = async (): Promise<number> => {
+  return await PostComment.count({})
 }
 
 /**
@@ -72,7 +108,9 @@ const Delete = async (id: number, pid?: number): Promise<number> => {
 
 export default {
   Create,
+  Retrieve__Page,
   Retrieve__ID,
   Retrieve__PID,
+  Count__Page,
   Delete,
 }

@@ -3,6 +3,7 @@ import { demo } from '@/containers/Demo/model'
 import { postDetail } from '@/containers/Home/PostDetail/model'
 import { postDetailAdmin } from '@/containers/Admin/PostDetailAdmin/model'
 import { momentDetailAdmin } from '@/containers/Admin/MomentDetailAdmin/model'
+import { postCommentAdmin } from '@/containers/Admin/PostCommentAdmin/model'
 
 import { common } from './common-model'
 
@@ -11,6 +12,7 @@ export interface RootModel extends Models<RootModel> {
   postDetail: typeof postDetail
   postDetailAdmin: typeof postDetailAdmin
   momentDetailAdmin: typeof momentDetailAdmin
+  postCommentAdmin: typeof postCommentAdmin
   common: typeof common
 }
 
@@ -19,5 +21,6 @@ export const models: RootModel = {
   postDetail,
   postDetailAdmin,
   momentDetailAdmin,
+  postCommentAdmin,
   common,
 }

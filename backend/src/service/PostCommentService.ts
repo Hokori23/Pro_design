@@ -143,6 +143,33 @@ const Retrieve__PID = async (pid: number): Promise<Restful> => {
   }
 }
 
+const Retrieve__Page = async (
+  page: string,
+  capacity: string,
+  isASC: string = '0',
+): Promise<Restful> => {
+  try {
+    const values = await Promise.all([
+      Action.Retrieve__Page(
+        (Number(page) - 1) * Number(capacity),
+        Number(capacity),
+        isASC === '1',
+      ),
+      Action.Count__Page(),
+    ])
+    const result = {
+      comments: values[0],
+      total: values[1],
+    }
+    return new Restful(CodeDictionary.SUCCESS, '查询成功', result)
+  } catch (e) {
+    return new Restful(
+      CodeDictionary.COMMON_ERROR,
+      `查询评论失败, ${String(e.message)}`,
+    )
+  }
+}
+
 /**
  * 删除评论
  * @param { number } id
@@ -217,6 +244,7 @@ const Dislike = async (id: number): Promise<Restful> => {
 export default {
   Create,
   Retrieve__PID,
+  Retrieve__Page,
   Delete,
   Like,
   Dislike,

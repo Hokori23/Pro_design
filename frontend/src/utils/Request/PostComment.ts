@@ -1,6 +1,7 @@
 import { Request } from '.'
 import { User } from './User'
 import { Restful, _Restful } from './type'
+import { Post, Toggle } from './Post'
 
 const baseUrl = '/api/post-comment'
 export interface PostComment {
@@ -19,9 +20,17 @@ export interface PostComment {
   readonly createdAt: Date
   readonly updatedAt: Date
 }
-
 export interface PostCommentWithAuthor extends PostComment {
   author?: User
+}
+
+export interface PostCommentWithAuthorPost extends PostCommentWithAuthor {
+  post: Post
+}
+
+export interface PostComments {
+  comments: PostCommentWithAuthorPost[]
+  total: number
 }
 
 export interface FormattedPostComment extends PostCommentWithAuthor {
@@ -40,10 +49,26 @@ export const Create = async (comment: Partial<PostComment>) => {
 export const Retrieve__PID = async (pid: number) => {
   return await Request<Restful<PostComment[]>>({
     method: 'GET',
-    data: {
+    params: {
       pid,
     },
     url: `${baseUrl}/retrieve-pid`,
+  })
+}
+
+export const Retrieve__Page = async (
+  page: number,
+  capacity: number,
+  isASC: Toggle,
+) => {
+  return await Request<Restful<PostComments>>({
+    method: 'GET',
+    params: {
+      page,
+      capacity,
+      isASC,
+    },
+    url: `${baseUrl}/retrieve`,
   })
 }
 
