@@ -55,10 +55,10 @@ PostComment.init(
       },
     },
     uid: {
-      comment: '评论用户id, -1 代表未注册用户',
-      type: DataTypes.INTEGER,
+      comment: '评论用户id, 2 代表未注册用户',
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
-      defaultValue: -1,
+      defaultValue: 2,
     },
     content: {
       comment: '评论内容',
