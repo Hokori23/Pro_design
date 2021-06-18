@@ -8,7 +8,10 @@ export default (ejsFiles?: File[]) => {
     ejsFiles || findSrcFiles(path.resolve('./src/mailer'), [], /.*\.ejs$/)
   ejsFiles.forEach((ejs) => {
     const outputPath = path.resolve(
-      ejs.path.replace(/\\backend\\src/, '\\backend\\build'),
+      ejs.path.replace(
+        path.join('backend', 'src'),
+        path.join('backend', 'build'),
+      ),
     )
     exec(`cp ${ejs.path} ${outputPath}`, (e) => {
       if (e) {

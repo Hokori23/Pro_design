@@ -8,7 +8,7 @@ const fsp = fs.promises
 export const compileAndOutput = async (inputPath: string, watch?: boolean) => {
   try {
     const outputPath = inputPath
-      .replace(/\\backend\\src/, '\\backend\\build')
+      .replace(path.join('backend', 'src'), path.join('backend', 'build'))
       .replace(/(scss|sass)$/, 'css')
     const cssOutputString = await sassCompiler(inputPath)
     await fsp.writeFile(outputPath, cssOutputString)
