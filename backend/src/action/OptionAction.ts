@@ -44,7 +44,7 @@ const CreateBulk__Update = async (
 ): Promise<Option[]> => {
   return await Option.bulkCreate(arr, {
     validate: true,
-    updateOnDuplicate: ['module', 'key'],
+    updateOnDuplicate: ['module', 'key', 'value'],
     transaction: t,
   })
 }
