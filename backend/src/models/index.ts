@@ -78,7 +78,16 @@ PostTag.belongsToMany(Post, {
   otherKey: 'pid',
   onDelete: 'CASCADE',
 })
-
+Post.hasMany(PostTagAssociation, {
+  as: 'association',
+  sourceKey: 'id',
+  foreignKey: 'pid',
+})
+PostTag.hasMany(PostTagAssociation, {
+  as: 'association',
+  sourceKey: 'id',
+  foreignKey: 'tid',
+})
 /**
  * Mail : User
  * 1 : 1

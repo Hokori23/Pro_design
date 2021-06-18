@@ -131,7 +131,6 @@ export const RetrieveTag = async (
   capacity: number,
   isASC: Toggle,
   tids: number[],
-  postTypes: PostType[] = [],
 ) => {
   return await Request<Restful<Posts>>({
     method: 'GET',
@@ -140,7 +139,6 @@ export const RetrieveTag = async (
       capacity,
       tids,
       isASC,
-      postTypes,
     },
     url: `${baseUrl}/retrieve-tag`,
   })
@@ -151,7 +149,6 @@ export const RetrieveTag__Admin = async (
   capacity: number,
   isASC: Toggle,
   tids: number[],
-  postTypes: PostType[] = [],
 ) => {
   return await Request<Restful<Posts>>({
     method: 'GET',
@@ -160,7 +157,6 @@ export const RetrieveTag__Admin = async (
       capacity,
       tids,
       isASC,
-      postTypes,
     },
     url: `${baseUrl}/retrieve-tag-admin`,
   })

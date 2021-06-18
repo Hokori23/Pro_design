@@ -23,6 +23,9 @@ const ROUTER_WHITE_LIST = [
   `post-comment/retrieve-pid`,
   `post-comment/like`,
   `post-comment/dislike`,
+  // post-tag
+  `post-tag/retrieve`,
+  `post-tag/retrieve-slug`,
   // captcha,
   `captcha/get`,
   // template,

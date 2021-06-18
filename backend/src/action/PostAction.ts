@@ -1,4 +1,4 @@
-import { Post, PostComment, User } from '@models'
+import { Post, PostComment, PostTagAssociation, User } from '@models'
 import { PostType } from '@models/Post'
 // Op: https://www.sequelize.com.cn/core-concepts/model-querying-basics#%E5%BA%94%E7%94%A8-where-%E5%AD%90%E5%8F%A5
 import { Op, Transaction } from 'sequelize'
@@ -152,24 +152,16 @@ const Retrieve__Page_Tag = async (
   isASC: boolean = false,
 ): Promise<Post[]> => {
   // 处理where对象
-  const where: any = {}
+  const where: any = {
+    [Op.or]: postTypes.map((value) => {
+      return { type: value }
+    }),
+  }
   if (!showDrafts) {
     where.isDraft = false
   }
   if (!showHidden) {
     where.isHidden = false
-  }
-  if (tids.length) {
-    where[Op.or] = tids.map((value) => {
-      return { tid: value }
-    })
-  }
-  if (postTypes.length) {
-    where[Op.or] = where[Op.or].concat(
-      postTypes.map((value) => {
-        return { type: value }
-      }),
-    )
   }
   where.isDraft = false
 
@@ -177,6 +169,16 @@ const Retrieve__Page_Tag = async (
     include: [
       {
         association: 'tags',
+      },
+      {
+        model: PostTagAssociation,
+        as: 'association',
+        required: true,
+        where: {
+          [Op.or]: tids.map((value) => {
+            return { tid: value }
+          }),
+        },
       },
       {
         model: PostComment,
@@ -191,7 +193,7 @@ const Retrieve__Page_Tag = async (
     offset,
     limit,
     order: [
-      ['isSticky', 'DESC'],
+      ['priority', 'DESC'],
       ['createdAt', isASC ? 'ASC' : 'DESC'],
     ],
   })
@@ -226,8 +228,8 @@ const Count__Page_Tag = async (
   tids: number[] = [],
 ): Promise<number> => {
   const where: any = {
-    [Op.or]: tids.map((value) => {
-      return { tid: value }
+    [Op.or]: postTypes.map((value) => {
+      return { type: value }
     }),
   }
   if (!showDrafts) {
@@ -236,14 +238,19 @@ const Count__Page_Tag = async (
   if (!showHidden) {
     where.isHidden = false
   }
-  if (postTypes.length) {
-    where[Op.or] = where[Op.or].concat(
-      postTypes.map((value) => {
-        return { type: value }
-      }),
-    )
-  }
   return await Post.count({
+    include: [
+      {
+        model: PostTagAssociation,
+        as: 'association',
+        required: true,
+        where: {
+          [Op.or]: tids.map((value) => {
+            return { tid: value }
+          }),
+        },
+      },
+    ],
     where,
   })
 }

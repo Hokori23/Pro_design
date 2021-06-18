@@ -70,6 +70,7 @@ export const DrawerList: FC<DrawerListProps> = ({
     },
     { primary: RouteName.POST, to: PathName.POST_OVERVIEW },
     { primary: RouteName.MOMENT, to: PathName.MOMENT_OVERVIEW },
+    { primary: RouteName.POST_TAG, to: PathName.POST_TAG },
   ]
   return (
     <nav>

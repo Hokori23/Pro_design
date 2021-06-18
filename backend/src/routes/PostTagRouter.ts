@@ -30,6 +30,28 @@ postTagRouter.post(
 )
 
 /**
+ * 通过slug查询标签
+ * @path /retrieve-slug
+ */
+postTagRouter.get(
+  '/retrieve-slug',
+  asyncWrapper(async (req, res, next) => {
+    const { slug } = req.query
+    if (isUndef(slug)) {
+      res.status(200).json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+      return next()
+    }
+    try {
+      res.status(200).json(await Service.Retrieve__Slug(slug as string))
+    } catch (e) {
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
  * 遍历标签
  * @path /retrieve
  */

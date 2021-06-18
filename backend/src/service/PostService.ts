@@ -181,12 +181,12 @@ const Retrieve__Page_Tag = async (
   page: string,
   capacity: string,
   tids: string[],
-  postTypes: PostType[] = [],
   showDrafts: boolean = false,
   showHidden: boolean = false,
   isASC: string = '0',
 ): Promise<Restful> => {
   try {
+    const postTypes = [PostType.LANDSCAPE, PostType.POST, PostType.PAGE]
     const values = await Promise.all([
       Action.Retrieve__Page_Tag(
         (Number(page) - 1) * Number(capacity),
