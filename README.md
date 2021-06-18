@@ -10,6 +10,16 @@
 
 ![key words](https://img.shields.io/github/package-json/keywords/Hokori23/Pro_design?style=flat-square)
 
+## Todo-List
+
+- bug: 文章编辑器更改 title, coverUrl 时，会丢失文章内容 content
+- feat: 文章内图片支持点击放大
+- feat: 文章内支持\[photos\]功能，即内联多图片
+- feat: 文章编辑器支持上传图片功能
+- feat: 支持多标签查询文章
+- feat: 自定义页面展示
+- feat: 文章 LANDSCAPE 样式
+
 ## 安装与运行
 
 前后端放在一个仓库里面，使用 [lerna](https://github.com/lerna/lerna) 统一管理。你需要全局安装 lerna：
@@ -37,6 +47,8 @@ npm run tree
 cd frontend
 npm start # 运行
 ```
+
+存放于文件夹 [frontend](frontend)。
 
 #### 前端主要技术栈
 
