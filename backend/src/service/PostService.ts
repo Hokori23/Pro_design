@@ -53,6 +53,12 @@ const Create = async (post: Post, tids: number[]): Promise<Restful> => {
         '除说说以外的文章类型，标题是必需的',
       )
     }
+    if (!post.content) {
+      return new Restful(
+        CodeDictionary.SERVICE_ERROR__POST_NEED_CONTENT,
+        '文章内容不能为空',
+      )
+    }
     const values = await Promise.all([Action.Create(post, t), getBlogConfig()])
     post = values[0]
     const blogConfig = values[1]
@@ -230,6 +236,19 @@ const Edit = async (post: any, tids: number[]): Promise<Restful> => {
       return new Restful(
         CodeDictionary.RETRIEVE_ERROR__POST_NON_EXISTED,
         '帖子不存在',
+      )
+    }
+    // 除了说说以外都需要title
+    if (post.type !== PostType.MOMENT && !post.title) {
+      return new Restful(
+        CodeDictionary.SERVICE_ERROR__POST_NEED_TITLE,
+        '除说说以外的文章类型，标题是必需的',
+      )
+    }
+    if (!post.content) {
+      return new Restful(
+        CodeDictionary.SERVICE_ERROR__POST_NEED_CONTENT,
+        '文章内容不能为空',
       )
     }
     const tagTransaction = new Promise<any>((resolve, reject) => {
