@@ -20,7 +20,6 @@ export interface PostDetailAdminState {
   deletingPost: boolean
   loadingTags: boolean
   post: PostWithTags
-  renderPost: PostWithTags
   tags: PostTagWithCheck[]
   isNew: boolean // 标志编辑或新建Post
   backdropLoading: boolean
@@ -45,7 +44,6 @@ export const defaultPost: PostWithTags = {
 }
 const defaultPostDetailAdminState: PostDetailAdminState = {
   post: _.cloneDeep(defaultPost),
-  renderPost: _.cloneDeep(defaultPost),
   loadingPost: true,
   deletingPost: false,
   tags: [],
@@ -60,10 +58,6 @@ export const postDetailAdmin = createModel<RootModel>()({
     // 直接修改 state
     SET_POST: (state: PostDetailAdminState, newPost: PostWithTags) => {
       state.post = newPost
-      return state
-    },
-    SET_RENDER_POST: (state: PostDetailAdminState, newPost: PostWithTags) => {
-      state.renderPost = newPost
       return state
     },
     SET_LOADING_POST: (state: PostDetailAdminState, newLoading: boolean) => {
@@ -111,7 +105,6 @@ export const postDetailAdmin = createModel<RootModel>()({
         const res = await Request.Post.Retrieve__Admin(Number(id))
         if (res?.data) {
           postDetailAdmin.SET_POST(res.data)
-          postDetailAdmin.SET_RENDER_POST(_.cloneDeep(res.data))
         }
         postDetailAdmin.SET_LOADING_POST(false)
         return res?.data
@@ -144,10 +137,7 @@ export const postDetailAdmin = createModel<RootModel>()({
           .filter((tag) => tag.checked)
           .map((tag) => tag.id)
         const res = await Request.Post.Create({
-          post: ({
-            ...state.postDetailAdmin.post,
-            content: state.postDetailAdmin.renderPost.content,
-          } as unknown) as EditedPost,
+          post: (state.postDetailAdmin.post as unknown) as EditedPost,
           tids,
         })
         postDetailAdmin.SET_BACKDROP_LOADING(false)
@@ -166,10 +156,7 @@ export const postDetailAdmin = createModel<RootModel>()({
           .filter((tag) => tag.checked)
           .map((tag) => tag.id)
         const res = await Request.Post.Edit__Admin({
-          post: ({
-            ...state.postDetailAdmin.post,
-            content: state.postDetailAdmin.renderPost.content,
-          } as unknown) as EditedPost,
+          post: (state.postDetailAdmin.post as unknown) as EditedPost,
           tids,
         })
         postDetailAdmin.SET_BACKDROP_LOADING(false)

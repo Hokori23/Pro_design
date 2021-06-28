@@ -28,19 +28,12 @@ export default () => {
           ..._.cloneDeep(post),
           uid: commonState.userInfo.id as number,
         })
-        dispatch.SET_RENDER_POST({
-          ..._.cloneDeep(post),
-          uid: commonState.userInfo.id as number,
-        })
         dispatch.SET_IS_NEW(false)
       }
     } else {
       void dispatch.RetrieveTagAll()
       defaultPost.uid = commonState.userInfo.id as number
       dispatch.SET_POST({ ..._.cloneDeep(defaultPost) })
-      dispatch.SET_RENDER_POST({
-        ..._.cloneDeep(defaultPost),
-      })
       dispatch.SET_IS_NEW(true)
       dispatch.SET_LOADING_POST(false)
     }
