@@ -96,7 +96,7 @@ const Edit: FC<EditProps> = ({
               setValid(
                 formValid({
                   tagName: {
-                    value: tag.name,
+                    value: e.target.value,
                     errorSetter: setNameError,
                   },
                 }),
