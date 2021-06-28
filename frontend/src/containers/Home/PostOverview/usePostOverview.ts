@@ -37,7 +37,6 @@ export default (location: H.Location<unknown>) => {
     isASC: Toggle,
     postTypes: PostType[],
   ) => {
-    scrollIntoTop()
     setLoading(true)
     const res = await Request.Post.RetrieveAll(page, capacity, isASC, postTypes)
     setLoading(false)
@@ -48,6 +47,7 @@ export default (location: H.Location<unknown>) => {
       setTotal(data.total)
       setMaxPage(maxPage)
       setPosts(res.data.posts)
+      scrollIntoTop()
       return maxPage
     }
   }

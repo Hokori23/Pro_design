@@ -33,9 +33,9 @@ export default (location: H.Location<unknown>) => {
 
   const RetrieveTag = async () => {
     if (!slug) return
-    scrollIntoTop()
     setLoadingTag(true)
     const res = await Request.PostTag.RetrieveBySlug(slug)
+    scrollIntoTop()
     setLoadingTag(false)
     if (res?.data) {
       setTag(res.data)
@@ -51,7 +51,6 @@ export default (location: H.Location<unknown>) => {
     tids: number[],
   ) => {
     if (!slug) return
-    scrollIntoTop()
     setLoadingPosts(true)
     const res = await Request.Post.RetrieveTag(page, capacity, isASC, tids)
     setLoadingPosts(false)
@@ -62,6 +61,7 @@ export default (location: H.Location<unknown>) => {
       setTotal(data.total)
       setMaxPage(maxPage)
       setPosts(res.data.posts)
+      scrollIntoTop()
       return maxPage
     }
   }

@@ -4,6 +4,7 @@ import Request from '@/utils/Request'
 import { PostTag } from '@/utils/Request/PostTag'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { scrollIntoTop } from '@/utils/tools'
 
 export default () => {
   const dispatch = useSelector(() => store.dispatch.common)
@@ -14,6 +15,7 @@ export default () => {
   const RetrieveAll = async () => {
     setLoading(true)
     const res = await Request.PostTag.RetrieveAll()
+    scrollIntoTop()
     setLoading(false)
     if (res?.data) {
       setTags(res.data)
