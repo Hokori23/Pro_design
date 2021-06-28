@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { RootState, store } from '@/store'
 import { useSelector } from 'react-redux'
 import _ from 'lodash'
-import { defaultMoment } from '../model'
 import { Post } from '@/utils/Request/Post'
 
 export default () => {
@@ -14,7 +13,7 @@ export default () => {
     setOpen(!open)
   }
   const onMomentChange = (moment: Partial<Post>) => {
-    dispatch.SET_MOMENT({ ..._.cloneDeep(defaultMoment), ...moment })
+    dispatch.SET_MOMENT({ ..._.cloneDeep(state.moment), ...moment })
   }
 
   return {

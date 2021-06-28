@@ -31,7 +31,11 @@ export const useStyles = makeStyles((theme) => ({
     textOverflow: 'ellipsis',
     '-webkit-box-orient': 'vertical',
     '-webkit-line-clamp': 5,
+    whiteSpace: 'break-spaces',
     padding: '0 32px',
+  },
+  contentText: {
+    fontSize: 14,
   },
   Icon: {
     fontSize: 20,

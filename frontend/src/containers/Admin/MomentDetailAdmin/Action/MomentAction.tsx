@@ -57,7 +57,7 @@ const MomentAction: FC = () => {
     >
       <DialogTitle>提示</DialogTitle>
       <DialogContent>
-        <DialogContentText>确定要删除该文章吗？</DialogContentText>
+        <DialogContentText>确定要删除该说说吗？</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button

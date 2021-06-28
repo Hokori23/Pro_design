@@ -95,9 +95,9 @@ export const MomentOverviewItem: FC<MomentOverviewItemProps> = ({ moment }) => {
       />
       <CardContent className={classes.content}>
         <Typography
+          className={classes.contentText}
           color="textSecondary"
           component="div"
-          style={{ fontSize: 14 }}
           variant="body1"
         >
           {content}
