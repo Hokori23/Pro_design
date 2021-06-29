@@ -1,11 +1,7 @@
 import React, { FC, Fragment } from 'react'
 import {
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
+  Typography,
   makeStyles,
   useMediaQuery,
   useTheme,
@@ -13,11 +9,13 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete'
 import SaveIcon from '@material-ui/icons/Save'
 import SendIcon from '@material-ui/icons/Send'
+import { PathName } from '@/routes'
 
 // hooks
 import usePostAction from './usePostAction'
-import { CircularLoading } from '@/components/CircularLoading'
-import { PathName } from '@/routes'
+
+// components
+import { SimpleConfirmDialog } from '@/components/SimpleConfirmDialog'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -49,46 +47,6 @@ const PostAction: FC = () => {
     handleDialogClose,
   } = usePostAction()
 
-  const DeleteDialog = (
-    <Dialog
-      onBackdropClick={handleDialogClose}
-      onClose={handleDialogClose}
-      open={deleteDialog}
-    >
-      <DialogTitle>提示</DialogTitle>
-      <DialogContent>
-        <DialogContentText>确定要删除该文章吗？</DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          color="primary"
-          disabled={state.deletingPost}
-          onClick={handleDialogClose}
-          size={isMobileSize ? 'small' : 'medium'}
-        >
-          取消
-        </Button>
-        <div className="relative">
-          <Button
-            autoFocus
-            color="primary"
-            disabled={state.deletingPost}
-            onClick={async () => {
-              const code = await dispatch.DeletePost(state.post.id as number)
-              if (code === 0) {
-                history.replace(PathName.POST_ADMIN)
-              }
-            }}
-            size={isMobileSize ? 'small' : 'medium'}
-            variant="outlined"
-          >
-            确定
-          </Button>
-          {state.deletingPost && <CircularLoading size={20} />}
-        </div>
-      </DialogActions>
-    </Dialog>
-  )
   return (
     <Fragment>
       {!state.isNew && (
@@ -127,7 +85,33 @@ const PostAction: FC = () => {
           保存
         </Button>
       )}
-      {!state.isNew && DeleteDialog}
+      {!state.isNew && (
+        <SimpleConfirmDialog
+          contentNode={
+            <Fragment>
+              <Typography color="textSecondary" component="p" variant="body1">
+                确定要删除该文章吗？
+              </Typography>
+              <Typography color="error" component="p" variant="caption">
+                会连同删除该文章下的所有评论！
+              </Typography>
+            </Fragment>
+          }
+          handleClose={handleDialogClose}
+          isMobileSize={isMobileSize}
+          loading={state.deletingPost}
+          onBackdropClick={handleDialogClose}
+          onClose={handleDialogClose}
+          onConfirm={async () => {
+            const code = await dispatch.DeletePost(state.post.id as number)
+            if (code === 0) {
+              history.replace(PathName.POST_ADMIN)
+            }
+          }}
+          open={deleteDialog}
+          title={'提示'}
+        />
+      )}
     </Fragment>
   )
 }

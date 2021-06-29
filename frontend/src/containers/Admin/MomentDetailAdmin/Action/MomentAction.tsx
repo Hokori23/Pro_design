@@ -1,23 +1,15 @@
 import React, { FC, Fragment } from 'react'
-import {
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  makeStyles,
-  useMediaQuery,
-  useTheme,
-} from '@material-ui/core'
+import { Button, makeStyles, useMediaQuery, useTheme } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
 import SaveIcon from '@material-ui/icons/Save'
 import SendIcon from '@material-ui/icons/Send'
+import { PathName } from '@/routes'
 
 // hooks
 import useMomentAction from './useMomentAction'
-import { CircularLoading } from '@/components/CircularLoading'
-import { PathName } from '@/routes'
+
+// components
+import { SimpleConfirmDialog } from '@/components/SimpleConfirmDialog'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -49,48 +41,6 @@ const MomentAction: FC = () => {
     handleDialogClose,
   } = useMomentAction()
 
-  const DeleteDialog = (
-    <Dialog
-      onBackdropClick={handleDialogClose}
-      onClose={handleDialogClose}
-      open={deleteDialog}
-    >
-      <DialogTitle>提示</DialogTitle>
-      <DialogContent>
-        <DialogContentText>确定要删除该说说吗？</DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          color="primary"
-          disabled={state.deletingMoment}
-          onClick={handleDialogClose}
-          size={isMobileSize ? 'small' : 'medium'}
-        >
-          取消
-        </Button>
-        <div className="relative">
-          <Button
-            autoFocus
-            color="primary"
-            disabled={state.deletingMoment}
-            onClick={async () => {
-              const code = await dispatch.DeleteMoment(
-                state.moment.id as number,
-              )
-              if (code === 0) {
-                history.replace(PathName.POST_ADMIN)
-              }
-            }}
-            size={isMobileSize ? 'small' : 'medium'}
-            variant="outlined"
-          >
-            确定
-          </Button>
-          {state.deletingMoment && <CircularLoading size={20} />}
-        </div>
-      </DialogActions>
-    </Dialog>
-  )
   return (
     <Fragment>
       {!state.isNew && (
@@ -129,7 +79,24 @@ const MomentAction: FC = () => {
           保存
         </Button>
       )}
-      {!state.isNew && DeleteDialog}
+      {!state.isNew && (
+        <SimpleConfirmDialog
+          content="确定要删除该说说吗？"
+          handleClose={handleDialogClose}
+          isMobileSize={isMobileSize}
+          loading={state.deletingMoment}
+          onBackdropClick={handleDialogClose}
+          onClose={handleDialogClose}
+          onConfirm={async () => {
+            const code = await dispatch.DeleteMoment(state.moment.id as number)
+            if (code === 0) {
+              history.replace(PathName.POST_ADMIN)
+            }
+          }}
+          open={deleteDialog}
+          title={'提示'}
+        />
+      )}
     </Fragment>
   )
 }
