@@ -5,6 +5,7 @@ import { FileType } from '@/utils/Request/Upload'
 import { Upload } from '@/utils/Request'
 import { useSelector } from 'react-redux'
 import _ from 'lodash'
+import { CodeDictionary } from '@/utils/Request/type'
 
 export default () => {
   const state = useSelector((state: RootState) => state.postDetailAdmin)
@@ -34,9 +35,9 @@ export default () => {
     const file = e.target.files?.[0]
     if (!file) return
     const { name, size } = file
-    if (size > 1024 * 1024) {
+    if (size > 1024 * 1024 * 20) {
       commonDispatch.SET_AXIOS_SNACK_BAR({
-        message: '请选择小于1MB的图片',
+        message: '请选择小于20MB的图片',
         type: 'warning',
         open: true,
       })
@@ -50,7 +51,7 @@ export default () => {
       FileType.IMAGE,
     )
     dispatch.SET_BACKDROP_LOADING(false)
-    if (!uploadRes || uploadRes.code !== 200) {
+    if (!uploadRes || uploadRes.code !== CodeDictionary.UPYUN_SUCCESS) {
       commonDispatch.SET_AXIOS_SNACK_BAR({
         message: '上传文章主图失败',
         type: 'error',

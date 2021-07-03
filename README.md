@@ -12,13 +12,13 @@
 
 ## Todo-List
 
-- bug: 文章编辑器更改 title, coverUrl 时，会丢失文章内容 content
-- feat: 文章内图片支持点击放大
-- feat: 文章内支持\[photos\]功能，即内联多图片
-- feat: 文章编辑器支持上传图片功能
-- feat: 支持多标签查询文章
-- feat: 自定义页面展示
-- feat: 文章 LANDSCAPE 样式
+- [x] ~~bug: 文章编辑器更改 title, coverUrl 时，会丢失文章内容 content~~
+- [ ] feat: 文章内图片支持点击放大
+- [x] ~~feat: 文章内支持\[photos\]功能，即内联多图片~~
+- [ ] feat: 文章编辑器支持上传图片功能
+- [ ] feat: 支持多标签查询文章
+- [ ] feat: 自定义页面展示
+- [ ] feat: 文章 LANDSCAPE 样式
 
 ## 安装与运行
 
