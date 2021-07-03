@@ -1,10 +1,10 @@
 /* eslint-disable react/display-name */
 import React, { FC, HTMLAttributes } from 'react'
-import { Typography } from '@material-ui/core'
+import { Typography, Divider } from '@material-ui/core'
 import classnames from 'classnames'
 import Markdown from 'react-markdown'
 import { Components } from 'react-markdown/src/ast-to-react'
-import '@/static/renderer.less'
+import './renderer.less'
 // import { Element, Properties } from 'hast'
 // import h from 'hastscript'
 
@@ -97,6 +97,7 @@ const CustomComponents = (outline?: boolean): Components => ({
     <Img inline={inline as boolean} outline={outline} {...props} />
   ),
   a: ({ node, ...props }) => <A outline={outline} {...props} />,
+  hr: () => <Divider variant="middle" />,
 })
 export const Renderer: FC<RendererProps> = ({
   content,
