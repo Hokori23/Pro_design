@@ -54,6 +54,7 @@ const Editor: FC<EditorProps> = ({ className }) => {
     openEditor,
     handleOpenEditor,
     handleMdContentChange,
+    handleImgUpload,
   } = useEditor()
   return (
     <section>
@@ -78,6 +79,7 @@ const Editor: FC<EditorProps> = ({ className }) => {
             content={content}
             coverUrl={coverUrl}
             onChange={handleMdContentChange}
+            onImgUpload={handleImgUpload}
             title={title as string}
           />
         </List>

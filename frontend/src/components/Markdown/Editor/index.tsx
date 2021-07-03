@@ -8,6 +8,7 @@ import '@/static/react-markdown-editor-lite.less'
 
 // components
 import { Title } from './Title'
+import { UploadFunc } from 'react-markdown-editor-lite/share/var'
 
 const useStyles = makeStyles((theme) => ({
   editor: {
@@ -87,6 +88,7 @@ export interface EditorProps {
         event?: React.ChangeEvent<HTMLTextAreaElement> | undefined,
       ) => void)
     | undefined
+  onImgUpload?: UploadFunc
 }
 
 let _content: string | undefined
@@ -96,6 +98,7 @@ export const Editor: FC<EditorProps> = ({
   coverUrl,
   content,
   onChange,
+  onImgUpload,
 }) => {
   const mdEditor = useRef(null)
   const classes = useStyles()
@@ -138,9 +141,7 @@ export const Editor: FC<EditorProps> = ({
     <div className={classes.editor}>
       <MdEditor
         onChange={onChange}
-        onImageUpload={(file: File) => {
-          // TODO
-        }}
+        onImageUpload={onImgUpload}
         ref={mdEditor}
         renderHTML={(text) => (
           <Fragment>

@@ -35,9 +35,9 @@ export default () => {
     const file = e.target.files?.[0]
     if (!file) return
     const { name, size } = file
-    if (size > 1024 * 1024 * 20) {
+    if (size > 1024 * 1024 * 5) {
       commonDispatch.SET_AXIOS_SNACK_BAR({
-        message: '请选择小于20MB的图片',
+        message: '请选择小于5MB的图片',
         type: 'warning',
         open: true,
       })
