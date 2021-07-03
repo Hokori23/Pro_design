@@ -20,7 +20,7 @@ import rehypeRaw from 'rehype-raw'
 import inspectUrls from '@jsdevtools/rehype-url-inspector'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import Photos from './Plugins/Photos'
+import Photos from '../Plugins/Photos'
 /**
  *
  * okaidia(dark)
@@ -36,8 +36,8 @@ import useStyles from './useStyles'
 
 // components
 // import rehypeComponents from 'rehype-components'
-import Img from './components/Img'
-import A from './components/A'
+import Img from '../components/Img'
+import A from '../components/A'
 
 interface RendererProps {
   className?: HTMLAttributes<HTMLElement>['className']
