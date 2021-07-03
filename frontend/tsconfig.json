@@ -3,6 +3,15 @@
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    // Generate d.ts files
+    // "declaration": true,
+    // This compiler run should
+    // only output d.ts files
+    // "emitDeclarationOnly": true,
+    // Types should go into this directory.
+    // Removing this would place the .d.ts files
+    // next to the .js files
+    // "outDir": "dist",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -15,6 +24,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
+    // <https://www.typescriptlang.org/tsconfig#jsxImportSource>
+    // "jsxImportSource": "hastscript",
     "baseUrl": "./src",
     "paths": {
       "@/*": ["./*"]

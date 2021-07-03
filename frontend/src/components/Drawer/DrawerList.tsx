@@ -6,9 +6,9 @@ import {
   ListItemIcon,
   ListItemText,
   ListItemTextProps,
-  makeStyles,
   SvgIconTypeMap,
 } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import { Home as HomeIcon } from '@material-ui/icons'
 import { Option } from '@/utils/Request/Option'
 import { Link, LinkProps } from 'react-router-dom'

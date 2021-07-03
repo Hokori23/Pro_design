@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { RouteConfig } from '@/routes'
-import { useMediaQuery, useTheme } from '@material-ui/core'
+import { useMediaQuery } from '@material-ui/core'
+import { useTheme } from '@material-ui/core/styles'
 import classnames from 'classnames'
 
 // hooks

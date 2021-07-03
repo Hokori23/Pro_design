@@ -5,12 +5,8 @@ import { Title } from './Title'
 import { Content } from './Content'
 import { Comment } from './Comment'
 import { Action } from './Action'
-import {
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@material-ui/core'
+import { Typography, useMediaQuery } from '@material-ui/core'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { PostWithAuthor } from '@/utils/Request/Post'
 
 const useStyles = makeStyles((theme) => ({

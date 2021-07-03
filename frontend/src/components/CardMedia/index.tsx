@@ -1,9 +1,6 @@
 import React, { FC, Fragment, useState } from 'react'
-import {
-  CardMedia as _CardMedia,
-  makeStyles,
-  Typography,
-} from '@material-ui/core'
+import { CardMedia as _CardMedia, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import classnames from 'classnames'
 import BrokenImageIcon from '@material-ui/icons/BrokenImage'
 
@@ -23,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   failImgBox: {
     height: '100%',
     width: '100%',
+    margin: 0,
   },
 }))
 
@@ -98,14 +96,6 @@ export const CardMedia: FC<CardMediaProps> = ({
           />
         )}
       </section>
-      {/* <_CardMedia
-        className={className}
-        component={component}
-        image={image}
-        onError={onError}
-        onLoad={onLoad}
-        title={title}
-      /> */}
     </Fragment>
   )
 }

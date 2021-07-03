@@ -1,5 +1,6 @@
 import { CommonState } from '@/common-model'
-import { makeStyles, Theme } from '@material-ui/core'
+import { Theme } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import { computeDOMHeight } from '@/utils/tools'
 export default makeStyles((theme) => ({
   root: {

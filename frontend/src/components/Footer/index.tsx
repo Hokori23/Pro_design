@@ -1,12 +1,11 @@
 import {
   Box,
   Typography,
-  makeStyles,
   Link,
-  useTheme,
   useMediaQuery,
   Divider,
 } from '@material-ui/core'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React, { FC, Fragment } from 'react'
 import classnames from 'classnames'
 

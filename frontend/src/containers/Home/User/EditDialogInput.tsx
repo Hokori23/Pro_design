@@ -2,7 +2,7 @@ import { User } from '@/utils/Request/User'
 import React, { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
 import { EmailInput, GenderSelect, Input, UrlInput } from '@/components/Input'
 import { formValid } from '@/components/UserFormValid'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import classnames from 'classnames'
 
 const useStyles = makeStyles((theme) => ({

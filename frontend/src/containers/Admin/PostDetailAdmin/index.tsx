@@ -1,10 +1,6 @@
 import React, { FC, Fragment } from 'react'
-import {
-  Backdrop,
-  CircularProgress,
-  makeStyles,
-  Paper,
-} from '@material-ui/core'
+import { Backdrop, CircularProgress, Paper } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
 import { RouteConfig } from '@/routes'
 import { RouteComponentProps } from 'react-router-dom'

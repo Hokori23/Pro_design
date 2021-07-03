@@ -1,6 +1,7 @@
 /* eslint-disable react/display-name */
 import React, { FC, HTMLAttributes } from 'react'
-import { Typography, makeStyles } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import classnames from 'classnames'
 import Markdown, { TransformOptions } from 'react-markdown'
 import gfm from 'remark-gfm'

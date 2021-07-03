@@ -5,11 +5,10 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  makeStyles,
   useMediaQuery,
-  useTheme,
   Avatar,
 } from '@material-ui/core'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import { useSelector } from 'react-redux'
 import { PathName, RouteName } from '@/routes'

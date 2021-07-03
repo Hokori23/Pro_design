@@ -1,6 +1,6 @@
 import React, { Dispatch, FC, SetStateAction } from 'react'
 import { Input } from '@/components/Input'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import { FormattedOption } from './useSystem'
 import _ from 'lodash'
 

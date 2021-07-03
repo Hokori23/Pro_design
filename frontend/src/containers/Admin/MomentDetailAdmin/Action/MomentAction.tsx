@@ -1,5 +1,6 @@
 import React, { FC, Fragment } from 'react'
-import { Button, makeStyles, useMediaQuery, useTheme } from '@material-ui/core'
+import { Button, useMediaQuery } from '@material-ui/core'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import DeleteIcon from '@material-ui/icons/Delete'
 import SaveIcon from '@material-ui/icons/Save'
 import SendIcon from '@material-ui/icons/Send'

@@ -3,12 +3,9 @@ import InnerLink from '@/components/InnerLink'
 import { PathName } from '@/routes'
 import { PostWithAuthor } from '@/utils/Request/Post'
 import { CellParams } from '@material-ui/data-grid'
-import {
-  IconButton,
-  makeStyles,
-  useMediaQuery,
-  useTheme,
-} from '@material-ui/core'
+import { IconButton, useMediaQuery } from '@material-ui/core'
+import { useTheme, makeStyles } from '@material-ui/core/styles'
+
 import EditIcon from '@material-ui/icons/Edit'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 

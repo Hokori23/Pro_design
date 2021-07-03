@@ -1,6 +1,7 @@
 import { formValid } from '@/components/UserFormValid'
 import { PostTag } from '@/utils/Request/PostTag'
-import { useMediaQuery, useTheme } from '@material-ui/core'
+import { useMediaQuery } from '@material-ui/core'
+import { useTheme } from '@material-ui/core/styles'
 import { useEffect, useState } from 'react'
 
 export default (tag: PostTag | null, isNew: boolean, onSubmit: () => void) => {

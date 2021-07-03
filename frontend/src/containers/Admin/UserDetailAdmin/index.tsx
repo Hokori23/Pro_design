@@ -12,8 +12,8 @@ import {
   Divider,
   ListItemSecondaryAction,
   Switch,
-  useTheme,
 } from '@material-ui/core'
+import { useTheme } from '@material-ui/core/styles'
 import { GenderCNArr } from '@/utils/Request/User'
 import EmailIcon from '@material-ui/icons/Email'
 import moment from 'moment'

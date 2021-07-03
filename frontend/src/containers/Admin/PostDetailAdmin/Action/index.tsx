@@ -7,9 +7,9 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  makeStyles,
   Tooltip,
 } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import {
   ExpandLess,
   ExpandMore,
@@ -192,7 +192,7 @@ const Action: FC<ActionProps> = ({ className }) => {
               accept="image/png, image/jpeg, image/jpg"
               className="non-display"
               id="cover-url__upload"
-              onChange={handleImgUpload}
+              onInput={handleImgUpload}
               type="file"
             />
           </ListItem>
