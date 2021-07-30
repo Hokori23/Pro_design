@@ -11,6 +11,8 @@
   },
   "proxy": "http://localhost:8007",
   "dependencies": {
+    "@ckeditor/ckeditor5-build-decoupled-document": "^29.0.0",
+    "@ckeditor/ckeditor5-react": "^3.0.2",
     "@jsdevtools/rehype-url-inspector": "^2.0.2",
     "@material-ui/core": "^4.11.3",
     "@material-ui/data-grid": "^4.0.0-alpha.20",
