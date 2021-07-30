@@ -1,6 +1,6 @@
 import { store } from '@/store'
 import { ACCESS_TOKEN_NAME, BLOG_CONFIG, USER_INFO_NAME } from '@/utils/const'
-import { Option } from 'utils/Request/Option'
+import { Option } from './utils/Request/Option'
 
 // 初始化store
 const { dispatch } = store

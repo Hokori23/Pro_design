@@ -28,7 +28,8 @@
     // "jsxImportSource": "hastscript",
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "*": ["./@types/*"]
     }
   },
   "include": ["src"]
