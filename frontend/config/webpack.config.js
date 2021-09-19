@@ -1,12 +1,13 @@
 'use strict'
-
 const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
 const resolve = require('resolve')
 const PnpWebpackPlugin = require('pnp-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
+// const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -75,6 +76,10 @@ const hasJsxRuntime = (() => {
     return false
   }
 })()
+
+const smp = new SpeedMeasurePlugin({
+  disable: process.env.MEASURE_ENV !== 'measure',
+})
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -157,7 +162,8 @@ module.exports = function (webpackEnv) {
     return loaders
   }
 
-  return {
+  return smp.wrap({
+    cache: true,
     mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
     // Stop compilation early in production
     bail: isEnvProduction,
@@ -572,6 +578,8 @@ module.exports = function (webpackEnv) {
       ],
     },
     plugins: [
+      // 缓存插件
+      new HardSourceWebpackPlugin(),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
@@ -639,7 +647,7 @@ module.exports = function (webpackEnv) {
       // Watcher doesn't work well if you mistype casing in a path so we use
       // a plugin that prints an error when you attempt to do this.
       // See https://github.com/facebook/create-react-app/issues/240
-      isEnvDevelopment && new CaseSensitivePathsPlugin(),
+      // isEnvDevelopment && new CaseSensitivePathsPlugin(),
       // If you require a missing module and then `npm install` it, you still have
       // to restart the development server for webpack to discover it. This plugin
       // makes the discovery automatic so you don't have to restart.
@@ -762,5 +770,5 @@ module.exports = function (webpackEnv) {
     // Turn off performance processing because we utilize
     // our own hints via the FileSizeReporter
     performance: false,
-  }
+  })
 }
