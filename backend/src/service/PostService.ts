@@ -93,7 +93,7 @@ const Create = async (post: Post, tids: number[]): Promise<Restful> => {
       }成功`,
       post.toJSON(),
     )
-  } catch (e) {
+  } catch (e: any) {
     // 回退事务
     await t.rollback()
     return new Restful(
@@ -123,7 +123,7 @@ const Retrieve__ID = async (
     await post.increment('pageViews')
     ;(post.pageViews as number)++
     return new Restful(CodeDictionary.SUCCESS, '查询成功', post.toJSON())
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `查询失败, ${String(e.message)}`,
@@ -165,7 +165,7 @@ const Retrieve__Page = async (
       total: values[1],
     }
     return new Restful(CodeDictionary.SUCCESS, '查询成功', result)
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `查询失败, ${String(e.message)}`,
@@ -215,7 +215,7 @@ const Retrieve__Page_Tag = async (
       total: values[1],
     }
     return new Restful(CodeDictionary.SUCCESS, '查询成功', result)
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `查询失败, ${String(e.message)}`,
@@ -295,7 +295,7 @@ const Edit = async (post: any, tids: number[]): Promise<Restful> => {
 
     await t.commit()
     return new Restful(CodeDictionary.SUCCESS, '编辑成功', newPost.toJSON())
-  } catch (e) {
+  } catch (e: any) {
     await t.rollback()
     return new Restful(
       CodeDictionary.COMMON_ERROR,
@@ -329,7 +329,7 @@ const Delete = async (id: string, uid: string): Promise<Restful> => {
     return deleteRow > 0
       ? new Restful(CodeDictionary.SUCCESS, `删除帖子成功`)
       : new Restful(CodeDictionary.DELETE_ERROR__POST, `删除帖子失败`)
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `删除帖子失败, ${String(e.message)}`,
@@ -355,7 +355,7 @@ const Delete__Admin = async (id: string): Promise<Restful> => {
     return deleteRow > 0
       ? new Restful(CodeDictionary.SUCCESS, `删除帖子成功`)
       : new Restful(CodeDictionary.DELETE_ERROR__POST, `删除帖子失败`)
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `删除帖子失败, ${String(e.message)}`,
@@ -378,7 +378,7 @@ const Like = async (id: number): Promise<Restful> => {
     }
     await existedPost.increment('likesCount')
     return new Restful(CodeDictionary.SUCCESS, '点赞成功')
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `点赞帖子失败, ${String(e.message)}`,
@@ -401,7 +401,7 @@ const Dislike = async (id: number): Promise<Restful> => {
     }
     await existedPost.increment('dislikesCount')
     return new Restful(CodeDictionary.SUCCESS, '踩成功')
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `踩帖子失败, ${String(e.message)}`,

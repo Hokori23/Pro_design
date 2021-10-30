@@ -73,7 +73,7 @@ const Init = async (user: User): Promise<Restful> => {
       '注册成功',
       Omit(registeredUser.toJSON() as any, ['password']),
     )
-  } catch (e) {
+  } catch (e: any) {
     await t.rollback()
     return new Restful(
       CodeDictionary.COMMON_ERROR,
@@ -156,7 +156,7 @@ const Register = async (user: User, captcha: string): Promise<Restful> => {
       '注册成功',
       Omit(registeredUser.toJSON() as any, ['password']),
     )
-  } catch (e) {
+  } catch (e: any) {
     await t.rollback()
     return new Restful(
       CodeDictionary.COMMON_ERROR,
@@ -187,7 +187,7 @@ const Login = async (
       )
     }
     return new Restful(CodeDictionary.LOGIN_ERROR, '账号或密码错误')
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `登陆失败, ${String(e.message)}`,
@@ -209,7 +209,7 @@ const Retrieve__ID = async (id: number): Promise<Restful> => {
       )
     }
     return new Restful(CodeDictionary.SUCCESS, '查询成功', user.toJSON())
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `查询失败, ${String(e.message)}`,
@@ -224,7 +224,7 @@ const Retrieve__All = async (): Promise<Restful> => {
   try {
     const users = await Action.Retrieve__All__Safely()
     return new Restful(CodeDictionary.SUCCESS, '查询成功', users)
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `查询失败, ${String(e.message)}`,
@@ -253,7 +253,7 @@ const Edit = async (user: any): Promise<Restful> => {
       '编辑成功',
       Omit(newUser.toJSON() as any, ['password']),
     )
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `编辑失败, ${String(e.message)}`,
@@ -296,7 +296,7 @@ const Edit__Admin = async (
       '编辑成功',
       Omit(newUser.toJSON() as any, ['password']),
     )
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `编辑失败, ${String(e.message)}`,
@@ -317,7 +317,7 @@ const Delete = async (id: string): Promise<Restful> => {
     return deleteRow > 0
       ? new Restful(CodeDictionary.SUCCESS, `删除账号成功`)
       : new Restful(CodeDictionary.DELETE_ERROR__USER, `删除账号失败`)
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `删除账号失败, ${String(e.message)}`,
@@ -347,7 +347,7 @@ const Delete__Admin = async (
     return deleteRow > 0
       ? new Restful(CodeDictionary.SUCCESS, `删除账号成功`)
       : new Restful(CodeDictionary.DELETE_ERROR__USER, `删除账号失败`)
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `删除账号失败, ${String(e.message)}`,

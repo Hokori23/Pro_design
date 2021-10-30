@@ -122,7 +122,7 @@ const Create = async (comment: PostCommentWithAuthor): Promise<Restful> => {
 
     await t.commit()
     return new Restful(CodeDictionary.SUCCESS, '发表评论成功', comment.toJSON())
-  } catch (e) {
+  } catch (e: any) {
     await t.rollback()
     return new Restful(
       CodeDictionary.COMMON_ERROR,
@@ -135,7 +135,7 @@ const Retrieve__PID = async (pid: number): Promise<Restful> => {
   try {
     const comments = await Action.Retrieve__PID(pid)
     return new Restful(CodeDictionary.SUCCESS, '查询成功', comments)
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `查询评论失败, ${String(e.message)}`,
@@ -160,7 +160,7 @@ const Delete = async (id: number): Promise<Restful> => {
     return deleteRow > 0
       ? new Restful(CodeDictionary.SUCCESS, '删除评论成功')
       : new Restful(CodeDictionary.DELETE_ERROR__COMMENT, '删除评论失败')
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `删除评论失败, ${String(e.message)}`,
@@ -183,7 +183,7 @@ const Like = async (id: number): Promise<Restful> => {
     }
     await existedComment.increment('likesCount')
     return new Restful(CodeDictionary.SUCCESS, '点赞成功')
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `点赞评论失败, ${String(e.message)}`,
@@ -206,7 +206,7 @@ const Dislike = async (id: number): Promise<Restful> => {
     }
     await existedComment.increment('dislikesCount')
     return new Restful(CodeDictionary.SUCCESS, '踩成功')
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `踩评论失败, ${String(e.message)}`,

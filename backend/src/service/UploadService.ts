@@ -73,7 +73,7 @@ const generateSignature = (fileType: FileType, fileName: string): Restful => {
         },
       },
     )
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `获取${fileType ? 'video' : 'img'}上传签名和链接失败, ${String(

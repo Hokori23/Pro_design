@@ -22,7 +22,7 @@ const Retrieve__UID = async (uid: string): Promise<Restful> => {
       '查询邮箱设置信息成功',
       mail.toJSON(),
     )
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `查询失败, ${String(e.message)}`,
@@ -49,7 +49,7 @@ const Edit = async (mail: Mail): Promise<Restful> => {
       '编辑邮箱设置信息成功',
       mail.toJSON(),
     )
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `编辑邮箱设置信息失败, ${String(e.message)}`,
@@ -88,7 +88,7 @@ const Edit__Admin = async (
       '编辑邮箱设置信息成功',
       mail.toJSON(),
     )
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `编辑邮箱设置信息失败, ${String(e.message)}`,

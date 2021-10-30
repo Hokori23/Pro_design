@@ -69,7 +69,7 @@ const Activate = async (user: User): Promise<Restful> => {
     )
     await t.commit()
     return new Restful(CodeDictionary.SUCCESS, '发送激活邮件成功')
-  } catch (e) {
+  } catch (e: any) {
     await t.rollback()
     return new Restful(
       CodeDictionary.COMMON_ERROR,
