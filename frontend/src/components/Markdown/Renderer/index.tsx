@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { FC, HTMLAttributes } from 'react'
+import React, { FC, HTMLAttributes, useEffect, useMemo, useRef } from 'react'
 import { Typography, Divider } from '@material-ui/core'
 import classnames from 'classnames'
 import Markdown from 'react-markdown'
@@ -20,7 +20,7 @@ import rehypeRaw from 'rehype-raw'
 import inspectUrls from '@jsdevtools/rehype-url-inspector'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import Photos from '../Plugins/Photos'
+import Photos, { imgRegExp } from '@/components/Markdown/Plugins/Photos'
 /**
  *
  * okaidia(dark)
@@ -38,11 +38,12 @@ import useStyles from './useStyles'
 // import rehypeComponents from 'rehype-components'
 import Img from '../components/Img'
 import A from '../components/A'
+import { ImgViewer, ImgViewerMethods } from '@/components/ImgViewer'
 
 interface RendererProps {
   className?: HTMLAttributes<HTMLElement>['className']
   content: string
-  outline?: boolean
+  outline?: boolean // 是否只渲染概览内容
 }
 
 // interface ComponentsProps {
@@ -56,7 +57,13 @@ interface RendererProps {
 //   index?: number
 //   siblingCount?: number
 // }
-const CustomComponents = (outline?: boolean): Components => ({
+interface CustomComponentsOptions {
+  onImgClick?: (imgUrl: string) => void
+}
+const CustomComponents = (
+  outline?: boolean,
+  { onImgClick }: CustomComponentsOptions = {},
+): Components => ({
   code({ node, children, inline, className, ...props }) {
     const match = /language-(\w+)/.exec(className || '')
     return !inline && match ? (
@@ -93,41 +100,73 @@ const CustomComponents = (outline?: boolean): Components => ({
   p: ({ node, ...props }) => (
     <Typography component="div" gutterBottom variant="body1" {...props} />
   ),
-  img: ({ node, inline, ...props }) => (
-    <Img inline={inline as boolean} outline={outline} {...props} />
+  img: ({ node, inline, src, ...props }) => (
+    <Img
+      inline={inline as boolean}
+      onClick={onImgClick}
+      outline={outline}
+      src={src as string}
+      {...props}
+    />
   ),
   a: ({ node, ...props }) => <A outline={outline} {...props} />,
   hr: () => <Divider variant="middle" />,
 })
+
 export const Renderer: FC<RendererProps> = ({
   content,
   className,
   outline,
 }) => {
   const classes = useStyles()
+  const imgViewer = useRef<ImgViewerMethods>()
 
-  return (
-    <Markdown
-      className={classnames(classes.markdown, className, 'markdown-renderer')}
-      components={CustomComponents(outline)}
-      rehypePlugins={[
-        rehypeRaw,
-        inspectUrls,
-        Photos,
-        // [
-        //   rehypeComponents,
-        //   {
-        //     components: {
-        //       test: (properties: Properties, children: Element[]) => {
-        //         return h('.test', children)
-        //       },
-        //     },
-        //   },
-        // ],
-      ]}
-      remarkPlugins={[[gfm, { singleTilde: false }]]}
-    >
-      {content}
-    </Markdown>
+  useEffect(() => {
+    let match
+    const imgs = []
+    while ((match = imgRegExp.exec(content))) {
+      imgs.push(match[2])
+    }
+    imgViewer?.current?.setImgs(imgs)
+  }, [content])
+
+  return useMemo(
+    () => (
+      <>
+        <Markdown
+          className={classnames(
+            classes.markdown,
+            className,
+            'markdown-renderer',
+          )}
+          components={CustomComponents(outline, {
+            onImgClick: (imgUrl: string) => {
+              imgViewer?.current?.onOpen?.()
+              imgViewer?.current?.setCurrentImg?.(imgUrl)
+            },
+          })}
+          rehypePlugins={[
+            rehypeRaw,
+            inspectUrls,
+            Photos,
+            // [
+            //   rehypeComponents,
+            //   {
+            //     components: {
+            //       test: (properties: Properties, children: Element[]) => {
+            //         return h('.test', children)
+            //       },
+            //     },
+            //   },
+            // ],
+          ]}
+          remarkPlugins={[[gfm, { singleTilde: false }]]}
+        >
+          {content}
+        </Markdown>
+        <ImgViewer ref={imgViewer} />
+      </>
+    ),
+    [content, imgViewer?.current],
   )
 }

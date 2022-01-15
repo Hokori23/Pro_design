@@ -6,7 +6,7 @@ import { deepFind } from './utils'
 const tagName = 'photos' // 标签名
 const className = 'photos'
 
-const imgRegExp = /!\[(.*?)\]\(((https?:)\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|])\)/g
+export const imgRegExp = /!\[(.*?)\]\(((https?:)\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|])\)/g
 let match
 
 const plugin = () => {

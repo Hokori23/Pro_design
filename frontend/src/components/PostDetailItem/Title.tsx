@@ -10,6 +10,7 @@ import { RootState } from '@/store'
 import { Group } from '@/utils/Request/User'
 
 import InnerLink from '@/components/InnerLink'
+import { setUpYunImg } from '@/utils/tools'
 const useStyles = makeStyles((theme) => ({
   titleWrapper: {
     position: 'relative',
@@ -75,7 +76,7 @@ export const Title: FC<TitleProps> = ({ post }) => {
     <header className={classes.titleWrapper}>
       {coverUrl && (
         <figure className={classes.titleBanner}>
-          <img src={coverUrl} />
+          <img src={setUpYunImg(coverUrl, 'md')} />
         </figure>
       )}
       <figure
