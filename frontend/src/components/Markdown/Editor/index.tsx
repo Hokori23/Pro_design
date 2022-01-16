@@ -2,8 +2,9 @@
 import React, { FC, Fragment, useEffect, useRef } from 'react'
 import MdEditor, { Plugins } from 'react-markdown-editor-lite'
 import { Renderer } from '../Renderer'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { useTheme } from '@mui/material/styles'
+import makeStyles from '@mui/styles/makeStyles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import '@/static/react-markdown-editor-lite.less'
 
 // components
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     '& .rc-md-editor.full': {
       zIndex: theme.zIndex.drawer + 1,
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       '& .rc-md-editor': {
         border: 'unset',
       },

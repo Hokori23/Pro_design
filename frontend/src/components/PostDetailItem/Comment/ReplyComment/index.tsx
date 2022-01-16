@@ -1,10 +1,10 @@
 import React, { FC, Fragment } from 'react'
-import { Typography, Link, IconButton } from '@material-ui/core'
+import { Typography, Link, IconButton } from '@mui/material'
 import { RootState } from '@/store'
 import { FormattedPostComment } from '@/utils/Request/PostComment'
 import { formValid } from '@/components/UserFormValid'
 import { Link as RouterLink } from 'react-router-dom'
-import CloseIcon from '@material-ui/icons/Close'
+import CloseIcon from '@mui/icons-material/Close'
 import classnames from 'classnames'
 import { useSelector } from 'react-redux'
 import { PathName } from '@/routes'
@@ -81,6 +81,7 @@ export const ReplyComment: FC<ReplyCommentProps> = ({
               onClick={() => {
                 setDisplayReplyBox(false)
               }}
+              size="large"
             >
               <CloseIcon />
             </IconButton>
@@ -91,6 +92,7 @@ export const ReplyComment: FC<ReplyCommentProps> = ({
             onClick={() => {
               setDisplayReplyBox(false)
             }}
+            size="large"
           >
             <CloseIcon />
           </IconButton>

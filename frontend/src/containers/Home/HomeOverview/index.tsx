@@ -1,8 +1,8 @@
 import React, { FC, createRef } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles'
 import { PathName, RouteConfig } from '@/routes'
-import { Typography } from '@material-ui/core'
+import { Typography, Pagination, PaginationItem } from '@mui/material'
 import { useAsync } from 'react-use'
 import { isDef } from '@/utils/tools'
 
@@ -11,7 +11,7 @@ import useHomeOverview from './useHomeOverview'
 import { PostOverviewItem } from '@/components/PostOverviewItem'
 import { MomentOverviewItem } from '@/components/MomentOverviewItem'
 import { ScrollTop } from '@/components/ScrollTop'
-import { Pagination, PaginationItem } from '@material-ui/lab'
+
 import { CircularLoading } from '@/components/CircularLoading'
 import { PostType } from '@/utils/Request/Post'
 

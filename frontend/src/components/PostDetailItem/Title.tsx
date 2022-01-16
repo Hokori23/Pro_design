@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { PostWithAuthor } from '@/utils/Request/Post'
-import { makeStyles } from '@material-ui/core/styles'
-import { Typography } from '@material-ui/core'
+import makeStyles from '@mui/styles/makeStyles'
+import { Typography } from '@mui/material'
 import classnames from 'classnames'
 import moment from 'moment'
 import { PathName } from '@/routes'
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   titleTextWrapper: {
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       padding: '50px 1rem',
     },
     position: 'relative',

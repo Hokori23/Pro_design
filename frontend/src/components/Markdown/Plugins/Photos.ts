@@ -14,6 +14,7 @@ const plugin = () => {
     visit(tree, 'element', (node: Element) => {
       if (node.tagName === tagName) {
         node.properties = { class: className }
+        node.tagName = 'div'
         const children = deepFind(node, { type: 'text' }) as Element[]
         const newChildren: Element[] = []
         children.forEach((node) => {

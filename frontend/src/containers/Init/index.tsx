@@ -11,9 +11,9 @@ import {
   Paper,
   Portal,
   Typography,
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import { AccountCircle, Person } from '@material-ui/icons'
+} from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import { AccountCircle, Person } from '@mui/icons-material'
 import {
   Input,
   PasswordInput,

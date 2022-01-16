@@ -1,7 +1,7 @@
 import React, { FC, createRef } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { RouteConfig } from '@/routes'
-import { Typography } from '@material-ui/core'
+import { Typography } from '@mui/material'
 
 // hooks
 import usePostAdmin from './usePostAdmin'
@@ -34,15 +34,13 @@ const PostAdmin: FC<RouteComponentProps & RouteConfig> = (props) => {
   return (
     <div className={classes.root}>
       <section className={classes.posts}>
-        {
-          <Table
-            loading={loading}
-            onPageChange={handlePageChange}
-            pageSize={capacity}
-            rowCount={total}
-            rows={posts}
-          />
-        }
+        <Table
+          loading={loading}
+          onPageChange={handlePageChange}
+          pageSize={capacity}
+          rowCount={total}
+          rows={posts}
+        />
       </section>
       <footer className={classes.footer}>
         <Typography

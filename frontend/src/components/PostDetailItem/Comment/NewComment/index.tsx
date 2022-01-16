@@ -1,5 +1,5 @@
 import React, { FC, Fragment } from 'react'
-import { Typography, Link, Avatar } from '@material-ui/core'
+import { Typography, Link, Avatar } from '@mui/material'
 import { formValid } from '@/components/UserFormValid'
 import { Link as RouterLink } from 'react-router-dom'
 import { RootState, store } from '@/store'

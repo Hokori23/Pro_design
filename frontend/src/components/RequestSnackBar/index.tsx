@@ -5,8 +5,8 @@ import {
   SnackbarCloseReason,
   SnackbarContentProps,
   SnackbarProps,
-} from '@material-ui/core'
-import MuiAlert, { AlertProps, Color } from '@material-ui/lab/Alert'
+} from '@mui/material'
+import MuiAlert, { AlertProps, AlertColor } from '@mui/material/Alert'
 import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -15,7 +15,7 @@ export interface RequestSnackBarProps extends Partial<SnackbarProps> {
   color?: PropTypes.Color
   autoHideDuration?: number | null
   open?: boolean
-  type?: Color
+  type?: AlertColor
   variant?: AlertProps['variant']
   onClose?: (...params: any) => void
 }
@@ -31,7 +31,7 @@ export const RequestSnackBar: FC<RequestSnackBarProps> = ({
 }) => {
   const dispatch = useSelector(() => store.dispatch.common)
   const handleClose = (
-    event: React.SyntheticEvent<any, Event>,
+    event: Event | React.SyntheticEvent<any, Event>,
     reason: SnackbarCloseReason,
   ) => {
     if (reason === 'clickaway') return

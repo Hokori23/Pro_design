@@ -9,9 +9,9 @@ import {
   Slide,
   SlideProps,
   AppBarProps as _AppBarProps,
-} from '@material-ui/core'
-import { Menu as MenuIcon } from '@material-ui/icons'
-import { makeStyles } from '@material-ui/core/styles'
+} from '@mui/material'
+import { Menu as MenuIcon } from '@mui/icons-material'
+import makeStyles from '@mui/styles/makeStyles'
 import { isUndef } from '@/utils/tools'
 
 const useStyles = makeStyles((theme) => ({
@@ -60,6 +60,7 @@ export const AppBar: FC<AppBarProps> = (props) => {
             color="inherit"
             edge="start"
             onClick={onClick}
+            size="large"
           >
             <MenuIcon />
           </IconButton>

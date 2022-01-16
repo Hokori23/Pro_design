@@ -5,9 +5,9 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import { ExpandLess, ExpandMore, Settings } from '@material-ui/icons'
+} from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import { ExpandLess, ExpandMore, Settings } from '@mui/icons-material'
 
 // hooks
 import useAdvancedOptions from './useAdvancedOptions'

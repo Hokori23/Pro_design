@@ -2,7 +2,7 @@ import {
   InputLabelProps,
   StandardTextFieldProps,
   TextField,
-} from '@material-ui/core'
+} from '@mui/material'
 import classNames from 'classnames'
 import React, { ChangeEvent, FC } from 'react'
 export { GenderRadio } from './GenderRadio'

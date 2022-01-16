@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Link } from '@material-ui/core'
+import { Link } from '@mui/material'
 import { RenderProps } from './types'
 
 interface LinkProps extends RenderProps {

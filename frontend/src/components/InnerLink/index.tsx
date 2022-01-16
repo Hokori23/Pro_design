@@ -4,7 +4,7 @@ import {
   Link as RouterLink,
   LinkProps as RouterLinkProps,
 } from 'react-router-dom'
-import { Link } from '@material-ui/core'
+import { Link } from '@mui/material'
 
 const InnerLink: FC<RouterLinkProps> = forwardRef(
   ({ className, style, to, replace, children }, ref) => {

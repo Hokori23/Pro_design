@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles'
 import classnames from 'classnames'
-import { Typography } from '@material-ui/core'
+import { Typography } from '@mui/material'
 import { setUpYunImg } from '@/utils/tools'
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   titleTextWrapper: {
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       padding: '50px 1rem',
     },
     position: 'relative',

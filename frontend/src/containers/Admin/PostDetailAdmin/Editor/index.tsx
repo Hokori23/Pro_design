@@ -5,13 +5,13 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+} from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 import {
   ExpandLess,
   ExpandMore,
   Subject as SubjectIcon,
-} from '@material-ui/icons'
+} from '@mui/icons-material'
 import classnames from 'classnames'
 
 // hooks

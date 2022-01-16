@@ -5,8 +5,9 @@ import { Title } from './Title'
 import { Content } from './Content'
 import { Comment } from './Comment'
 import { Action } from './Action'
-import { Typography, useMediaQuery } from '@material-ui/core'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { Typography, useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import makeStyles from '@mui/styles/makeStyles'
 import { PostWithAuthor } from '@/utils/Request/Post'
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +33,7 @@ interface PostDetailItemProps {
 export const PostDetailItem: FC<PostDetailItemProps> = ({ post }) => {
   const classes = useStyles()
   const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
 
   return (
     <section className={classes.post}>

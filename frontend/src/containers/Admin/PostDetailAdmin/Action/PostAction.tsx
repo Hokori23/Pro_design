@@ -1,9 +1,10 @@
 import React, { FC, Fragment } from 'react'
-import { Button, Typography, useMediaQuery } from '@material-ui/core'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import DeleteIcon from '@material-ui/icons/Delete'
-import SaveIcon from '@material-ui/icons/Save'
-import SendIcon from '@material-ui/icons/Send'
+import { Button, Typography, useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import makeStyles from '@mui/styles/makeStyles'
+import DeleteIcon from '@mui/icons-material/Delete'
+import SaveIcon from '@mui/icons-material/Save'
+import SendIcon from '@mui/icons-material/Send'
 import { PathName } from '@/routes'
 
 // hooks
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 const PostAction: FC = () => {
   const classes = useStyles()
   const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
 
   const {
     state,

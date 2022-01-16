@@ -1,6 +1,12 @@
 import React, { FC } from 'react'
 import { Gender, GenderCN } from '@/utils/Request/User'
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core'
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material'
 
 interface GenderSelectProps {
   className?: string
@@ -9,7 +15,7 @@ interface GenderSelectProps {
   label?: string
   value: any
   onChange?: (
-    event: React.ChangeEvent<{
+    event: SelectChangeEvent<{
       name?: string | undefined
       value: unknown
     }>,

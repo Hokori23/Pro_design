@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import React, { FC, HTMLAttributes, useEffect, useState } from 'react'
-import { Typography, Divider } from '@material-ui/core'
+import { Typography, Divider } from '@mui/material'
 import classnames from 'classnames'
 import Markdown from 'react-markdown'
 import Zmage, { Set } from 'react-zmage'

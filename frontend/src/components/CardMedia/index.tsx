@@ -1,8 +1,8 @@
 import React, { FC, Fragment, useState } from 'react'
-import { CardMedia as _CardMedia, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { CardMedia as _CardMedia, Typography } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 import classnames from 'classnames'
-import BrokenImageIcon from '@material-ui/icons/BrokenImage'
+import BrokenImageIcon from '@mui/icons-material/BrokenImage'
 
 // components
 import { CircularLoading } from '@/components/CircularLoading'
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
   },
   innerClassName: {
-    transition: 'filter',
+    transition: 'filter ease 0.5s',
     objectFit: 'cover',
     height: '100%',
     width: '100%',

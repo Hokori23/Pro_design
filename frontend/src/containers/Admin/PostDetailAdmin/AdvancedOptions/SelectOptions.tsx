@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core'
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import { PostType, PostWithTags } from '@/utils/Request/Post'
 import { cloneDeep } from 'lodash-es'
 import { Action } from '@rematch/core'

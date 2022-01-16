@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
-import { CircularProgress } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { CircularProgress } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 
 const useStyles = makeStyles((theme) => ({
   loading: {
@@ -24,7 +24,7 @@ interface CircularLoadingProps {
    * The variant to use.
    * Use indeterminate when there is no progress value.
    */
-  variant?: 'determinate' | 'indeterminate' | 'static'
+  variant?: 'determinate' | 'indeterminate'
   style?: React.CSSProperties
 }
 export const CircularLoading: FC<CircularLoadingProps> = ({

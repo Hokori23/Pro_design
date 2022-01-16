@@ -6,7 +6,7 @@ import {
   FormGroup,
   FormLabel,
   Typography,
-} from '@material-ui/core'
+} from '@mui/material'
 import { PostTagWithCheck } from '@/containers/Admin/PostDetailAdmin/model'
 import { CircularLoading } from '@/components/CircularLoading'
 import InnerLink from '@/components/InnerLink'

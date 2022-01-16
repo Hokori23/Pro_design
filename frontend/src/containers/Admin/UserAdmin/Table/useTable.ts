@@ -1,9 +1,9 @@
 import { Group, GroupCN } from '@/utils/Request/User'
-import { ColDef } from '@material-ui/data-grid'
+import { GridColumns } from '@mui/x-data-grid'
 import { UserName, Email, createdAt } from './Title'
 
 export default () => {
-  const columns: ColDef[] = [
+  const columns: GridColumns = [
     {
       field: 'userName',
       headerName: '用户名',

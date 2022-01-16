@@ -1,5 +1,5 @@
 import React, { FC, Fragment } from 'react'
-import { List, ListSubheader, Divider } from '@material-ui/core'
+import { List, ListSubheader, Divider } from '@mui/material'
 
 // hooks
 import useStyles from './useStyles'

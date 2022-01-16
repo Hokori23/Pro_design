@@ -10,7 +10,7 @@ import {
   Avatar,
   Typography,
   Divider,
-} from '@material-ui/core'
+} from '@mui/material'
 import { GenderCNArr } from '@/utils/Request/User'
 
 // hooks

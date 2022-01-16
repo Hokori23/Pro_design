@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react'
-import { IconButton, Typography } from '@material-ui/core'
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
+import { IconButton, Typography } from '@mui/material'
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { RouteName } from '@/routes'
 import './index.less'
@@ -20,6 +20,7 @@ const NotFoundPage: FC<RouteComponentProps> = ({ history }) => {
           onClick={() => {
             history.goBack()
           }}
+          size="large"
         >
           <NavigateBeforeIcon />
         </IconButton>

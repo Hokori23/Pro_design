@@ -5,7 +5,7 @@ import {
   FormGroup,
   FormLabel,
   Switch,
-} from '@material-ui/core'
+} from '@mui/material'
 import { PostWithTags, Toggle } from '@/utils/Request/Post'
 import { cloneDeep } from 'lodash-es'
 import { Action } from '@rematch/core'

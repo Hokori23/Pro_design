@@ -6,8 +6,8 @@ import {
   InputAdornment,
   InputLabel,
   StandardTextFieldProps,
-} from '@material-ui/core'
-import { Lock, Visibility, VisibilityOff } from '@material-ui/icons'
+} from '@mui/material'
+import { Lock, Visibility, VisibilityOff } from '@mui/icons-material'
 import classNames from 'classnames'
 import React, { FC, ChangeEvent, KeyboardEvent, useState } from 'react'
 
@@ -61,7 +61,7 @@ export const PasswordInput: FC<PasswordInputProps> = ({
               disabled={disabled}
               onClick={() => setShow(!show)}
               onMouseDown={(e) => e.preventDefault()}
-            >
+              size="large">
               {show ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           </InputAdornment>
@@ -83,5 +83,5 @@ export const PasswordInput: FC<PasswordInputProps> = ({
         <FormHelperText error>{helperText}</FormHelperText>
       )}
     </FormControl>
-  )
+  );
 }

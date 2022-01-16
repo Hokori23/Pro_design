@@ -2,17 +2,19 @@ import React, { ReactElement } from 'react'
 import InnerLink from '@/components/InnerLink'
 import { PathName } from '@/routes'
 import { PostWithAuthor } from '@/utils/Request/Post'
-import { CellParams } from '@material-ui/data-grid'
-import { IconButton, Tooltip, useMediaQuery } from '@material-ui/core'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import EditIcon from '@material-ui/icons/Edit'
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
-import LockIcon from '@material-ui/icons/Lock'
+import { GridRenderCellParams } from '@mui/x-data-grid'
+import { IconButton, Tooltip, useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import makeStyles from '@mui/styles/makeStyles'
+import EditIcon from '@mui/icons-material/Edit'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import LockIcon from '@mui/icons-material/Lock'
 
 const useStyles = makeStyles((theme) => ({
   title: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
     flex: 1,
     width: '100%',
   },
@@ -21,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: 'ellipsis',
   },
 }))
-export const Title = (props: CellParams): ReactElement => {
+export const Title = (props: GridRenderCellParams): ReactElement => {
   const row = props.row as PostWithAuthor
   const classes = useStyles()
   const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
   return (
     <Tooltip arrow placement="bottom" title={row.title || ''}>
       <div className={classes.title}>
@@ -68,7 +70,7 @@ export const Title = (props: CellParams): ReactElement => {
   )
 }
 
-export const Tags = (props: CellParams): ReactElement => {
+export const Tags = (props: GridRenderCellParams): ReactElement => {
   const row = props.row as PostWithAuthor
   const classes = useStyles()
   const tags = row.tags.map((tag) => tag.name).join(', ')

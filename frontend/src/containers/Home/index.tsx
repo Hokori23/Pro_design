@@ -1,10 +1,10 @@
 import { PathName, RouteConfig } from '@/routes'
-import { CssBaseline, useMediaQuery } from '@material-ui/core'
+import { CssBaseline, useMediaQuery } from '@mui/material'
 import React, { FC, Fragment, useEffect } from 'react'
 import { Route, RouteComponentProps, Switch } from 'react-router-dom'
 import { isDef } from '@/utils/tools'
 import classnames from 'classnames'
-import { useTheme } from '@material-ui/core/styles'
+import { useTheme } from '@mui/material/styles'
 
 // hooks
 import useHome from './useHome'

@@ -1,8 +1,8 @@
 import React, { FC, createRef } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles'
 import { PathName, RouteConfig } from '@/routes'
-import { Typography } from '@material-ui/core'
+import { Typography, Pagination, PaginationItem } from '@mui/material'
 
 // hooks
 import usePostOverview from './usePostOverview'
@@ -10,7 +10,7 @@ import usePostOverview from './usePostOverview'
 // components
 import { PostOverviewItem } from '@/components/PostOverviewItem'
 import { ScrollTop } from '@/components/ScrollTop'
-import { Pagination, PaginationItem } from '@material-ui/lab'
+
 import { CircularLoading } from '@/components/CircularLoading'
 
 const useStyles = makeStyles((theme) => ({

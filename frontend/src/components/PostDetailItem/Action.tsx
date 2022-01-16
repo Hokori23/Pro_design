@@ -1,13 +1,13 @@
 import React, { FC, useState } from 'react'
-import { Typography, IconButton, Badge } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Typography, IconButton, Badge } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 import Request from '@/utils/Request'
-import { red } from '@material-ui/core/colors'
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import ThumbDownOutlinedIcon from '@material-ui/icons/ThumbDownOutlined'
-import ThumbDownIcon from '@material-ui/icons/ThumbDown'
-import VisibilityIcon from '@material-ui/icons/Visibility'
+import { red } from '@mui/material/colors'
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined'
+import ThumbDownIcon from '@mui/icons-material/ThumbDown'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 import { PostWithAuthor } from '@/utils/Request/Post'
 import { store } from '@/store'
 import { useSelector } from 'react-redux'
@@ -72,7 +72,11 @@ export const Action: FC<ActionProps> = ({ post, isMobileSize }) => {
       variant="caption"
     >
       <div className={classes.postActionItem}>
-        <IconButton disabled style={{ color: 'rgba(0, 0, 0, 0.54)' }}>
+        <IconButton
+          disabled
+          size="large"
+          style={{ color: 'rgba(0, 0, 0, 0.54)' }}
+        >
           <Badge badgeContent={post.pageViews} color="primary">
             <VisibilityIcon />
           </Badge>
@@ -82,6 +86,7 @@ export const Action: FC<ActionProps> = ({ post, isMobileSize }) => {
         <IconButton
           disabled={liked || disliked}
           onClick={Like}
+          size="large"
           style={{ color: liked ? red[500] : undefined }}
         >
           {liked ? (
@@ -93,7 +98,7 @@ export const Action: FC<ActionProps> = ({ post, isMobileSize }) => {
         {post.likesCount}
       </div>
       <div className={classes.postActionItem}>
-        <IconButton disabled={liked || disliked} onClick={Dislike}>
+        <IconButton disabled={liked || disliked} onClick={Dislike} size="large">
           {disliked ? (
             <ThumbDownIcon className={classes.Icon} />
           ) : (

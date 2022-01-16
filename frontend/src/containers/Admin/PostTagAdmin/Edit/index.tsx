@@ -1,11 +1,11 @@
 import React, { FC, Fragment } from 'react'
 import { Input } from '@/components/Input'
-import { Button, Chip, CircularProgress, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Button, Chip, CircularProgress, Typography } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 import { PostTag } from '@/utils/Request/PostTag'
 import { formValid } from '@/components/UserFormValid'
 import classnames from 'classnames'
-import Icon from '@material-ui/core/Icon'
+import Icon from '@mui/material/Icon'
 import 'material-design-icons/iconfont/material-icons.css'
 import 'material-design-icons/iconfont/MaterialIcons-Regular.ttf'
 import 'material-design-icons/iconfont/MaterialIcons-Regular.woff'
@@ -33,7 +33,15 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '1rem',
   },
 }))
-
+const CHIP_COLORS = [
+  'default',
+  'error',
+  'primary',
+  'secondary',
+  'info',
+  'success',
+  'warning',
+]
 interface EditProps {
   isNew: boolean
   loading: boolean
@@ -71,7 +79,11 @@ const Edit: FC<EditProps> = ({
         >
           <Chip
             clickable
-            color={tag.iconColor}
+            color={
+              tag.iconColor && CHIP_COLORS.includes(tag.iconColor)
+                ? tag.iconColor
+                : 'default'
+            }
             icon={tag.iconClass ? <Icon>{tag.iconClass}</Icon> : undefined}
             label={tag.name}
             size={isMobileSize ? 'small' : 'medium'}
@@ -149,10 +161,7 @@ const Edit: FC<EditProps> = ({
             onChange={(e) =>
               setTag({
                 ...tag,
-                iconColor: e.target.value as
-                  | 'default'
-                  | 'primary'
-                  | 'secondary',
+                iconColor: e.target.value as 'primary' | 'secondary',
               })
             }
             value={tag.iconColor}

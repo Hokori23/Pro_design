@@ -8,8 +8,8 @@ import {
   InputAdornment,
   Paper,
   Typography,
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+} from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 import { checkPassword, formValid } from '@/components/UserFormValid'
 import classnames from 'classnames'
 import {
@@ -19,7 +19,7 @@ import {
   Input,
   PasswordInput,
 } from '@/components/Input'
-import { AccountCircle, Person } from '@material-ui/icons'
+import { AccountCircle, Person } from '@mui/icons-material'
 
 // hooks
 import useRegister from './useRegister'

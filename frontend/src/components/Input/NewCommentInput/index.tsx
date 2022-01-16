@@ -8,10 +8,10 @@ import {
   InputLabel,
   StandardTextFieldProps,
   CircularProgress,
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import CommentIcon from '@material-ui/icons/Comment'
-import SendIcon from '@material-ui/icons/Send'
+} from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import CommentIcon from '@mui/icons-material/Comment'
+import SendIcon from '@mui/icons-material/Send'
 import classNames from 'classnames'
 import React, { FC, ChangeEvent } from 'react'
 

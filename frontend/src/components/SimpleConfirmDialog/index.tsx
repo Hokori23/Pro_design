@@ -6,7 +6,7 @@ import {
   DialogContentText,
   DialogTitle,
   Typography,
-} from '@material-ui/core'
+} from '@mui/material'
 import React, { FC } from 'react'
 import { CircularLoading } from '../CircularLoading'
 

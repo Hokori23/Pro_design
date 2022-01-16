@@ -7,9 +7,10 @@ import {
   MenuItem,
   useMediaQuery,
   Avatar,
-} from '@material-ui/core'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import AccountCircle from '@material-ui/icons/AccountCircle'
+} from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import makeStyles from '@mui/styles/makeStyles'
+import AccountCircle from '@mui/icons-material/AccountCircle'
 import { useSelector } from 'react-redux'
 import { PathName, RouteName } from '@/routes'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -22,7 +23,7 @@ import InnerLink from '@/components/InnerLink'
 const useStyles = makeStyles((theme) => ({
   button: {
     marginRight: '1rem',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       marginRight: '0.5rem',
     },
   },
@@ -48,7 +49,7 @@ const UserStatus: FC = () => {
   const isAdmin = (userInfo?.group || 0) > Group.SUBSCRIBER
   const classes = useStyles()
   const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
 
   const [anchorEl, setAnchorEl] = useState(
     null as (EventTarget & HTMLButtonElement) | null,
@@ -141,6 +142,7 @@ const UserStatus: FC = () => {
         className={classes.avatar}
         color="inherit"
         onClick={handleProfileMenuOpen}
+        size="large"
       >
         {userInfo.avatarUrl ? (
           <Avatar alt={userInfo.userName} src={userInfo.avatarUrl} />

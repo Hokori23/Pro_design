@@ -9,7 +9,7 @@ import { PathName, RouteName } from '@/routes'
 import { useHistory, useParams } from 'react-router-dom'
 import { useAsync } from 'react-use'
 import { PostTag } from '@/utils/Request/PostTag'
-import { useTheme } from '@material-ui/core/styles'
+import { useTheme } from '@mui/material/styles'
 
 export default (location: H.Location<unknown>) => {
   const dispatch = useSelector(() => store.dispatch.common)
@@ -103,7 +103,7 @@ export default (location: H.Location<unknown>) => {
     if (!tag) return
     const { iconColor, iconClass } = tag
     if (iconClass) return undefined
-    return iconColor && iconColor !== 'default'
+    return iconColor
       ? {
           backgroundColor: theme.palette[iconColor].main,
           color: theme.palette.getContrastText(theme.palette[iconColor].main),

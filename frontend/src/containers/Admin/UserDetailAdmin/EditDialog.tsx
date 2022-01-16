@@ -8,8 +8,10 @@ import {
   DialogTitle,
   useMediaQuery,
   CircularProgress,
-} from '@material-ui/core'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+} from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+
+import makeStyles from '@mui/styles/makeStyles'
 
 const useStyles = makeStyles((theme) => ({
   actions: {
@@ -40,10 +42,9 @@ const EditDialog: FC<EditDialogProps> = ({
 }) => {
   const classes = useStyles()
   const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
   return (
     <Dialog
-      disableBackdropClick
       fullScreen={isMobileSize}
       fullWidth
       maxWidth="xs"

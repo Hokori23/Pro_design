@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles'
 import { PathName, RouteConfig } from '@/routes'
-import { Chip, Typography } from '@material-ui/core'
-import Icon from '@material-ui/core/Icon'
+import { Chip, Typography } from '@mui/material'
+import Icon from '@mui/material/Icon'
 import classnames from 'classnames'
 
 // hooks

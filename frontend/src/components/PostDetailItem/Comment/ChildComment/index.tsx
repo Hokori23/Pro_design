@@ -1,13 +1,13 @@
 import React, { FC } from 'react'
 import { FormattedPostComment } from '@/utils/Request/PostComment'
-import { IconButton, Avatar, Typography, Button } from '@material-ui/core'
+import { IconButton, Avatar, Typography, Button } from '@mui/material'
 import classnames from 'classnames'
 import moment from 'moment'
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import ThumbDownOutlinedIcon from '@material-ui/icons/ThumbDownOutlined'
-import ThumbDownIcon from '@material-ui/icons/ThumbDown'
-import { red } from '@material-ui/core/colors'
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined'
+import ThumbDownIcon from '@mui/icons-material/ThumbDown'
+import { red } from '@mui/material/colors'
 
 // hooks
 import useStyles from './useStyles'
@@ -69,6 +69,7 @@ export const ChildComments: FC<ChildCommentsProps> = ({
               className={classes.childCommentAvatar}
               color="primary"
               disabled={!author}
+              size="large"
             >
               <InnerLink to={`${PathName._USER_DETAIL}/${String(author?.id)}`}>
                 <Avatar
@@ -141,6 +142,7 @@ export const ChildComments: FC<ChildCommentsProps> = ({
                         onClick={() => {
                           void Like(comment, idx)
                         }}
+                        size="large"
                         style={{ color: liked ? red[500] : undefined }}
                       >
                         {liked ? (
@@ -159,6 +161,7 @@ export const ChildComments: FC<ChildCommentsProps> = ({
                         onClick={() => {
                           void Dislike(comment, idx)
                         }}
+                        size="large"
                       >
                         {disliked ? (
                           <ThumbDownIcon className={classes.Icon} />

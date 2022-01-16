@@ -10,9 +10,10 @@ import {
   ListItemText,
   ListSubheader,
   Typography,
-} from '@material-ui/core'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import DeleteIcon from '@material-ui/icons/Delete'
+} from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import makeStyles from '@mui/styles/makeStyles'
+import DeleteIcon from '@mui/icons-material/Delete'
 import { PostTag } from '@/utils/Request/PostTag'
 import classnames from 'classnames'
 
@@ -39,6 +40,15 @@ interface ListTagItemProps {
   onClick: (tag: PostTag) => void
   handleDelete: (tag: PostTag) => void
 }
+
+const ICON_COLORS = [
+  'primary',
+  'secondary',
+  'error',
+  'warning',
+  'info',
+  'success',
+]
 const ListTagItem: FC<ListTagItemProps> = ({
   tag,
   selectedTag,
@@ -48,10 +58,10 @@ const ListTagItem: FC<ListTagItemProps> = ({
   const { name, iconClass, iconColor, description } = tag
   const theme = useTheme()
   const style =
-    iconColor && iconColor !== 'default'
+    iconColor && ICON_COLORS.includes(iconColor)
       ? {
-          backgroundColor: theme.palette[iconColor].main,
-          color: theme.palette.getContrastText(theme.palette[iconColor].main),
+          backgroundColor: theme.palette[iconColor]?.main,
+          color: theme.palette.getContrastText(theme.palette[iconColor]?.main),
         }
       : undefined
   return (

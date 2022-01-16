@@ -6,8 +6,8 @@ import {
   InputAdornment,
   InputLabel,
   StandardTextFieldProps,
-} from '@material-ui/core'
-import { Email } from '@material-ui/icons'
+} from '@mui/material'
+import { Email } from '@mui/icons-material'
 import classNames from 'classnames'
 import React, { FC, ChangeEvent } from 'react'
 

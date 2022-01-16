@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
-import { Fab, Tooltip } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
+import { Fab, Tooltip } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
 
 interface AddTagProps {
   className?: string

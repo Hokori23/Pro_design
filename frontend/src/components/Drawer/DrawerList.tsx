@@ -7,13 +7,13 @@ import {
   ListItemText,
   ListItemTextProps,
   SvgIconTypeMap,
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import { Home as HomeIcon } from '@material-ui/icons'
+} from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import { Home as HomeIcon } from '@mui/icons-material'
 import { Option } from '@/utils/Request/Option'
 import { Link, LinkProps } from 'react-router-dom'
 import { PathName, RouteName } from '@/routes'
-import { OverridableComponent } from '@material-ui/core/OverridableComponent'
+import { OverridableComponent } from '@mui/material/OverridableComponent'
 
 import { drawerWidth } from './useStyles'
 const useStyles = makeStyles({

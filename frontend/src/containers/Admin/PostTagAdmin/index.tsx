@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { RouteConfig } from '@/routes'
-import { useMediaQuery } from '@material-ui/core'
-import { useTheme } from '@material-ui/core/styles'
+import { useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import classnames from 'classnames'
 
 // hooks
@@ -20,7 +20,7 @@ import { useSelector } from 'react-redux'
 const PostTagAdmin: FC<RouteComponentProps & RouteConfig> = (props) => {
   const classes = useStyles()
   const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
   const state = useSelector((state: RootState) => state.common)
   const {
     isNew,

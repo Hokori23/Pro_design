@@ -10,12 +10,11 @@ import {
   Avatar,
   Typography,
   Divider,
-  ListItemSecondaryAction,
   Switch,
-} from '@material-ui/core'
-import { useTheme } from '@material-ui/core/styles'
+} from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import { GenderCNArr } from '@/utils/Request/User'
-import EmailIcon from '@material-ui/icons/Email'
+import EmailIcon from '@mui/icons-material/Email'
 import moment from 'moment'
 
 // hooks
@@ -168,16 +167,14 @@ const UserDetailAdmin: FC<RouteComponentProps & RouteConfig> = ({
                 <EmailIcon />
               </ListItemIcon>
               <ListItemText primary="邮箱订阅" />
-              <ListItemSecondaryAction className="relative">
-                <Switch
-                  checked={!!mail?.isSubscribed}
-                  disabled={mailLoading || mail?.id === -1}
-                  edge="end"
-                  id="user-email-setting"
-                  onChange={handleEditMail}
-                />
-                {mailLoading && <CircularLoading size={20} />}
-              </ListItemSecondaryAction>
+              <Switch
+                checked={!!mail?.isSubscribed}
+                disabled={mailLoading || mail?.id === -1}
+                edge="end"
+                id="user-email-setting"
+                onChange={handleEditMail}
+              />
+              {mailLoading && <CircularLoading size={20} />}
             </ListItem>
           </label>
           <Divider light />

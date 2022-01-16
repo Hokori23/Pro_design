@@ -8,7 +8,7 @@ export interface PostTag {
   description?: string
   slug: string
   iconClass?: string
-  iconColor?: 'default' | 'primary' | 'secondary'
+  iconColor?: 'primary' | 'secondary'
   readonly createdAt?: Date
   readonly updatedAt?: Date
 }

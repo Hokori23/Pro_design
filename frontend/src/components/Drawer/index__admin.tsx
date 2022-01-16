@@ -3,9 +3,9 @@ import {
   Drawer as _Drawer,
   SwipeableDrawer,
   useMediaQuery,
-} from '@material-ui/core'
+} from '@mui/material'
 import { Option } from '@/utils/Request/Option'
-import { useTheme } from '@material-ui/core/styles'
+import { useTheme } from '@mui/material/styles'
 
 import { useStyles } from './useStyles'
 
@@ -30,7 +30,7 @@ export const Drawer: FC<DrawerProps> = ({
 }) => {
   const classes = useStyles()
   const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
 
   return (
     <nav>

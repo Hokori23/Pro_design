@@ -1,6 +1,6 @@
 import React, { Dispatch, FC, SetStateAction } from 'react'
 import { Input } from '@/components/Input'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles'
 import { FormattedOption } from './useSystem'
 import { cloneDeep } from 'lodash-es'
 

@@ -1,11 +1,11 @@
 import React, { FC } from 'react'
-import { IconButton, Avatar, Typography, Button } from '@material-ui/core'
+import { IconButton, Avatar, Typography, Button } from '@mui/material'
 import moment from 'moment'
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import ThumbDownOutlinedIcon from '@material-ui/icons/ThumbDownOutlined'
-import ThumbDownIcon from '@material-ui/icons/ThumbDown'
-import { red } from '@material-ui/core/colors'
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined'
+import ThumbDownIcon from '@mui/icons-material/ThumbDown'
+import { red } from '@mui/material/colors'
 import { FormattedPostComment } from '@/utils/Request/PostComment'
 import { ChildComments } from '../ChildComment'
 import { ReplyComment } from '../ReplyComment'
@@ -56,6 +56,7 @@ export const RootComment: FC<RootCommentProps> = ({
         className={classes.rootCommentAvatar}
         color="primary"
         disabled={!comment?.author}
+        size="large"
       >
         <InnerLink
           to={`${PathName._USER_DETAIL}/${String(comment?.author?.id)}`}
@@ -108,6 +109,7 @@ export const RootComment: FC<RootCommentProps> = ({
                 <IconButton
                   disabled={liked || disliked}
                   onClick={Like}
+                  size="large"
                   style={{ color: liked ? red[500] : undefined }}
                 >
                   {liked ? (
@@ -119,7 +121,11 @@ export const RootComment: FC<RootCommentProps> = ({
                 {comment.likesCount}
               </div>
               <div className={classes.rootCommentActionItem}>
-                <IconButton disabled={liked || disliked} onClick={Dislike}>
+                <IconButton
+                  disabled={liked || disliked}
+                  onClick={Dislike}
+                  size="large"
+                >
                   {disliked ? (
                     <ThumbDownIcon className={classes.Icon} />
                   ) : (

@@ -7,8 +7,8 @@ import {
   InputAdornment,
   InputLabel,
   StandardTextFieldProps,
-} from '@material-ui/core'
-import { Sms as SmsIcon } from '@material-ui/icons'
+} from '@mui/material'
+import { Sms as SmsIcon } from '@mui/icons-material'
 import classNames from 'classnames'
 import React, { FC, ChangeEvent, useState, useEffect } from 'react'
 

@@ -8,19 +8,19 @@ import {
   ListItemText,
   ListItemTextProps,
   SvgIconTypeMap,
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+} from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 import {
   ExpandLess,
   ExpandMore,
   Build as BuildIcon,
   Home as HomeIcon,
   Edit as EditIcon,
-} from '@material-ui/icons'
+} from '@mui/icons-material'
 import { Option } from '@/utils/Request/Option'
 import { Link, LinkProps, useLocation } from 'react-router-dom'
 import { PathName, RouteName } from '@/routes'
-import { OverridableComponent } from '@material-ui/core/OverridableComponent'
+import { OverridableComponent } from '@mui/material/OverridableComponent'
 
 import { drawerWidth } from './useStyles'
 const useStyles = makeStyles((theme) => ({

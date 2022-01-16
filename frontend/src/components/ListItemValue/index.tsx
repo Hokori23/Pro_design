@@ -1,5 +1,5 @@
 import React, { FC, Fragment } from 'react'
-import { ListItem, ListItemText, Typography, Divider } from '@material-ui/core'
+import { ListItem, ListItemText, Typography, Divider } from '@mui/material'
 
 interface ListItemValueProps {
   primary: string

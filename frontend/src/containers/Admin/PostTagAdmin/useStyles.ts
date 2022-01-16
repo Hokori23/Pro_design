@@ -1,6 +1,6 @@
 import { CommonState } from '@/common-model'
-import { Theme } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Theme } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 import { computeDOMHeight } from '@/utils/tools'
 export default makeStyles((theme) => ({
   root: {
@@ -10,13 +10,13 @@ export default makeStyles((theme) => ({
   },
   gap1: {
     flex: '1 1 10%',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       display: 'none',
     },
   },
   gap2: {
     flex: '1 1 5%',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       display: 'none',
     },
   },
@@ -24,7 +24,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flex: '1 1 60%',
     backgroundColor: theme.palette.background.paper,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       paddingBottom: '5rem',
     },
     [theme.breakpoints.up('sm')]: {
@@ -40,7 +40,7 @@ export default makeStyles((theme) => ({
     padding: '2rem 1rem',
     backgroundColor: theme.palette.background.paper,
     borderLeft: `1px solid ${theme.palette.divider}`,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       paddingBottom: '5rem',
     },
     [theme.breakpoints.up('sm')]: {
@@ -64,7 +64,7 @@ export const computeStyles = (state: CommonState, theme: Theme) => {
   const fabStyle = init
     ? {
         bottom:
-          theme.spacing(2) + (computeDOMHeight('#App-Footer', true) as number),
+          theme.spacing(2) + String(computeDOMHeight('#App-Footer', true)),
       }
     : emptyObj
   return { childStyle, fabStyle }

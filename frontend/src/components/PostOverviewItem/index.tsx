@@ -13,15 +13,15 @@ import {
   Box,
   Chip,
   Tooltip,
-} from '@material-ui/core'
-import Icon from '@material-ui/core/Icon'
-import { useTheme } from '@material-ui/core/styles'
-import VisibilityIcon from '@material-ui/icons/Visibility'
-import CommentIcon from '@material-ui/icons/Comment'
+} from '@mui/material'
+import Icon from '@mui/material/Icon'
+import { useTheme } from '@mui/material/styles'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import CommentIcon from '@mui/icons-material/Comment'
 import { useStyles } from './useStyles'
 import { Link } from 'react-router-dom'
 import { PathName } from '@/routes'
-import PublishIcon from '@material-ui/icons/Publish'
+import PublishIcon from '@mui/icons-material/Publish'
 
 // components
 import { CardMedia } from '@/components/CardMedia'
@@ -57,7 +57,7 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
   } = post
   const classes = useStyles()
   const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
 
   return (
     <Card className={classes.root}>
@@ -100,6 +100,7 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
             {!!priority && (
               <IconButton
                 disabled
+                size="large"
                 style={{
                   padding: 4,
                 }}
@@ -146,14 +147,22 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
       )}
       <section className={classes.actionsWrapper}>
         <div className={classes.actions}>
-          <IconButton disabled style={{ color: 'rgba(0, 0, 0, 0.54)' }}>
+          <IconButton
+            disabled
+            size="large"
+            style={{ color: 'rgba(0, 0, 0, 0.54)' }}
+          >
             <Badge badgeContent={pageViews} color="primary">
-              <VisibilityIcon fontSize={isMobileSize ? 'small' : 'default'} />
+              <VisibilityIcon fontSize={isMobileSize ? 'small' : 'inherit'} />
             </Badge>
           </IconButton>
-          <IconButton disabled style={{ color: 'rgba(0, 0, 0, 0.54)' }}>
+          <IconButton
+            disabled
+            size="large"
+            style={{ color: 'rgba(0, 0, 0, 0.54)' }}
+          >
             <Badge badgeContent={postComments?.length} color="primary">
-              <CommentIcon fontSize={isMobileSize ? 'small' : 'default'} />
+              <CommentIcon fontSize={isMobileSize ? 'small' : 'inherit'} />
             </Badge>
           </IconButton>
         </div>

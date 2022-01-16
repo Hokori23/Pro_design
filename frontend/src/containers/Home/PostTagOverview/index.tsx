@@ -1,9 +1,16 @@
 import React, { FC, createRef, Fragment } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 import { PathName, RouteConfig } from '@/routes'
-import { Box, Card, Tooltip, Typography } from '@material-ui/core'
+import {
+  Box,
+  Card,
+  Tooltip,
+  Typography,
+  Pagination,
+  PaginationItem,
+} from '@mui/material'
 import classnames from 'classnames'
-import Icon from '@material-ui/core/Icon'
+import Icon from '@mui/material/Icon'
 
 // hooks
 import usePostTagOverview from './usePostTagOverview'
@@ -12,7 +19,7 @@ import useStyles from './useStyles'
 // components
 import { PostOverviewItem } from '@/components/PostOverviewItem'
 import { ScrollTop } from '@/components/ScrollTop'
-import { Pagination, PaginationItem } from '@material-ui/lab'
+
 import { CircularLoading } from '@/components/CircularLoading'
 
 const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {

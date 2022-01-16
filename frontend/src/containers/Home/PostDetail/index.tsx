@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles'
 import { RouteComponentProps } from 'react-router-dom'
 import { RouteConfig } from '@/routes'
 

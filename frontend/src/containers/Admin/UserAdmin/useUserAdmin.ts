@@ -4,7 +4,6 @@ import { scrollIntoTop } from '@/utils/tools'
 import { store } from '@/store'
 import { useSelector } from 'react-redux'
 import { RouteName } from '@/routes'
-import { PageChangeParams } from '@material-ui/data-grid'
 import { User } from '@/utils/Request/User'
 
 export default () => {
@@ -30,8 +29,8 @@ export default () => {
     void RetrieveAll()
   }, [])
 
-  const handlePageSizeChange = (params: PageChangeParams) => {
-    setPageSize(params.pageSize)
+  const handlePageSizeChange = (newPageSize: number) => {
+    setPageSize(newPageSize)
   }
 
   return {

@@ -49,7 +49,7 @@ export default () => {
       description: '',
       slug: '',
       iconClass: '',
-      iconColor: 'default',
+      iconColor: undefined,
     }
     setSelectedTag(defaultTag)
   }

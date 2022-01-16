@@ -7,7 +7,6 @@ import { scrollIntoTop, isDef } from '@/utils/tools'
 import { store } from '@/store'
 import { useSelector } from 'react-redux'
 import { PathName, RouteName } from '@/routes'
-import { PageChangeParams } from '@material-ui/data-grid'
 import { useAsync } from 'react-use'
 import { useHistory } from 'react-router-dom'
 
@@ -75,8 +74,8 @@ export default (location: H.Location<unknown>) => {
     }
   }, [page, capacity, isASC, postTypes])
 
-  const handlePageChange = (params: PageChangeParams) => {
-    setPage(params.page + 1)
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage + 1)
   }
 
   return {

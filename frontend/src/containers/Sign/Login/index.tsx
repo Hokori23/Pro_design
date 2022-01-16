@@ -1,18 +1,18 @@
 import React, { FC } from 'react'
 import classNames from 'classnames'
 import { RouteComponentProps } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles'
 import {
   Button,
   CircularProgress,
   InputAdornment,
   Paper,
   Typography,
-} from '@material-ui/core'
+} from '@mui/material'
 import { PathName, RouteConfig } from '@/routes'
 import { Input, PasswordInput } from '@/components/Input'
 import { formValid } from '@/components/UserFormValid'
-import { AccountCircle } from '@material-ui/icons'
+import { AccountCircle } from '@mui/icons-material'
 
 // hooks
 import useLogin from './useLogin'

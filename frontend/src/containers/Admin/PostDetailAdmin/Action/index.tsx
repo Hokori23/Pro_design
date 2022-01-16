@@ -8,14 +8,14 @@ import {
   ListItemIcon,
   ListItemText,
   Tooltip,
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+} from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 import {
   ExpandLess,
   ExpandMore,
   Edit as EditIcon,
   CloudUpload,
-} from '@material-ui/icons'
+} from '@mui/icons-material'
 import { formValid } from '@/components/UserFormValid'
 import { cloneDeep } from 'lodash-es'
 import { $ } from '@/utils/tools'
@@ -149,6 +149,7 @@ const Action: FC<ActionProps> = ({ className }) => {
                         onClick={() => {
                           $('#cover-url__upload')?.click()
                         }}
+                        size="large"
                       >
                         <CloudUpload />
                       </IconButton>

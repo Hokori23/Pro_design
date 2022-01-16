@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { DataGrid, PageChangeParams } from '@material-ui/data-grid'
+import { DataGrid } from '@mui/x-data-grid'
 
 // hooks
 import useTable from './useTable'
@@ -11,7 +11,7 @@ interface TableProps {
   rowCount: number
   loading: boolean
   rowsPerPageOptions?: number[]
-  onPageSizeChange: (params: PageChangeParams) => void
+  onPageSizeChange: (newPageSize: number) => void
 }
 const Table: FC<TableProps> = ({
   rows,

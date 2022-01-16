@@ -1,11 +1,6 @@
-import {
-  Box,
-  Typography,
-  Link,
-  useMediaQuery,
-  Divider,
-} from '@material-ui/core'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { Box, Typography, Link, useMediaQuery, Divider } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import makeStyles from '@mui/styles/makeStyles'
 import React, { FC, Fragment } from 'react'
 import classnames from 'classnames'
 
@@ -61,7 +56,7 @@ const Footer: FC<FooterProps> = ({ id, className }) => {
   const state = useSelector((state: RootState) => state.common)
   const classes = useStyles()
   const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
 
   const blogCreatedAt = state.blogConfig.find(
     (v) => v.module === 'system' && v.key === 'createdAt',

@@ -4,12 +4,12 @@ import React, {
   useImperativeHandle,
   ForwardRefRenderFunction,
 } from 'react'
-import { Dialog, IconButton, Button } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Dialog, IconButton, Button } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 
 import Draggable from 'react-draggable'
 
-import CloseIcon from '@material-ui/icons/Close'
+import CloseIcon from '@mui/icons-material/Close'
 
 import Carousel from 'react-responsive-carousel'
 import { CardMedia } from '@/components/CardMedia'
@@ -76,7 +76,11 @@ const _ImgViewer: ForwardRefRenderFunction<unknown, {}> = (_, ref) => {
 
   return (
     <Dialog fullScreen onClose={onClose} open={show}>
-      <IconButton className={classes.closeButton} onClick={onClose}>
+      <IconButton
+        className={classes.closeButton}
+        onClick={onClose}
+        size="large"
+      >
         <CloseIcon />
       </IconButton>
       <CardMedia

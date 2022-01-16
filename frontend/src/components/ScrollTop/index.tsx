@@ -1,8 +1,8 @@
 /* eslint-disable react/display-name */
 import React, { forwardRef } from 'react'
-import { useScrollTrigger, Zoom, Fab } from '@material-ui/core'
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import { makeStyles } from '@material-ui/core/styles'
+import { useScrollTrigger, Zoom, Fab } from '@mui/material'
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import makeStyles from '@mui/styles/makeStyles'
 
 const useStyles = makeStyles((theme) => ({
   root: {

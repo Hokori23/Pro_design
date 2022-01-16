@@ -4,22 +4,32 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { Provider } from 'react-redux'
 import { store } from './store'
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import CssBaseline from '@material-ui/core/CssBaseline'
+import {
+  ThemeProvider,
+  Theme,
+  StyledEngineProvider,
+  createTheme,
+} from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
 import { SnackbarProvider } from 'notistack'
-import { indigo, grey } from '@material-ui/core/colors'
+import { indigo, grey } from '@mui/material/colors'
 import { autoFixContext } from 'react-activation'
 import { isDev } from './utils/const'
 import '@/static/index.less'
 import 'fontsource-roboto'
 
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
 autoFixContext([require('react/jsx-runtime'), 'jsx', 'jsxs', 'jsxDEV'])
 isDev &&
   autoFixContext([require('react/jsx-dev-runtime'), 'jsx', 'jsxs', 'jsxDEV'])
 
-export const theme = createMuiTheme({
+export const theme = createTheme({
   palette: {
-    type: 'light',
+    mode: 'light',
     primary: {
       main: indigo[500],
     },
@@ -30,7 +40,7 @@ export const theme = createMuiTheme({
       primary: '#000',
       secondary: grey[600],
       disabled: grey[400],
-      hint: indigo[400],
+      // hint: indigo[400],
     },
     background: {
       default: '#fff',
@@ -41,12 +51,14 @@ export const theme = createMuiTheme({
 
 ReactDOM.render(
   <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <SnackbarProvider maxSnack={3}>
-        <App />
-      </SnackbarProvider>
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <SnackbarProvider maxSnack={3}>
+          <App />
+        </SnackbarProvider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   </Provider>,
   document.getElementById('root'),
 )

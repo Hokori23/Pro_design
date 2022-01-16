@@ -8,7 +8,7 @@ import {
   Button,
   CircularProgress,
   Typography,
-} from '@material-ui/core'
+} from '@mui/material'
 import { PostTag } from '@/utils/Request/PostTag'
 
 interface DeleteDialogProps {

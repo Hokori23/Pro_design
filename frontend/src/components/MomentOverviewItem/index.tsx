@@ -9,13 +9,13 @@ import {
   Typography,
   Avatar,
   CardHeader,
-} from '@material-ui/core'
-import { red } from '@material-ui/core/colors'
+} from '@mui/material'
+import { red } from '@mui/material/colors'
 import Request from '@/utils/Request'
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import ThumbDownOutlinedIcon from '@material-ui/icons/ThumbDownOutlined'
-import ThumbDownIcon from '@material-ui/icons/ThumbDown'
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined'
+import ThumbDownIcon from '@mui/icons-material/ThumbDown'
 import { useStyles } from './useStyles'
 import { cloneDeep } from 'lodash-es'
 
@@ -109,6 +109,7 @@ export const MomentOverviewItem: FC<MomentOverviewItemProps> = ({ moment }) => {
             <IconButton
               disabled={liked || disliked}
               onClick={Like}
+              size="large"
               style={{ color: liked ? red[500] : undefined }}
             >
               {liked ? (
@@ -120,7 +121,11 @@ export const MomentOverviewItem: FC<MomentOverviewItemProps> = ({ moment }) => {
             {likesCount}
           </div>
           <div className={classes.actionItem}>
-            <IconButton disabled={liked || disliked} onClick={Dislike}>
+            <IconButton
+              disabled={liked || disliked}
+              onClick={Dislike}
+              size="large"
+            >
               {disliked ? (
                 <ThumbDownIcon className={classes.Icon} />
               ) : (

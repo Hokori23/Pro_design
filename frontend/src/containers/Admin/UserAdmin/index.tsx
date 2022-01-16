@@ -1,7 +1,7 @@
 import React, { FC, createRef } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { RouteConfig } from '@/routes'
-import { Typography } from '@material-ui/core'
+import { Typography } from '@mui/material'
 
 // hooks
 import useUserAdmin from './useUserAdmin'
