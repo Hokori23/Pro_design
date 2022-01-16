@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
   media: {
     cursor: 'pointer',
     height: '33vh',
+    margin: '1rem 0',
   },
   mediaInner: {
     maxHeight: '33vh',
