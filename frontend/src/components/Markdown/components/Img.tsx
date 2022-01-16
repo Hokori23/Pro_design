@@ -1,24 +1,19 @@
-import React, { FC } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import classnames from 'classnames'
 import { RenderProps } from './types'
-import { Card, CardActionArea } from '@material-ui/core'
+import { setUpYunImg } from '@/utils/tools'
 
 // components
 import { CardMedia } from '@/components/CardMedia'
-
-import { setUpYunImg } from '@/utils/tools'
 
 interface CardMediaProps extends RenderProps {
   outline?: boolean
   inline?: boolean
   src: string
-  onClick?: (imgUrl: string) => void
+  onClick?: (originSrc: string) => void
 }
 const useStyles = makeStyles((theme) => ({
-  card: {
-    margin: '1rem 0',
-  },
   media: {
     cursor: 'pointer',
     height: '33vh',
@@ -45,6 +40,7 @@ const Img: FC<CardMediaProps> = ({
   ...props
 }) => {
   const classes = useStyles()
+  const [imgUrl] = useState(setUpYunImg(src, 'md'))
 
   // 预加载原图
   const originSrc = setUpYunImg(src, 'origin')
@@ -53,25 +49,26 @@ const Img: FC<CardMediaProps> = ({
     img.src = originSrc
   }
 
-  return outline ? null : (
-    <Card className={classes.card}>
-      <CardActionArea>
-        <CardMedia
-          className={classnames(
-            classes.media,
-            inline ? classes.mediaInline : undefined,
-          )}
-          innerClassName={classnames(
-            classes.mediaInner,
-            inline ? classes.mediaInnerInline : undefined,
-          )}
-          onClick={() => onClick?.(originSrc)}
-          showLoadingImg
-          src={setUpYunImg(src, 'md')}
-          {...props}
-        />
-      </CardActionArea>
-    </Card>
-  )
+  return outline
+    ? null
+    : useMemo(
+        () => (
+          <CardMedia
+            className={classnames(
+              classes.media,
+              inline ? classes.mediaInline : undefined,
+            )}
+            innerClassName={classnames(
+              classes.mediaInner,
+              inline ? classes.mediaInnerInline : undefined,
+            )}
+            onClick={() => onClick?.(originSrc)}
+            showLoadingImg
+            src={imgUrl}
+            {...props}
+          />
+        ),
+        [imgUrl],
+      )
 }
 export default Img

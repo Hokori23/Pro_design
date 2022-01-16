@@ -1,10 +1,14 @@
 /* eslint-disable react/display-name */
-import React, { FC, HTMLAttributes, useEffect, useMemo, useRef } from 'react'
+import React, { FC, HTMLAttributes, useEffect, useState } from 'react'
 import { Typography, Divider } from '@material-ui/core'
 import classnames from 'classnames'
 import Markdown from 'react-markdown'
+import Zmage, { Set } from 'react-zmage'
+import 'react-zmage/lib/zmage.css'
 import { Components } from 'react-markdown/src/ast-to-react'
 import './renderer.less'
+import { setUpYunImg } from '@/utils/tools'
+
 // import { Element, Properties } from 'hast'
 // import h from 'hastscript'
 
@@ -38,7 +42,6 @@ import useStyles from './useStyles'
 // import rehypeComponents from 'rehype-components'
 import Img from '../components/Img'
 import A from '../components/A'
-import { ImgViewer, ImgViewerMethods } from '@/components/ImgViewer'
 
 interface RendererProps {
   className?: HTMLAttributes<HTMLElement>['className']
@@ -58,7 +61,7 @@ interface RendererProps {
 //   siblingCount?: number
 // }
 interface CustomComponentsOptions {
-  onImgClick?: (imgUrl: string) => void
+  onImgClick?: (originSrc: string) => void
 }
 const CustomComponents = (
   outline?: boolean,
@@ -119,54 +122,54 @@ export const Renderer: FC<RendererProps> = ({
   outline,
 }) => {
   const classes = useStyles()
-  const imgViewer = useRef<ImgViewerMethods>()
+  const [imgs, setImgs] = useState<Set[]>([])
 
   useEffect(() => {
     let match
-    const imgs = []
+    const imgs: Set[] = []
     while ((match = imgRegExp.exec(content))) {
-      imgs.push(match[2])
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const [_, alt, src] = match
+      imgs.push({
+        alt,
+        src: setUpYunImg(src, 'origin'),
+      })
     }
-    imgViewer?.current?.setImgs(imgs)
+    setImgs(imgs)
   }, [content])
 
-  return useMemo(
-    () => (
-      <>
-        <Markdown
-          className={classnames(
-            classes.markdown,
-            className,
-            'markdown-renderer',
-          )}
-          components={CustomComponents(outline, {
-            onImgClick: (imgUrl: string) => {
-              imgViewer?.current?.onOpen?.()
-              imgViewer?.current?.setCurrentImg?.(imgUrl)
-            },
-          })}
-          rehypePlugins={[
-            rehypeRaw,
-            inspectUrls,
-            Photos,
-            // [
-            //   rehypeComponents,
-            //   {
-            //     components: {
-            //       test: (properties: Properties, children: Element[]) => {
-            //         return h('.test', children)
-            //       },
-            //     },
-            //   },
-            // ],
-          ]}
-          remarkPlugins={[[gfm, { singleTilde: false }]]}
-        >
-          {content}
-        </Markdown>
-        <ImgViewer ref={imgViewer} />
-      </>
-    ),
-    [content, imgViewer?.current],
+  return (
+    <>
+      <Markdown
+        className={classnames(classes.markdown, className, 'markdown-renderer')}
+        components={CustomComponents(outline, {
+          onImgClick: (originSrc: string) => {
+            const currentImgIdx = imgs.findIndex((v) => v?.src === originSrc)
+            Zmage.browsing({
+              set: imgs,
+              defaultPage: currentImgIdx === -1 ? 0 : currentImgIdx,
+            })
+          },
+        })}
+        rehypePlugins={[
+          rehypeRaw,
+          inspectUrls,
+          Photos,
+          // [
+          //   rehypeComponents,
+          //   {
+          //     components: {
+          //       test: (properties: Properties, children: Element[]) => {
+          //         return h('.test', children)
+          //       },
+          //     },
+          //   },
+          // ],
+        ]}
+        remarkPlugins={[[gfm, { singleTilde: false }]]}
+      >
+        {content}
+      </Markdown>
+    </>
   )
 }
