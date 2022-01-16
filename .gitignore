@@ -11,3 +11,4 @@ storybook-static
 .vercel
 .env
 tree.txt
+.DS_Store
