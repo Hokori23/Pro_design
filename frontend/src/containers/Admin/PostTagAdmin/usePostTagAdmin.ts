@@ -1,7 +1,7 @@
 import { PostTag } from '@/utils/Request/PostTag'
 import { useEffect, useState } from 'react'
 import Request from '@/utils/Request'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { useSelector } from 'react-redux'
 import { store } from '@/store'
 import { RouteName } from '@/routes'
@@ -28,7 +28,7 @@ export default () => {
   }
   const handleEdit = (tag: PostTag) => {
     setIsNew(false)
-    setSelectedTag(_.cloneDeep(tag))
+    setSelectedTag(cloneDeep(tag))
   }
   const onEdit = async () => {
     setEditLoading(true)
@@ -36,7 +36,7 @@ export default () => {
     setEditLoading(false)
     if (res?.data) {
       // 更新左侧Main数据
-      const clonedTags: PostTag[] = _.cloneDeep(tags).map((v) =>
+      const clonedTags: PostTag[] = cloneDeep(tags).map((v) =>
         v.id !== res.data!.id ? v : res.data,
       ) as PostTag[]
       setTags(clonedTags)

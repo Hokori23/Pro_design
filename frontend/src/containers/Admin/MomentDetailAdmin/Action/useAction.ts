@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { RootState, store } from '@/store'
 import { useSelector } from 'react-redux'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { Post } from '@/utils/Request/Post'
 
 export default () => {
@@ -13,7 +13,7 @@ export default () => {
     setOpen(!open)
   }
   const onMomentChange = (moment: Partial<Post>) => {
-    dispatch.SET_MOMENT({ ..._.cloneDeep(state.moment), ...moment })
+    dispatch.SET_MOMENT({ ...cloneDeep(state.moment), ...moment })
   }
 
   return {

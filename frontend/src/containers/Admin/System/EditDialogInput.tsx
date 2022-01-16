@@ -2,7 +2,7 @@ import React, { Dispatch, FC, SetStateAction } from 'react'
 import { Input } from '@/components/Input'
 import { makeStyles } from '@material-ui/core/styles'
 import { FormattedOption } from './useSystem'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -50,7 +50,7 @@ const EditDialogInput: FC<EditDialogInputProps> = ({
       fullWidth
       label={itemKey}
       onChange={(e) => {
-        const clonedBlogConfig = _.cloneDeep(blogConfig)
+        const clonedBlogConfig = cloneDeep(blogConfig)
         clonedBlogConfig[module][itemKey].value = e.target.value
         setBlogConfig(clonedBlogConfig)
       }}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Request from '@/utils/Request'
 import { FormattedPostComment } from '@/utils/Request/PostComment'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { RootState, store } from '@/store'
 import { useSelector } from 'react-redux'
 import { Group } from '@/utils/Request/User'
@@ -59,7 +59,7 @@ export default (rootComment: FormattedPostComment) => {
   const Like = async (comment: PostCommentWithStatus, idx: number) => {
     const res = await Request.PostComment.Like(comment.id)
     if (res?.code === 0) {
-      const cloneChildComments = _.cloneDeep(childComments)
+      const cloneChildComments = cloneDeep(childComments)
       cloneChildComments[idx].likesCount++
       cloneChildComments[idx].liked = true
       setChildComments(cloneChildComments)
@@ -69,7 +69,7 @@ export default (rootComment: FormattedPostComment) => {
   const Dislike = async (comment: PostCommentWithStatus, idx: number) => {
     const res = await Request.PostComment.Dislike(comment.id)
     if (res?.code === 0) {
-      const cloneChildComments = _.cloneDeep(childComments)
+      const cloneChildComments = cloneDeep(childComments)
       cloneChildComments[idx].dislikesCount++
       cloneChildComments[idx].disliked = true
       setChildComments(cloneChildComments)

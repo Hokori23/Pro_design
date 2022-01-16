@@ -3,7 +3,7 @@ import { store } from '@/store'
 import Request from '@/utils/Request'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { useAsync } from 'react-use'
 import { Mail } from '@/utils/Request/Mail'
 import { useHistory, useParams } from 'react-router-dom'
@@ -62,13 +62,13 @@ export default () => {
   ) => {
     e.preventDefault()
     if (!clonedUserInfo) return
-    const newUser = _.cloneDeep(clonedUserInfo)
+    const newUser = cloneDeep(clonedUserInfo)
     setUserLoading(true)
     const res = await Request.User.Edit__Admin(newUser)
     setUserLoading(false)
     if (res?.data) {
       setUser(res.data)
-      setClonedUserInfo(_.cloneDeep(res.data))
+      setClonedUserInfo(cloneDeep(res.data))
       handleEditDialogClose()
     }
   }
@@ -122,7 +122,7 @@ export default () => {
     const res = await Request.User.Retrieve(Number(id))
     if (res?.data) {
       setUser(res.data)
-      setClonedUserInfo(_.cloneDeep(res.data))
+      setClonedUserInfo(cloneDeep(res.data))
     }
   })
   return {

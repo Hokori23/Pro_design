@@ -7,7 +7,7 @@ import {
   Switch,
 } from '@material-ui/core'
 import { Post, Toggle } from '@/utils/Request/Post'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { Action } from '@rematch/core'
 
 interface CheckOptionsProps {
@@ -44,7 +44,7 @@ export const CheckOptions: FC<CheckOptionsProps> = ({
                 name={key}
                 onChange={({ target: { name, checked } }) => {
                   onChange({
-                    ..._.cloneDeep(moment),
+                    ...cloneDeep(moment),
                     [name]: Number(checked) as Toggle,
                   })
                 }}

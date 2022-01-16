@@ -1,7 +1,7 @@
 import React, { FC, Fragment } from 'react'
 import { FormattedPostComment, PostComment } from '@/utils/Request/PostComment'
 import { isUndef } from '@/utils/tools'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 
 // components
 import { NewComment } from './NewComment'
@@ -11,7 +11,7 @@ const useFormatComment = (
   _postComments?: PostComment[],
 ): FormattedPostComment[] | null => {
   if (isUndef(_postComments)) return null
-  const postComments: FormattedPostComment[] = _.cloneDeep(_postComments)
+  const postComments: FormattedPostComment[] = cloneDeep(_postComments)
 
   const rootComments: FormattedPostComment[] = []
   const childComments: FormattedPostComment[] = []

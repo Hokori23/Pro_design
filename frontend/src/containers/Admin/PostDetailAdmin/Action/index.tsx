@@ -17,7 +17,7 @@ import {
   CloudUpload,
 } from '@material-ui/icons'
 import { formValid } from '@/components/UserFormValid'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { $ } from '@/utils/tools'
 import classnames from 'classnames'
 
@@ -116,7 +116,7 @@ const Action: FC<ActionProps> = ({ className }) => {
               }
               onChange={(e) => {
                 dispatch.SET_POST({
-                  ..._.cloneDeep(state.post),
+                  ...cloneDeep(state.post),
                   title: e.target.value,
                 })
                 formValid({
@@ -173,7 +173,7 @@ const Action: FC<ActionProps> = ({ className }) => {
               }
               onChange={(e) => {
                 dispatch.SET_POST({
-                  ..._.cloneDeep(state.post),
+                  ...cloneDeep(state.post),
                   coverUrl: e.target.value,
                 })
                 e.target.value

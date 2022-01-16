@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core'
 import { PostType, PostWithTags } from '@/utils/Request/Post'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { Action } from '@rematch/core'
 
 interface SelectOptionsProps {
@@ -25,7 +25,7 @@ export const SelectOptions: FC<SelectOptionsProps> = ({
       <InputLabel>文章类型</InputLabel>
       <Select
         onChange={(e) => {
-          onChange({ ..._.cloneDeep(post), type: e.target.value as PostType })
+          onChange({ ...cloneDeep(post), type: e.target.value as PostType })
         }}
         value={post.type}
       >
