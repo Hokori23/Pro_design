@@ -16,7 +16,7 @@ const { cryptoConfig } = config
  * @param { object } v
  * @returns { boolean }
  */
-const isDef = <T>(v: T | undefined | null): v is T =>
+export const isDef = <T>(v: T | undefined | null): v is T =>
   v !== undefined && v !== null
 
 /**
@@ -25,10 +25,10 @@ const isDef = <T>(v: T | undefined | null): v is T =>
  * @param { object } v
  * @returns { boolean }
  */
-const isUndef = (v: unknown): v is undefined | null =>
+export const isUndef = (v: unknown): v is undefined | null =>
   v === undefined || v === null
 
-const isEmpty = (v: string): boolean => {
+export const isEmpty = (v: string): boolean => {
   return v === ''
 }
 
@@ -41,7 +41,7 @@ const isEmpty = (v: string): boolean => {
  * @param { any } v
  * @returns { boolean }
  */
-const isNaN = (v: any) => {
+export const isNaN = (v: any) => {
   if (isUndef(v)) return true
   if (v instanceof Array) {
     return v.some((v) => isNaN(v))
@@ -63,7 +63,7 @@ export enum PrimitiveType {
  * 判断是否为某基本类型数组
  * @param
  */
-const isPrimitiveArray = (arr: any[], type: PrimitiveType): boolean => {
+export const isPrimitiveArray = (arr: any[], type: PrimitiveType): boolean => {
   return arr.every((v) => typeof v === type)
 }
 
@@ -73,7 +73,7 @@ const isPrimitiveArray = (arr: any[], type: PrimitiveType): boolean => {
  * @description 如果前一个对象没有当前对象的属性，则采用当前对象的
  * @description 针对Object.assign后面对象属性覆盖前面对象属性的问题
  */
-const mixin = <T>(...objs: T[]): T => {
+export const mixin = <T>(...objs: T[]): T => {
   if (!objs.length) throw new Error('参数错误: { objs: Object[] }')
   if (objs.length === 1) return objs[0]
   // 检查传参类型
@@ -94,7 +94,7 @@ const mixin = <T>(...objs: T[]): T => {
  * 属性转数组
  * @param { Object } obj
  */
-const toArray = (obj: Object): string[] => {
+export const toArray = (obj: Object): string[] => {
   const res: string[] = []
   Object.keys(obj).forEach((key) => {
     res.push(obj[key])
@@ -107,7 +107,7 @@ const toArray = (obj: Object): string[] => {
  * @param { Object } obj
  * @param { Array<string> } params
  */
-const checkIntegrity = <T>(obj: T, params?: Array<keyof T>): boolean => {
+export const checkIntegrity = <T>(obj: T, params?: Array<keyof T>): boolean => {
   return params
     ? params.every((v) => {
         return isDef(obj[v])
@@ -122,7 +122,7 @@ const checkIntegrity = <T>(obj: T, params?: Array<keyof T>): boolean => {
  * @param { number } delay 延迟ms
  * @description 输出一个经过防抖处理的函数
  */
-const debounce = (
+export const debounce = (
   callback: (...args: any[]) => any,
   delay: number,
 ): Function => {
@@ -141,7 +141,7 @@ const debounce = (
  * md5加密函数
  * @param { string } v 加密字段
  */
-const md5Crypto = (v: string): string => {
+export const md5Crypto = (v: string): string => {
   const { onceCryptLength, cryptCount, digest } = cryptoConfig
   const md5 = CRYPTO.createHash('md5')
   const vLength = v.length
@@ -178,7 +178,7 @@ const md5Crypto = (v: string): string => {
  * @param { string } v 加密字段
  * @param { string } password 生成密钥的密码
  */
-const cipherCrypto = (v: string | null, password: string) => {
+export const cipherCrypto = (v: string | null, password: string) => {
   if (!v) {
     return null
   }
@@ -194,7 +194,7 @@ const cipherCrypto = (v: string | null, password: string) => {
  * @param { string } v 解密字段
  * @param { string } password 生成密钥的密码
  */
-const decipherCrypto = (v: string | null, password: string) => {
+export const decipherCrypto = (v: string | null, password: string) => {
   if (!v) {
     return null
   }
@@ -217,7 +217,11 @@ export interface File {
   name: string
 }
 const ignoreDirectory = ['node_modules', '.git', 'build']
-const findSrcFiles = (filePath: string, filesList: File[], reg: RegExp) => {
+export const findSrcFiles = (
+  filePath: string,
+  filesList: File[],
+  reg: RegExp,
+) => {
   const files = fs.readdirSync(filePath)
   files.forEach((name) => {
     if (ignoreDirectory.includes(name)) return
@@ -245,7 +249,7 @@ const findSrcFiles = (filePath: string, filesList: File[], reg: RegExp) => {
  * @param { string } importPath css文件路径
  * @returns { Promise<string> }
  */
-const sassCompiler = async (importPath: string): Promise<string> => {
+export const sassCompiler = async (importPath: string): Promise<string> => {
   return precss
     .process(await fsp.readFile(importPath), {
       from: importPath,
@@ -262,7 +266,7 @@ const sassCompiler = async (importPath: string): Promise<string> => {
 /**
  * Restful API类声明
  */
-class Restful {
+export class Restful {
   code: CodeDictionary
   message: string
   data?: any
@@ -275,22 +279,4 @@ class Restful {
   static initWithError(e: any) {
     return new Restful(e.errno, e.message)
   }
-}
-
-export {
-  isDef,
-  isUndef,
-  isEmpty,
-  isNaN,
-  isPrimitiveArray,
-  mixin,
-  toArray,
-  checkIntegrity,
-  debounce,
-  md5Crypto,
-  cipherCrypto,
-  decipherCrypto,
-  findSrcFiles,
-  sassCompiler,
-  Restful,
 }

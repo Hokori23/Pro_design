@@ -31,7 +31,7 @@ export default (isDeskTopSize: boolean) => {
   }, [isDeskTopSize])
 
   useEffect(() => {
-    void dispatch.checkLogin()
+    void dispatch.checkLogin(null)
   }, [])
 
   return {

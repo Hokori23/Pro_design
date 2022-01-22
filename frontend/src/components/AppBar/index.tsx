@@ -31,7 +31,7 @@ const HideOnScroll = forwardRef<any, { children: ReactNode }>((props, ref) => {
   const trigger = useScrollTrigger()
   if (isUndef(children)) return null
   return (
-    <Slide appear={false} direction="down" in={!trigger} ref={ref as any}>
+    <Slide appear={false} direction="down" in={!trigger} ref={ref}>
       {children as SlideProps['children']}
     </Slide>
   )

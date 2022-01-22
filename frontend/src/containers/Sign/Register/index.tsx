@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '2rem 0',
   },
   formItem: {
-    marginBottom: '1rem',
+    margin: '1rem 0',
   },
   genderRadio: {
     display: 'flex',

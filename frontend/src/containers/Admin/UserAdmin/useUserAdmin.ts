@@ -12,7 +12,7 @@ export default () => {
   const [loading, setLoading] = useState(true)
   const [users, setUsers] = useState([] as User[])
   const [pageSize, setPageSize] = useState(10)
-  const rowsPerPageOptions = [10, 15, 30]
+  const rowsPerPageOptions = [10, 20, 30]
 
   const RetrieveAll = async () => {
     setLoading(true)
@@ -30,6 +30,7 @@ export default () => {
   }, [])
 
   const handlePageSizeChange = (newPageSize: number) => {
+    console.log(newPageSize)
     setPageSize(newPageSize)
   }
 

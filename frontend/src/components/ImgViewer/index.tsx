@@ -4,14 +4,14 @@ import React, {
   useImperativeHandle,
   ForwardRefRenderFunction,
 } from 'react'
-import { Dialog, IconButton, Button } from '@mui/material'
+import { Dialog, IconButton } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 
-import Draggable from 'react-draggable'
+// import Draggable from 'react-draggable'
 
 import CloseIcon from '@mui/icons-material/Close'
 
-import Carousel from 'react-responsive-carousel'
+// import Carousel from 'react-responsive-carousel'
 import { CardMedia } from '@/components/CardMedia'
 import classnames from 'classnames'
 

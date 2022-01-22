@@ -6,10 +6,10 @@ import { useTheme } from '@mui/material/styles'
 import makeStyles from '@mui/styles/makeStyles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import '@/static/react-markdown-editor-lite.less'
+import { UploadFunc } from 'react-markdown-editor-lite/share/var'
 
 // components
 import { Title } from './Title'
-import { UploadFunc } from 'react-markdown-editor-lite/share/var'
 
 const useStyles = makeStyles((theme) => ({
   editor: {

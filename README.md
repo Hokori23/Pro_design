@@ -13,9 +13,11 @@
 ## Todo-List
 
 - [x] ~~bug: 文章编辑器更改 title, coverUrl 时，会丢失文章内容 content~~
-- [ ] feat: 文章内图片支持点击放大
+- [x] ~~feat: 文章内图片支持点击放大~~
 - [x] ~~feat: 文章内支持\[photos\]功能，即内联多图片~~
 - [x] ~~feat: 文章编辑器支持上传图片功能~~
+- [ ] 音乐播放器
+- [ ] 视频播放器
 - [ ] feat: 支持多标签查询文章
 - [ ] feat: 自定义页面展示
 - [ ] feat: 文章 LANDSCAPE 样式

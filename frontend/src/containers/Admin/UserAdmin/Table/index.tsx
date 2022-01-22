@@ -26,12 +26,12 @@ const Table: FC<TableProps> = ({
     <DataGrid
       columns={columns}
       loading={loading}
-      onPageSizeChange={onPageSizeChange}
+      // onPageSizeChange={onPageSizeChange}
       pageSize={pageSize}
       pagination
       rowCount={rowCount}
       rows={rows}
-      rowsPerPageOptions={rowsPerPageOptions}
+      // rowsPerPageOptions={rowsPerPageOptions}
     />
   )
 }

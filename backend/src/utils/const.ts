@@ -1,8 +1,8 @@
-const QUERY_METHODS = ['GET']
-const BODY_METHODS = ['POST', 'PUT', 'DELETE']
+export const QUERY_METHODS = ['GET']
+export const BODY_METHODS = ['POST', 'PUT', 'DELETE']
 
 // 白名单，不需要JWT
-const ROUTER_WHITE_LIST = [
+export const ROUTER_WHITE_LIST = [
   // init
   `init`,
   // test
@@ -35,7 +35,7 @@ const ROUTER_WHITE_LIST = [
 ].map((v) => `/api/${v}`)
 
 // 只有管理员和超级管理员可以访问的接口
-const ROUTER_ADMIN_ALLOW = [
+export const ROUTER_ADMIN_ALLOW = [
   // user
   `user/edit-admin`,
   `user/delete-admin`,
@@ -62,16 +62,16 @@ const ROUTER_ADMIN_ALLOW = [
 ].map((v) => `/api/${v}`)
 
 // 只有超级管理员可以访问的接口
-const ROUTER_SUPER_ADMIN_ALLOW = [
+export const ROUTER_SUPER_ADMIN_ALLOW = [
   // init
   `init/force-admin`,
   `init/table-rows-admin`,
   `option/save-admin`,
 ].map((v) => `/api${v}`)
 
-const isDev = process.env.NODE_ENV === 'development'
+export const isDev = process.env.NODE_ENV === 'development'
 
-enum CodeDictionary {
+export enum CodeDictionary {
   SUCCESS = 0,
   // Init
   INIT_ERROR__DATABASE_ERROR,
@@ -121,13 +121,4 @@ enum CodeDictionary {
   COMMON_ERROR = 99,
   JWT_ERROR__REQUIRED = 100,
   JWT_ERROR__EXPIRED = 101,
-}
-export {
-  QUERY_METHODS,
-  BODY_METHODS,
-  ROUTER_WHITE_LIST,
-  ROUTER_ADMIN_ALLOW,
-  ROUTER_SUPER_ADMIN_ALLOW,
-  isDev,
-  CodeDictionary,
 }

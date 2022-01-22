@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.grey[50],
   },
   formItem: {
-    marginBottom: '1rem',
+    margin: '1rem 0',
   },
   genderRadio: {
     display: 'flex',

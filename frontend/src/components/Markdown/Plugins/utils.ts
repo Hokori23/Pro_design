@@ -10,9 +10,11 @@ const _deepFind = (
 ) => {
   const res = find(node, condition)
   res && !nodes.includes(res) && nodes.push(res)
-  ;(node.children as Array<Element | Text | Comment>).forEach((node) => {
-    if (node.type === 'element') _deepFind(node, condition, nodes)
-  })
+  ;((node as any).children as Array<Element | Text | Comment>).forEach(
+    (node) => {
+      if (node.type === 'element') _deepFind(node, condition, nodes)
+    },
+  )
   return nodes
 }
 

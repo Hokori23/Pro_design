@@ -42,7 +42,7 @@ const MomentAdmin: FC<RouteComponentProps & RouteConfig> = (props) => {
           gutterBottom
           variant="body2"
         >
-          共{users.length}个用户
+          共 {users.length} 个用户
         </Typography>
       </footer>
       <ScrollTop {...props} ref={ref} />

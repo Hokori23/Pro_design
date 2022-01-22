@@ -18,7 +18,7 @@ const plugin = () => {
         const children = deepFind(node, { type: 'text' }) as Element[]
         const newChildren: Element[] = []
         children.forEach((node) => {
-          while ((match = imgRegExp.exec(node.value as string))) {
+          while ((match = imgRegExp.exec((node as any).value as string))) {
             newChildren.push({
               ...node,
               children: [],
