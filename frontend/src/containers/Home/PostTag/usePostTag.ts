@@ -1,34 +1,32 @@
 import { RouteName } from '@/routes'
 import { store } from '@/store'
 import Request from '@/utils/Request'
-import { PostTag } from '@/utils/Request/PostTag'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { useRequest } from 'ahooks'
 import { scrollIntoTop } from '@/utils/tools'
 
 export default () => {
   const dispatch = useSelector(() => store.dispatch.common)
 
-  const [tags, setTags] = useState<PostTag[]>([])
-  const [loading, setLoading] = useState(true)
-
-  const RetrieveAll = async () => {
-    setLoading(true)
-    const res = await Request.PostTag.RetrieveAll()
-    scrollIntoTop()
-    setLoading(false)
-    if (res?.data) {
-      setTags(res.data)
-    }
-  }
+  const { loading, data, run } = useRequest(
+    async () => {
+      const res = await Request.PostTag.RetrieveAll()
+      scrollIntoTop('start', 'auto')
+      return res
+    },
+    {
+      manual: true,
+    },
+  )
 
   useEffect(() => {
-    void RetrieveAll()
+    void run()
     dispatch.SET_APPBAR_TITLE(RouteName.POST_TAG)
   }, [])
 
   return {
-    tags,
+    tags: data?.data,
     loading,
   }
 }

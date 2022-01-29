@@ -17,12 +17,11 @@ export default makeStyles((theme) => ({
     marginBottom: '1rem',
   },
   tagCard: {
-    padding: '1rem 0',
     backgroundColor: theme.palette.background.paper,
   },
   tag: {
     flex: '1 0 50%',
-    padding: '0 1rem',
+    padding: '1rem',
   },
   description: {
     flex: '1 0 50%',

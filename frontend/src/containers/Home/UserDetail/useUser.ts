@@ -7,11 +7,15 @@ import * as H from 'history'
 import { useAsync } from 'react-use'
 import { useParams } from 'react-router-dom'
 import { User } from '@/utils/Request/User'
+import { useRequest } from 'ahooks'
+
 export default (history: H.History<unknown>) => {
   const state = useSelector((state: RootState) => state.common)
   const dispatch = useSelector(() => store.dispatch.common)
   const { id } = useParams<{ id: string }>()
-  const [loading, setLoading] = useState(true)
+  const { loading, runAsync } = useRequest(Request.User.Retrieve, {
+    manual: true,
+  })
   const [user, setUser] = useState<User>()
 
   useEffect(() => {
@@ -33,9 +37,7 @@ export default (history: H.History<unknown>) => {
       history.replace(PathName.NOT_FOUND_PAGE)
       return
     }
-    setLoading(true)
-    const res = await Request.User.Retrieve(Number(id))
-    setLoading(false)
+    const res = await runAsync(Number(id))
     if (res?.data) {
       setUser(res.data)
     }

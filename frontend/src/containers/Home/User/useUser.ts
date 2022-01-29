@@ -10,6 +10,7 @@ import { useAsync } from 'react-use'
 import { Mail } from '@/utils/Request/Mail'
 import { useHistory } from 'react-router-dom'
 import moment from 'moment'
+import { useRequest } from 'ahooks'
 
 interface EditDialogProps {
   open: boolean
@@ -35,9 +36,16 @@ export default () => {
 
   const [avatarLoading, setAvatarLoading] = useState(false)
   const [clonedUserInfo, setClonedUserInfo] = useState(cloneDeep(userInfo))
-  const [userLoading, setUserLoading] = useState(false)
+  const { loading: userLoading, ...editUserService } = useRequest(User.Edit, {
+    manual: true,
+  })
+  const editMailService = useRequest(Request.Mail.Edit, {
+    manual: true,
+  })
+  const retrieveMailService = useRequest(Request.Mail.Retrieve, {
+    manual: true,
+  })
   const [editDialog, setEditDialog] = useState(defaultEditDialogProps)
-  const [mailLoading, setMailLoading] = useState(true)
   const [mail, setMail] = useState<Mail>({
     id: -1,
     uid: userInfo.id as number,
@@ -78,7 +86,7 @@ export default () => {
     // 更改用户信息
     const user = cloneDeep(state.userInfo)
     user.avatarUrl = `${UPYUN_URL}${uploadRes.url}`
-    const editUserRes = await User.Edit(user)
+    const editUserRes = await editUserService.runAsync(user)
     setAvatarLoading(false)
     if (!editUserRes) {
       dispatch.SET_AXIOS_SNACK_BAR({
@@ -86,6 +94,8 @@ export default () => {
         type: 'error',
         open: true,
       })
+    } else {
+      setClonedUserInfo(editUserRes)
     }
   }
 
@@ -111,9 +121,7 @@ export default () => {
   ) => {
     e.preventDefault()
     const newUser = cloneDeep(clonedUserInfo)
-    setUserLoading(true)
-    const res = await User.Edit(newUser)
-    setUserLoading(false)
+    const res = await editUserService.runAsync(newUser)
     if (res) {
       setClonedUserInfo(res)
       handleEditDialogClose()
@@ -121,9 +129,7 @@ export default () => {
   }
 
   const RetrieveMail = async () => {
-    setMailLoading(true)
-    const res = await Request.Mail.Retrieve()
-    setMailLoading(false)
+    const res = await retrieveMailService.runAsync()
     if (res?.data) {
       setMail(res.data)
     }
@@ -132,8 +138,7 @@ export default () => {
   const handleEditMail = async () => {
     if (mail.id === -1) return
     const newMail = { ...mail, isSubscribed: !mail.isSubscribed }
-    setMailLoading(true)
-    const res = await Request.Mail.Edit(newMail)
+    const res = await editMailService.runAsync(newMail)
     if (res?.data) {
       setMail(newMail)
       dispatch.SET_AXIOS_SNACK_BAR({
@@ -141,7 +146,6 @@ export default () => {
         open: true,
       })
     }
-    setMailLoading(false)
   }
 
   const handleDeleteDialogClose = () => {
@@ -182,7 +186,7 @@ export default () => {
     avatarLoading,
     userLoading,
     editDialog,
-    mailLoading,
+    mailLoading: editMailService.loading || retrieveMailService.loading,
     mail,
     mailUpdatedAt: moment(mail?.updatedAt),
     deleteDialog,

@@ -90,20 +90,15 @@ export const Retrieve__Admin = async (id: number) => {
   })
 }
 
-export const RetrieveAll = async (
-  page: number,
-  capacity: number,
-  isASC: Toggle,
-  postTypes: PostType[] = [],
-) => {
+export const RetrieveAll = async (params: {
+  page: number
+  capacity: number
+  isASC: Toggle
+  postTypes: PostType[]
+}) => {
   return await Request<Restful<Posts>>({
     method: 'GET',
-    params: {
-      page,
-      capacity,
-      isASC,
-      postTypes,
-    },
+    params,
     url: `${baseUrl}/retrieve`,
   })
 }
@@ -126,20 +121,15 @@ export const RetrieveAll__Admin = async (
   })
 }
 
-export const RetrieveTag = async (
-  page: number,
-  capacity: number,
-  isASC: Toggle,
-  tids: number[],
-) => {
+export const RetrieveTag = async (params: {
+  page: number
+  capacity: number
+  isASC: Toggle
+  tids: number[]
+}) => {
   return await Request<Restful<Posts>>({
     method: 'GET',
-    params: {
-      page,
-      capacity,
-      tids,
-      isASC,
-    },
+    params,
     url: `${baseUrl}/retrieve-tag`,
   })
 }

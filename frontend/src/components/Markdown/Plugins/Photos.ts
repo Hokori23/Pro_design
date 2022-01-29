@@ -9,7 +9,14 @@ const className = 'photos'
 export const imgRegExp = /!\[(.*?)\]\(((https?:)\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|])\)/g
 let match
 
-const plugin = () => {
+/**
+ * @description
+ * <photos>
+ *  !(title)[url]
+ *  !(title)[url]
+ * </photos>
+ */
+export const Photos = () => {
   function transformer(tree: Node) {
     visit(tree, 'element', (node: Element) => {
       if (node.tagName === tagName) {
@@ -35,5 +42,3 @@ const plugin = () => {
 
   return transformer
 }
-
-export default plugin

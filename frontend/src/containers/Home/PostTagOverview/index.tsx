@@ -36,6 +36,7 @@ const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
     tag,
     paginationQuery,
     tagStyle,
+    slug,
   } = usePostTagOverview(location)
 
   return (
@@ -97,8 +98,8 @@ const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
           <section className={classes.posts}>
             {loadingPosts ? (
               <CircularLoading />
-            ) : posts.length ? (
-              posts.map((post) => (
+            ) : posts?.length ? (
+              posts?.map((post) => (
                 <PostOverviewItem key={post.id} post={post} />
               ))
             ) : (
@@ -120,7 +121,9 @@ const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
               return (
                 <PaginationItem
                   component={Link}
-                  to={`${PathName.POST_OVERVIEW}?${paginationQuery.toString()}`}
+                  to={`${
+                    PathName._POST_TAG_OVERVIEW
+                  }/${slug}?${paginationQuery.toString()}`}
                   {...item}
                 />
               )

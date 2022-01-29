@@ -5,13 +5,14 @@ import { PathName, RouteConfig } from '@/routes'
 import { Typography, Pagination, PaginationItem } from '@mui/material'
 
 // hooks
-import usePostOverview from './usePostOverview'
+import { usePostOverview } from '@/hooks/usePostOverview'
 
 // components
 import { PostOverviewItem } from '@/components/PostOverviewItem'
 import { ScrollTop } from '@/components/ScrollTop'
 
 import { CircularLoading } from '@/components/CircularLoading'
+import { PostType } from '@/utils/Request/Post'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,7 +48,10 @@ const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
     maxPage,
     posts,
     paginationQuery,
-  } = usePostOverview(location)
+  } = usePostOverview({
+    location,
+    _postTypes: [PostType.POST, PostType.LANDSCAPE],
+  })
 
   return (
     <div className={classes.root}>

@@ -9,6 +9,8 @@ import {
   Typography,
   Avatar,
   CardHeader,
+  Tooltip,
+  ClickAwayListener,
 } from '@mui/material'
 import { red } from '@mui/material/colors'
 import Request from '@/utils/Request'
@@ -42,6 +44,9 @@ export const MomentOverviewItem: FC<MomentOverviewItemProps> = ({ moment }) => {
       defaultMomentWithStatus,
     ) as MomentWithStatus,
   )
+
+  const [openTooltip, setOpenTooltip] = useState(false)
+
   const {
     id,
     // uid,
@@ -94,14 +99,25 @@ export const MomentOverviewItem: FC<MomentOverviewItemProps> = ({ moment }) => {
         title={author.userName}
       />
       <CardContent className={classes.content}>
-        <Typography
-          className={classes.contentText}
-          color="textSecondary"
-          component="div"
-          variant="body1"
-        >
-          {content}
-        </Typography>
+        <ClickAwayListener onClickAway={() => setOpenTooltip(false)}>
+          <Tooltip
+            disableFocusListener
+            followCursor
+            onClose={() => setOpenTooltip(false)}
+            open={openTooltip}
+            title={content}
+          >
+            <Typography
+              className={classes.contentText}
+              color="textSecondary"
+              component="div"
+              onClick={() => setOpenTooltip(!openTooltip)}
+              variant="body1"
+            >
+              {content}
+            </Typography>
+          </Tooltip>
+        </ClickAwayListener>
       </CardContent>
       <section className={classes.actionsWrapper}>
         <div className={classes.actions}>

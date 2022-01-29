@@ -5,13 +5,14 @@ import { PathName, RouteConfig } from '@/routes'
 import { Typography, Pagination, PaginationItem } from '@mui/material'
 
 // hooks
-import useMomentOverview from './useMomentOverview'
+import { usePostOverview } from '@/hooks/usePostOverview'
 
 // components
 import { MomentOverviewItem } from '@/components/MomentOverviewItem'
 import { ScrollTop } from '@/components/ScrollTop'
 
 import { CircularLoading } from '@/components/CircularLoading'
+import { PostType } from '@/utils/Request/Post'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,9 +46,9 @@ const Moment: FC<RouteComponentProps & RouteConfig> = (props) => {
     page,
     total,
     maxPage,
-    moments,
+    posts: moments,
     paginationQuery,
-  } = useMomentOverview(location)
+  } = usePostOverview({ location, _postTypes: [PostType.MOMENT] })
 
   return (
     <div className={classes.root}>
@@ -77,7 +78,7 @@ const Moment: FC<RouteComponentProps & RouteConfig> = (props) => {
           return (
             <PaginationItem
               component={Link}
-              to={`${PathName.POST_OVERVIEW}?${paginationQuery.toString()}`}
+              to={`${PathName.MOMENT_OVERVIEW}?${paginationQuery.toString()}`}
               {...item}
             />
           )

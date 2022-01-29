@@ -46,8 +46,8 @@ const PostTag: FC<RouteComponentProps & RouteConfig> = (props) => {
       <section className={classes.tags}>
         {loading ? (
           <CircularLoading />
-        ) : tags.length ? (
-          tags.map((tag) => (
+        ) : tags?.length ? (
+          tags?.map((tag) => (
             <InnerLink
               className={classnames('plain-a', classes.tag)}
               key={tag.id}

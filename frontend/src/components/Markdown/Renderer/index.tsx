@@ -24,7 +24,7 @@ import rehypeRaw from 'rehype-raw'
 import inspectUrls from '@jsdevtools/rehype-url-inspector'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import Photos, { imgRegExp } from '@/components/Markdown/Plugins/Photos'
+import { Photos, imgRegExp } from '@/components/Markdown/Plugins/Photos'
 /**
  *
  * okaidia(dark)
