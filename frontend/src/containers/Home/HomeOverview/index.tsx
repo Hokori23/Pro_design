@@ -1,8 +1,9 @@
 import React, { FC, createRef } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 import makeStyles from '@mui/styles/makeStyles'
-import { PathName, RouteConfig } from '@/routes'
+import { PathName, RouteConfig, RouteName } from '@/routes'
 import { Typography, Pagination, PaginationItem } from '@mui/material'
+import { PostType } from '@/utils/Request/Post'
 
 // hooks
 import { usePostOverview } from '@/hooks/usePostOverview'
@@ -11,9 +12,7 @@ import { usePostOverview } from '@/hooks/usePostOverview'
 import { PostOverviewItem } from '@/components/PostOverviewItem'
 import { MomentOverviewItem } from '@/components/MomentOverviewItem'
 import { ScrollTop } from '@/components/ScrollTop'
-
 import { PageLoading } from '@/components/PageLoading'
-import { PostType } from '@/utils/Request/Post'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,7 +48,7 @@ const HomeOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
     maxPage,
     posts,
     paginationQuery,
-  } = usePostOverview({ location, _postTypes: [] })
+  } = usePostOverview({ location, _postTypes: [], routeName: RouteName.HOME })
 
   if (loading) return <PageLoading />
 

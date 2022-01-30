@@ -6,16 +6,18 @@ import * as H from 'history'
 import { isDef, scrollIntoTop } from '@/utils/tools'
 import { store } from '@/store'
 import { useSelector } from 'react-redux'
-import { PathName, RouteName } from '@/routes'
+import { PathName } from '@/routes'
 import { useHistory } from 'react-router-dom'
 import { useRequest } from 'ahooks'
 
 export const usePostOverview = ({
   location,
   _postTypes,
+  routeName,
 }: {
   location: H.Location<unknown>
   _postTypes: PostType[]
+  routeName: string
 }) => {
   const dispatch = useSelector(() => store.dispatch.common)
   const query = new URLSearchParams(location.search)
@@ -59,7 +61,7 @@ export const usePostOverview = ({
   )
 
   useEffect(() => {
-    dispatch.SET_APPBAR_TITLE(RouteName.POST)
+    dispatch.SET_APPBAR_TITLE(routeName)
   }, [])
 
   useEffect(() => {
