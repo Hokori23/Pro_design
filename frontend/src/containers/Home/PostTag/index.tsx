@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
       borderLeft: `1px solid ${theme.palette.divider}`,
       borderRight: `1px solid ${theme.palette.divider}`,
     },
+    background: '#fff',
     padding: '2rem',
     flexGrow: 1,
   },

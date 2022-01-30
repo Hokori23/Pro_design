@@ -79,7 +79,7 @@ const Footer: FC<FooterProps> = ({ id, className }) => {
             <Typography
               component="span"
               variant={isMobileSize ? 'caption' : 'body1'}
-            >{`感谢陪伴 ${dateText}`}</Typography>
+            >{`博客已建 ${dateText}`}</Typography>
           )}
         </Typography>
         {/* RIGHT */}
@@ -89,7 +89,7 @@ const Footer: FC<FooterProps> = ({ id, className }) => {
             gutterBottom
             variant={isMobileSize ? 'caption' : 'body1'}
           >
-            由GeekBlog提供支持
+            由Hokori编写
           </Typography>
           {!isMobileSize && (
             <Typography component="span" gutterBottom variant="caption">

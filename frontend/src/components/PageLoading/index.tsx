@@ -1,4 +1,4 @@
-import React, { useEffect, FC } from 'react'
+import React, { useState, FC } from 'react'
 import { useAnimation } from '@/hooks/useAnimation'
 import makeStyles from '@mui/styles/makeStyles'
 import loadingSvg1 from '@/static/svg/loading1.json'
@@ -19,7 +19,6 @@ const LOADING_SVG = [
   loadingSvg7,
 ]
 const loadingSvgLength = LOADING_SVG.length
-let curSvgIdx = 0
 
 const useStyles = makeStyles(() => ({
   loading: {
@@ -42,13 +41,10 @@ interface PageLoadingProps {
 
 export const PageLoading: FC<PageLoadingProps> = ({ style }) => {
   const classes = useStyles()
-  const { ref: animationDOM } = useAnimation(LOADING_SVG[curSvgIdx])
-
-  useEffect(() => {
-    return () => {
-      curSvgIdx = ++curSvgIdx % loadingSvgLength
-    }
-  })
+  const [svgIdx] = useState(
+    ~~((Math.random() + 1) * LOADING_SVG.length) % loadingSvgLength,
+  )
+  const { ref: animationDOM } = useAnimation(LOADING_SVG[svgIdx])
 
   return (
     <div className={classes.loading}>
