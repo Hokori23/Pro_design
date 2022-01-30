@@ -1,5 +1,11 @@
 // import _markdownIt from 'markdown-it'
 // import hljs from 'highlight.js'
+import { formatDistanceToNow as _formatDistanceToNow, isValid } from 'date-fns'
+import { zhCN } from 'date-fns/locale'
+import lottie, {
+  AnimationConfigWithData,
+  AnimationConfigWithPath,
+} from 'lottie-web'
 
 export const isDef = <T>(v: T | undefined | null): v is T =>
   v !== undefined && v !== null
@@ -17,6 +23,7 @@ export const stringifyObjToUrl = (obj: { [key: string]: any }): string => {
   }
   return params.toString()
 }
+
 export const JsonClone = <T>(v: T): T => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return JSON.parse(JSON.stringify(v))
@@ -47,12 +54,14 @@ export const scrollTo = (
     anchor.scrollIntoView({ behavior, block })
   }
 }
+
 export const scrollIntoTop = (
   block: 'center' | 'end' | 'nearest' | 'start' | undefined = 'center',
   behavior: 'smooth' | 'auto' | undefined = 'smooth',
 ) => {
   scrollTo('#back-to-top-anchor', block, behavior)
 }
+
 export const scrollIntoBottom = (
   block: 'center' | 'end' | 'nearest' | 'start' | undefined = 'center',
   behavior: 'smooth' | 'auto' | undefined = 'smooth',
@@ -61,14 +70,18 @@ export const scrollIntoBottom = (
 }
 export const $ = (selector: string): HTMLElement | null =>
   document.querySelector(selector)
+
 export const $$ = (selector: string) => document.querySelectorAll(selector)
+
 export const removePX = (str: string) => Number(str.slice(0, str.length - 2))
+
 export const computeDOMHeight = (selector: string, noPX?: boolean) => {
   const dom = $(selector)
   if (!dom) return '0px'
   const height = getComputedStyle(dom).height
   return noPX ? removePX(height) : height
 }
+
 export const setUpYunImg = (
   fileUrl: string,
   type: 'sm' | 'md' | 'origin',
@@ -76,6 +89,34 @@ export const setUpYunImg = (
   /^https?:\/\/upyun\.hokori\.online/.test(fileUrl)
     ? `${fileUrl}!${type}`
     : fileUrl
+
+export const formatDistanceToNow = (date: string | Date | undefined) => {
+  if (!date || !isValid(date)) return '-'
+  return _formatDistanceToNow(date instanceof Date ? date : new Date(date), {
+    locale: zhCN,
+    addSuffix: true,
+  })
+}
+
+export type AnimationConfig = AnimationConfigWithPath | AnimationConfigWithData
+export const loadAnimation = (
+  dom: Element,
+  animationData: any,
+  options: AnimationConfig = {} as any,
+) => {
+  const lottieIns = lottie.loadAnimation({
+    renderer: 'svg',
+    autoplay: true,
+    loop: true,
+    rendererSettings: {
+      progressiveLoad: true,
+    },
+    ...options,
+    container: dom,
+    animationData,
+  })
+  return lottieIns
+}
 
 export default {
   isDef,

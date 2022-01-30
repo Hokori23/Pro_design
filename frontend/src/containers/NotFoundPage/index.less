@@ -11,4 +11,29 @@
     left: 2%;
     top: 2%;
   }
+  &__content,
+  &__content--mobile {
+    display: flex;
+  }
+  &__content--mobile {
+    align-items: center;
+    flex-direction: column;
+    flex-flow: column-reverse;
+    transform: translate(0, -10%);
+  }
+  &__content &__text {
+    margin-right: 50px;
+  }
+  &__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  &__animation {
+    width: 300px;
+  }
+  &__content &__animation {
+    transform: translate(0, -30px);
+  }
 }
