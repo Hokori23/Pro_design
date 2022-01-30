@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 import { IconButton, Avatar, Typography, Button } from '@mui/material'
-import moment from 'moment'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined'
@@ -10,6 +9,8 @@ import { FormattedPostComment } from '@/utils/Request/PostComment'
 import { ChildComments } from '../ChildComment'
 import { ReplyComment } from '../ReplyComment'
 import classnames from 'classnames'
+import { formatDistanceToNow } from 'date-fns'
+import { zhCN } from 'date-fns/locale'
 
 // hooks
 import useRootComment from './useRootComment'
@@ -96,7 +97,10 @@ export const RootComment: FC<RootCommentProps> = ({
         <footer className={classes.rootCommentFooter}>
           {/* CREATED_AT TIME */}
           <Typography color="textSecondary" variant="caption">
-            {moment(comment.createdAt).calendar()}
+            {formatDistanceToNow(new Date(comment.createdAt), {
+              locale: zhCN,
+              addSuffix: true,
+            })}
           </Typography>
           {/* ACTION */}
           {!isMobileSize && (

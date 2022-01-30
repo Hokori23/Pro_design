@@ -7,7 +7,8 @@ import { useTheme } from '@mui/material/styles'
 import makeStyles from '@mui/styles/makeStyles'
 import EditIcon from '@mui/icons-material/Edit'
 import { User } from '@/utils/Request/User'
-import moment from 'moment'
+import { formatDistanceToNow } from 'date-fns'
+import { zhCN } from 'date-fns/locale'
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -60,11 +61,16 @@ export const Email = (props: GridRenderCellParams): ReactElement => {
 export const createdAt = (props: GridRenderCellParams): ReactElement => {
   const row = props.row as User
   const classes = useStyles()
+  const time = formatDistanceToNow(
+    new Date((row.createdAt as unknown) as string),
+    {
+      locale: zhCN,
+      addSuffix: true,
+    },
+  )
   return (
-    <Tooltip arrow placement="bottom" title={moment(row.createdAt).calendar()}>
-      <div className={classes.titleText}>
-        {moment(row.createdAt).calendar()}
-      </div>
+    <Tooltip arrow placement="bottom" title={time}>
+      <div className={classes.titleText}>{time}</div>
     </Tooltip>
   )
 }

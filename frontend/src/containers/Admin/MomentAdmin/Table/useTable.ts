@@ -2,7 +2,8 @@ import { User } from '@/utils/Request/User'
 import { useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { GridColumns } from '@mui/x-data-grid'
-import moment from 'moment'
+import { formatDistanceToNow } from 'date-fns'
+import { zhCN } from 'date-fns/locale'
 import { Title } from './Title'
 
 export default () => {
@@ -30,7 +31,11 @@ export default () => {
       headerName: '日期',
       headerAlign: 'center',
       flex: 1,
-      valueFormatter: ({ value }) => moment(value as Date).calendar(),
+      valueFormatter: ({ value }) =>
+        formatDistanceToNow(new Date(value as string), {
+          locale: zhCN,
+          addSuffix: true,
+        }),
     },
   ]
 

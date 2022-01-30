@@ -3,11 +3,12 @@ import { PostWithAuthor } from '@/utils/Request/Post'
 import makeStyles from '@mui/styles/makeStyles'
 import { Typography } from '@mui/material'
 import classnames from 'classnames'
-import moment from 'moment'
 import { PathName } from '@/routes'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import { Group } from '@/utils/Request/User'
+import { formatDistanceToNow } from 'date-fns'
+import { zhCN } from 'date-fns/locale'
 
 import InnerLink from '@/components/InnerLink'
 import { setUpYunImg } from '@/utils/tools'
@@ -124,7 +125,11 @@ export const Title: FC<TitleProps> = ({ post }) => {
           </Typography>
           &nbsp;&nbsp;•&nbsp;&nbsp;
           <Typography component="span" variant="caption">
-            发布时间: {moment(createdAt).calendar()}
+            发布时间:{' '}
+            {formatDistanceToNow(new Date(createdAt), {
+              locale: zhCN,
+              addSuffix: true,
+            })}
           </Typography>
         </Typography>
         {(state.userInfo.group || 0) > Group.SUBSCRIBER && (

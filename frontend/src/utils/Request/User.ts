@@ -40,8 +40,8 @@ export interface User {
   avatarUrl?: string
   profile?: string
   group?: Group
-  createdAt?: Date
-  updatedAt?: Date
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export interface LoggedInUser extends User {

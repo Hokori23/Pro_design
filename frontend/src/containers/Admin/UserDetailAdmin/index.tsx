@@ -15,7 +15,8 @@ import {
 import { useTheme } from '@mui/material/styles'
 import { GenderCNArr } from '@/utils/Request/User'
 import EmailIcon from '@mui/icons-material/Email'
-import moment from 'moment'
+import { isBefore } from 'date-fns'
+import { formatDistanceToNow } from '@/utils/tools'
 
 // hooks
 import useUserDetailAdmin from './useUserDetailAdmin'
@@ -54,6 +55,7 @@ const UserDetailAdmin: FC<RouteComponentProps & RouteConfig> = ({
     handleEditDialogValid,
     handleEditDialogSubmit,
   } = useUserDetailAdmin()
+
   return (
     <div className={classes.root}>
       <section className={classes.user}>
@@ -146,7 +148,7 @@ const UserDetailAdmin: FC<RouteComponentProps & RouteConfig> = ({
             disabled
             innerClassName={classes.TextAreaInner}
             primary="创建时间"
-            value={moment(user?.createdAt).calendar()}
+            value={formatDistanceToNow(new Date(user?.createdAt as string))}
           />
           <ListItemValue
             className={classes.TextAreaWrapper}
@@ -154,9 +156,9 @@ const UserDetailAdmin: FC<RouteComponentProps & RouteConfig> = ({
             innerClassName={classes.TextAreaInner}
             primary="最后修改时间"
             value={
-              userUpdatedAt.isBefore(mailUpdatedAt)
-                ? mailUpdatedAt.calendar()
-                : userUpdatedAt.calendar()
+              isBefore(userUpdatedAt, mailUpdatedAt)
+                ? formatDistanceToNow(mailUpdatedAt)
+                : formatDistanceToNow(userUpdatedAt)
             }
           />
           <ListSubheader>更多</ListSubheader>

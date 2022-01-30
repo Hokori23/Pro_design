@@ -2,12 +2,13 @@ import React, { FC } from 'react'
 import { FormattedPostComment } from '@/utils/Request/PostComment'
 import { IconButton, Avatar, Typography, Button } from '@mui/material'
 import classnames from 'classnames'
-import moment from 'moment'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined'
 import ThumbDownIcon from '@mui/icons-material/ThumbDown'
 import { red } from '@mui/material/colors'
+import { formatDistanceToNow } from 'date-fns'
+import { zhCN } from 'date-fns/locale'
 
 // hooks
 import useStyles from './useStyles'
@@ -127,7 +128,10 @@ export const ChildComments: FC<ChildCommentsProps> = ({
               <footer className={classes.childCommentFooter}>
                 {/* CREATED_AT TIME */}
                 <Typography color="textSecondary" variant="caption">
-                  {moment(createdAt).calendar()}
+                  {formatDistanceToNow(new Date(createdAt), {
+                    locale: zhCN,
+                    addSuffix: true,
+                  })}
                 </Typography>
                 {/* ACTION */}
                 {!isMobileSize && (

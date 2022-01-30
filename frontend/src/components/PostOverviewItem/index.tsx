@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
-import moment from 'moment'
-import 'moment/locale/zh-cn' // <https://segmentfault.com/q/1010000039869039/a-1020000039869980>
+import { formatDistanceToNow } from 'date-fns'
+import { zhCN } from 'date-fns/locale'
 import { PostWithAuthor } from '@/utils/Request/Post'
 import {
   Card,
@@ -29,7 +29,6 @@ import { Renderer } from '@/components/Markdown/Renderer'
 import InnerLink from '../InnerLink'
 import { setUpYunImg } from '@/utils/tools'
 
-moment.locale('zh-cn')
 interface PostOverviewItemProps {
   post: PostWithAuthor
 }
@@ -185,12 +184,16 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
             component="div"
           >
             <Typography component="p" variant="caption">
-              {/* {moment(createdAt).format(isMobileSize ? 'l' : 'lll')} */}
-              {moment(createdAt).calendar()}
+              {formatDistanceToNow(new Date(createdAt), {
+                locale: zhCN,
+                addSuffix: true,
+              })}
             </Typography>
             <Typography component="p" variant="caption">
-              {/* {moment(updatedAt).format(isMobileSize ? 'l' : 'lll')} */}
-              {moment(updatedAt).calendar()}
+              {formatDistanceToNow(new Date(updatedAt), {
+                locale: zhCN,
+                addSuffix: true,
+              })}
             </Typography>
           </Typography>
         </div>

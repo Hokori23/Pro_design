@@ -7,8 +7,8 @@ export interface Mail {
   id: number | null
   uid: number
   isSubscribed: boolean
-  createdAt?: Date
-  updatedAt?: Date
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export const Retrieve = async () => {
