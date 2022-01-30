@@ -9,7 +9,12 @@ import {
   SvgIconTypeMap,
 } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
-import { Home as HomeIcon } from '@mui/icons-material'
+import {
+  Home as HomeIcon,
+  Article as ArticleIcon,
+  ChatBubble as MomentIcon,
+  Class as TagIcon,
+} from '@mui/icons-material'
 import { Option } from '@/utils/Request/Option'
 import { Link, LinkProps } from 'react-router-dom'
 import { PathName, RouteName } from '@/routes'
@@ -68,9 +73,21 @@ export const DrawerList: FC<DrawerListProps> = ({
       primary: blogName || '...',
       to: PathName.HOME,
     },
-    { primary: RouteName.POST, to: PathName.POST_OVERVIEW },
-    { primary: RouteName.MOMENT, to: PathName.MOMENT_OVERVIEW },
-    { primary: RouteName.POST_TAG, to: PathName.POST_TAG },
+    {
+      icon: (<ArticleIcon />) as any,
+      primary: RouteName.POST,
+      to: PathName.POST_OVERVIEW,
+    },
+    {
+      icon: (<MomentIcon />) as any,
+      primary: RouteName.MOMENT,
+      to: PathName.MOMENT_OVERVIEW,
+    },
+    {
+      icon: (<TagIcon />) as any,
+      primary: RouteName.POST_TAG,
+      to: PathName.POST_TAG,
+    },
   ]
   return (
     <nav>
