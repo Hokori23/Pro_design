@@ -9,7 +9,7 @@ import usePostDetail from './usePostDetail'
 // components
 import { PostDetailItem } from '@/components/PostDetailItem'
 import { ScrollTop } from '@/components/ScrollTop'
-import { CircularLoading } from '@/components/CircularLoading'
+import { PageLoading } from '@/components/PageLoading'
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -27,14 +27,12 @@ const useStyles = makeStyles((theme) => ({
 const PostDetail: FC<RouteComponentProps & RouteConfig> = (props) => {
   const classes = useStyles()
   const { loading, post, ref, state } = usePostDetail()
+
+  if (loading && !state.loadingComment) return <PageLoading />
   return (
     <div className={classes.wrapper}>
       <div className={classes.postWrapper}>
-        {loading && !state.loadingComment ? (
-          <CircularLoading />
-        ) : (
-          <PostDetailItem post={post} />
-        )}
+        {<PostDetailItem post={post} />}
       </div>
       <ScrollTop {...props} ref={ref} />
     </div>

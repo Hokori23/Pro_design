@@ -76,6 +76,9 @@
     "zerollup",
     "Zmage"
   ],
+  "[json]": {
+    "editor.formatOnSave": false
+  },
   "[less]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"

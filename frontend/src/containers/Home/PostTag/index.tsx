@@ -10,7 +10,7 @@ import classnames from 'classnames'
 import usePostTag from './usePostTag'
 
 // components
-import { CircularLoading } from '@/components/CircularLoading'
+import { PageLoading } from '@/components/PageLoading'
 import InnerLink from '@/components/InnerLink'
 
 const useStyles = makeStyles((theme) => ({
@@ -41,12 +41,12 @@ const PostTag: FC<RouteComponentProps & RouteConfig> = (props) => {
   const classes = useStyles()
   const { tags, loading } = usePostTag()
 
+  if (loading) return <PageLoading />
+
   return (
     <div className={classes.root}>
       <section className={classes.tags}>
-        {loading ? (
-          <CircularLoading />
-        ) : tags?.length ? (
+        {tags?.length ? (
           tags?.map((tag) => (
             <InnerLink
               className={classnames('plain-a', classes.tag)}

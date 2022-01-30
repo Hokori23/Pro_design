@@ -11,7 +11,7 @@ import { usePostOverview } from '@/hooks/usePostOverview'
 import { PostOverviewItem } from '@/components/PostOverviewItem'
 import { ScrollTop } from '@/components/ScrollTop'
 
-import { CircularLoading } from '@/components/CircularLoading'
+import { PageLoading } from '@/components/PageLoading'
 import { PostType } from '@/utils/Request/Post'
 
 const useStyles = makeStyles((theme) => ({
@@ -52,13 +52,12 @@ const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
     location,
     _postTypes: [PostType.POST, PostType.LANDSCAPE],
   })
+  if (loading) return <PageLoading />
 
   return (
     <div className={classes.root}>
       <section className={classes.posts}>
-        {loading ? (
-          <CircularLoading />
-        ) : posts.length ? (
+        {posts.length ? (
           posts.map((post) => <PostOverviewItem key={post.id} post={post} />)
         ) : (
           <div className="spread-box flex flex-center">

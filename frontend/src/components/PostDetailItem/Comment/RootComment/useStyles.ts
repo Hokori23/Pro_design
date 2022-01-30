@@ -8,6 +8,7 @@ export default makeStyles((theme) => ({
   },
   rootCommentSelected: {
     backgroundColor: theme.palette.error.light,
+    borderRadius: 5,
   },
   rootCommentAvatar: {
     '& .MuiAvatar-root': {

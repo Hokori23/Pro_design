@@ -11,7 +11,7 @@ import { usePostOverview } from '@/hooks/usePostOverview'
 import { MomentOverviewItem } from '@/components/MomentOverviewItem'
 import { ScrollTop } from '@/components/ScrollTop'
 
-import { CircularLoading } from '@/components/CircularLoading'
+import { PageLoading } from '@/components/PageLoading'
 import { PostType } from '@/utils/Request/Post'
 
 const useStyles = makeStyles((theme) => ({
@@ -50,12 +50,11 @@ const Moment: FC<RouteComponentProps & RouteConfig> = (props) => {
     paginationQuery,
   } = usePostOverview({ location, _postTypes: [PostType.MOMENT] })
 
+  if (loading) return <PageLoading />
   return (
     <div className={classes.root}>
       <section className={classes.moments}>
-        {loading ? (
-          <CircularLoading />
-        ) : moments.length ? (
+        {moments.length ? (
           moments.map((moment, idx) => (
             <MomentOverviewItem key={moment.id} moment={moment} />
           ))

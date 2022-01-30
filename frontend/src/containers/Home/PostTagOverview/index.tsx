@@ -20,7 +20,7 @@ import useStyles from './useStyles'
 import { PostOverviewItem } from '@/components/PostOverviewItem'
 import { ScrollTop } from '@/components/ScrollTop'
 
-import { CircularLoading } from '@/components/CircularLoading'
+import { PageLoading } from '@/components/PageLoading'
 
 const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
   const { location } = props
@@ -39,12 +39,12 @@ const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
     slug,
   } = usePostTagOverview(location)
 
+  if (loadingPosts || loadingTag) return <PageLoading />
+
   return (
     <div className={classes.root}>
       <section className={tag ? classes.tagWrapper : classes.posts}>
-        {loadingTag ? (
-          <CircularLoading />
-        ) : tag ? (
+        {tag ? (
           <Card
             className={classnames(
               'flex flex-center spread-box__x',
@@ -96,9 +96,7 @@ const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
       {tag && (
         <Fragment>
           <section className={classes.posts}>
-            {loadingPosts ? (
-              <CircularLoading />
-            ) : posts?.length ? (
+            {posts?.length ? (
               posts?.map((post) => (
                 <PostOverviewItem key={post.id} post={post} />
               ))
