@@ -104,6 +104,7 @@ export const MomentOverviewItem: FC<MomentOverviewItemProps> = ({ moment }) => {
             disableFocusListener
             followCursor
             onClose={() => setOpenTooltip(false)}
+            onMouseEnter={() => setOpenTooltip(true)}
             open={openTooltip}
             title={content}
           >
