@@ -1,14 +1,6 @@
 import React, { FC, Fragment, useState } from 'react'
 import { RootState, store } from '@/store'
-import {
-  Button,
-  IconButton,
-  Menu,
-  MenuItem,
-  useMediaQuery,
-  Avatar,
-} from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { Button, IconButton, Menu, MenuItem, Avatar } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import { useSelector } from 'react-redux'
@@ -48,8 +40,7 @@ const UserStatus: FC = () => {
   const isAdminPage = location.pathname.startsWith(PathName.ADMIN)
   const isAdmin = (userInfo?.group || 0) > Group.SUBSCRIBER
   const classes = useStyles()
-  const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
+  const isMobileSize = useMobileSize()
 
   const [anchorEl, setAnchorEl] = useState(
     null as (EventTarget & HTMLButtonElement) | null,

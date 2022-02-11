@@ -1,14 +1,12 @@
 import { User } from '@/utils/Request/User'
-import { useMediaQuery } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
 import { GridColumns } from '@mui/x-data-grid'
 import { formatDistanceToNow } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
+import { useMobileSize } from '@/hooks/useScreenSize'
 import { Title } from './Title'
 
 export default () => {
-  const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
+  const isMobileSize = useMobileSize()
 
   const columns: GridColumns = [
     {

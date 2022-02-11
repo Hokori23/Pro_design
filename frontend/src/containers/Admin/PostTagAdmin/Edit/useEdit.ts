@@ -1,12 +1,10 @@
 import { formValid } from '@/components/UserFormValid'
 import { PostTag } from '@/utils/Request/PostTag'
-import { useMediaQuery } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { useMobileSize } from '@/hooks/useScreenSize'
 import { useEffect, useState } from 'react'
 
 export default (tag: PostTag | null, isNew: boolean, onSubmit: () => void) => {
-  const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
+  const isMobileSize = useMobileSize()
 
   const [nameError, setNameError] = useState({
     text: '',

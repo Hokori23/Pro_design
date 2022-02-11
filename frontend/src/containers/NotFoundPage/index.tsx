@@ -1,7 +1,6 @@
 import React, { FC, useEffect } from 'react'
-import { Button, Typography, useMediaQuery } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
-import { useTheme } from '@mui/material/styles'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { PathName, RouteName } from '@/routes'
 import './index.less'
@@ -10,13 +9,13 @@ import { useSelector } from 'react-redux'
 import notFoundPageSvg from '@/static/svg/404.json'
 import { useAnimation } from '@/hooks/useAnimation'
 import InnerLink from '@/components/InnerLink'
+import { useMobileSize } from '@/hooks/useScreenSize'
 
 const NotFoundPage: FC<RouteComponentProps> = ({ history }) => {
   const dispatch = useSelector(() => store.dispatch.common)
   const { ref: animationDOM } = useAnimation(notFoundPageSvg)
 
-  const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
+  const isMobileSize = useMobileSize()
 
   useEffect(() => {
     dispatch.SET_APPBAR_TITLE(RouteName.NOT_FOUND_PAGE)

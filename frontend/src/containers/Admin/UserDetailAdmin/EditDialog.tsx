@@ -6,10 +6,9 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  useMediaQuery,
   CircularProgress,
 } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { useMobileSize } from '@/hooks/useScreenSize'
 
 import makeStyles from '@mui/styles/makeStyles'
 
@@ -41,8 +40,8 @@ const EditDialog: FC<EditDialogProps> = ({
   children,
 }) => {
   const classes = useStyles()
-  const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
+  const isMobileSize = useMobileSize()
+
   return (
     <Dialog
       fullScreen={isMobileSize}

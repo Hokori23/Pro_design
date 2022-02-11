@@ -1,10 +1,10 @@
 import React, { FC, Fragment } from 'react'
-import { Button, useMediaQuery } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { Button } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SaveIcon from '@mui/icons-material/Save'
 import SendIcon from '@mui/icons-material/Send'
+import { useMobileSize } from '@/hooks/useScreenSize'
 import { PathName } from '@/routes'
 
 // hooks
@@ -31,8 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MomentAction: FC = () => {
   const classes = useStyles()
-  const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
+  const isMobileSize = useMobileSize()
 
   const {
     state,

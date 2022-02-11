@@ -2,11 +2,11 @@ import { PathName, RouteConfig } from '@/routes'
 import React, { FC, Fragment, useEffect } from 'react'
 import { Route, RouteComponentProps, Switch } from 'react-router-dom'
 import { RootState } from '@/store'
-import { useMediaQuery, CssBaseline } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { CssBaseline } from '@mui/material'
 import { useSelector } from 'react-redux'
 import classnames from 'classnames'
 import { isDef } from '@/utils/tools'
+import { useDeskTopSize } from '@/hooks/useScreenSize'
 
 // hooks
 import useAdmin from './useAdmin'
@@ -22,8 +22,7 @@ const Admin: FC<RouteComponentProps & RouteConfig> = (props) => {
   const { routes, location, history } = props
   const state = useSelector((state: RootState) => state.common)
   const classes = useStyles()
-  const theme = useTheme()
-  const isDeskTopSize = useMediaQuery(theme.breakpoints.up('sm'))
+  const isDeskTopSize = useDeskTopSize()
   const { drawerOpen, setDrawerOpen, blogConfig } = useAdmin(isDeskTopSize)
 
   useEffect(() => {

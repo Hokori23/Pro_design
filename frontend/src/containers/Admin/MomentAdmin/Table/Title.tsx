@@ -3,8 +3,8 @@ import InnerLink from '@/components/InnerLink'
 import { PathName } from '@/routes'
 import { PostWithAuthor } from '@/utils/Request/Post'
 import { GridRenderCellParams } from '@mui/x-data-grid'
-import { IconButton, useMediaQuery } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { IconButton } from '@mui/material'
+import { useMobileSize } from '@/hooks/useScreenSize'
 
 import makeStyles from '@mui/styles/makeStyles'
 
@@ -27,8 +27,7 @@ const useStyles = makeStyles((theme) => ({
 export const Title = (props: GridRenderCellParams): ReactElement => {
   const row = props.row as PostWithAuthor
   const classes = useStyles()
-  const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
+  const isMobileSize = useMobileSize()
   return (
     <div className={classes.title}>
       <InnerLink

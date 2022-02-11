@@ -2,13 +2,13 @@ import React, { ReactElement } from 'react'
 import InnerLink from '@/components/InnerLink'
 import { PathName } from '@/routes'
 import { GridRenderCellParams } from '@mui/x-data-grid'
-import { IconButton, Tooltip, useMediaQuery } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { IconButton, Tooltip } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import EditIcon from '@mui/icons-material/Edit'
 import { User } from '@/utils/Request/User'
 import { formatDistanceToNow } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
+import { useMobileSize } from '@/hooks/useScreenSize'
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -27,8 +27,7 @@ const useStyles = makeStyles((theme) => ({
 export const UserName = (props: GridRenderCellParams): ReactElement => {
   const row = props.row as User
   const classes = useStyles()
-  const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
+  const isMobileSize = useMobileSize()
   return (
     <Tooltip arrow placement="bottom" title={row.userAccount}>
       <div className={classes.title}>

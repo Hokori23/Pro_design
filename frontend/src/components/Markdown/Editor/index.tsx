@@ -2,14 +2,13 @@
 import React, { FC, Fragment, useEffect, useRef } from 'react'
 import MdEditor, { Plugins } from 'react-markdown-editor-lite'
 import { Renderer } from '../Renderer'
-import { useTheme } from '@mui/material/styles'
 import makeStyles from '@mui/styles/makeStyles'
-import useMediaQuery from '@mui/material/useMediaQuery'
 import '@/static/react-markdown-editor-lite.less'
 import { UploadFunc } from 'react-markdown-editor-lite/share/var'
 
 // components
 import { Title } from './Title'
+import { useDeskTopSize } from '@/hooks/useScreenSize'
 
 const useStyles = makeStyles((theme) => ({
   editor: {
@@ -103,8 +102,7 @@ export const Editor: FC<EditorProps> = ({
 }) => {
   const mdEditor = useRef(null)
   const classes = useStyles()
-  const theme = useTheme()
-  const isDeskTopSize = useMediaQuery(theme.breakpoints.up('sm'))
+  const isDeskTopSize = useDeskTopSize()
 
   // 移动端自动关闭预览区
   useEffect(() => {

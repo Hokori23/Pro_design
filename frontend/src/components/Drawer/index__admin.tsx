@@ -1,11 +1,7 @@
 import React, { FC } from 'react'
-import {
-  Drawer as _Drawer,
-  SwipeableDrawer,
-  useMediaQuery,
-} from '@mui/material'
+import { Drawer as _Drawer, SwipeableDrawer } from '@mui/material'
 import { Option } from '@/utils/Request/Option'
-import { useTheme } from '@mui/material/styles'
+import { useMobileSize } from '@/hooks/useScreenSize'
 
 import { useStyles } from './useStyles'
 
@@ -29,8 +25,7 @@ export const Drawer: FC<DrawerProps> = ({
   blogConfig,
 }) => {
   const classes = useStyles()
-  const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
+  const isMobileSize = useMobileSize()
 
   return (
     <nav>

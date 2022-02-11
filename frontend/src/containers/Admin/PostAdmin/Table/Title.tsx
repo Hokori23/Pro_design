@@ -3,12 +3,12 @@ import InnerLink from '@/components/InnerLink'
 import { PathName } from '@/routes'
 import { PostWithAuthor } from '@/utils/Request/Post'
 import { GridRenderCellParams } from '@mui/x-data-grid'
-import { IconButton, Tooltip, useMediaQuery } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { IconButton, Tooltip } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import EditIcon from '@mui/icons-material/Edit'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import LockIcon from '@mui/icons-material/Lock'
+import { useMobileSize } from '@/hooks/useScreenSize'
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -26,8 +26,7 @@ const useStyles = makeStyles((theme) => ({
 export const Title = (props: GridRenderCellParams): ReactElement => {
   const row = props.row as PostWithAuthor
   const classes = useStyles()
-  const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
+  const isMobileSize = useMobileSize()
   return (
     <Tooltip arrow placement="bottom" title={row.title || ''}>
       <div className={classes.title}>

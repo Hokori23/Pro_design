@@ -1,11 +1,11 @@
 import React, { FC, Fragment } from 'react'
-import { Button, Typography, useMediaQuery } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { Button, Typography } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SaveIcon from '@mui/icons-material/Save'
 import SendIcon from '@mui/icons-material/Send'
 import { PathName } from '@/routes'
+import { useMobileSize } from '@/hooks/useScreenSize'
 
 // hooks
 import usePostAction from './usePostAction'
@@ -31,8 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 const PostAction: FC = () => {
   const classes = useStyles()
-  const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
+  const isMobileSize = useMobileSize()
 
   const {
     state,

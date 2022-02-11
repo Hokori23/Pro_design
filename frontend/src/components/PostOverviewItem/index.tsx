@@ -9,7 +9,6 @@ import {
   IconButton,
   Typography,
   Badge,
-  useMediaQuery,
   Box,
   Chip,
   Tooltip,
@@ -56,7 +55,7 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
   } = post
   const classes = useStyles()
   const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
+  const isMobileSize = useMobileSize()
 
   return (
     <Card className={classes.root}>

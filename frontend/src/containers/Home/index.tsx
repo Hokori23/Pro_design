@@ -1,10 +1,10 @@
 import { PathName, RouteConfig } from '@/routes'
-import { CssBaseline, useMediaQuery } from '@mui/material'
+import { CssBaseline } from '@mui/material'
 import React, { FC, Fragment, useEffect } from 'react'
 import { Route, RouteComponentProps, Switch } from 'react-router-dom'
 import { isDef } from '@/utils/tools'
 import classnames from 'classnames'
-import { useTheme } from '@mui/material/styles'
+import { useDeskTopSize } from '@/hooks/useScreenSize'
 
 // hooks
 import useHome from './useHome'
@@ -20,8 +20,7 @@ import Footer from '@/components/Footer'
 const Home: FC<RouteComponentProps & RouteConfig> = (props) => {
   const { routes, location, history } = props
   const classes = useStyles()
-  const theme = useTheme()
-  const isDeskTopSize = useMediaQuery(theme.breakpoints.up('sm'))
+  const isDeskTopSize = useDeskTopSize()
 
   useEffect(() => {
     if (location.pathname === PathName._HOME) {

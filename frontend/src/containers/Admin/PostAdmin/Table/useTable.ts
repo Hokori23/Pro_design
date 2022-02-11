@@ -1,21 +1,18 @@
 import { User } from '@/utils/Request/User'
-import { useMediaQuery } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
 import { GridColumns } from '@mui/x-data-grid'
 import { Title, Tags } from './Title'
 import { formatDistanceToNow } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
+import { useMobileSize } from '@/hooks/useScreenSize'
 
 export default () => {
-  const theme = useTheme()
-
   /**
    * // TODO
    * isMobileSize如果发生变化，会导致BUG:
    * Uncaught Error: Rendered more hooks than during the previous render.
    * 原因: hide和renderCell一起使用时，renderCell使用了hooks导致的
    */
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
+  const isMobileSize = useMobileSize()
 
   const columns: GridColumns = [
     {

@@ -1,8 +1,8 @@
-import { Box, Typography, Link, useMediaQuery, Divider } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { Box, Typography, Link, Divider } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import React, { FC, Fragment } from 'react'
 import classnames from 'classnames'
+import { useMobileSize } from '@/hooks/useScreenSize'
 
 // hooks
 import useTimer from './useTimer'
@@ -55,8 +55,7 @@ interface FooterProps {
 const Footer: FC<FooterProps> = ({ id, className }) => {
   const state = useSelector((state: RootState) => state.common)
   const classes = useStyles()
-  const theme = useTheme()
-  const isMobileSize = useMediaQuery(theme.breakpoints.down('md'))
+  const isMobileSize = useMobileSize()
 
   const blogCreatedAt = state.blogConfig.find(
     (v) => v.module === 'system' && v.key === 'createdAt',
