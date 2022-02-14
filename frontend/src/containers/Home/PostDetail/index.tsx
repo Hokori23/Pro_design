@@ -38,4 +38,4 @@ const PostDetail: FC<RouteComponentProps & RouteConfig> = (props) => {
     </div>
   )
 }
-export default PostDetail
+export default React.memo(PostDetail)

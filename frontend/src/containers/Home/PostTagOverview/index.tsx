@@ -143,4 +143,4 @@ const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
     </div>
   )
 }
-export default PostOverview
+export default React.memo(PostOverview)

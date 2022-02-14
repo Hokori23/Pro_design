@@ -81,11 +81,11 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
             />
           </List>
         ) : (
-          <Typography></Typography>
+          <Typography />
         )}
       </section>
     </div>
   )
 }
 
-export default User
+export default React.memo(User)

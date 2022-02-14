@@ -273,4 +273,4 @@ const User: FC<RouteComponentProps & RouteConfig> = ({ history }) => {
   )
 }
 
-export default User
+export default React.memo(User)

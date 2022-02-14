@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react'
+import React, { FC, useLayoutEffect, useState } from 'react'
 import makeStyles from '@mui/styles/makeStyles'
 import classnames from 'classnames'
 import { RenderProps } from './types'
@@ -20,7 +20,9 @@ const useStyles = makeStyles((theme) => ({
     margin: '1rem 0',
   },
   mediaInner: {
+    minHeight: 150,
     maxHeight: '33vh',
+    borderRadius: 2,
   },
   mediaInline: {
     height: 'auto',
@@ -45,31 +47,29 @@ const Img: FC<CardMediaProps> = ({
 
   // 预加载原图
   const originSrc = setUpYunImg(src, 'origin')
-  if (!outline) {
-    const img = new Image()
-    img.src = originSrc
-  }
 
-  return outline
-    ? null
-    : useMemo(
-        () => (
-          <CardMedia
-            className={classnames(
-              classes.media,
-              inline ? classes.mediaInline : undefined,
-            )}
-            innerClassName={classnames(
-              classes.mediaInner,
-              inline ? classes.mediaInnerInline : undefined,
-            )}
-            onClick={() => onClick?.(originSrc)}
-            showLoadingImg
-            src={imgUrl}
-            {...props}
-          />
-        ),
-        [imgUrl],
-      )
+  useLayoutEffect(() => {
+    if (!outline) {
+      const img = new Image()
+      img.src = originSrc
+    }
+  }, [])
+
+  return outline ? null : (
+    <CardMedia
+      className={classnames(
+        classes.media,
+        inline ? classes.mediaInline : undefined,
+      )}
+      innerClassName={classnames(
+        classes.mediaInner,
+        inline ? classes.mediaInnerInline : undefined,
+      )}
+      onClick={() => onClick?.(originSrc)}
+      showLoadingImg
+      src={imgUrl}
+      {...props}
+    />
+  )
 }
-export default Img
+export default React.memo(Img)

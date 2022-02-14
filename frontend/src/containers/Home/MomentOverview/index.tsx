@@ -101,4 +101,4 @@ const Moment: FC<RouteComponentProps & RouteConfig> = (props) => {
     </div>
   )
 }
-export default Moment
+export default React.memo(Moment)

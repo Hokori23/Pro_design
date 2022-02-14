@@ -93,64 +93,61 @@ export interface EditorProps {
 
 let _content: string | undefined
 let _timer: number | NodeJS.Timeout = -1
-export const Editor: FC<EditorProps> = ({
-  title,
-  coverUrl,
-  content,
-  onChange,
-  onImgUpload,
-}) => {
-  const mdEditor = useRef(null)
-  const classes = useStyles()
-  const isDeskTopSize = useDeskTopSize()
+// eslint-disable-next-line react/display-name
+export const Editor: FC<EditorProps> = React.memo(
+  ({ title, coverUrl, content, onChange, onImgUpload }) => {
+    const mdEditor = useRef(null)
+    const classes = useStyles()
+    const isDeskTopSize = useDeskTopSize()
 
-  // 移动端自动关闭预览区
-  useEffect(() => {
-    if (mdEditor.current) {
-      const mdDom = (mdEditor.current as unknown) as MdEditor
-      mdDom.setView({
-        html: isDeskTopSize,
-      })
-    }
-  }, [isDeskTopSize])
-
-  useEffect(() => {
-    if (content.replaceAll(' ', '') !== _content) _content = content
-  }, [content])
-  useEffect(() => {
-    if (mdEditor.current) {
-      const mdDom = (mdEditor.current as unknown) as MdEditor
-      mdDom.setText((_content as string) + ' ') // 强制触发渲染
-      if (_timer === -1) {
-        _timer = setTimeout(() => {
-          mdDom.setText(_content) // 复原content值
-          _timer = -1
-        }, 100)
+    // 移动端自动关闭预览区
+    useEffect(() => {
+      if (mdEditor.current) {
+        const mdDom = (mdEditor.current as unknown) as MdEditor
+        mdDom.setView({
+          html: isDeskTopSize,
+        })
       }
-    }
-  }, [coverUrl, title])
+    }, [isDeskTopSize])
 
-  useEffect(() => {
-    return () => {
-      _timer !== -1 && clearTimeout(_timer as NodeJS.Timeout)
-    }
-  }, [])
+    useEffect(() => {
+      if (content.replaceAll(' ', '') !== _content) _content = content
+    }, [content])
+    useEffect(() => {
+      if (mdEditor.current) {
+        const mdDom = (mdEditor.current as unknown) as MdEditor
+        mdDom.setText((_content as string) + ' ') // 强制触发渲染
+        if (_timer === -1) {
+          _timer = setTimeout(() => {
+            mdDom.setText(_content) // 复原content值
+            _timer = -1
+          }, 100)
+        }
+      }
+    }, [coverUrl, title])
 
-  return (
-    <div className={classes.editor}>
-      <MdEditor
-        onChange={onChange}
-        onImageUpload={onImgUpload}
-        ref={mdEditor}
-        renderHTML={(text) => (
-          <Fragment>
-            <Title coverUrl={coverUrl} title={title} />
-            <Renderer className={classes.post} content={text} />
-          </Fragment>
-        )}
-        style={{ height: '100%', width: '100%' }}
-        value={content}
-      />
-    </div>
-  )
-}
+    useEffect(() => {
+      return () => {
+        _timer !== -1 && clearTimeout(_timer as NodeJS.Timeout)
+      }
+    }, [])
+
+    return (
+      <div className={classes.editor}>
+        <MdEditor
+          onChange={onChange}
+          onImageUpload={onImgUpload}
+          ref={mdEditor}
+          renderHTML={(text) => (
+            <Fragment>
+              <Title coverUrl={coverUrl} title={title} />
+              <Renderer className={classes.post} content={text} />
+            </Fragment>
+          )}
+          style={{ height: '100%', width: '100%' }}
+          value={content}
+        />
+      </div>
+    )
+  },
+)

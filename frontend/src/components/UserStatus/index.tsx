@@ -11,6 +11,7 @@ import { Group } from '@/utils/Request/User'
 // components
 import { SimpleConfirmDialog } from '@/components/SimpleConfirmDialog'
 import InnerLink from '@/components/InnerLink'
+import { useMobileSize } from '@/hooks/useScreenSize'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -159,4 +160,4 @@ const UserStatus: FC = () => {
     </Fragment>
   )
 }
-export default UserStatus
+export default React.memo(UserStatus)

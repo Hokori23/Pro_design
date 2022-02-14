@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   className: {
     position: 'relative',
     overflow: 'hidden',
+    minHeight: 40,
   },
   innerClassName: {
     transition: 'filter ease 0.5s',
@@ -37,7 +38,7 @@ interface CardMediaProps {
   onError?: Function
   onLoad?: Function
   title?: string
-  showLoadingImg?: boolean
+  showLoadingImg?: boolean // 展示缩略图
   onClick?: (...params: any[]) => void
 }
 export const CardMedia: FC<CardMediaProps> = ({
@@ -71,7 +72,7 @@ export const CardMedia: FC<CardMediaProps> = ({
   return (
     <Fragment>
       <section className={classnames(classes.className, className)}>
-        {loading && <CircularLoading></CircularLoading>}
+        {loading && <CircularLoading />}
         {failed ? (
           <figure
             className={classnames(classes.failImgBox, 'flex flex-center')}

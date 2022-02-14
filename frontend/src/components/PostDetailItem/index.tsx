@@ -8,6 +8,7 @@ import { Action } from './Action'
 import { Typography } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import { PostWithAuthor } from '@/utils/Request/Post'
+import { useMobileSize } from '@/hooks/useScreenSize'
 
 const useStyles = makeStyles((theme) => ({
   post: {

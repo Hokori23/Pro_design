@@ -55,7 +55,7 @@ interface TitleProps {
   title: string
   coverUrl?: string
 }
-export const Title: FC<TitleProps> = ({ title, coverUrl }) => {
+const _Title: FC<TitleProps> = ({ title, coverUrl }) => {
   const classes = useStyles()
 
   return (
@@ -91,3 +91,4 @@ export const Title: FC<TitleProps> = ({ title, coverUrl }) => {
     </header>
   )
 }
+export const Title = React.memo(_Title)

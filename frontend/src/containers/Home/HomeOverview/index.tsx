@@ -102,4 +102,4 @@ const HomeOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
     </div>
   )
 }
-export default HomeOverview
+export default React.memo(HomeOverview)

@@ -76,4 +76,4 @@ const PostTag: FC<RouteComponentProps & RouteConfig> = (props) => {
   )
 }
 
-export default PostTag
+export default React.memo(PostTag)

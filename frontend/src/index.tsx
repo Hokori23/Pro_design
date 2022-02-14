@@ -53,6 +53,16 @@ export const theme = createTheme({
         variant: 'standard',
       },
     },
+    MuiSelect: {
+      defaultProps: {
+        variant: 'standard',
+      },
+    },
+    MuiInputLabel: {
+      defaultProps: {
+        variant: 'standard',
+      },
+    },
     MuiLink: {
       defaultProps: {
         underline: 'none',

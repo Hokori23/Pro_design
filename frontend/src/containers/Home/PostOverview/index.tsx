@@ -2,7 +2,7 @@ import React, { FC, createRef } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 import makeStyles from '@mui/styles/makeStyles'
 import { PathName, RouteConfig, RouteName } from '@/routes'
-import { Typography, Pagination, PaginationItem } from '@mui/material'
+import { Typography, Pagination, PaginationItem, Switch } from '@mui/material'
 
 import { PostType } from '@/utils/Request/Post'
 
@@ -58,6 +58,8 @@ const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
   return (
     <div className={classes.root}>
       <section className={classes.posts}>
+        <Switch defaultChecked size="small" />
+        <Switch defaultChecked />
         {posts.length ? (
           posts.map((post) => <PostOverviewItem key={post.id} post={post} />)
         ) : (
@@ -99,4 +101,4 @@ const PostOverview: FC<RouteComponentProps & RouteConfig> = (props) => {
     </div>
   )
 }
-export default PostOverview
+export default React.memo(PostOverview)

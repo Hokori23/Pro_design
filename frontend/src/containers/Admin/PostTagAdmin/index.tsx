@@ -15,6 +15,7 @@ import DeleteDialog from './DeleteDialog'
 import AddTag from './AddTag'
 import { RootState } from '@/store'
 import { useSelector } from 'react-redux'
+import { useTheme } from '@mui/material/styles'
 
 const PostTagAdmin: FC<RouteComponentProps & RouteConfig> = (props) => {
   const classes = useStyles()
@@ -37,6 +38,7 @@ const PostTagAdmin: FC<RouteComponentProps & RouteConfig> = (props) => {
     handleDeleteDialogClose,
     onDelete,
   } = usePostTagAdmin()
+  const theme = useTheme()
   const { childStyle, fabStyle } = computeStyles(state, theme)
 
   return (

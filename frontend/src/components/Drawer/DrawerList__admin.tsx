@@ -73,7 +73,7 @@ export interface DrawerListProps {
   blogConfig: Option[]
 }
 
-const DrawerListCollapse: FC = () => {
+const DrawerListCollapse: FC = React.memo(() => {
   const lists: Array<{
     label: string
     list: ListItemLinkProps[]
@@ -157,42 +157,40 @@ const DrawerListCollapse: FC = () => {
       ))}
     </Fragment>
   )
-}
+})
 
-export const DrawerList: FC<DrawerListProps> = ({
-  onClick,
-  onKeyDown,
-  blogConfig,
-}) => {
-  const classes = useStyles()
+export const DrawerList: FC<DrawerListProps> = React.memo(
+  ({ onClick, onKeyDown, blogConfig }) => {
+    const classes = useStyles()
 
-  const lists: ListItemLinkProps[] = [
-    {
-      icon: (<HomeIcon />) as any,
-      primary: RouteName.ADMIN,
-      to: PathName.ADMIN,
-    },
-  ]
-  return (
-    <nav>
-      <div
-        className={classes.list}
-        onClick={onClick}
-        onKeyDown={onKeyDown}
-        role="presentation"
-      >
-        <List aria-label="menu" component="nav">
-          {lists.map(({ icon, primary, to }) => (
-            <ListItemLink
-              icon={icon}
-              key={String(to)}
-              primary={primary}
-              to={to}
-            />
-          ))}
-        </List>
-        <DrawerListCollapse />
-      </div>
-    </nav>
-  )
-}
+    const lists: ListItemLinkProps[] = [
+      {
+        icon: (<HomeIcon />) as any,
+        primary: RouteName.ADMIN,
+        to: PathName.ADMIN,
+      },
+    ]
+    return (
+      <nav>
+        <div
+          className={classes.list}
+          onClick={onClick}
+          onKeyDown={onKeyDown}
+          role="presentation"
+        >
+          <List aria-label="menu" component="nav">
+            {lists.map(({ icon, primary, to }) => (
+              <ListItemLink
+                icon={icon}
+                key={String(to)}
+                primary={primary}
+                to={to}
+              />
+            ))}
+          </List>
+          <DrawerListCollapse />
+        </div>
+      </nav>
+    )
+  },
+)
