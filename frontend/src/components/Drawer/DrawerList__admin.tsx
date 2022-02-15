@@ -16,6 +16,11 @@ import {
   Build as BuildIcon,
   Home as HomeIcon,
   Edit as EditIcon,
+  Article as ArticleIcon,
+  ChatBubble as MomentIcon,
+  Class as TagIcon,
+  AccountCircle as UserIcon,
+  Settings as SystemIcon,
 } from '@mui/icons-material'
 import { Option } from '@/utils/Request/Option'
 import { Link, LinkProps, useLocation } from 'react-router-dom'
@@ -83,10 +88,12 @@ const DrawerListCollapse: FC = React.memo(() => {
       label: '撰写',
       list: [
         {
+          icon: (<ArticleIcon />) as any,
           primary: RouteName.POST_DETAIL_ADMIN,
           to: PathName._POST_DETAIL_ADMIN,
         },
         {
+          icon: (<MomentIcon />) as any,
           primary: RouteName.MOMENT_DETAIL_ADMIN,
           to: PathName._MOMENT_DETAIL_ADMIN,
         },
@@ -100,11 +107,31 @@ const DrawerListCollapse: FC = React.memo(() => {
     {
       label: '管理',
       list: [
-        { primary: RouteName.POST_ADMIN, to: PathName.POST_ADMIN },
-        { primary: RouteName.MOMENT_ADMIN, to: PathName.MOMENT_ADMIN },
-        { primary: RouteName.POST_TAG_ADMIN, to: PathName.POST_TAG_ADMIN },
-        { primary: RouteName.USER_ADMIN, to: PathName.USER_ADMIN },
-        { primary: RouteName.SYSTEM, to: PathName.SYSTEM },
+        {
+          icon: (<ArticleIcon />) as any,
+          primary: RouteName.POST_ADMIN,
+          to: PathName.POST_ADMIN,
+        },
+        {
+          icon: (<MomentIcon />) as any,
+          primary: RouteName.MOMENT_ADMIN,
+          to: PathName.MOMENT_ADMIN,
+        },
+        {
+          icon: (<TagIcon />) as any,
+          primary: RouteName.POST_TAG_ADMIN,
+          to: PathName.POST_TAG_ADMIN,
+        },
+        {
+          icon: (<UserIcon />) as any,
+          primary: RouteName.USER_ADMIN,
+          to: PathName.USER_ADMIN,
+        },
+        {
+          icon: (<SystemIcon />) as any,
+          primary: RouteName.SYSTEM,
+          to: PathName.SYSTEM,
+        },
       ],
       icon: (
         <ListItemIcon>
