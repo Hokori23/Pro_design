@@ -31,6 +31,7 @@ export default (isDeskTopSize: boolean) => {
   }, [isDeskTopSize])
 
   useEffect(() => {
+    // TODO: offline mock
     void dispatch.checkLogin()
   }, [])
 

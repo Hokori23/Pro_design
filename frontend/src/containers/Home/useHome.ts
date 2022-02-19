@@ -49,6 +49,7 @@ export default (location: H.Location<unknown>, isDeskTopSize: boolean) => {
   }, [isDeskTopSize])
 
   useEffect(() => {
+    // TODO: offline mock
     void dispatch.checkLogin()
   }, [])
 

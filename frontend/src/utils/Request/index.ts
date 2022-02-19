@@ -47,7 +47,7 @@ export const Request = async <T>(config: AxiosRequestConfig) => {
       })
     }
     return (res.data as unknown) as T
-  } catch (err) {
+  } catch (err: any) {
     // eslint-disable-next-line no-console
     console.log(err.response)
     // eslint-disable-next-line no-console
