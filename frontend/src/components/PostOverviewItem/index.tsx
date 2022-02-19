@@ -27,6 +27,7 @@ import PublishIcon from '@material-ui/icons/Publish'
 import { CardMedia } from '@/components/CardMedia'
 import { Renderer } from '@/components/Markdown/Renderer'
 import InnerLink from '../InnerLink'
+import { setUpYunImg } from '@/utils/tools'
 
 moment.locale('zh-cn')
 interface PostOverviewItemProps {
@@ -66,8 +67,9 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
             <CardMedia
               className={classes.media}
               component="img"
-              image={coverUrl}
               innerClassName={classes.mediaInner}
+              showLoadingImg
+              src={setUpYunImg(coverUrl, 'md')}
               title={title}
             />
           )}

@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
   },
   innerClassName: {
+    transition: 'filter',
     objectFit: 'cover',
     height: '100%',
     width: '100%',
@@ -22,29 +23,35 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     margin: 0,
   },
+  blur: {
+    filter: 'brightness(0.8) blur(4px)',
+  },
 }))
 
 interface CardMediaProps {
   className?: string
   innerClassName?: string
   component?: React.ElementType<any>
-  image?: string
   src?: string
   alt?: string
   onError?: Function
   onLoad?: Function
   title?: string
+  showLoadingImg?: boolean
+  onClick?: (...params: any[]) => void
 }
 export const CardMedia: FC<CardMediaProps> = ({
   className,
   innerClassName,
   component = 'img',
-  image,
   src,
   alt,
   onError,
   onLoad,
   title,
+  showLoadingImg,
+  onClick,
+  ...props
 }) => {
   const classes = useStyles()
   const [loading, setLoading] = useState(true)
@@ -86,13 +93,16 @@ export const CardMedia: FC<CardMediaProps> = ({
             className={classnames(
               classes.innerClassName,
               innerClassName,
-              loading ? 'hidden' : '',
+              loading && !showLoadingImg ? 'hidden' : '',
+              loading && showLoadingImg ? classes.blur : '',
             )}
             component={component}
-            image={image || src}
+            image={src}
+            onClick={onClick}
             onError={handleOnError}
             onLoad={handleOnLoad}
             title={title || alt}
+            {...props}
           />
         )}
       </section>

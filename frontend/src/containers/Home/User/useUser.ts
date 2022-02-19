@@ -5,7 +5,7 @@ import Request, { Upload, User } from '@/utils/Request'
 import { FileType } from '@/utils/Request/Upload'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { useAsync } from 'react-use'
 import { Mail } from '@/utils/Request/Mail'
 import { useHistory } from 'react-router-dom'
@@ -34,7 +34,7 @@ export default () => {
   const { userInfo, isLogin } = state
 
   const [avatarLoading, setAvatarLoading] = useState(false)
-  const [clonedUserInfo, setClonedUserInfo] = useState(_.cloneDeep(userInfo))
+  const [clonedUserInfo, setClonedUserInfo] = useState(cloneDeep(userInfo))
   const [userLoading, setUserLoading] = useState(false)
   const [editDialog, setEditDialog] = useState(defaultEditDialogProps)
   const [mailLoading, setMailLoading] = useState(true)
@@ -76,7 +76,7 @@ export default () => {
     }
 
     // 更改用户信息
-    const user = _.cloneDeep(state.userInfo)
+    const user = cloneDeep(state.userInfo)
     user.avatarUrl = `${UPYUN_URL}${uploadRes.url}`
     const editUserRes = await User.Edit(user)
     setAvatarLoading(false)
@@ -110,7 +110,7 @@ export default () => {
     e: React.FormEvent<HTMLFormElement>,
   ) => {
     e.preventDefault()
-    const newUser = _.cloneDeep(clonedUserInfo)
+    const newUser = cloneDeep(clonedUserInfo)
     setUserLoading(true)
     const res = await User.Edit(newUser)
     setUserLoading(false)

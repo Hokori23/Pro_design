@@ -28,7 +28,7 @@ const Create = async (tag: PostTag): Promise<Restful> => {
     }
     tag = await Action.Create(tag)
     return new Restful(CodeDictionary.SUCCESS, '创建标签成功', tag.toJSON())
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `创建标签失败, ${String(e.message)}`,
@@ -49,7 +49,7 @@ const Retrieve__Slug = async (slug: string): Promise<Restful> => {
       )
     }
     return new Restful(CodeDictionary.SUCCESS, '查询成功', tag)
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `查询失败, ${String(e.message)}`,
@@ -64,7 +64,7 @@ const Retrieve__All = async (): Promise<Restful> => {
   try {
     const tags = await Action.Retrieve__All()
     return new Restful(CodeDictionary.SUCCESS, '查询成功', tags)
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `查询失败, ${String(e.message)}`,
@@ -104,7 +104,7 @@ const Edit = async (tag: PostTag): Promise<Restful> => {
     }
     tag = await Action.Update(existedTag, tag)
     return new Restful(CodeDictionary.SUCCESS, '编辑标签成功', tag.toJSON())
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `编辑标签失败, ${String(e.message)}`,
@@ -129,7 +129,7 @@ const Delete = async (id: number): Promise<Restful> => {
     return deleteRow > 0
       ? new Restful(CodeDictionary.SUCCESS, '删除标签成功')
       : new Restful(CodeDictionary.DELETE_ERROR__COMMENT, '删除标签失败')
-  } catch (e) {
+  } catch (e: any) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
       `删除标签失败, ${String(e.message)}`,

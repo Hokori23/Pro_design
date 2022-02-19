@@ -69,6 +69,13 @@ export const computeDOMHeight = (selector: string, noPX?: boolean) => {
   const height = getComputedStyle(dom).height
   return noPX ? removePX(height) : height
 }
+export const setUpYunImg = (
+  fileUrl: string,
+  type: 'sm' | 'md' | 'origin',
+): string =>
+  /^https?:\/\/upyun\.hokori\.online/.test(fileUrl)
+    ? `${fileUrl}!${type}`
+    : fileUrl
 
 export default {
   isDef,

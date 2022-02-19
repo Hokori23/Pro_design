@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Option } from '@/utils/Request/Option'
 import { RouteName } from '@/routes'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 
 export interface EditDialogProps {
   open: boolean
@@ -92,7 +92,7 @@ export default () => {
     if (res?.data) {
       const blogConfig = FormatOption(res.data)
       setBlogConfig(blogConfig)
-      setClonedBlogConfig(_.cloneDeep(blogConfig))
+      setClonedBlogConfig(cloneDeep(blogConfig))
       handleEditDialogClose()
       dispatch.SET_AXIOS_SNACK_BAR({
         message: res.message,
@@ -109,7 +109,7 @@ export default () => {
       dispatch.SET_BLOG_CONFIG(res.data)
       const blogConfig = FormatOption(res.data)
       setBlogConfig(blogConfig)
-      setClonedBlogConfig(_.cloneDeep(blogConfig))
+      setClonedBlogConfig(cloneDeep(blogConfig))
     }
   }
 

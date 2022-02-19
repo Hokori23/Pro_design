@@ -6,7 +6,7 @@ import { scrollIntoTop } from '@/utils/tools'
 import { RouteName } from '@/routes'
 import { useAsync } from 'react-use'
 import { defaultPost } from './model'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 
 export default () => {
   const state = useSelector((state: RootState) => state.postDetailAdmin)
@@ -25,7 +25,7 @@ export default () => {
       if (post) {
         void dispatch.RetrieveTagAll()
         dispatch.SET_POST({
-          ..._.cloneDeep(post),
+          ...cloneDeep(post),
           uid: commonState.userInfo.id as number,
         })
         dispatch.SET_IS_NEW(false)
@@ -33,7 +33,7 @@ export default () => {
     } else {
       void dispatch.RetrieveTagAll()
       defaultPost.uid = commonState.userInfo.id as number
-      dispatch.SET_POST({ ..._.cloneDeep(defaultPost) })
+      dispatch.SET_POST({ ...cloneDeep(defaultPost) })
       dispatch.SET_IS_NEW(true)
       dispatch.SET_LOADING_POST(false)
     }

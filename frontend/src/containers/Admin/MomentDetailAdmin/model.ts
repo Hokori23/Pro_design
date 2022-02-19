@@ -9,7 +9,7 @@ import {
   Toggle,
 } from '@/utils/Request/Post'
 import { PostTag } from '@/utils/Request/PostTag'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { CodeDictionary } from '@/utils/Request/type'
 
 export interface PostTagWithCheck extends PostTag {
@@ -41,7 +41,7 @@ export const defaultMoment: Post = {
 }
 
 const defaultMomentDetailAdminState: MomentDetailAdminState = {
-  moment: _.cloneDeep(defaultMoment),
+  moment: cloneDeep(defaultMoment),
   loadingMoment: true,
   deletingMoment: false,
   isNew: true,
@@ -49,7 +49,7 @@ const defaultMomentDetailAdminState: MomentDetailAdminState = {
 }
 
 export const momentDetailAdmin = createModel<RootModel>()({
-  state: _.cloneDeep(defaultMomentDetailAdminState),
+  state: cloneDeep(defaultMomentDetailAdminState),
   reducers: {
     // 直接修改 state
     SET_MOMENT: (state: MomentDetailAdminState, newMoment: Post) => {
@@ -85,7 +85,7 @@ export const momentDetailAdmin = createModel<RootModel>()({
       // 异步请求 demo
       async RetrieveMoment(id: string): Promise<PostWithAuthor | undefined> {
         momentDetailAdmin.SET_MOMENT(
-          _.cloneDeep(defaultMomentDetailAdminState.moment),
+          cloneDeep(defaultMomentDetailAdminState.moment),
         )
         momentDetailAdmin.SET_LOADING_MOMENT(true)
         const res = await Request.Post.Retrieve__Admin(Number(id))

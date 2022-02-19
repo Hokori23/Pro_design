@@ -4,7 +4,7 @@ import { UPYUN_URL } from '@/utils/const'
 import { FileType } from '@/utils/Request/Upload'
 import { Upload } from '@/utils/Request'
 import { useSelector } from 'react-redux'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { CodeDictionary } from '@/utils/Request/type'
 
 export default () => {
@@ -26,7 +26,7 @@ export default () => {
   }
 
   const onTagChange = (checked: boolean, idx: number) => {
-    const clonedTags = _.cloneDeep(state.tags)
+    const clonedTags = cloneDeep(state.tags)
     clonedTags[idx].checked = checked
     dispatch._SET_TAGS(clonedTags)
   }
@@ -59,7 +59,7 @@ export default () => {
       })
     } else {
       dispatch.SET_POST({
-        ..._.cloneDeep(state.post),
+        ...cloneDeep(state.post),
         coverUrl: `${UPYUN_URL}${uploadRes.url}`,
       })
     }

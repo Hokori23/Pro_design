@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { FormControl } from '@material-ui/core'
 import { Input } from '@/components/Input'
 import { PostWithTags } from '@/utils/Request/Post'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { Action } from '@rematch/core'
 
 interface InputOptionsProps {
@@ -31,7 +31,7 @@ export const InputOptions: FC<InputOptionsProps> = ({
         onChange={(e) => {
           const priority = Number(e.target.value)
           onChange({
-            ..._.cloneDeep(post),
+            ...cloneDeep(post),
             priority: Number.isNaN(priority) ? 0 : priority,
           })
         }}

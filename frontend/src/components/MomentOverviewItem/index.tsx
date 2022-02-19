@@ -17,7 +17,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import ThumbDownOutlinedIcon from '@material-ui/icons/ThumbDownOutlined'
 import ThumbDownIcon from '@material-ui/icons/ThumbDown'
 import { useStyles } from './useStyles'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 
 // components
 
@@ -38,7 +38,7 @@ const defaultMomentWithStatus: MomentWithStatus = {
 export const MomentOverviewItem: FC<MomentOverviewItemProps> = ({ moment }) => {
   const [clonedMoment, setMoment] = useState(
     Object.assign(
-      _.cloneDeep(moment),
+      cloneDeep(moment),
       defaultMomentWithStatus,
     ) as MomentWithStatus,
   )
@@ -67,7 +67,7 @@ export const MomentOverviewItem: FC<MomentOverviewItemProps> = ({ moment }) => {
     const res = await Request.Post.Like(id as number)
     if (res?.code === 0) {
       setMoment(
-        Object.assign(_.cloneDeep(clonedMoment), {
+        Object.assign(cloneDeep(clonedMoment), {
           likesCount: clonedMoment.likesCount + 1,
           liked: true,
         }),
@@ -78,7 +78,7 @@ export const MomentOverviewItem: FC<MomentOverviewItemProps> = ({ moment }) => {
     const res = await Request.Post.Dislike(id as number)
     if (res?.code === 0) {
       setMoment(
-        Object.assign(_.cloneDeep(clonedMoment), {
+        Object.assign(cloneDeep(clonedMoment), {
           dislikesCount: clonedMoment.dislikesCount + 1,
           disliked: true,
         }),

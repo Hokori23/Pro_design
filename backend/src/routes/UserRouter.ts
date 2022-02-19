@@ -148,7 +148,7 @@ userRouter.post(
         return next()
       }
       if (
-        !checkIntegrity(req.body, ['id', 'userAccount', 'userName', 'email'])
+        !checkIntegrity(req.body as User, ['id', 'userAccount', 'userName', 'email'])
       ) {
         res
           .status(200)

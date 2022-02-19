@@ -579,7 +579,7 @@ module.exports = function (webpackEnv) {
     },
     plugins: [
       // 缓存插件
-      new HardSourceWebpackPlugin(),
+      // new HardSourceWebpackPlugin(),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(

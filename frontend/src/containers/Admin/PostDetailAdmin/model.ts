@@ -9,7 +9,7 @@ import {
   Toggle,
 } from '@/utils/Request/Post'
 import { PostTag } from '@/utils/Request/PostTag'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { CodeDictionary } from '@/utils/Request/type'
 
 export interface PostTagWithCheck extends PostTag {
@@ -43,7 +43,7 @@ export const defaultPost: PostWithTags = {
   updatedAt: new Date(),
 }
 const defaultPostDetailAdminState: PostDetailAdminState = {
-  post: _.cloneDeep(defaultPost),
+  post: cloneDeep(defaultPost),
   loadingPost: true,
   deletingPost: false,
   tags: [],
@@ -53,7 +53,7 @@ const defaultPostDetailAdminState: PostDetailAdminState = {
 }
 
 export const postDetailAdmin = createModel<RootModel>()({
-  state: _.cloneDeep(defaultPostDetailAdminState),
+  state: cloneDeep(defaultPostDetailAdminState),
   reducers: {
     // 直接修改 state
     SET_POST: (state: PostDetailAdminState, newPost: PostWithTags) => {
@@ -100,7 +100,7 @@ export const postDetailAdmin = createModel<RootModel>()({
     return {
       // 异步请求 demo
       async RetrievePost(id: string): Promise<PostWithAuthor | undefined> {
-        postDetailAdmin.SET_POST(_.cloneDeep(defaultPostDetailAdminState.post))
+        postDetailAdmin.SET_POST(cloneDeep(defaultPostDetailAdminState.post))
         postDetailAdmin.SET_LOADING_POST(true)
         const res = await Request.Post.Retrieve__Admin(Number(id))
         if (res?.data) {

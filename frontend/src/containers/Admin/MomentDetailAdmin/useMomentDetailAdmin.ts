@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { scrollIntoTop } from '@/utils/tools'
 import { RouteName } from '@/routes'
 import { useAsync } from 'react-use'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { defaultMoment } from './model'
 
 export default () => {
@@ -23,7 +23,7 @@ export default () => {
       scrollIntoTop()
       if (moment) {
         dispatch.SET_MOMENT({
-          ..._.cloneDeep(moment),
+          ...cloneDeep(moment),
           uid: commonState.userInfo.id as number,
         })
         dispatch.SET_IS_NEW(false)
@@ -31,7 +31,7 @@ export default () => {
     } else {
       commonDispatch.SET_APPBAR_TITLE(`撰写${RouteName.MOMENT_DETAIL_ADMIN}`)
       defaultMoment.uid = commonState.userInfo.id as number
-      dispatch.SET_MOMENT(_.cloneDeep(defaultMoment))
+      dispatch.SET_MOMENT(cloneDeep(defaultMoment))
       dispatch.SET_IS_NEW(true)
       dispatch.SET_LOADING_MOMENT(false)
     }

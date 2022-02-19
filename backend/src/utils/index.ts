@@ -107,7 +107,7 @@ const toArray = (obj: Object): string[] => {
  * @param { Object } obj
  * @param { Array<string> } params
  */
-const checkIntegrity = (obj: Object, params?: string[]): boolean => {
+const checkIntegrity = <T>(obj: T, params?: Array<keyof T>): boolean => {
   return params
     ? params.every((v) => {
         return isDef(obj[v])

@@ -1,10 +1,14 @@
 /* eslint-disable react/display-name */
-import React, { FC, HTMLAttributes } from 'react'
+import React, { FC, HTMLAttributes, useEffect, useState } from 'react'
 import { Typography, Divider } from '@material-ui/core'
 import classnames from 'classnames'
 import Markdown from 'react-markdown'
+import Zmage, { Set } from 'react-zmage'
+import 'react-zmage/lib/zmage.css'
 import { Components } from 'react-markdown/src/ast-to-react'
 import './renderer.less'
+import { setUpYunImg } from '@/utils/tools'
+
 // import { Element, Properties } from 'hast'
 // import h from 'hastscript'
 
@@ -20,7 +24,7 @@ import rehypeRaw from 'rehype-raw'
 import inspectUrls from '@jsdevtools/rehype-url-inspector'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import Photos from '../Plugins/Photos'
+import Photos, { imgRegExp } from '@/components/Markdown/Plugins/Photos'
 /**
  *
  * okaidia(dark)
@@ -42,7 +46,7 @@ import A from '../components/A'
 interface RendererProps {
   className?: HTMLAttributes<HTMLElement>['className']
   content: string
-  outline?: boolean
+  outline?: boolean // 是否只渲染概览内容
 }
 
 // interface ComponentsProps {
@@ -56,7 +60,13 @@ interface RendererProps {
 //   index?: number
 //   siblingCount?: number
 // }
-const CustomComponents = (outline?: boolean): Components => ({
+interface CustomComponentsOptions {
+  onImgClick?: (originSrc: string) => void
+}
+const CustomComponents = (
+  outline?: boolean,
+  { onImgClick }: CustomComponentsOptions = {},
+): Components => ({
   code({ node, children, inline, className, ...props }) {
     const match = /language-(\w+)/.exec(className || '')
     return !inline && match ? (
@@ -93,41 +103,73 @@ const CustomComponents = (outline?: boolean): Components => ({
   p: ({ node, ...props }) => (
     <Typography component="div" gutterBottom variant="body1" {...props} />
   ),
-  img: ({ node, inline, ...props }) => (
-    <Img inline={inline as boolean} outline={outline} {...props} />
+  img: ({ node, inline, src, ...props }) => (
+    <Img
+      inline={inline as boolean}
+      onClick={onImgClick}
+      outline={outline}
+      src={src as string}
+      {...props}
+    />
   ),
   a: ({ node, ...props }) => <A outline={outline} {...props} />,
   hr: () => <Divider variant="middle" />,
 })
+
 export const Renderer: FC<RendererProps> = ({
   content,
   className,
   outline,
 }) => {
   const classes = useStyles()
+  const [imgs, setImgs] = useState<Set[]>([])
+
+  useEffect(() => {
+    let match
+    const imgs: Set[] = []
+    while ((match = imgRegExp.exec(content))) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const [_, alt, src] = match
+      imgs.push({
+        alt,
+        src: setUpYunImg(src, 'origin'),
+      })
+    }
+    setImgs(imgs)
+  }, [content])
 
   return (
-    <Markdown
-      className={classnames(classes.markdown, className, 'markdown-renderer')}
-      components={CustomComponents(outline)}
-      rehypePlugins={[
-        rehypeRaw,
-        inspectUrls,
-        Photos,
-        // [
-        //   rehypeComponents,
-        //   {
-        //     components: {
-        //       test: (properties: Properties, children: Element[]) => {
-        //         return h('.test', children)
-        //       },
-        //     },
-        //   },
-        // ],
-      ]}
-      remarkPlugins={[[gfm, { singleTilde: false }]]}
-    >
-      {content}
-    </Markdown>
+    <>
+      <Markdown
+        className={classnames(classes.markdown, className, 'markdown-renderer')}
+        components={CustomComponents(outline, {
+          onImgClick: (originSrc: string) => {
+            const currentImgIdx = imgs.findIndex((v) => v?.src === originSrc)
+            Zmage.browsing({
+              set: imgs,
+              defaultPage: currentImgIdx === -1 ? 0 : currentImgIdx,
+            })
+          },
+        })}
+        rehypePlugins={[
+          rehypeRaw,
+          inspectUrls,
+          Photos,
+          // [
+          //   rehypeComponents,
+          //   {
+          //     components: {
+          //       test: (properties: Properties, children: Element[]) => {
+          //         return h('.test', children)
+          //       },
+          //     },
+          //   },
+          // ],
+        ]}
+        remarkPlugins={[[gfm, { singleTilde: false }]]}
+      >
+        {content}
+      </Markdown>
+    </>
   )
 }
