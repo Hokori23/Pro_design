@@ -12,6 +12,8 @@ import {
   Box,
   Chip,
   Tooltip,
+  Avatar,
+  CardHeader,
 } from '@mui/material'
 import Icon from '@mui/material/Icon'
 import { useTheme } from '@mui/material/styles'
@@ -21,6 +23,8 @@ import { useStyles } from './useStyles'
 import { Link } from 'react-router-dom'
 import { PathName } from '@/routes'
 import PublishIcon from '@mui/icons-material/Publish'
+import _moment from 'moment'
+import 'moment/locale/zh-cn' // <https://segmentfault.com/q/1010000039869039/a-1020000039869980>
 
 // components
 import { CardMedia } from '@/components/CardMedia'
@@ -29,6 +33,7 @@ import InnerLink from '../InnerLink'
 import { setUpYunImg } from '@/utils/tools'
 import { useMobileSize } from '@/hooks/useScreenSize'
 
+_moment.locale('zh-cn')
 interface PostOverviewItemProps {
   post: PostWithAuthor
 }
@@ -37,6 +42,7 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
   const {
     id,
     // uid,
+    author,
     title,
     coverUrl,
     content,
@@ -73,6 +79,31 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
             />
           )}
           <CardContent>
+            <section className={classes.authorWrapper}>
+              <CardHeader
+                avatar={<Avatar alt={author.userName} src={author.avatarUrl} />}
+                className={classes.authorTitle}
+                subheader={_moment(createdAt).format('l HH:mm')}
+                title={author.userName}
+              />
+              {/* <Avatar alt={author.userName} src={author.avatarUrl} /> */}
+              {!!priority && (
+                <IconButton
+                  disabled
+                  size="large"
+                  style={{
+                    marginLeft: 20,
+                    padding: 4,
+                  }}
+                >
+                  <PublishIcon
+                    style={{
+                      color: theme.palette.error.main,
+                    }}
+                  />
+                </IconButton>
+              )}
+            </section>
             <Typography
               className={classes.title}
               component="h2"
@@ -95,23 +126,6 @@ export const PostOverviewItem: FC<PostOverviewItemProps> = ({ post }) => {
       </Link>
       {!!(tags?.length || priority) && (
         <Box className={classes.tagsWrapper}>
-          <section>
-            {!!priority && (
-              <IconButton
-                disabled
-                size="large"
-                style={{
-                  padding: 4,
-                }}
-              >
-                <PublishIcon
-                  style={{
-                    color: theme.palette.error.main,
-                  }}
-                />
-              </IconButton>
-            )}
-          </section>
           <section>
             {tags.slice(0, 3).map((tag) => (
               <Tooltip arrow enterDelay={200} key={tag.id} title={tag.name}>

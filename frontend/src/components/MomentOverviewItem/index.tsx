@@ -21,8 +21,6 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown'
 import { useStyles } from './useStyles'
 import { cloneDeep } from 'lodash-es'
 
-// components
-
 _moment.locale('zh-cn')
 interface MomentOverviewItemProps {
   moment: PostWithAuthor

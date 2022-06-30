@@ -12,6 +12,15 @@ export const useStyles = makeStyles((theme) => ({
   mediaInner: {
     maxHeight: '33vh',
   },
+  authorWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  authorTitle: {
+    paddingTop: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
   rootLink: {
     marginBottom: 10,
   },
@@ -28,9 +37,13 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: `${theme.spacing(1)} ${theme.spacing(4)}`,
+    padding: `${theme.spacing(1)} ${theme.spacing(4)} ${theme.spacing(
+      1,
+    )} ${theme.spacing(0)}`,
     [theme.breakpoints.down('md')]: {
-      padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
+      padding: `${theme.spacing(1)} ${theme.spacing(2)} ${theme.spacing(
+        1,
+      )} ${theme.spacing(0)}`,
     },
   },
   tag: {
